@@ -85,6 +85,10 @@ const consumptionResources: Resource[] = [
     "Do not summon and drink a bottle of Cabernet Sauvignon",
     $effects`Cabernet Hunter`
   ),
+  new Resource(
+    "instant_skipOffstatPizzas",
+    "Do not pull and eat offstat Legenday pizzas? Make sure you know what you're doing before using this."
+  ),
 ];
 
 const encounterResources: Resource[] = [
