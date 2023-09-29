@@ -16,13 +16,17 @@ import {
   hermit,
   Item,
   itemAmount,
+  myClass,
   myInebriety,
   myMaxhp,
   myMaxmp,
   myMeat,
   myMp,
+  myPrimestat,
+  mySign,
   mySoulsauce,
   print,
+  random,
   restoreHp,
   restoreMp,
   retrieveItem,
@@ -34,12 +38,16 @@ import {
   totalFreeRests,
   turnsPlayed,
   use,
+  useFamiliar,
   useSkill,
   visitUrl,
+  waitq,
 } from "kolmafia";
 import {
+  $class,
   $coinmaster,
   $effect,
+  $familiar,
   $item,
   $items,
   $location,
@@ -47,6 +55,7 @@ import {
   $monsters,
   $skill,
   $slot,
+  $stat,
   clamp,
   CommunityService,
   get,
@@ -59,7 +68,7 @@ import {
 } from "libram";
 import { canConfigure, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
 import { Quest } from "../engine/task";
-import { getGarden, tryAcquiringEffect } from "../lib";
+import { getGarden, statToMaximizerString, tryAcquiringEffect } from "../lib";
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { baseOutfit, chooseFamiliar, unbreakableUmbrella } from "../engine/outfit";
@@ -123,13 +132,21 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Get Codpiece",
+      name: "Get Floundry item",
       completed: () => get("_floundryItemCreated") || get("instant_saveFloundry", false),
       do: (): void => {
-        retrieveItem($item`codpiece`, 1);
-        use($item`codpiece`, 1);
-        create($item`oil cap`, 1);
-        autosell($item`oil cap`, 1);
+        if (myPrimestat() === $stat`Muscle`) {
+          retrieveItem($item`fish hatchet`);
+        } else if (myPrimestat() === $stat`Mysticality`) {
+          retrieveItem($item`codpiece`, 1);
+          use($item`codpiece`, 1);
+          create($item`oil cap`, 1);
+          autosell($item`oil cap`, 1);
+        } else if (myPrimestat() === $stat`Moxie`) {
+          retrieveItem($item`bass clarinet`);
+          use($item`bass clarinet`, 1);
+          autosell($item`white pixel`, 10);
+        }
       },
       limit: { tries: 1 },
     },
@@ -227,6 +244,21 @@ export const RunStartQuest: Quest = {
       limit: { tries: 3 },
     },
     {
+      name: "Get Camel Hat",
+      completed: () =>
+        have($item`dromedary drinking helmet`) ||
+        get("instant_saveClipArt", false) ||
+        !have($familiar`Melodramedary`) ||
+        !get("instant_camelExperiment", true),
+      do: (): void => {
+        if (!have($item`box of Familiar Jacks`)) create($item`box of Familiar Jacks`, 1);
+
+        useFamiliar($familiar`Melodramedary`);
+        use($item`box of Familiar Jacks`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Summon Sugar Sheets",
       completed: () =>
         !have($skill`Summon Sugar Sheets`) ||
@@ -245,7 +277,8 @@ export const RunStartQuest: Quest = {
       completed: () => !have($item`sugar sheet`),
       do: (): void => {
         const nextMissingSugarItem =
-          $items`sugar shorts, sugar chapeau, sugar shank`.find((it) => !have(it)) || $item`none`;
+          $items`sugar shorts, sugar chapeau, sugar shank, sugar shield`.find((it) => !have(it)) ||
+          $item`none`;
         create(nextMissingSugarItem);
       },
       limit: { tries: 3 },
@@ -296,7 +329,7 @@ export const RunStartQuest: Quest = {
         get("instant_savePantogram", false),
       do: (): void => {
         Pantogram.makePants(
-          "Mysticality",
+          myPrimestat().toString(),
           "Hot Resistance: 2",
           "Maximum HP: 40",
           "Combat Rate: -5",
@@ -308,10 +341,13 @@ export const RunStartQuest: Quest = {
     {
       name: "Mummery",
       completed: () =>
-        get("_mummeryMods").includes(`Experience (Mysticality)`) ||
+        get("_mummeryMods").includes(`Experience (${myPrimestat().toString()})`) ||
         !have($item`mumming trunk`) ||
         get("instant_saveMummingTrunk", false),
-      do: () => cliExecute("mummery myst"),
+      do: (): void => {
+        const statString = statToMaximizerString(myPrimestat());
+        cliExecute(`mummery ${statString}`);
+      },
       outfit: { familiar: chooseFamiliar() },
       limit: { tries: 1 },
     },
@@ -331,7 +367,20 @@ export const RunStartQuest: Quest = {
     {
       name: "Vote",
       completed: () => have($item`"I Voted!" sticker`) || !get("voteAlways"),
-      do: () => cliExecute("VotingBooth.ash"),
+      do: (): void => {
+        if (myClass() === $class`Pastamancer`) {
+          visitUrl("place.php?whichplace=town_right&action=townright_vote");
+          waitq(1);
+          visitUrl(
+            "choice.php?pwd&option=1&whichchoice=1331&g=" +
+              (random(2) + 1) +
+              "&local[]=2&local[]=2",
+            true,
+            false
+          );
+          cliExecute("set _voteToday = true");
+        } else cliExecute("VotingBooth.ash");
+      },
       limit: { tries: 1 },
     },
     {
@@ -431,13 +480,18 @@ export const RunStartQuest: Quest = {
         !have($item`model train set`) ||
         (getWorkshed() === $item`model train set` && !canConfigure()),
       do: (): void => {
+        const statStation: Station = {
+          Muscle: Station.BRAWN_SILO,
+          Mysticality: Station.BRAIN_SILO,
+          Moxie: Station.GROIN_SILO,
+        }[myPrimestat().toString()];
         use($item`model train set`);
         setConfiguration([
           Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
           Station.TOWER_FIZZY, // mp regen
           Station.TOWER_FROZEN, // hot resist (useful)
-          Station.COAL_HOPPER, // double myst gain
-          Station.BRAIN_SILO, // myst stats
+          Station.COAL_HOPPER, // double mainstat gain
+          statStation, // main stats
           Station.VIEWING_PLATFORM, // all stats
           Station.WATER_BRIDGE, // +ML
           Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
@@ -458,15 +512,10 @@ export const RunStartQuest: Quest = {
         get("instant_skipEarlyTrainsetMeat", false),
       do: $location`The Dire Warren`,
       combat: new CombatStrategy().macro(Macro.attack()),
-      outfit: (): OutfitSpec => {
-        return {
-          offhand: $item`unbreakable umbrella`,
-          acc1: $item`codpiece`,
-          familiar: chooseFamiliar(false),
-          modifier:
-            "0.25 mys, -1 ML, -equip tinsel tights, -equip wad of used tape, -equip miniature crystal ball, -equip backup camera",
-        };
-      },
+      outfit: () => ({
+        ...baseOutfit(false),
+        modifier: `${baseOutfit().modifier}, -equip miniature crystal ball, -equip backup camera`,
+      }),
       limit: { tries: 1 },
     },
     {
@@ -479,7 +528,8 @@ export const RunStartQuest: Quest = {
     },
     {
       name: "Use Mind Control Device",
-      completed: () => currentMcd() >= 10 || !canadiaAvailable(),
+      completed: () =>
+        currentMcd() >= 10 || !["platypus", "opossum", "marmot"].includes(mySign().toLowerCase()), //This one should be easy, let folks use whatever sign!
       do: () => changeMcd(11),
       limit: { tries: 1 },
     },
@@ -517,16 +567,10 @@ export const RunStartQuest: Quest = {
           )
         ).abort()
       ),
-      outfit: (): OutfitSpec => {
-        return {
-          shirt: useParkaSpit ? $item`Jurassic Parka` : undefined,
-          offhand: $item`unbreakable umbrella`,
-          acc1: $item`codpiece`,
-          familiar: chooseFamiliar(false),
-          modifier:
-            "0.25 mys, 0.33 ML, -equip tinsel tights, -equip wad of used tape, -equip miniature crystal ball",
-        };
-      },
+      outfit: () => ({
+        ...baseOutfit(false),
+        modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
+      }),
       post: (): void => {
         if (have($item`MayDay™ supply package`) && !get("instant_saveMayday", false))
           use($item`MayDay™ supply package`, 1);
@@ -574,15 +618,14 @@ export const RunStartQuest: Quest = {
           )
           .abort()
       ),
+
       outfit: (): OutfitSpec => {
         return {
           shirt: useParkaSpit ? $item`Jurassic Parka` : undefined,
           offhand: $item`unbreakable umbrella`,
-          acc1: $item`codpiece`,
-          acc2: $item`cursed monkey's paw`,
+          acc3: $item`cursed monkey's paw`,
           familiar: chooseFamiliar(false),
-          modifier:
-            "0.25 mys, 0.33 ML, -equip tinsel tights, -equip wad of used tape, -equip miniature crystal ball",
+          modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
         };
       },
       post: (): void => {

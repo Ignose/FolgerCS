@@ -1,6 +1,7 @@
 import { CombatStrategy } from "grimoire-kolmafia";
 import {
   buy,
+  cliExecute,
   drink,
   Effect,
   elementalResistance,
@@ -8,6 +9,7 @@ import {
   equippedItem,
   inebrietyLimit,
   myAdventures,
+  myClass,
   myHp,
   myInebriety,
   myMaxhp,
@@ -17,8 +19,10 @@ import {
   restoreMp,
   retrieveItem,
   useSkill,
+  visitUrl,
 } from "kolmafia";
 import {
+  $class,
   $effect,
   $effects,
   $element,
@@ -35,7 +39,7 @@ import {
   have,
 } from "libram";
 import { Quest } from "../engine/task";
-import { logTestSetup, startingClan, tryAcquiringEffect } from "../lib";
+import { logTestSetup, shrugAT, startingClan, tryAcquiringEffect } from "../lib";
 import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { forbiddenEffects } from "../resources";
@@ -50,6 +54,30 @@ export const SpellDamageQuest: Quest = {
       name: "Simmer",
       completed: () => have($effect`Simmering`) || !have($skill`Simmer`),
       do: () => useSkill($skill`Simmer`),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Elron's Explosive Etude",
+      completed: () =>
+        !have($skill`Elron's Explosive Etude`) ||
+        have($effect`Elron's Explosive Etude`) ||
+        myClass() !== $class`Accordion Thief`,
+      do: (): void => {
+        shrugAT();
+        cliExecute("cast 1 Elron's Explosive Etude");
+      },
+    },
+    {
+      name: "Cargo Shorts",
+      completed: () =>
+        get("_cargoPocketEmptied") ||
+        !have($item`Cargo Cultist Shorts`) ||
+        get("instant_saveCargoShorts", false) ||
+        !get("instant_experimentalCargoShorts", false),
+      do: (): void => {
+        visitUrl("inventory.php?action=pocket");
+        visitUrl("choice.php?whichchoice=1420&option=1&pocket=177");
+      },
       limit: { tries: 1 },
     },
     {

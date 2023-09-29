@@ -15,11 +15,13 @@ import {
   myLevel,
   myMaxhp,
   myMp,
+  myPrimestat,
   print,
   restoreMp,
   retrieveItem,
   retrievePrice,
   Skill,
+  Stat,
   sweetSynthesis,
   toInt,
   toItem,
@@ -38,6 +40,7 @@ import {
   $skill,
   $skills,
   $stat,
+  canRememberSong,
   CombatLoversLocket,
   CommunityService,
   get,
@@ -69,11 +72,11 @@ export const testModifiers = new Map([
 
 export function checkGithubVersion(): void {
   const gitBranches: { name: string; commit: { sha: string } }[] = JSON.parse(
-    visitUrl(`https://api.github.com/repos/Pantocyclus/InstantSCCS/branches`)
+    visitUrl(`https://github.com/Ignose/InstantSCCS_Ignose`)
   );
   const releaseBranch = gitBranches.find((branchInfo) => branchInfo.name === "release");
   const releaseSHA = releaseBranch?.commit.sha ?? "Not Found";
-  const localBranch = gitInfo("Pantocyclus-instantsccs-release");
+  const localBranch = gitInfo("Ignose");
   const localSHA = localBranch.commit;
   if (releaseSHA === localSHA) {
     print("InstantSCCS is up to date!", "green");
@@ -562,3 +565,88 @@ export function refillLatte(): void {
   const lastIngredient = get("latteUnlocks").includes("carrot") ? "carrot" : "pumpkin";
   if (get("_latteRefillsUsed") < 3) cliExecute(`latte refill cinnamon vanilla ${lastIngredient}`);
 }
+
+export function statToMaximizerString(stat: Stat): string {
+  return stat === $stat`Muscle` ? "mus" : stat === $stat`Mysticality` ? "myst" : "mox";
+}
+
+export function shrugAT(): void {
+  if (canRememberSong(1)) return;
+  else {
+    cliExecute("shrug Stevedave's Shanty of Superiority");
+    cliExecute("shrug Carol of the Thrills");
+    cliExecute("shrug Stevedave's Shanty of Superiority");
+    cliExecute("shrug Ur-Kel's Aria of Annoyance");
+    cliExecute("shrug Aloysius' Antiphon of Aptitude");
+    return;
+  }
+}
+
+//Define how to determine mainstat and define certain effects, incrediants, and reagant needs based on mainstat
+const mainStatStr = myPrimestat().toString();
+
+export const reagentBalancerEffect: Effect = {
+  Muscle: $effect`Stabilizing Oiliness`,
+  Mysticality: $effect`Expert Oiliness`,
+  Moxie: $effect`Slippery Oiliness`,
+}[mainStatStr];
+
+export const reagentBalancerItem: Item = {
+  Muscle: $item`oil of stability`,
+  Mysticality: $item`oil of expertise`,
+  Moxie: $item`oil of slipperiness`,
+}[mainStatStr];
+
+export const reagentBalancerIngredient: Item = {
+  Muscle: $item`lime`,
+  Mysticality: $item`cherry`,
+  Moxie: $item`jumbo olive`,
+}[mainStatStr];
+
+export const reagentBoosterEffect: Effect = {
+  Muscle: $effect`Phorcefullness`,
+  Mysticality: $effect`Mystically Oiled`,
+  Moxie: $effect`Superhuman Sarcasm`,
+}[mainStatStr];
+
+export const reagentBoosterItem: Item = {
+  Muscle: $item`philter of phorce`,
+  Mysticality: $item`ointment of the occult`,
+  Moxie: $item`serum of sarcasm`,
+}[mainStatStr];
+
+export const reagentBoosterIngredient: Item = {
+  Muscle: $item`lemon`,
+  Mysticality: $item`grapefruit`,
+  Moxie: $item`olive`,
+}[mainStatStr];
+
+export const xpWishEffect: Effect = {
+  Muscle: $effect`HGH-charged`,
+  Mysticality: $effect`Different Way of Seeing Things`,
+  Moxie: $effect`Thou Shant Not Sing`,
+}[mainStatStr];
+
+export const snapperXpItem: Item = {
+  Muscle: $item`vial of humanoid growth hormone`,
+  Mysticality: $item`non-Euclidean angle`,
+  Moxie: $item`Shantix™`,
+}[mainStatStr];
+
+export const abstractionXpItem: Item = {
+  Muscle: $item`abstraction: purpose`,
+  Mysticality: $item`abstraction: category`,
+  Moxie: $item`abstraction: perception`,
+}[mainStatStr];
+
+export const abstractionXpEffect: Effect = {
+  Muscle: $effect`Purpose`,
+  Mysticality: $effect`Category`,
+  Moxie: $effect`Perception`,
+}[mainStatStr];
+
+export const generalStoreXpEffect: Effect = {
+  Muscle: $effect`Go Get 'Em, Tiger!`,
+  Mysticality: $effect`Glittering Eyelashes`,
+  Moxie: $effect`Butt-Rock Hair`,
+}[mainStatStr];
