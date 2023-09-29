@@ -70,7 +70,7 @@ export const testModifiers = new Map([
   [CommunityService.CoilWire, []],
 ]);
 
-export function checkGithubVersion(): void {
+/*export function checkGithubVersion(): void {
   const gitBranches: { name: string; commit: { sha: string } }[] = JSON.parse(
     visitUrl(`https://github.com/Ignose/InstantSCCS_Ignose`)
   );
@@ -89,7 +89,7 @@ export function checkGithubVersion(): void {
     print(`Local Version: ${localSHA}.`);
     print(`Release Version: ${releaseSHA}`);
   }
-}
+}*/
 
 export function simpleDateDiff(t1: string, t2: string): number {
   // Returns difference in milliseconds
