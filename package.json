@@ -35,16 +35,16 @@
     "kolmafia": "^5.27578.0",
     "libram": "^0.8.9"
   },
-  "author": "Pantocyclus",
+  "author": "Pantocyclus/Seraphiii",
   "license": "MIT",
-  "repository": "git+https://github.com/Pantocyclus/InstantSCCS.git",
+  "repository": "git+https://github.com/Ignose/InstantSCCS_Ignose.git",
   "keywords": [
     "KoLMafia",
     "JS",
     "TS"
   ],
   "bugs": {
-    "url": "https://github.com/Pantocyclus/InstantSCCS/issues"
+    "url": "https://github.com/Ignose/InstantSCCS_Ignose/issues"
   },
-  "homepage": "https://github.com/Pantocyclus/InstantSCCS#readme"
+  "homepage": "https://github.com/Ignose/InstantSCCS_Ignose#readme"
 }
