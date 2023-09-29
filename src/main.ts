@@ -9,12 +9,7 @@ import {
   userConfirm,
   visitUrl,
 } from "kolmafia";
-import {
-  checkGithubVersion,
-  computeCombatFrequency,
-  convertMilliseconds,
-  simpleDateDiff,
-} from "./lib";
+import { computeCombatFrequency, convertMilliseconds, simpleDateDiff } from "./lib";
 import { get, set, sinceKolmafiaRevision } from "libram";
 import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
