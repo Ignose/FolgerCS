@@ -20,8 +20,8 @@ import {
   restoreMp,
   retrieveItem,
   retrievePrice,
-  Stat,
   Skill,
+  Stat,
   sweetSynthesis,
   toInt,
   toItem,
@@ -72,11 +72,11 @@ export const testModifiers = new Map([
 
 export function checkGithubVersion(): void {
   const gitBranches: { name: string; commit: { sha: string } }[] = JSON.parse(
-    visitUrl(`https://api.github.com/repos/Pantocyclus/InstantSCCS/branches`)
+    visitUrl(`https://github.com/Ignose/InstantSCCS_Ignose`)
   );
   const releaseBranch = gitBranches.find((branchInfo) => branchInfo.name === "release");
   const releaseSHA = releaseBranch?.commit.sha ?? "Not Found";
-  const localBranch = gitInfo("Pantocyclus-instantsccs-release");
+  const localBranch = gitInfo("Ignose");
   const localSHA = localBranch.commit;
   if (releaseSHA === localSHA) {
     print("InstantSCCS is up to date!", "green");

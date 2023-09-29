@@ -1,4 +1,4 @@
-import { mpCost, myClass, myPrimestat, toInt } from "kolmafia";
+import { mpCost, myPrimestat, toInt } from "kolmafia";
 import { $item, $skill, $stat, get, have, StrictMacro } from "libram";
 
 //export const mainStat = myClass().primestat;
