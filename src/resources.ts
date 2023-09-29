@@ -87,7 +87,7 @@ const consumptionResources: Resource[] = [
   ),
   new Resource(
     "instant_skipOffstatPizzas",
-    "Do not pull and eat offstat Legenday pizzas? Make sure you know what you're doing before using this."
+    "Do not pull and eat offstat Legenday pizzas? Make sure you know what you're doing before using this"
   ),
 ];
 
