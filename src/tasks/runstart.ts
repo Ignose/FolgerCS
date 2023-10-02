@@ -485,7 +485,7 @@ export const RunStartQuest: Quest = {
           Moxie: Station.GROIN_SILO,
         }[myPrimestat().toString()];
         use($item`model train set`);
-        if (get("instant_skipEarlyTrainsetMeat", false)) {
+        if (!get("instant_skipEarlyTrainsetMeat", false)) {
           setConfiguration([
             Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
             Station.TOWER_FIZZY, // mp regen
