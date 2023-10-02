@@ -160,7 +160,7 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
     acc2:
       have($item`Cincho de Mayo`) &&
       get("_cinchUsed", 0) < 95 &&
-      100 - get("_cinchUsed", 0) >= get("instant_saveCinch", 0)
+      100 - get("_cinchUsed", 0) > get("instant_saveCinch", 0)
         ? $item`Cincho de Mayo`
         : undefined,
     familiar: chooseFamiliar(allowAttackingFamiliars),
