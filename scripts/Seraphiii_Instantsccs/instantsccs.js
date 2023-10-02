@@ -14734,7 +14734,7 @@ function sellMiscellaneousItems() {
 
 var earlyLevelingQuest = {
   name: "Early Leveling",
-  completed: () => property_get("calzoneOfLegendEaten") && property_get("pizzaOfLegendEaten") && property_get("deepDishOfLegendEaten") || property_get("instant_skipBorrowedTime", false) && !property_get("instant_skipEarlyTrainsetMeat", false) && property_get("instant_skipOffstatPizzas", false),
+  completed: () => property_get("calzoneOfLegendEaten") && property_get("pizzaOfLegendEaten") && property_get("deepDishOfLegendEaten") || !property_get("instant_skipBorrowedTime", false) || !property_get("instant_skipEarlyTrainsetMeat", false) || property_get("instant_skipOffstatPizzas", false),
   tasks: [{
     name: "Red Skeleton, Tropical Skeleton, Two For One",
     ready: () => !lib_have($effect(earlyleveling_templateObject40 || (earlyleveling_templateObject40 = earlyleveling_taggedTemplateLiteral(["Everything Looks Yellow"])))) || lib_have(template_string_$skill(earlyleveling_templateObject41 || (earlyleveling_templateObject41 = earlyleveling_taggedTemplateLiteral(["Feel Envy"])))) && property_get("_feelEnvyUsed") < 3 || lib_have(template_string_$skill(earlyleveling_templateObject42 || (earlyleveling_templateObject42 = earlyleveling_taggedTemplateLiteral(["Feel Nostalgic"])))) && property_get("_feelNostalgicUsed") < 3,
