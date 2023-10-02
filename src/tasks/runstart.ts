@@ -681,7 +681,10 @@ export const RunStartQuest: Quest = {
         restoreMp(50);
       },
       ready: () => getKramcoWandererChance() >= 1.0,
-      completed: () => getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`),
+      completed: () =>
+        getKramcoWandererChance() < 1.0 ||
+        !have($item`Kramco Sausage-o-Matic™`) ||
+        get("instant_skipBorrowedTime", false),
       do: $location`Noob Cave`,
       outfit: () => ({
         ...baseOutfit(),
