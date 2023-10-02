@@ -17614,7 +17614,7 @@ var RunStartQuest = {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
     ready: () => getKramcoWandererChance() >= 1.0,
-    completed: () => getKramcoWandererChance() < 1.0 || !lib_have(template_string_$item(runstart_templateObject144 || (runstart_templateObject144 = runstart_taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"])))),
+    completed: () => getKramcoWandererChance() < 1.0 || !lib_have(template_string_$item(runstart_templateObject144 || (runstart_templateObject144 = runstart_taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"])))) || property_get("instant_skipBorrowedTime", false),
     do: $location(runstart_templateObject145 || (runstart_templateObject145 = runstart_taggedTemplateLiteral(["Noob Cave"]))),
     outfit: () => runstart_objectSpread(runstart_objectSpread({}, baseOutfit()), {}, {
       offhand: template_string_$item(runstart_templateObject146 || (runstart_templateObject146 = runstart_taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"])))
