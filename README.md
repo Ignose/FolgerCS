@@ -7,7 +7,7 @@
 To install the script, use the following command in the KoLMafia CLI.
 
 ```text
-git checkout https://github.com/Ignose/InstantSCCS_Ignose
+git checkout https://github.com/Ignose/InstantSCCS_Ignose.git release
 ```
 
 ## Usage
