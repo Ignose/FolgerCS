@@ -17456,7 +17456,7 @@ var RunStartQuest = {
       }[(0,external_kolmafia_namespaceObject.myPrimestat)().toString()];
       (0,external_kolmafia_namespaceObject.use)(template_string_$item(runstart_templateObject85 || (runstart_templateObject85 = runstart_taggedTemplateLiteral(["model train set"]))));
 
-      if (property_get("instant_skipEarlyTrainsetMeat", false)) {
+      if (!property_get("instant_skipEarlyTrainsetMeat", false)) {
         setConfiguration([Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
         Station.TOWER_FIZZY, // mp regen
         Station.TOWER_FROZEN, // hot resist (useful)
