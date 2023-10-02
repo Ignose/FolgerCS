@@ -3,7 +3,6 @@ import {
   adv1,
   autosell,
   buy,
-  canadiaAvailable,
   changeMcd,
   cliExecute,
   create,
@@ -221,7 +220,7 @@ export const RunStartQuest: Quest = {
           create($item`borrowed time`, 1);
         else takeStorage($item`borrowed time`, 1);
       },
-      completed: () => get("_borrowedTimeUsed"),
+      completed: () => get("_borrowedTimeUsed") || get("instant_skipBorrowedTime", false),
       do: (): void => {
         if (storageAmount($item`borrowed time`) === 0 && !have($item`borrowed time`)) {
           print("Uh oh! You do not seem to have a borrowed time in Hagnk's", "red");
@@ -486,16 +485,29 @@ export const RunStartQuest: Quest = {
           Moxie: Station.GROIN_SILO,
         }[myPrimestat().toString()];
         use($item`model train set`);
-        setConfiguration([
-          Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
-          Station.TOWER_FIZZY, // mp regen
-          Station.TOWER_FROZEN, // hot resist (useful)
-          Station.COAL_HOPPER, // double mainstat gain
-          statStation, // main stats
-          Station.VIEWING_PLATFORM, // all stats
-          Station.WATER_BRIDGE, // +ML
-          Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
-        ]);
+        if (get("instant_skipEarlyTrainsetMeat", false)) {
+          setConfiguration([
+            Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
+            Station.TOWER_FIZZY, // mp regen
+            Station.TOWER_FROZEN, // hot resist (useful)
+            Station.COAL_HOPPER, // double mainstat gain
+            statStation, // main stats
+            Station.VIEWING_PLATFORM, // all stats
+            Station.WATER_BRIDGE, // +ML
+            Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
+          ]);
+        } else {
+          setConfiguration([
+            Station.VIEWING_PLATFORM, // all stats
+            Station.COAL_HOPPER, // double mainstat gain
+            statStation, // main stats
+            Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
+            Station.TOWER_FIZZY, // mp regen
+            Station.TOWER_FROZEN, // hot resist (useful)
+            Station.WATER_BRIDGE, // +ML
+            Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
+          ]);
+        }
       },
       limit: { tries: 1 },
     },
@@ -549,6 +561,7 @@ export const RunStartQuest: Quest = {
         !have($skill`Map the Monsters`) ||
         get("_monstersMapped") >= 3 ||
         have($item`cherry`) ||
+        get("instant_skipBorrowedTime", false) ||
         (() => {
           // if we have another skeleton in the ice house, we don't need to map a novelty skeleton
           const banishes = get("banishedMonsters").split(":");
@@ -592,10 +605,11 @@ export const RunStartQuest: Quest = {
         if (haveEquipped($item`miniature crystal ball`)) equip($slot`familiar`, $item.none);
       },
       completed: () =>
-        have($item`cherry`) &&
-        $monsters`remaindered skeleton, swarm of skulls, factory-irregular skeleton, novelty tropical skeleton`.filter(
-          (m) => Array.from(getBanishedMonsters().values()).includes(m)
-        ).length >= (have($skill`Map the Monsters`) ? 2 : 3),
+        get("instant_skipBorrowedTime", false) ||
+        (have($item`cherry`) &&
+          $monsters`remaindered skeleton, swarm of skulls, factory-irregular skeleton, novelty tropical skeleton`.filter(
+            (m) => Array.from(getBanishedMonsters().values()).includes(m)
+          ).length >= (have($skill`Map the Monsters`) ? 2 : 3)),
       do: $location`The Skeleton Store`,
       combat: new CombatStrategy().macro(() =>
         Macro.if_(

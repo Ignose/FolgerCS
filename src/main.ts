@@ -15,6 +15,7 @@ import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
 import { Task } from "./engine/task";
 import { HPQuest, MoxieQuest, MuscleQuest, MysticalityQuest } from "./tasks/stat";
+import { earlyLevelingQuest } from "./tasks/earlyleveling";
 import { LevelingQuest } from "./tasks/leveling";
 import { CoilWireQuest } from "./tasks/coilwire";
 import { RunStartQuest } from "./tasks/runstart";
@@ -77,6 +78,7 @@ export function main(command?: string): void {
 
   const tasks: Task[] = getTasks([
     RunStartQuest,
+    earlyLevelingQuest,
     CoilWireQuest,
     LevelingQuest,
     MysticalityQuest,

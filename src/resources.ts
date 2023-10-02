@@ -107,6 +107,10 @@ const encounterResources: Resource[] = [
     "instant_skipEarlyTrainsetMeat",
     "Do not spend an adventure in the Dire Warren pre-coil grabbing meat from the trainset"
   ),
+  new Resource(
+    "instant_skipBorrowedTime",
+    "Experimental; do not use borrowed time. Level to 5 using trainset, and eat pizzas to get coil adventures. Make sure you know what you're doing before using this."
+  ),
   new Resource("instant_saveLocketRedSkeleton", "Do not reminisce a Red Skeleton"),
   new Resource("instant_saveLocketWitchessKing", "Do not reminisce a Witchess King"),
   new Resource("instant_saveLocketFactoryWorker", "Do not reminisce a Factory Worker (female)"),
