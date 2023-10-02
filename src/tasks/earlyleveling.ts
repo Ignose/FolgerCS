@@ -128,9 +128,9 @@ export const earlyLevelingQuest: Quest = {
   name: "Early Leveling",
   completed: () =>
     (get("calzoneOfLegendEaten") && get("pizzaOfLegendEaten") && get("deepDishOfLegendEaten")) ||
-    (get("instant_skipBorrowedTime", false) &&
-      !get("instant_skipEarlyTrainsetMeat", false) &&
-      get("instant_skipOffstatPizzas", false)),
+    !get("instant_skipBorrowedTime", false) ||
+    !get("instant_skipEarlyTrainsetMeat", false) ||
+    get("instant_skipOffstatPizzas", false),
   tasks: [
     {
       name: "Red Skeleton, Tropical Skeleton, Two For One",
