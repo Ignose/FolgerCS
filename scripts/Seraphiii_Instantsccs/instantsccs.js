@@ -17647,7 +17647,7 @@ function familiarweight_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = 
 
 var FamiliarWeightQuest = {
   name: "Familiar Weight",
-  completed: () => CommunityService.FamiliarWeight.isDone() || property_get("_instantNCFix", false),
+  completed: () => CommunityService.FamiliarWeight.isDone(),
   tasks: [{
     name: "Tune Moon to Platypus",
     completed: () => !lib_have(template_string_$item(familiarweight_templateObject || (familiarweight_templateObject = familiarweight_taggedTemplateLiteral(["hewn moon-rune spoon"])))) || property_get("moonTuned") || property_get("instant_saveMoonTune", false) || (0,external_kolmafia_namespaceObject.mySign)() === "Platypus",
@@ -17747,7 +17747,7 @@ function noncombat_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strin
 
 var NoncombatQuest = {
   name: "Noncombat",
-  completed: () => CommunityService.Noncombat.isDone() || property_get("_instantNCFix", false),
+  completed: () => CommunityService.Noncombat.isDone(),
   tasks: [{
     name: "Buy Porkpie-mounted Popper",
     completed: () => lib_have(template_string_$item(noncombat_templateObject || (noncombat_templateObject = noncombat_taggedTemplateLiteral(["porkpie-mounted popper"])))),
