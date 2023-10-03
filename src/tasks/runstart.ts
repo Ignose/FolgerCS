@@ -604,12 +604,7 @@ export const RunStartQuest: Quest = {
         if (get("_snokebombUsed") === 0) restoreMp(50);
         if (haveEquipped($item`miniature crystal ball`)) equip($slot`familiar`, $item.none);
       },
-      completed: () =>
-        get("instant_skipBorrowedTime", false) ||
-        (have($item`cherry`) &&
-          $monsters`remaindered skeleton, swarm of skulls, factory-irregular skeleton, novelty tropical skeleton`.filter(
-            (m) => Array.from(getBanishedMonsters().values()).includes(m)
-          ).length >= (have($skill`Map the Monsters`) ? 2 : 3)),
+      completed: () => get("instant_skipBorrowedTime", false) || have($item`cherry`),
       do: $location`The Skeleton Store`,
       combat: new CombatStrategy().macro(() =>
         Macro.if_(
