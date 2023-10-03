@@ -40,7 +40,7 @@ import {
 
 export const FamiliarWeightQuest: Quest = {
   name: "Familiar Weight",
-  completed: () => CommunityService.FamiliarWeight.isDone(),
+  completed: () => CommunityService.FamiliarWeight.isDone() || get("_instantNCFix", false),
   tasks: [
     {
       name: "Tune Moon to Platypus",
