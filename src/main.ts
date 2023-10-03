@@ -9,17 +9,13 @@ import {
   userConfirm,
   visitUrl,
 } from "kolmafia";
-import {
-  checkGithubVersion,
-  computeCombatFrequency,
-  convertMilliseconds,
-  simpleDateDiff,
-} from "./lib";
+import { computeCombatFrequency, convertMilliseconds, simpleDateDiff } from "./lib";
 import { get, set, sinceKolmafiaRevision } from "libram";
 import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
 import { Task } from "./engine/task";
 import { HPQuest, MoxieQuest, MuscleQuest, MysticalityQuest } from "./tasks/stat";
+import { earlyLevelingQuest } from "./tasks/earlyleveling";
 import { LevelingQuest } from "./tasks/leveling";
 import { CoilWireQuest } from "./tasks/coilwire";
 import { RunStartQuest } from "./tasks/runstart";
@@ -49,7 +45,6 @@ export const args = Args.create("InstantSCCS", "An automated low-shiny SCCS scri
 
 export function main(command?: string): void {
   sinceKolmafiaRevision(27593);
-  checkGithubVersion();
 
   Args.fill(args, command);
   if (args.help) {
@@ -83,6 +78,7 @@ export function main(command?: string): void {
 
   const tasks: Task[] = getTasks([
     RunStartQuest,
+    earlyLevelingQuest,
     CoilWireQuest,
     LevelingQuest,
     MysticalityQuest,
