@@ -1,6 +1,8 @@
-# InstantSCCS
+# InstantSCCS - Seraphiii
 
 `InstantSCCS` is a softcore one-day Community Service script meant for looping in Kingdom of Loathing, and designed to work for low-to-mid-shiny accounts (i.e. accounts with minimal expensive items/skills). The user is expected to have a bunch of softcore-permed skills, and at least ~7 IotMs in order to enable this (one of which is the [Clan VIP Lounge key](https://kol.coldfront.net/thekolwiki/index.php/Clan_VIP_Lounge_key)).
+
+This version is designed with features for higher shiny people who want to get a little bit more out of the basic script.
 
 ## Installation
 
