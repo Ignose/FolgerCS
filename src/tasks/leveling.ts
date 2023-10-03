@@ -804,7 +804,7 @@ export const LevelingQuest: Quest = {
         !have($skill`Map the Monsters`) ||
         !have($skill`Just the Facts`) ||
         get("_monstersMapped") >= 3 ||
-        have($item`pocket wish`, 3) ||
+        have($item`pocket wish`, 1) ||
         get("instant_saveGenie", false) ||
         myClass() !== $class`Seal Clubber` ||
         ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&

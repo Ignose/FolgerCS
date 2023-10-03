@@ -87,7 +87,7 @@ const consumptionResources: Resource[] = [
   ),
   new Resource(
     "instant_skipOffstatPizzas",
-    "Do not pull and eat offstat Legenday pizzas? Make sure you know what you're doing before using this."
+    "Do not pull and eat offstat Legenday pizzas? Make sure you know what you're doing before using this"
   ),
 ];
 
@@ -239,6 +239,10 @@ const otherResources: Resource[] = [
   new Resource(
     "instant_camelExperiment",
     "Automatically use a Box of Familiar Jacks to accrue Camel Spit?"
+  ),
+  new Resource(
+    "instant_skipBorrowedTime",
+    "Do not use borrowed time. Level to 5 using trainset, and eat pizzas to get coil adventures. Make sure you know what you're doing before using this."
   ),
 ];
 
