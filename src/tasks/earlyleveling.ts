@@ -6,6 +6,7 @@ import {
   eat,
   equip,
   getMonsters,
+  getWorkshed,
   haveEquipped,
   Item,
   itemAmount,
@@ -43,7 +44,8 @@ import {
   sum,
 } from "libram";
 import { CombatStrategy } from "grimoire-kolmafia";
-import { baseOutfit, unbreakableUmbrella } from "../engine/outfit";
+import { baseOutfit, docBag, unbreakableUmbrella } from "../engine/outfit";
+import { canConfigure, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { chooseRift } from "libram/dist/resources/2023/ClosedCircuitPayphone";
@@ -218,6 +220,70 @@ export const earlyLevelingQuest: Quest = {
         offhand: $item`Kramco Sausage-o-Matic™`,
       }),
       combat: new CombatStrategy().macro(Macro.default()),
+    },
+    {
+      name: "Configure Trainset",
+      completed: () =>
+        !have($item`model train set`) ||
+        (getWorkshed() === $item`model train set` && !canConfigure()),
+      do: (): void => {
+        const statStation: Station = {
+          Muscle: Station.BRAWN_SILO,
+          Mysticality: Station.BRAIN_SILO,
+          Moxie: Station.GROIN_SILO,
+        }[myPrimestat().toString()];
+        use($item`model train set`);
+        setConfiguration([
+          Station.VIEWING_PLATFORM, // all stats
+          Station.COAL_HOPPER, // double mainstat gain
+          statStation, // main stats
+          Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
+          Station.WATER_BRIDGE, // +ML
+          Station.TOWER_FIZZY, // mp regen
+          Station.TOWER_FROZEN, // hot resist (useful)
+          Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
+        ]);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Map Pocket Wishes",
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
+          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase blue rocket!");
+          buy($item`blue rocket`, 1);
+        }
+        unbreakableUmbrella();
+        docBag();
+        restoreMp(50);
+        if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
+          if (myMeat() >= 250) buy($item`red rocket`, 1);
+        }
+      },
+      completed: () =>
+        !have($skill`Map the Monsters`) ||
+        !have($skill`Just the Facts`) ||
+        get("_monstersMapped") >= 3 ||
+        have($item`pocket wish`, 1) ||
+        get("instant_saveGenie", false) ||
+        myClass() !== $class`Seal Clubber` ||
+        ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
+          (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
+      do: () => mapMonster($location`The Haunted Kitchen`, $monster`paper towelgeist`),
+      combat: new CombatStrategy().macro(
+        Macro.if_(
+          $monster`paper towelgeist`,
+          Macro.tryItem($item`blue rocket`)
+            .tryItem($item`red rocket`)
+            .trySkill($skill`Chest X-Ray`)
+            .trySkill($skill`Gingerbread Mob Hit`)
+            .trySkill($skill`Shattering Punch`)
+            .default()
+        ).abort()
+      ),
+      post: () => sellMiscellaneousItems(),
+      limit: { tries: 1 },
     },
     {
       name: "Pull Deep Dish of Legend",

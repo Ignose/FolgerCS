@@ -477,7 +477,8 @@ export const RunStartQuest: Quest = {
       name: "Configure Trainset",
       completed: () =>
         !have($item`model train set`) ||
-        (getWorkshed() === $item`model train set` && !canConfigure()),
+        (getWorkshed() === $item`model train set` && !canConfigure()) ||
+        get("instant_skipBorrowedTime", false),
       do: (): void => {
         const statStation: Station = {
           Muscle: Station.BRAWN_SILO,
