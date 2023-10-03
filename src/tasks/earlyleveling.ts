@@ -250,6 +250,7 @@ export const earlyLevelingQuest: Quest = {
       name: "Map Pocket Wishes",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        restoreMp(30);
         if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
           if (myMeat() < 250) throw new Error("Insufficient Meat to purchase blue rocket!");
           buy($item`blue rocket`, 1);
