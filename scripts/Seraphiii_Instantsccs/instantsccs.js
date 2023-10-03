@@ -13693,7 +13693,7 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
       engine_get(engine_getPrototypeOf(Engine.prototype), "execute", this).call(this, task);
 
       if (lib_have($effect(engine_templateObject3 || (engine_templateObject3 = engine_engine_taggedTemplateLiteral(["Beaten Up"]))))) {
-        if (property_get("lastEncounter") === "Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl") uneffect($effect(engine_templateObject4 || (engine_templateObject4 = engine_engine_taggedTemplateLiteral(["Beaten Up"]))));else throw "Fight was lost; stop.";
+        if (["Poetic Justice", "Lost and Found", "Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl"].includes(property_get("lastEncounter"))) uneffect($effect(engine_templateObject4 || (engine_templateObject4 = engine_engine_taggedTemplateLiteral(["Beaten Up"]))));else throw "Fight was lost; stop.";
       }
 
       originalValues.forEach(_ref2 => {
@@ -14455,6 +14455,233 @@ function baseOutfit() {
     avoid: [].concat(engine_outfit_toConsumableArray(sugarItemsAboutToBreak()), engine_outfit_toConsumableArray(avoidDaylightShavingsHelm() ? [template_string_$item(engine_outfit_templateObject55 || (engine_outfit_templateObject55 = engine_outfit_taggedTemplateLiteral(["Daylight Shavings Helmet"])))] : []))
   };
 }
+;// CONCATENATED MODULE: ./node_modules/libram/dist/resources/2022/TrainSet.js
+var TrainSet_templateObject;
+
+function TrainSet_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+
+
+
+
+
+var TrainSet_item = template_string_$item(TrainSet_templateObject || (TrainSet_templateObject = TrainSet_taggedTemplateLiteral(["model train set"])));
+/**
+ * Determines whether the Model Train Set is your current workshed
+ *
+ * @returns Whether the Model Train Set is your current workshed
+ */
+
+function installed() {
+  return (0,external_kolmafia_namespaceObject.getWorkshed)() === TrainSet_item;
+}
+/**
+ * Determines whether you `have` the model train set (or if it is installed)
+ *
+ * @returns Whether you `have` the model train set or it's installed
+ */
+
+function TrainSet_have() {
+  return installed() || lib_have(TrainSet_item);
+}
+var Station;
+
+(function (Station) {
+  /**
+   * Unknown station
+   */
+  Station["UNKNOWN"] = "";
+  /**
+   * Empty station
+   */
+
+  Station["EMPTY"] = "empty";
+  /**
+   * Gain 800 meat
+   */
+
+  Station["GAIN_MEAT"] = "meat_mine";
+  /**
+   * Effect: Regenerate MP
+   */
+
+  Station["TOWER_FIZZY"] = "tower_fizzy";
+  /**
+   * Gain mus, mys, mox stats
+   */
+
+  Station["VIEWING_PLATFORM"] = "viewing_platform";
+  /**
+   * Effect: Hot resist, cold damage
+   */
+
+  Station["TOWER_FROZEN"] = "tower_frozen";
+  /**
+   * Effect: Stench resist, spooky damage
+   */
+
+  Station["SPOOKY_GRAVEYARD"] = "spooky_graveyard";
+  /**
+   * Get smut bridge part, or stats
+   */
+
+  Station["LOGGING_MILL"] = "logging_mill";
+  /**
+   * Get some candy
+   */
+
+  Station["CANDY_FACTORY"] = "candy_factory";
+  /**
+   * Double strength of next station
+   */
+
+  Station["COAL_HOPPER"] = "coal_hopper";
+  /**
+   * Effect: Cold resist, stench damage
+   */
+
+  Station["TOWER_SEWAGE"] = "tower_sewage";
+  /**
+   * Effect: Spooky resist, sleaze damage
+   */
+
+  Station["OIL_REFINERY"] = "oil_refinery";
+  /**
+   * Effect: Sleaze resist, hot damage
+   */
+
+  Station["OIL_BRIDGE"] = "oil_bridge";
+  /**
+   * Effect: Increased Monster Level
+   */
+
+  Station["WATER_BRIDGE"] = "water_bridge";
+  /**
+   * Get moxie stats
+   */
+
+  Station["GROIN_SILO"] = "groin_silo";
+  /**
+   * Get random booze
+   */
+
+  Station["GRAIN_SILO"] = "grain_silo";
+  /**
+   * Get mys stats
+   */
+
+  Station["BRAIN_SILO"] = "brain_silo";
+  /**
+   * Get muscle stats
+   */
+
+  Station["BRAWN_SILO"] = "brawn_silo";
+  /**
+   * Effect: 50% food drop
+   */
+
+  Station["PRAWN_SILO"] = "prawn_silo";
+  /**
+   * Dupe last food dropped, or gain random food
+   */
+
+  Station["TRACKSIDE_DINER"] = "trackside_diner";
+  /**
+   * Drop random ore, or trapper ore if known
+   */
+
+  Station["ORE_HOPPER"] = "ore_hopper";
+})(Station || (Station = {}));
+
+var trainsetEffects = new Map([[Station.TOWER_FIZZY, external_kolmafia_namespaceObject.Effect.get("Carbonated")], [Station.TOWER_FROZEN, external_kolmafia_namespaceObject.Effect.get("Frozen")], [Station.SPOOKY_GRAVEYARD, external_kolmafia_namespaceObject.Effect.get("Shivering Spine")], [Station.TOWER_SEWAGE, external_kolmafia_namespaceObject.Effect.get("Hot Soupy Garbage")], [Station.OIL_BRIDGE, external_kolmafia_namespaceObject.Effect.get("Burningly Oiled")], [Station.OIL_REFINERY, external_kolmafia_namespaceObject.Effect.get("Spookily Greasy")], [Station.WATER_BRIDGE, external_kolmafia_namespaceObject.Effect.get("Troubled Waters")], [Station.PRAWN_SILO, external_kolmafia_namespaceObject.Effect.get("Craving Prawns")]]);
+var trainsetEffectsDoubled = new Map([[Station.TOWER_FIZZY, external_kolmafia_namespaceObject.Effect.get("Double Carbonated")], [Station.TOWER_FROZEN, external_kolmafia_namespaceObject.Effect.get("Double Frozen")], [Station.SPOOKY_GRAVEYARD, external_kolmafia_namespaceObject.Effect.get("Doubly Shivering Spine")], [Station.TOWER_SEWAGE, external_kolmafia_namespaceObject.Effect.get("Double Hot Soupy Garbage")], [Station.OIL_BRIDGE, external_kolmafia_namespaceObject.Effect.get("Doubly Burningly Oiled")], [Station.OIL_REFINERY, external_kolmafia_namespaceObject.Effect.get("Doubly Spookily Greasy")], [Station.WATER_BRIDGE, external_kolmafia_namespaceObject.Effect.get("Doubly Troubled Waters")], [Station.PRAWN_SILO, external_kolmafia_namespaceObject.Effect.get("Doubly Craving Prawns")]]);
+/**
+ * Returns an effect--if one exists--for a given train station
+ *
+ * @param station The train station to check the effect of
+ * @returns The effect associated with the given station
+ */
+
+function effect(station) {
+  var _trainsetEffects$get;
+
+  return (_trainsetEffects$get = trainsetEffects.get(station)) !== null && _trainsetEffects$get !== void 0 ? _trainsetEffects$get : null;
+}
+/**
+ * Returns an effect--if one exists--for a given train station, assuming it's been primed by the coal station
+ *
+ * @param station The train station to check the doubled effect of
+ * @returns The effect associated with given station, under the influence of coal
+ */
+
+function doubledEffect(station) {
+  var _trainsetEffectsDoubl;
+
+  return (_trainsetEffectsDoubl = trainsetEffectsDoubled.get(station)) !== null && _trainsetEffectsDoubl !== void 0 ? _trainsetEffectsDoubl : null;
+}
+/**
+ * Determines the current configuration of train stations
+ *
+ * @returns An 8-tuple consisting of the stations currently installed in your Model Train Set; this functions even if the Model Train Set isn't your active workshed
+ */
+
+function cycle() {
+  return property_get("trainsetConfiguration").split(",");
+}
+/**
+ * Determines how many turns until you can next configure the Model Train Set
+ *
+ * @returns How many turns until you can next configure the Model Train Set
+ */
+
+function nextConfigurable() {
+  return clamp(property_get("lastTrainsetConfiguration") + 40 - property_get("trainsetPosition"), 0, 40);
+}
+/**
+ * Determines whether you can currently configure your Model Train Set
+ *
+ * @returns Whether you can currently configure your Model Train Set
+ */
+
+function canConfigure() {
+  return installed() && !nextConfigurable();
+}
+var TrainSet_pieces = [Station.EMPTY, Station.GAIN_MEAT, Station.TOWER_FIZZY, Station.VIEWING_PLATFORM, Station.TOWER_FROZEN, Station.SPOOKY_GRAVEYARD, Station.LOGGING_MILL, Station.CANDY_FACTORY, Station.COAL_HOPPER, Station.TOWER_SEWAGE, Station.UNKNOWN, Station.OIL_REFINERY, Station.OIL_BRIDGE, Station.WATER_BRIDGE, Station.GROIN_SILO, Station.GRAIN_SILO, Station.BRAIN_SILO, Station.BRAWN_SILO, Station.PRAWN_SILO, Station.TRACKSIDE_DINER, Station.ORE_HOPPER];
+/**
+ * Converts a given station to the integer value KoL associates with them
+ *
+ * @param station The station in question
+ * @returns The integer value KoL assigns the train station in question
+ */
+
+function stationToInt(station) {
+  return TrainSet_pieces.indexOf(station);
+}
+/**
+ * Sets your model train station to the given configuration, if able
+ *
+ * @param configuration The cycle to try to set your model train station to
+ * @returns Whether your model train station matches the given configuration
+ */
+
+
+function setConfiguration(configuration) {
+  if (!canConfigure()) return false;
+  (0,external_kolmafia_namespaceObject.visitUrl)("campground.php?action=workshed");
+  (0,external_kolmafia_namespaceObject.runChoice)(1, "forceoption=0".concat(configuration.map((station, index) => "&slot[".concat(index, "]=").concat(stationToInt(station))).join("")));
+  (0,external_kolmafia_namespaceObject.visitUrl)("main.php");
+  var currentConfiguration = cycle();
+  return configuration.every((station, index) => station === currentConfiguration[index]);
+}
+/**
+ * Determines the next station you expect to encounter when the Model Train Station is active
+ *
+ * @returns The next station you expect to encounter when the Model Train Station is active
+ */
+
+function next() {
+  return cycle()[get("trainsetPosition") % 8];
+}
 ;// CONCATENATED MODULE: ./node_modules/libram/dist/resources/2020/Cartography.js
 var Cartography_templateObject, Cartography_templateObject2;
 
@@ -14669,7 +14896,7 @@ function submitQuest() {
   return false;
 }
 ;// CONCATENATED MODULE: ./src/tasks/earlyleveling.ts
-var earlyleveling_templateObject, earlyleveling_templateObject2, earlyleveling_templateObject3, earlyleveling_templateObject4, earlyleveling_templateObject5, earlyleveling_templateObject6, earlyleveling_templateObject7, earlyleveling_templateObject8, earlyleveling_templateObject9, earlyleveling_templateObject10, earlyleveling_templateObject11, earlyleveling_templateObject12, earlyleveling_templateObject13, earlyleveling_templateObject14, earlyleveling_templateObject15, earlyleveling_templateObject16, earlyleveling_templateObject17, earlyleveling_templateObject18, earlyleveling_templateObject19, earlyleveling_templateObject20, earlyleveling_templateObject21, earlyleveling_templateObject22, earlyleveling_templateObject23, earlyleveling_templateObject24, earlyleveling_templateObject25, earlyleveling_templateObject26, earlyleveling_templateObject27, earlyleveling_templateObject28, earlyleveling_templateObject29, earlyleveling_templateObject30, earlyleveling_templateObject31, earlyleveling_templateObject32, earlyleveling_templateObject33, earlyleveling_templateObject34, earlyleveling_templateObject35, earlyleveling_templateObject36, earlyleveling_templateObject37, earlyleveling_templateObject38, earlyleveling_templateObject39, earlyleveling_templateObject40, earlyleveling_templateObject41, earlyleveling_templateObject42, earlyleveling_templateObject43, earlyleveling_templateObject44, earlyleveling_templateObject45, earlyleveling_templateObject46, earlyleveling_templateObject47, earlyleveling_templateObject48, earlyleveling_templateObject49, earlyleveling_templateObject50, earlyleveling_templateObject51, earlyleveling_templateObject52, earlyleveling_templateObject53, earlyleveling_templateObject54, earlyleveling_templateObject55, earlyleveling_templateObject56, earlyleveling_templateObject57, earlyleveling_templateObject58, earlyleveling_templateObject59, earlyleveling_templateObject60, earlyleveling_templateObject61, earlyleveling_templateObject62, earlyleveling_templateObject63, earlyleveling_templateObject64, earlyleveling_templateObject65, earlyleveling_templateObject66, earlyleveling_templateObject67, earlyleveling_templateObject68, earlyleveling_templateObject69, earlyleveling_templateObject70, earlyleveling_templateObject71, earlyleveling_templateObject72, earlyleveling_templateObject73, earlyleveling_templateObject74, earlyleveling_templateObject75, earlyleveling_templateObject76, earlyleveling_templateObject77, earlyleveling_templateObject78, earlyleveling_templateObject79, earlyleveling_templateObject80, earlyleveling_templateObject81, earlyleveling_templateObject82, earlyleveling_templateObject83, earlyleveling_templateObject84, earlyleveling_templateObject85, earlyleveling_templateObject86, earlyleveling_templateObject87, earlyleveling_templateObject88, earlyleveling_templateObject89, earlyleveling_templateObject90, earlyleveling_templateObject91, earlyleveling_templateObject92, earlyleveling_templateObject93;
+var earlyleveling_templateObject, earlyleveling_templateObject2, earlyleveling_templateObject3, earlyleveling_templateObject4, earlyleveling_templateObject5, earlyleveling_templateObject6, earlyleveling_templateObject7, earlyleveling_templateObject8, earlyleveling_templateObject9, earlyleveling_templateObject10, earlyleveling_templateObject11, earlyleveling_templateObject12, earlyleveling_templateObject13, earlyleveling_templateObject14, earlyleveling_templateObject15, earlyleveling_templateObject16, earlyleveling_templateObject17, earlyleveling_templateObject18, earlyleveling_templateObject19, earlyleveling_templateObject20, earlyleveling_templateObject21, earlyleveling_templateObject22, earlyleveling_templateObject23, earlyleveling_templateObject24, earlyleveling_templateObject25, earlyleveling_templateObject26, earlyleveling_templateObject27, earlyleveling_templateObject28, earlyleveling_templateObject29, earlyleveling_templateObject30, earlyleveling_templateObject31, earlyleveling_templateObject32, earlyleveling_templateObject33, earlyleveling_templateObject34, earlyleveling_templateObject35, earlyleveling_templateObject36, earlyleveling_templateObject37, earlyleveling_templateObject38, earlyleveling_templateObject39, earlyleveling_templateObject40, earlyleveling_templateObject41, earlyleveling_templateObject42, earlyleveling_templateObject43, earlyleveling_templateObject44, earlyleveling_templateObject45, earlyleveling_templateObject46, earlyleveling_templateObject47, earlyleveling_templateObject48, earlyleveling_templateObject49, earlyleveling_templateObject50, earlyleveling_templateObject51, earlyleveling_templateObject52, earlyleveling_templateObject53, earlyleveling_templateObject54, earlyleveling_templateObject55, earlyleveling_templateObject56, earlyleveling_templateObject57, earlyleveling_templateObject58, earlyleveling_templateObject59, earlyleveling_templateObject60, earlyleveling_templateObject61, earlyleveling_templateObject62, earlyleveling_templateObject63, earlyleveling_templateObject64, earlyleveling_templateObject65, earlyleveling_templateObject66, earlyleveling_templateObject67, earlyleveling_templateObject68, earlyleveling_templateObject69, earlyleveling_templateObject70, earlyleveling_templateObject71, earlyleveling_templateObject72, earlyleveling_templateObject73, earlyleveling_templateObject74, earlyleveling_templateObject75, earlyleveling_templateObject76, earlyleveling_templateObject77, earlyleveling_templateObject78, earlyleveling_templateObject79, earlyleveling_templateObject80, earlyleveling_templateObject81, earlyleveling_templateObject82, earlyleveling_templateObject83, earlyleveling_templateObject84, earlyleveling_templateObject85, earlyleveling_templateObject86, earlyleveling_templateObject87, earlyleveling_templateObject88, earlyleveling_templateObject89, earlyleveling_templateObject90, earlyleveling_templateObject91, earlyleveling_templateObject92, earlyleveling_templateObject93, earlyleveling_templateObject94, earlyleveling_templateObject95, earlyleveling_templateObject96, earlyleveling_templateObject97, earlyleveling_templateObject98, earlyleveling_templateObject99, earlyleveling_templateObject100, earlyleveling_templateObject101, earlyleveling_templateObject102, earlyleveling_templateObject103, earlyleveling_templateObject104, earlyleveling_templateObject105, earlyleveling_templateObject106, earlyleveling_templateObject107, earlyleveling_templateObject108, earlyleveling_templateObject109, earlyleveling_templateObject110, earlyleveling_templateObject111, earlyleveling_templateObject112, earlyleveling_templateObject113, earlyleveling_templateObject114, earlyleveling_templateObject115, earlyleveling_templateObject116;
 
 function earlyleveling_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -14690,6 +14917,7 @@ function earlyleveling_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return e
 function earlyleveling_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function earlyleveling_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
 
 
 
@@ -14804,70 +15032,119 @@ var earlyLevelingQuest = {
     }),
     combat: new CombatStrategy().macro(combat_Macro["default"]())
   }, {
-    name: "Pull Deep Dish of Legend",
-    completed: () => lib_have(template_string_$item(earlyleveling_templateObject72 || (earlyleveling_templateObject72 = earlyleveling_taggedTemplateLiteral(["Deep Dish of Legend"])))) || lib_have($effect(earlyleveling_templateObject73 || (earlyleveling_templateObject73 = earlyleveling_taggedTemplateLiteral(["In the Depths"])))) || property_get("_roninStoragePulls").split(",").includes((0,external_kolmafia_namespaceObject.toInt)(template_string_$item(earlyleveling_templateObject74 || (earlyleveling_templateObject74 = earlyleveling_taggedTemplateLiteral(["Deep Dish of Legend"])))).toString()) || property_get("_instant_skipDeepDishOfLegend", false) || property_get("instant_skipOffstatPizzas", false) && (0,external_kolmafia_namespaceObject.myPrimestat)() !== "Muscle",
+    name: "Configure Trainset",
+    completed: () => !lib_have(template_string_$item(earlyleveling_templateObject72 || (earlyleveling_templateObject72 = earlyleveling_taggedTemplateLiteral(["model train set"])))) || (0,external_kolmafia_namespaceObject.getWorkshed)() === template_string_$item(earlyleveling_templateObject73 || (earlyleveling_templateObject73 = earlyleveling_taggedTemplateLiteral(["model train set"]))) && !canConfigure(),
     do: () => {
-      if ((0,external_kolmafia_namespaceObject.storageAmount)(template_string_$item(earlyleveling_templateObject75 || (earlyleveling_templateObject75 = earlyleveling_taggedTemplateLiteral(["Deep Dish of Legend"])))) === 0) {
+      var statStation = {
+        Muscle: Station.BRAWN_SILO,
+        Mysticality: Station.BRAIN_SILO,
+        Moxie: Station.GROIN_SILO
+      }[(0,external_kolmafia_namespaceObject.myPrimestat)().toString()];
+      (0,external_kolmafia_namespaceObject.use)(template_string_$item(earlyleveling_templateObject74 || (earlyleveling_templateObject74 = earlyleveling_taggedTemplateLiteral(["model train set"]))));
+      setConfiguration([Station.VIEWING_PLATFORM, // all stats
+      Station.COAL_HOPPER, // double mainstat gain
+      statStation, // main stats
+      Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
+      Station.WATER_BRIDGE, // +ML
+      Station.TOWER_FIZZY, // mp regen
+      Station.TOWER_FROZEN, // hot resist (useful)
+      Station.CANDY_FACTORY // candies (we don't get items during free banishes)
+      ]);
+    },
+    limit: {
+      tries: 1
+    }
+  }, {
+    name: "Map Pocket Wishes",
+    prepare: () => {
+      (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
+      (0,external_kolmafia_namespaceObject.restoreMp)(30);
+
+      if (!lib_have($effect(earlyleveling_templateObject75 || (earlyleveling_templateObject75 = earlyleveling_taggedTemplateLiteral(["Everything Looks Blue"])))) && !lib_have(template_string_$item(earlyleveling_templateObject76 || (earlyleveling_templateObject76 = earlyleveling_taggedTemplateLiteral(["blue rocket"]))))) {
+        if ((0,external_kolmafia_namespaceObject.myMeat)() < 250) throw new Error("Insufficient Meat to purchase blue rocket!");
+        (0,external_kolmafia_namespaceObject.buy)(template_string_$item(earlyleveling_templateObject77 || (earlyleveling_templateObject77 = earlyleveling_taggedTemplateLiteral(["blue rocket"]))), 1);
+      }
+
+      unbreakableUmbrella();
+      docBag();
+      (0,external_kolmafia_namespaceObject.restoreMp)(50);
+
+      if (!lib_have($effect(earlyleveling_templateObject78 || (earlyleveling_templateObject78 = earlyleveling_taggedTemplateLiteral(["Everything Looks Red"])))) && !lib_have(template_string_$item(earlyleveling_templateObject79 || (earlyleveling_templateObject79 = earlyleveling_taggedTemplateLiteral(["red rocket"]))))) {
+        if ((0,external_kolmafia_namespaceObject.myMeat)() >= 250) (0,external_kolmafia_namespaceObject.buy)(template_string_$item(earlyleveling_templateObject80 || (earlyleveling_templateObject80 = earlyleveling_taggedTemplateLiteral(["red rocket"]))), 1);
+      }
+    },
+    completed: () => !lib_have(template_string_$skill(earlyleveling_templateObject81 || (earlyleveling_templateObject81 = earlyleveling_taggedTemplateLiteral(["Map the Monsters"])))) || !lib_have(template_string_$skill(earlyleveling_templateObject82 || (earlyleveling_templateObject82 = earlyleveling_taggedTemplateLiteral(["Just the Facts"])))) || property_get("_monstersMapped") >= 3 || lib_have(template_string_$item(earlyleveling_templateObject83 || (earlyleveling_templateObject83 = earlyleveling_taggedTemplateLiteral(["pocket wish"]))), 1) || property_get("instant_saveGenie", false) || (0,external_kolmafia_namespaceObject.myClass)() !== $class(earlyleveling_templateObject84 || (earlyleveling_templateObject84 = earlyleveling_taggedTemplateLiteral(["Seal Clubber"]))) || (property_get("_shatteringPunchUsed") >= 3 || !lib_have(template_string_$skill(earlyleveling_templateObject85 || (earlyleveling_templateObject85 = earlyleveling_taggedTemplateLiteral(["Shattering Punch"]))))) && (property_get("_gingerbreadMobHitUsed") || !lib_have(template_string_$skill(earlyleveling_templateObject86 || (earlyleveling_templateObject86 = earlyleveling_taggedTemplateLiteral(["Gingerbread Mob Hit"]))))),
+    do: () => mapMonster($location(earlyleveling_templateObject87 || (earlyleveling_templateObject87 = earlyleveling_taggedTemplateLiteral(["The Haunted Kitchen"]))), $monster(earlyleveling_templateObject88 || (earlyleveling_templateObject88 = earlyleveling_taggedTemplateLiteral(["paper towelgeist"])))),
+    combat: new CombatStrategy().macro(combat_Macro.if_($monster(earlyleveling_templateObject89 || (earlyleveling_templateObject89 = earlyleveling_taggedTemplateLiteral(["paper towelgeist"]))), combat_Macro.tryItem(template_string_$item(earlyleveling_templateObject90 || (earlyleveling_templateObject90 = earlyleveling_taggedTemplateLiteral(["blue rocket"])))).tryItem(template_string_$item(earlyleveling_templateObject91 || (earlyleveling_templateObject91 = earlyleveling_taggedTemplateLiteral(["red rocket"])))).trySkill(template_string_$skill(earlyleveling_templateObject92 || (earlyleveling_templateObject92 = earlyleveling_taggedTemplateLiteral(["Chest X-Ray"])))).trySkill(template_string_$skill(earlyleveling_templateObject93 || (earlyleveling_templateObject93 = earlyleveling_taggedTemplateLiteral(["Gingerbread Mob Hit"])))).trySkill(template_string_$skill(earlyleveling_templateObject94 || (earlyleveling_templateObject94 = earlyleveling_taggedTemplateLiteral(["Shattering Punch"])))).default()).abort()),
+    post: () => sellMiscellaneousItems(),
+    limit: {
+      tries: 1
+    }
+  }, {
+    name: "Pull Deep Dish of Legend",
+    completed: () => lib_have(template_string_$item(earlyleveling_templateObject95 || (earlyleveling_templateObject95 = earlyleveling_taggedTemplateLiteral(["Deep Dish of Legend"])))) || lib_have($effect(earlyleveling_templateObject96 || (earlyleveling_templateObject96 = earlyleveling_taggedTemplateLiteral(["In the Depths"])))) || property_get("_roninStoragePulls").split(",").includes((0,external_kolmafia_namespaceObject.toInt)(template_string_$item(earlyleveling_templateObject97 || (earlyleveling_templateObject97 = earlyleveling_taggedTemplateLiteral(["Deep Dish of Legend"])))).toString()) || property_get("_instant_skipDeepDishOfLegend", false) || property_get("instant_skipOffstatPizzas", false) && (0,external_kolmafia_namespaceObject.myPrimestat)() !== "Muscle",
+    do: () => {
+      if ((0,external_kolmafia_namespaceObject.storageAmount)(template_string_$item(earlyleveling_templateObject98 || (earlyleveling_templateObject98 = earlyleveling_taggedTemplateLiteral(["Deep Dish of Legend"])))) === 0) {
         (0,external_kolmafia_namespaceObject.print)("Uh oh! You do not seem to have a Deep Dish of Legend in Hagnk's", "red");
         (0,external_kolmafia_namespaceObject.print)("Consider pulling something to make up for the turngen and 300%mus,", "red");
         (0,external_kolmafia_namespaceObject.print)("then type 'set _instant_skipDeepDishOfLegend=true' before re-running instantsccs", "red");
       }
 
-      (0,external_kolmafia_namespaceObject.takeStorage)(template_string_$item(earlyleveling_templateObject76 || (earlyleveling_templateObject76 = earlyleveling_taggedTemplateLiteral(["Deep Dish of Legend"]))), 1);
+      (0,external_kolmafia_namespaceObject.takeStorage)(template_string_$item(earlyleveling_templateObject99 || (earlyleveling_templateObject99 = earlyleveling_taggedTemplateLiteral(["Deep Dish of Legend"]))), 1);
     },
     limit: {
       tries: 1
     }
   }, {
     name: "Pull Calzone of Legend",
-    completed: () => lib_have(template_string_$item(earlyleveling_templateObject77 || (earlyleveling_templateObject77 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"])))) || lib_have($effect(earlyleveling_templateObject78 || (earlyleveling_templateObject78 = earlyleveling_taggedTemplateLiteral(["In the 'zone zone!"])))) || property_get("_roninStoragePulls").split(",").includes((0,external_kolmafia_namespaceObject.toInt)(template_string_$item(earlyleveling_templateObject79 || (earlyleveling_templateObject79 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"])))).toString()) || property_get("_instant_skipCalzoneOfLegend", false) || property_get("instant_skipOffstatPizzas", false) && (0,external_kolmafia_namespaceObject.myPrimestat)() !== "Mysticality",
+    completed: () => lib_have(template_string_$item(earlyleveling_templateObject100 || (earlyleveling_templateObject100 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"])))) || lib_have($effect(earlyleveling_templateObject101 || (earlyleveling_templateObject101 = earlyleveling_taggedTemplateLiteral(["In the 'zone zone!"])))) || property_get("_roninStoragePulls").split(",").includes((0,external_kolmafia_namespaceObject.toInt)(template_string_$item(earlyleveling_templateObject102 || (earlyleveling_templateObject102 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"])))).toString()) || property_get("_instant_skipCalzoneOfLegend", false) || property_get("instant_skipOffstatPizzas", false) && (0,external_kolmafia_namespaceObject.myPrimestat)() !== "Mysticality",
     do: () => {
-      if ((0,external_kolmafia_namespaceObject.storageAmount)(template_string_$item(earlyleveling_templateObject80 || (earlyleveling_templateObject80 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"])))) === 0) {
+      if ((0,external_kolmafia_namespaceObject.storageAmount)(template_string_$item(earlyleveling_templateObject103 || (earlyleveling_templateObject103 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"])))) === 0) {
         (0,external_kolmafia_namespaceObject.print)("Uh oh! You do not seem to have a Calzone of Legend in Hagnk's", "red");
         (0,external_kolmafia_namespaceObject.print)("Consider pulling something to make up for the turngen and 300%myst (e.g. a roasted vegetable focaccia),", "red");
         (0,external_kolmafia_namespaceObject.print)("then type 'set _instant_skipCalzoneOfLegend=true' before re-running instantsccs", "red");
       }
 
-      (0,external_kolmafia_namespaceObject.takeStorage)(template_string_$item(earlyleveling_templateObject81 || (earlyleveling_templateObject81 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"]))), 1);
+      (0,external_kolmafia_namespaceObject.takeStorage)(template_string_$item(earlyleveling_templateObject104 || (earlyleveling_templateObject104 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"]))), 1);
     },
     limit: {
       tries: 1
     }
   }, {
     name: "Pull Pizza of Legend",
-    completed: () => lib_have(template_string_$item(earlyleveling_templateObject82 || (earlyleveling_templateObject82 = earlyleveling_taggedTemplateLiteral(["Pizza of Legend"])))) || lib_have($effect(earlyleveling_templateObject83 || (earlyleveling_templateObject83 = earlyleveling_taggedTemplateLiteral(["Endless Drool"])))) || property_get("_roninStoragePulls").split(",").includes((0,external_kolmafia_namespaceObject.toInt)(template_string_$item(earlyleveling_templateObject84 || (earlyleveling_templateObject84 = earlyleveling_taggedTemplateLiteral(["Pizza of Legend"])))).toString()) || property_get("_instant_skipPizzaOfLegend", false) || property_get("instant_skipOffstatPizzas", false) && (0,external_kolmafia_namespaceObject.myPrimestat)() !== "Moxie",
+    completed: () => lib_have(template_string_$item(earlyleveling_templateObject105 || (earlyleveling_templateObject105 = earlyleveling_taggedTemplateLiteral(["Pizza of Legend"])))) || lib_have($effect(earlyleveling_templateObject106 || (earlyleveling_templateObject106 = earlyleveling_taggedTemplateLiteral(["Endless Drool"])))) || property_get("_roninStoragePulls").split(",").includes((0,external_kolmafia_namespaceObject.toInt)(template_string_$item(earlyleveling_templateObject107 || (earlyleveling_templateObject107 = earlyleveling_taggedTemplateLiteral(["Pizza of Legend"])))).toString()) || property_get("_instant_skipPizzaOfLegend", false) || property_get("instant_skipOffstatPizzas", false) && (0,external_kolmafia_namespaceObject.myPrimestat)() !== "Moxie",
     do: () => {
-      if ((0,external_kolmafia_namespaceObject.storageAmount)(template_string_$item(earlyleveling_templateObject85 || (earlyleveling_templateObject85 = earlyleveling_taggedTemplateLiteral(["Pizza of Legend"])))) === 0) {
+      if ((0,external_kolmafia_namespaceObject.storageAmount)(template_string_$item(earlyleveling_templateObject108 || (earlyleveling_templateObject108 = earlyleveling_taggedTemplateLiteral(["Pizza of Legend"])))) === 0) {
         (0,external_kolmafia_namespaceObject.print)("Uh oh! You do not seem to have a Pizza of Legend in Hagnk's", "red");
         (0,external_kolmafia_namespaceObject.print)("Consider pulling something to make up for the turngen and 300%mox,", "red");
         (0,external_kolmafia_namespaceObject.print)("then type 'set _instant_skipPizzaOfLegend=true' before re-running instantsccs", "red");
       }
 
-      (0,external_kolmafia_namespaceObject.takeStorage)(template_string_$item(earlyleveling_templateObject86 || (earlyleveling_templateObject86 = earlyleveling_taggedTemplateLiteral(["Pizza of Legend"]))), 1);
+      (0,external_kolmafia_namespaceObject.takeStorage)(template_string_$item(earlyleveling_templateObject109 || (earlyleveling_templateObject109 = earlyleveling_taggedTemplateLiteral(["Pizza of Legend"]))), 1);
     },
     limit: {
       tries: 1
     }
   }, {
     name: "Eat Calzone",
-    completed: () => property_get("calzoneOfLegendEaten") || !lib_have(template_string_$item(earlyleveling_templateObject87 || (earlyleveling_templateObject87 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"])))),
-    do: () => (0,external_kolmafia_namespaceObject.eat)(template_string_$item(earlyleveling_templateObject88 || (earlyleveling_templateObject88 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"]))), 1),
+    completed: () => property_get("calzoneOfLegendEaten") || !lib_have(template_string_$item(earlyleveling_templateObject110 || (earlyleveling_templateObject110 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"])))),
+    do: () => (0,external_kolmafia_namespaceObject.eat)(template_string_$item(earlyleveling_templateObject111 || (earlyleveling_templateObject111 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"]))), 1),
     limit: {
       tries: 1
     }
   }, {
     name: "Eat Deep Dish",
-    completed: () => property_get("deepDishOfLegendEaten") || !lib_have(template_string_$item(earlyleveling_templateObject89 || (earlyleveling_templateObject89 = earlyleveling_taggedTemplateLiteral(["Deep Dish of Legend"])))),
-    do: () => (0,external_kolmafia_namespaceObject.eat)(template_string_$item(earlyleveling_templateObject90 || (earlyleveling_templateObject90 = earlyleveling_taggedTemplateLiteral(["Deep Dish of Legend"]))), 1),
+    completed: () => property_get("deepDishOfLegendEaten") || !lib_have(template_string_$item(earlyleveling_templateObject112 || (earlyleveling_templateObject112 = earlyleveling_taggedTemplateLiteral(["Deep Dish of Legend"])))),
+    do: () => (0,external_kolmafia_namespaceObject.eat)(template_string_$item(earlyleveling_templateObject113 || (earlyleveling_templateObject113 = earlyleveling_taggedTemplateLiteral(["Deep Dish of Legend"]))), 1),
     limit: {
       tries: 1
     }
   }, {
     name: "Eat Pizza",
-    ready: () => lib_have($effect(earlyleveling_templateObject91 || (earlyleveling_templateObject91 = earlyleveling_taggedTemplateLiteral(["Ready to Eat"])))),
+    ready: () => lib_have($effect(earlyleveling_templateObject114 || (earlyleveling_templateObject114 = earlyleveling_taggedTemplateLiteral(["Ready to Eat"])))),
     // only eat this after we red rocket
-    completed: () => property_get("pizzaOfLegendEaten") || !lib_have(template_string_$item(earlyleveling_templateObject92 || (earlyleveling_templateObject92 = earlyleveling_taggedTemplateLiteral(["Pizza of Legend"])))),
-    do: () => (0,external_kolmafia_namespaceObject.eat)(template_string_$item(earlyleveling_templateObject93 || (earlyleveling_templateObject93 = earlyleveling_taggedTemplateLiteral(["Pizza of Legend"]))), 1),
+    completed: () => property_get("pizzaOfLegendEaten") || !lib_have(template_string_$item(earlyleveling_templateObject115 || (earlyleveling_templateObject115 = earlyleveling_taggedTemplateLiteral(["Pizza of Legend"])))),
+    do: () => (0,external_kolmafia_namespaceObject.eat)(template_string_$item(earlyleveling_templateObject116 || (earlyleveling_templateObject116 = earlyleveling_taggedTemplateLiteral(["Pizza of Legend"]))), 1),
     limit: {
       tries: 1
     }
@@ -16838,233 +17115,6 @@ function makePants(alignment, element, leftSac, middleSac, rightSac) {
 function makePantsFromObject(pants) {
   return makePants(pants.alignment, pants.element, pants.leftSac, pants.middleSac, pants.rightSac);
 }
-;// CONCATENATED MODULE: ./node_modules/libram/dist/resources/2022/TrainSet.js
-var TrainSet_templateObject;
-
-function TrainSet_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-
-
-
-
-
-var TrainSet_item = template_string_$item(TrainSet_templateObject || (TrainSet_templateObject = TrainSet_taggedTemplateLiteral(["model train set"])));
-/**
- * Determines whether the Model Train Set is your current workshed
- *
- * @returns Whether the Model Train Set is your current workshed
- */
-
-function installed() {
-  return (0,external_kolmafia_namespaceObject.getWorkshed)() === TrainSet_item;
-}
-/**
- * Determines whether you `have` the model train set (or if it is installed)
- *
- * @returns Whether you `have` the model train set or it's installed
- */
-
-function TrainSet_have() {
-  return installed() || lib_have(TrainSet_item);
-}
-var Station;
-
-(function (Station) {
-  /**
-   * Unknown station
-   */
-  Station["UNKNOWN"] = "";
-  /**
-   * Empty station
-   */
-
-  Station["EMPTY"] = "empty";
-  /**
-   * Gain 800 meat
-   */
-
-  Station["GAIN_MEAT"] = "meat_mine";
-  /**
-   * Effect: Regenerate MP
-   */
-
-  Station["TOWER_FIZZY"] = "tower_fizzy";
-  /**
-   * Gain mus, mys, mox stats
-   */
-
-  Station["VIEWING_PLATFORM"] = "viewing_platform";
-  /**
-   * Effect: Hot resist, cold damage
-   */
-
-  Station["TOWER_FROZEN"] = "tower_frozen";
-  /**
-   * Effect: Stench resist, spooky damage
-   */
-
-  Station["SPOOKY_GRAVEYARD"] = "spooky_graveyard";
-  /**
-   * Get smut bridge part, or stats
-   */
-
-  Station["LOGGING_MILL"] = "logging_mill";
-  /**
-   * Get some candy
-   */
-
-  Station["CANDY_FACTORY"] = "candy_factory";
-  /**
-   * Double strength of next station
-   */
-
-  Station["COAL_HOPPER"] = "coal_hopper";
-  /**
-   * Effect: Cold resist, stench damage
-   */
-
-  Station["TOWER_SEWAGE"] = "tower_sewage";
-  /**
-   * Effect: Spooky resist, sleaze damage
-   */
-
-  Station["OIL_REFINERY"] = "oil_refinery";
-  /**
-   * Effect: Sleaze resist, hot damage
-   */
-
-  Station["OIL_BRIDGE"] = "oil_bridge";
-  /**
-   * Effect: Increased Monster Level
-   */
-
-  Station["WATER_BRIDGE"] = "water_bridge";
-  /**
-   * Get moxie stats
-   */
-
-  Station["GROIN_SILO"] = "groin_silo";
-  /**
-   * Get random booze
-   */
-
-  Station["GRAIN_SILO"] = "grain_silo";
-  /**
-   * Get mys stats
-   */
-
-  Station["BRAIN_SILO"] = "brain_silo";
-  /**
-   * Get muscle stats
-   */
-
-  Station["BRAWN_SILO"] = "brawn_silo";
-  /**
-   * Effect: 50% food drop
-   */
-
-  Station["PRAWN_SILO"] = "prawn_silo";
-  /**
-   * Dupe last food dropped, or gain random food
-   */
-
-  Station["TRACKSIDE_DINER"] = "trackside_diner";
-  /**
-   * Drop random ore, or trapper ore if known
-   */
-
-  Station["ORE_HOPPER"] = "ore_hopper";
-})(Station || (Station = {}));
-
-var trainsetEffects = new Map([[Station.TOWER_FIZZY, external_kolmafia_namespaceObject.Effect.get("Carbonated")], [Station.TOWER_FROZEN, external_kolmafia_namespaceObject.Effect.get("Frozen")], [Station.SPOOKY_GRAVEYARD, external_kolmafia_namespaceObject.Effect.get("Shivering Spine")], [Station.TOWER_SEWAGE, external_kolmafia_namespaceObject.Effect.get("Hot Soupy Garbage")], [Station.OIL_BRIDGE, external_kolmafia_namespaceObject.Effect.get("Burningly Oiled")], [Station.OIL_REFINERY, external_kolmafia_namespaceObject.Effect.get("Spookily Greasy")], [Station.WATER_BRIDGE, external_kolmafia_namespaceObject.Effect.get("Troubled Waters")], [Station.PRAWN_SILO, external_kolmafia_namespaceObject.Effect.get("Craving Prawns")]]);
-var trainsetEffectsDoubled = new Map([[Station.TOWER_FIZZY, external_kolmafia_namespaceObject.Effect.get("Double Carbonated")], [Station.TOWER_FROZEN, external_kolmafia_namespaceObject.Effect.get("Double Frozen")], [Station.SPOOKY_GRAVEYARD, external_kolmafia_namespaceObject.Effect.get("Doubly Shivering Spine")], [Station.TOWER_SEWAGE, external_kolmafia_namespaceObject.Effect.get("Double Hot Soupy Garbage")], [Station.OIL_BRIDGE, external_kolmafia_namespaceObject.Effect.get("Doubly Burningly Oiled")], [Station.OIL_REFINERY, external_kolmafia_namespaceObject.Effect.get("Doubly Spookily Greasy")], [Station.WATER_BRIDGE, external_kolmafia_namespaceObject.Effect.get("Doubly Troubled Waters")], [Station.PRAWN_SILO, external_kolmafia_namespaceObject.Effect.get("Doubly Craving Prawns")]]);
-/**
- * Returns an effect--if one exists--for a given train station
- *
- * @param station The train station to check the effect of
- * @returns The effect associated with the given station
- */
-
-function effect(station) {
-  var _trainsetEffects$get;
-
-  return (_trainsetEffects$get = trainsetEffects.get(station)) !== null && _trainsetEffects$get !== void 0 ? _trainsetEffects$get : null;
-}
-/**
- * Returns an effect--if one exists--for a given train station, assuming it's been primed by the coal station
- *
- * @param station The train station to check the doubled effect of
- * @returns The effect associated with given station, under the influence of coal
- */
-
-function doubledEffect(station) {
-  var _trainsetEffectsDoubl;
-
-  return (_trainsetEffectsDoubl = trainsetEffectsDoubled.get(station)) !== null && _trainsetEffectsDoubl !== void 0 ? _trainsetEffectsDoubl : null;
-}
-/**
- * Determines the current configuration of train stations
- *
- * @returns An 8-tuple consisting of the stations currently installed in your Model Train Set; this functions even if the Model Train Set isn't your active workshed
- */
-
-function cycle() {
-  return property_get("trainsetConfiguration").split(",");
-}
-/**
- * Determines how many turns until you can next configure the Model Train Set
- *
- * @returns How many turns until you can next configure the Model Train Set
- */
-
-function nextConfigurable() {
-  return clamp(property_get("lastTrainsetConfiguration") + 40 - property_get("trainsetPosition"), 0, 40);
-}
-/**
- * Determines whether you can currently configure your Model Train Set
- *
- * @returns Whether you can currently configure your Model Train Set
- */
-
-function canConfigure() {
-  return installed() && !nextConfigurable();
-}
-var TrainSet_pieces = [Station.EMPTY, Station.GAIN_MEAT, Station.TOWER_FIZZY, Station.VIEWING_PLATFORM, Station.TOWER_FROZEN, Station.SPOOKY_GRAVEYARD, Station.LOGGING_MILL, Station.CANDY_FACTORY, Station.COAL_HOPPER, Station.TOWER_SEWAGE, Station.UNKNOWN, Station.OIL_REFINERY, Station.OIL_BRIDGE, Station.WATER_BRIDGE, Station.GROIN_SILO, Station.GRAIN_SILO, Station.BRAIN_SILO, Station.BRAWN_SILO, Station.PRAWN_SILO, Station.TRACKSIDE_DINER, Station.ORE_HOPPER];
-/**
- * Converts a given station to the integer value KoL associates with them
- *
- * @param station The station in question
- * @returns The integer value KoL assigns the train station in question
- */
-
-function stationToInt(station) {
-  return TrainSet_pieces.indexOf(station);
-}
-/**
- * Sets your model train station to the given configuration, if able
- *
- * @param configuration The cycle to try to set your model train station to
- * @returns Whether your model train station matches the given configuration
- */
-
-
-function setConfiguration(configuration) {
-  if (!canConfigure()) return false;
-  (0,external_kolmafia_namespaceObject.visitUrl)("campground.php?action=workshed");
-  (0,external_kolmafia_namespaceObject.runChoice)(1, "forceoption=0".concat(configuration.map((station, index) => "&slot[".concat(index, "]=").concat(stationToInt(station))).join("")));
-  (0,external_kolmafia_namespaceObject.visitUrl)("main.php");
-  var currentConfiguration = cycle();
-  return configuration.every((station, index) => station === currentConfiguration[index]);
-}
-/**
- * Determines the next station you expect to encounter when the Model Train Station is active
- *
- * @returns The next station you expect to encounter when the Model Train Station is active
- */
-
-function next() {
-  return cycle()[get("trainsetPosition") % 8];
-}
 ;// CONCATENATED MODULE: ./src/tasks/runstart.ts
 var runstart_templateObject, runstart_templateObject2, runstart_templateObject3, runstart_templateObject4, runstart_templateObject5, runstart_templateObject6, runstart_templateObject7, runstart_templateObject8, runstart_templateObject9, runstart_templateObject10, runstart_templateObject11, runstart_templateObject12, runstart_templateObject13, runstart_templateObject14, runstart_templateObject15, runstart_templateObject16, runstart_templateObject17, runstart_templateObject18, runstart_templateObject19, runstart_templateObject20, runstart_templateObject21, runstart_templateObject22, runstart_templateObject23, runstart_templateObject24, runstart_templateObject25, runstart_templateObject26, runstart_templateObject27, runstart_templateObject28, runstart_templateObject29, runstart_templateObject30, runstart_templateObject31, runstart_templateObject32, runstart_templateObject33, runstart_templateObject34, runstart_templateObject35, runstart_templateObject36, runstart_templateObject37, runstart_templateObject38, runstart_templateObject39, runstart_templateObject40, runstart_templateObject41, runstart_templateObject42, runstart_templateObject43, runstart_templateObject44, runstart_templateObject45, runstart_templateObject46, runstart_templateObject47, runstart_templateObject48, runstart_templateObject49, runstart_templateObject50, runstart_templateObject51, runstart_templateObject52, runstart_templateObject53, runstart_templateObject54, runstart_templateObject55, runstart_templateObject56, runstart_templateObject57, runstart_templateObject58, runstart_templateObject59, runstart_templateObject60, runstart_templateObject61, runstart_templateObject62, runstart_templateObject63, runstart_templateObject64, runstart_templateObject65, runstart_templateObject66, runstart_templateObject67, runstart_templateObject68, runstart_templateObject69, runstart_templateObject70, runstart_templateObject71, runstart_templateObject72, runstart_templateObject73, runstart_templateObject74, runstart_templateObject75, runstart_templateObject76, runstart_templateObject77, runstart_templateObject78, runstart_templateObject79, runstart_templateObject80, runstart_templateObject81, runstart_templateObject82, runstart_templateObject83, runstart_templateObject84, runstart_templateObject85, runstart_templateObject86, runstart_templateObject87, runstart_templateObject88, runstart_templateObject89, runstart_templateObject90, runstart_templateObject91, runstart_templateObject92, runstart_templateObject93, runstart_templateObject94, runstart_templateObject95, runstart_templateObject96, runstart_templateObject97, runstart_templateObject98, runstart_templateObject99, runstart_templateObject100, runstart_templateObject101, runstart_templateObject102, runstart_templateObject103, runstart_templateObject104, runstart_templateObject105, runstart_templateObject106, runstart_templateObject107, runstart_templateObject108, runstart_templateObject109, runstart_templateObject110, runstart_templateObject111, runstart_templateObject112, runstart_templateObject113, runstart_templateObject114, runstart_templateObject115, runstart_templateObject116, runstart_templateObject117, runstart_templateObject118, runstart_templateObject119, runstart_templateObject120, runstart_templateObject121, runstart_templateObject122, runstart_templateObject123, runstart_templateObject124, runstart_templateObject125, runstart_templateObject126, runstart_templateObject127, runstart_templateObject128, runstart_templateObject129, runstart_templateObject130, runstart_templateObject131, runstart_templateObject132, runstart_templateObject133, runstart_templateObject134, runstart_templateObject135, runstart_templateObject136, runstart_templateObject137, runstart_templateObject138, runstart_templateObject139, runstart_templateObject140, runstart_templateObject141, runstart_templateObject142, runstart_templateObject143, runstart_templateObject144;
 
@@ -17447,7 +17497,7 @@ var RunStartQuest = {
     }
   }, {
     name: "Configure Trainset",
-    completed: () => !lib_have(template_string_$item(runstart_templateObject83 || (runstart_templateObject83 = runstart_taggedTemplateLiteral(["model train set"])))) || (0,external_kolmafia_namespaceObject.getWorkshed)() === template_string_$item(runstart_templateObject84 || (runstart_templateObject84 = runstart_taggedTemplateLiteral(["model train set"]))) && !canConfigure(),
+    completed: () => !lib_have(template_string_$item(runstart_templateObject83 || (runstart_templateObject83 = runstart_taggedTemplateLiteral(["model train set"])))) || (0,external_kolmafia_namespaceObject.getWorkshed)() === template_string_$item(runstart_templateObject84 || (runstart_templateObject84 = runstart_taggedTemplateLiteral(["model train set"]))) && !canConfigure() || property_get("instant_skipBorrowedTime", false),
     do: () => {
       var statStation = {
         Muscle: Station.BRAWN_SILO,
