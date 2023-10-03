@@ -27,7 +27,7 @@ import Macro from "../combat";
 
 export const NoncombatQuest: Quest = {
   name: "Noncombat",
-  completed: () => CommunityService.Noncombat.isDone(),
+  completed: () => CommunityService.Noncombat.isDone() || get("_instantNCFix", false),
   tasks: [
     {
       name: "Buy Porkpie-mounted Popper",
