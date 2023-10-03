@@ -17647,7 +17647,7 @@ function familiarweight_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = 
 
 var FamiliarWeightQuest = {
   name: "Familiar Weight",
-  completed: () => CommunityService.FamiliarWeight.isDone(),
+  completed: () => CommunityService.FamiliarWeight.isDone() || property_get("_instantNCFix", false),
   tasks: [{
     name: "Tune Moon to Platypus",
     completed: () => !lib_have(template_string_$item(familiarweight_templateObject || (familiarweight_templateObject = familiarweight_taggedTemplateLiteral(["hewn moon-rune spoon"])))) || property_get("moonTuned") || property_get("instant_saveMoonTune", false) || (0,external_kolmafia_namespaceObject.mySign)() === "Platypus",
