@@ -17747,7 +17747,7 @@ function noncombat_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strin
 
 var NoncombatQuest = {
   name: "Noncombat",
-  completed: () => CommunityService.Noncombat.isDone(),
+  completed: () => CommunityService.Noncombat.isDone() || property_get("_instantNCFix", false),
   tasks: [{
     name: "Buy Porkpie-mounted Popper",
     completed: () => lib_have(template_string_$item(noncombat_templateObject || (noncombat_templateObject = noncombat_taggedTemplateLiteral(["porkpie-mounted popper"])))),
