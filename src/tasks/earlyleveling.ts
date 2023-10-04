@@ -133,6 +133,14 @@ export const earlyLevelingQuest: Quest = {
     !get("instant_skipBorrowedTime", false),
   tasks: [
     {
+      name: "Install Trainset",
+      completed: () => !have($item`model train set`) || getWorkshed() === $item`model train set`,
+      do: (): void => {
+        use($item`model train set`);
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Red Skeleton, Tropical Skeleton, Two For One",
       ready: () =>
         !have($effect`Everything Looks Yellow`) ||
@@ -140,6 +148,7 @@ export const earlyLevelingQuest: Quest = {
         (have($skill`Feel Nostalgic`) && get("_feelNostalgicUsed") < 3),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        restoreMp(50);
         if (!have($item`red rocket`) && !have($effect`Everything Looks Yellow`)) {
           if (myMeat() < 250) throw new Error("Insufficient Meat to purchase red rocket!");
           buy($item`red rocket`, 1);
