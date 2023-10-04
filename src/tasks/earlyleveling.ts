@@ -369,6 +369,7 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Eat Calzone",
+      ready: () => have($effect`Ready to Eat`), // only eat this after we red rocket
       completed: () => get("calzoneOfLegendEaten") || !have($item`Calzone of Legend`),
       do: () => eat($item`Calzone of Legend`, 1),
       limit: { tries: 1 },
@@ -381,7 +382,6 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Eat Pizza",
-      ready: () => have($effect`Ready to Eat`), // only eat this after we red rocket
       completed: () => get("pizzaOfLegendEaten") || !have($item`Pizza of Legend`),
       do: () => eat($item`Pizza of Legend`, 1),
       limit: { tries: 1 },
