@@ -2584,10 +2584,10 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-kolmafia@^5.27629.0:
-  version "5.27629.0"
-  resolved "https://registry.yarnpkg.com/kolmafia/-/kolmafia-5.27629.0.tgz#92396e492090f30e82dbe5362ff141e6cdafe271"
-  integrity sha512-n7DTry07i6ukmITzvmuN58V7cghcAuOBKM6ZJ9vE0q81VHiNgWGd2YdPcGAqTiwKGfnlyno0NuUNiAyyYovmlg==
+kolmafia@^5.27630.0:
+  version "5.27630.0"
+  resolved "https://registry.yarnpkg.com/kolmafia/-/kolmafia-5.27630.0.tgz#0baae4e98de6e2a1c1f31088ba0fe045ff29734c"
+  integrity sha512-/Ck5FeVz2Ml7pi9q0nfqHD67tTYhU3i7u27ye9H8y2Fbm91LCvQiIICutu8CirGeYfrSH2obA6AD1HRezIysKA==
 
 levn@^0.4.1:
   version "0.4.1"
