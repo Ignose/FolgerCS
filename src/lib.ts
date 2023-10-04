@@ -3,7 +3,6 @@ import {
   Effect,
   getCampground,
   getClanName,
-  gitInfo,
   haveEffect,
   holiday,
   Item,
@@ -29,7 +28,6 @@ import {
   toStat,
   use,
   useSkill,
-  visitUrl,
 } from "kolmafia";
 import {
   $effect,
@@ -582,7 +580,7 @@ export function shrugAT(): void {
   }
 }
 
-//Define how to determine mainstat and define certain effects, incrediants, and reagant needs based on mainstat
+//Define how to determine mainstat and define certain effects, incredients, and reagant needs based on mainstat
 const mainStatStr = myPrimestat().toString();
 
 export const reagentBalancerEffect: Effect = {

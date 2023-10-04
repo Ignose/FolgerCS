@@ -13,6 +13,7 @@ import {
   itemDrops,
   Location,
   mallPrice,
+  myAdventures,
   myClass,
   myMaxhp,
   myMeat,
@@ -161,7 +162,7 @@ export const earlyLevelingQuest: Quest = {
         get("instant_saveLocketRedSkeleton", false),
       do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
       combat: new CombatStrategy().macro(Macro.trySkill($skill`Snokebomb`).default()),
-      outfit: () => baseOutfit(false),
+      outfit: () => baseOutfit(true),
       limit: { tries: 1 },
     },
     {
@@ -177,18 +178,7 @@ export const earlyLevelingQuest: Quest = {
         if (haveEquipped($item`miniature crystal ball`)) equip($slot`familiar`, $item.none);
       },
       completed: () =>
-        !have($skill`Map the Monsters`) ||
-        get("_monstersMapped") >= 3 ||
-        have($item`cherry`) ||
-        (() => {
-          // if we have another skeleton in the ice house, we don't need to map a novelty skeleton
-          const banishes = get("banishedMonsters").split(":");
-          const iceHouseIndex = banishes.map((string) => string.toLowerCase()).indexOf("ice house");
-          if (iceHouseIndex === -1) return false;
-          return ["remaindered skeleton", "factory-irregular skeleton", "swarm of skulls"].includes(
-            banishes[iceHouseIndex - 1]
-          );
-        })(),
+        !have($skill`Map the Monsters`) || get("_monstersMapped") >= 3 || have($item`cherry`),
       do: () => mapMonster($location`The Skeleton Store`, $monster`novelty tropical skeleton`),
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Feel Nostalgic`)
@@ -368,22 +358,25 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Eat Calzone",
+      name: "Eat Pizza",
       ready: () => have($effect`Ready to Eat`), // only eat this after we red rocket
-      completed: () => get("calzoneOfLegendEaten") || !have($item`Calzone of Legend`),
-      do: () => eat($item`Calzone of Legend`, 1),
+      completed: () =>
+        get("pizzaOfLegendEaten") || !have($item`Pizza of Legend`) || myAdventures() > 60,
+      do: () => eat($item`Pizza of Legend`, 1),
       limit: { tries: 1 },
     },
     {
       name: "Eat Deep Dish",
-      completed: () => get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`),
+      completed: () =>
+        get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`) || myAdventures() > 60,
       do: () => eat($item`Deep Dish of Legend`, 1),
       limit: { tries: 1 },
     },
     {
       name: "Eat Pizza",
-      completed: () => get("pizzaOfLegendEaten") || !have($item`Pizza of Legend`),
-      do: () => eat($item`Pizza of Legend`, 1),
+      completed: () =>
+        get("calzoneOfLegendEaten") || !have($item`Pizza of Legend`) || myAdventures() > 60,
+      do: () => eat($item`Calzone of Legend`, 1),
       limit: { tries: 1 },
     },
   ],

@@ -45,7 +45,6 @@ export function sugarItemsAboutToBreak(): Item[] {
     { id: 4180, item: $item`sugar shank` },
     { id: 4181, item: $item`sugar chapeau` },
     { id: 4182, item: $item`sugar shorts` },
-    { id: 4183, item: $item`sugar shield` }, //Panto, why not Sugar Shield? Does Fam Wt not matter to you!?
   ];
   return sugarItems
     .map((entry) => {
@@ -78,7 +77,9 @@ function garbageFire(): Familiar {
 
 function sombrero(allowAttackingFamiliars = true): Familiar {
   const sombreros = [
-    ...(allowAttackingFamiliars ? $familiars`Patriotic Eagle, Galloping Grill` : []),
+    ...(allowAttackingFamiliars
+      ? $familiars`Patriotic Eagle, Galloping Grill`
+      : []) /*Add Jill-of-all-Trades */,
     $familiar`Baby Sandworm`,
     $familiar`Hovering Sombrero`,
   ].filter((fam) => have(fam));
