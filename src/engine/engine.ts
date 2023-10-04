@@ -239,7 +239,7 @@ export class Engine extends BaseEngine {
       "rest at the chateau",
       "rest at your campground",
       "free rest",
-    ];
+    ]; /*add a comment for lulz*/
     const bannedAutoHpRestorers = [...bannedAutoRestorers];
     const bannedAutoMpRestorers = [...bannedAutoRestorers];
     const hpItems = get("hpAutoRecoveryItems")
