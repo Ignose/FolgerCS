@@ -11,7 +11,7 @@ module.exports = {
   entry: {
     // Define files webpack will emit, does not need to correspond 1:1 with every typescript file
     // You need an emitted file for each entrypoint into your code, e.g. the main script and the ccs or ccs consult script it calls
-    instantsccs: "./src/main.ts",
+    folgercs: "./src/main.ts",
   },
   // Turns on tree-shaking and minification in the default Terser minifier
   // https://webpack.js.org/plugins/terser-webpack-plugin/
@@ -19,7 +19,7 @@ module.exports = {
   devtool: false,
   output: {
     path: path.resolve(__dirname, "KoLmafia", "scripts", packageData.name),
-    filename: "[name].js",
+    filename: "folgercs.js",
     libraryTarget: "commonjs",
   },
   resolve: {
