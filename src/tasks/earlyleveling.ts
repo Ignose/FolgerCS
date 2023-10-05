@@ -130,9 +130,7 @@ function sellMiscellaneousItems(): void {
 
 export const earlyLevelingQuest: Quest = {
   name: "Early Leveling",
-  completed: () =>
-    (get("calzoneOfLegendEaten") && get("pizzaOfLegendEaten") && get("deepDishOfLegendEaten")) ||
-    !get("instant_skipBorrowedTime", false),
+  completed: () => get("pizzaOfLegendEaten") || !get("instant_skipBorrowedTime", false),
   tasks: [
     {
       name: "Install Trainset",
@@ -305,7 +303,7 @@ export const earlyLevelingQuest: Quest = {
         !have($familiar`Patriotic Eagle`) ||
         ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
           (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
-      do: $location`The Skeleton Store`,
+      do: $location`Madness Bakery`,
       combat: new CombatStrategy().macro(
         Macro.tryItem($item`blue rocket`)
           .tryItem($item`red rocket`)
