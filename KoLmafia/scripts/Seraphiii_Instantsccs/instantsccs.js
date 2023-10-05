@@ -13554,7 +13554,7 @@ function sellMiscellaneousItems() {
 }
 var earlyLevelingQuest = {
   name: "Early Leveling",
-  completed: () => property_get("calzoneOfLegendEaten") && property_get("pizzaOfLegendEaten") && property_get("deepDishOfLegendEaten") || !property_get("instant_skipBorrowedTime", false),
+  completed: () => property_get("pizzaOfLegendEaten") || !property_get("instant_skipBorrowedTime", false),
   tasks: [{
     name: "Install Trainset",
     completed: () => !lib_have(template_string_$item(earlyleveling_templateObject40 || (earlyleveling_templateObject40 = earlyleveling_taggedTemplateLiteral(["model train set"])))) || (0,external_kolmafia_namespaceObject.getWorkshed)() === template_string_$item(earlyleveling_templateObject41 || (earlyleveling_templateObject41 = earlyleveling_taggedTemplateLiteral(["model train set"]))),
