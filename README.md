@@ -9,7 +9,7 @@ This version is designed with features for higher shiny people who want to get a
 To install the script, use the following command in the KoLMafia CLI.
 
 ```text
-git checkout https://github.com/Ignose/InstantSCCS_Ignose.git release
+git checkout https://github.com/Ignose/FolgerCS.git release
 ```
 
 ## Usage
