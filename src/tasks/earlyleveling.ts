@@ -30,6 +30,7 @@ import {
 import {
   $class,
   $effect,
+  $familiar,
   $item,
   $items,
   $location,
@@ -161,7 +162,13 @@ export const earlyLevelingQuest: Quest = {
         !CombatLoversLocket.availableLocketMonsters().includes($monster`red skeleton`) ||
         get("instant_saveLocketRedSkeleton", false),
       do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
-      combat: new CombatStrategy().macro(Macro.trySkill($skill`Snokebomb`).default()),
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`Chest X-Ray`)
+          .trySkill($skill`Gingerbread Mob Hit`)
+          .trySkill($skill`Shattering Punch`)
+          .default()
+          .default()
+      ),
       outfit: () => baseOutfit(true),
       limit: { tries: 1 },
     },
@@ -282,6 +289,36 @@ export const earlyLevelingQuest: Quest = {
             .default()
         ).abort()
       ),
+      post: () => sellMiscellaneousItems(),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Bakery Pledge",
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        restoreMp(50);
+        docBag();
+        restoreMp(50);
+      },
+      completed: () =>
+        !have($effect`Citizen of a Zone`) ||
+        !have($familiar`Patriotic Eagle`) ||
+        ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
+          (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
+      do: $location`The Skeleton Store`,
+      combat: new CombatStrategy().macro(
+        Macro.tryItem($item`blue rocket`)
+          .tryItem($item`red rocket`)
+          .trySkill($skill`%fn, let's pledge allegiance to a Zone`)
+          .trySkill($skill`Chest X-Ray`)
+          .trySkill($skill`Gingerbread Mob Hit`)
+          .trySkill($skill`Shattering Punch`)
+          .default()
+      ),
+      outfit: () => ({
+        ...baseOutfit,
+        familiar: $familiar`Patriotic Eagle`,
+      }),
       post: () => sellMiscellaneousItems(),
       limit: { tries: 1 },
     },
