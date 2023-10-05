@@ -339,6 +339,25 @@ export const LevelingQuest: Quest = {
       limit: { tries: 3 },
     },
     {
+      name: "Filtered Water",
+      prepare: (): void => {
+        if (
+          have($skill`Summon Clip Art`) &&
+          get("tomeSummons") < 2 &&
+          !get("instant_saveClipArt", false)
+        )
+          create($item`cold-filtered water`, 1);
+      },
+      completed: () =>
+        get("instant_saveClipArt", false) ||
+        have($effect`Purity of Spirit`) ||
+        forbiddenEffects.includes($effect`Purity of Spirit`),
+      do: (): void => {
+        use($item`cold-filtered water`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Crimbo Candy",
       completed: () =>
         get("_candySummons", 0) > 0 ||
