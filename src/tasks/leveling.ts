@@ -155,6 +155,13 @@ const moxieList: Effect[] = [
   $effect`Carol of the Bulls`,
 ];
 
+const statEffects =
+  mainStatStr === `Muscle`
+    ? muscleList
+    : mainStatStr === `Mysticality`
+    ? mysticalityList
+    : moxieList;
+
 let triedCraftingCBBFoods = false;
 const usefulEffects: Effect[] = [
   // Stats
@@ -1061,7 +1068,7 @@ export const LevelingQuest: Quest = {
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         unbreakableUmbrella();
-        usefulEffects.forEach((ef) => tryAcquiringEffect(ef));
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         tryAcquiringEffect($effect`Comic Violence`);
       },
       completed: () => get("_loveTunnelUsed") || !get("loveTunnelAvailable"),
@@ -1130,7 +1137,7 @@ export const LevelingQuest: Quest = {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         unbreakableUmbrella();
         garbageShirt();
-        usefulEffects.forEach((ef) => tryAcquiringEffect(ef));
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
       },
       completed: () => get("_monsterHabitatsFightsLeft") === 0,
@@ -1162,7 +1169,7 @@ export const LevelingQuest: Quest = {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         unbreakableUmbrella();
         garbageShirt();
-        usefulEffects.forEach((ef) => tryAcquiringEffect(ef));
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
       },
       completed: () =>
@@ -1192,7 +1199,7 @@ export const LevelingQuest: Quest = {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         unbreakableUmbrella();
         garbageShirt();
-        usefulEffects.forEach((ef) => tryAcquiringEffect(ef));
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
       },
       ready: () => getKramcoWandererChance() >= 1.0,
@@ -1287,7 +1294,7 @@ export const LevelingQuest: Quest = {
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         unbreakableUmbrella();
-        usefulEffects.forEach((ef) => tryAcquiringEffect(ef));
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
       },
       completed: () => get("_godLobsterFights") >= 3 || !have($familiar`God Lobster`),
@@ -1310,7 +1317,7 @@ export const LevelingQuest: Quest = {
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         unbreakableUmbrella();
-        usefulEffects.forEach((ef) => tryAcquiringEffect(ef));
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
       },
       completed: () => get("_eldritchHorrorEvoked") || !have($skill`Evoke Eldritch Horror`),
@@ -1329,7 +1336,7 @@ export const LevelingQuest: Quest = {
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         unbreakableUmbrella();
-        usefulEffects.forEach((ef) => tryAcquiringEffect(ef));
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
       },
       completed: () =>
@@ -1359,7 +1366,7 @@ export const LevelingQuest: Quest = {
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         unbreakableUmbrella();
-        usefulEffects.forEach((ef) => tryAcquiringEffect(ef));
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
       },
       completed: () => get("_machineTunnelsAdv") >= 5 || !have($familiar`Machine Elf`),
@@ -1399,7 +1406,7 @@ export const LevelingQuest: Quest = {
         if (mainStatStr === `Moxie`) {
           moxieList.forEach((ef) => tryAcquiringEffect(ef));
         }
-        usefulEffects.forEach((ef) => tryAcquiringEffect(ef));
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
         if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
@@ -1499,6 +1506,7 @@ export const LevelingQuest: Quest = {
           ...usefulEffects.filter((ef) => !$effects`Song of Sauce, Song of Bravado`.includes(ef)),
           ...prismaticEffects,
           ...wdmgEffects,
+          ...statEffects,
         ].forEach((ef) => tryAcquiringEffect(ef));
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
@@ -1525,6 +1533,7 @@ export const LevelingQuest: Quest = {
           ...usefulEffects.filter((ef) => !$effects`Song of Sauce, Song of Bravado`.includes(ef)),
           ...prismaticEffects,
           ...wdmgEffects,
+          ...statEffects,
         ].forEach((ef) => tryAcquiringEffect(ef));
         if (get("_hotTubSoaks") < 5 && myHp() < myMaxhp()) cliExecute("hottub");
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -1564,6 +1573,7 @@ export const LevelingQuest: Quest = {
           ...usefulEffects.filter((ef) => !$effects`Song of Sauce, Song of Bravado`.includes(ef)),
           ...prismaticEffects,
           ...wdmgEffects,
+          ...statEffects,
         ].forEach((ef) => tryAcquiringEffect(ef));
         if (get("_hotTubSoaks") < 5 && myHp() < myMaxhp()) cliExecute("hottub");
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -1596,7 +1606,7 @@ export const LevelingQuest: Quest = {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         unbreakableUmbrella();
         garbageShirt();
-        usefulEffects.forEach((ef) => tryAcquiringEffect(ef));
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
       },
       completed: () =>
@@ -1632,7 +1642,7 @@ export const LevelingQuest: Quest = {
         }
         garbageShirt();
         docBag();
-        usefulEffects.forEach((ef) => tryAcquiringEffect(ef));
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
       },
       outfit: (): OutfitSpec => {
