@@ -78,8 +78,9 @@ function garbageFire(): Familiar {
 function sombrero(allowAttackingFamiliars = true): Familiar {
   const sombreros = [
     ...(allowAttackingFamiliars
-      ? $familiars`Patriotic Eagle, Galloping Grill`
-      : []) /*Add Jill-of-all-Trades */,
+      ? // eslint-disable-next-line libram/verify-constants
+        $familiars`Jill-of-All-Trades, Patriotic Eagle, Galloping Grill`
+      : []),
     $familiar`Baby Sandworm`,
     $familiar`Hovering Sombrero`,
   ].filter((fam) => have(fam));

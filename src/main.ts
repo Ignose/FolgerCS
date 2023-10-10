@@ -44,7 +44,7 @@ export const args = Args.create("FolgerCS", "An automated low to mid-shiny SCCS 
 });
 
 export function main(command?: string): void {
-  sinceKolmafiaRevision(27593);
+  sinceKolmafiaRevision(27637);
 
   Args.fill(args, command);
   if (args.help) {

@@ -89,6 +89,10 @@ const consumptionResources: Resource[] = [
     "instant_skipOffstatPizzas",
     "Do not pull and eat offstat Legenday pizzas? Make sure you know what you're doing before using this"
   ),
+  new Resource(
+    "instant_useAsdon",
+    "Skip trainset and use Asdon; incompatible with saving borrowed time."
+  ),
 ];
 
 const encounterResources: Resource[] = [
