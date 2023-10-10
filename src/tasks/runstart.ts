@@ -474,7 +474,7 @@ export const RunStartQuest: Quest = {
     {
       name: "Set Workshed",
       completed: () =>
-        getWorkshed() === $item`Asdon Martin keyfob` && !get("instant_useAsdon", false),
+        getWorkshed() === $item`Asdon Martin keyfob` || !get("instant_useAsdon", false),
       do: () => use($item`Asdon Martin keyfob`),
     },
     {

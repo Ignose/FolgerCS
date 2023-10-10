@@ -62,10 +62,7 @@ export const NoncombatQuest: Quest = {
     },
     {
       name: "Driving Stealthily",
-      completed: () =>
-        have($effect`Driving Stealthily`) ||
-        !have($item`Asdon Martin keyfob`) ||
-        !get("instant_useAsdon", false),
+      completed: () => have($effect`Driving Stealthily`) || !get("instant_useAsdon", false),
       do: (): void => {
         fuelUp(), drive($effect`Driving Stealthily`);
       },

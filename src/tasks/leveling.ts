@@ -375,10 +375,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Driving Recklessly",
-      completed: () =>
-        have($effect`Driving Recklessly`) ||
-        !have($item`Asdon Martin keyfob`) ||
-        !get("instant_useAsdon", false),
+      completed: () => have($effect`Driving Recklessly`) || !get("instant_useAsdon", false),
       do: (): void => {
         fuelUp(), drive($effect`Driving Recklessly`);
       },

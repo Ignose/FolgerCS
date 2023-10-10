@@ -332,10 +332,7 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Driving Observantly",
-      completed: () =>
-        have($effect`Driving Observantly`) ||
-        !have($item`Asdon Martin keyfob`) ||
-        !get("instant_useAsdon", false),
+      completed: () => have($effect`Driving Observantly`) || !get("instant_useAsdon", false),
       do: (): void => {
         fuelUp(), drive($effect`Driving Observantly`);
       },
