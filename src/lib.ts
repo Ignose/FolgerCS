@@ -1,8 +1,13 @@
+import { StrictCombatTask } from "grimoire-kolmafia";
 import {
+  availableAmount,
+  buy,
   cliExecute,
+  create,
   Effect,
   getCampground,
   getClanName,
+  getFuel,
   haveEffect,
   holiday,
   Item,
@@ -38,9 +43,11 @@ import {
   $skill,
   $skills,
   $stat,
+  AsdonMartin,
   canRememberSong,
   CombatLoversLocket,
   CommunityService,
+  Delayed,
   get,
   getKramcoWandererChance,
   have,
@@ -88,6 +95,14 @@ export const testModifiers = new Map([
     print(`Release Version: ${releaseSHA}`);
   }
 }*/
+
+export function fuelUp(): void {
+  buy(1, $item`all-purpose flower`);
+  use(1, $item`all-purpose flower`);
+  buy(availableAmount($item`wad of dough`), $item`soda water`);
+  create(availableAmount($item`wad of dough`), $item`loaf of soda bread`);
+  cliExecute(`asdonmartin fuel ${availableAmount($item`loaf of soda bread`)} soda bread`);
+}
 
 export function simpleDateDiff(t1: string, t2: string): number {
   // Returns difference in milliseconds

@@ -52,11 +52,12 @@ import {
   setConfiguration,
   Station,
 } from "libram/dist/resources/2022/TrainSet";
-import { logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
+import { fuelUp, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { CombatStrategy } from "grimoire-kolmafia";
 import Macro, { haveFreeBanish } from "../combat";
 import { forbiddenEffects } from "../resources";
+import { drive } from "libram/dist/resources/2017/AsdonMartin";
 
 export const BoozeDropQuest: Quest = {
   name: "Booze Drop",
@@ -328,6 +329,17 @@ export const BoozeDropQuest: Quest = {
       completed: () => have($item`oversized sparkler`),
       do: () => buy($item`oversized sparkler`, 1),
       limit: { tries: 1 },
+    },
+    {
+      name: "Driving Observantly",
+      completed: () =>
+        have($effect`Driving Observantly`) ||
+        !have($item`Asdon Martin keyfob`) ||
+        !get("instant_useAsdon", false),
+      do: (): void => {
+        fuelUp(), drive($effect`Driving Observantly`);
+      },
+      limit: { tries: 3 },
     },
     {
       name: "Test",

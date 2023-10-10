@@ -15,7 +15,6 @@ import {
   hermit,
   Item,
   itemAmount,
-  myClass,
   myInebriety,
   myMaxhp,
   myMaxmp,
@@ -25,7 +24,6 @@ import {
   mySign,
   mySoulsauce,
   print,
-  random,
   restoreHp,
   restoreMp,
   retrieveItem,
@@ -40,10 +38,8 @@ import {
   useFamiliar,
   useSkill,
   visitUrl,
-  waitq,
 } from "kolmafia";
 import {
-  $class,
   $coinmaster,
   $effect,
   $familiar,
@@ -51,10 +47,10 @@ import {
   $items,
   $location,
   $monster,
-  $monsters,
   $skill,
   $slot,
   $stat,
+  byClass,
   clamp,
   CommunityService,
   get,
@@ -72,6 +68,16 @@ import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { baseOutfit, chooseFamiliar, unbreakableUmbrella } from "../engine/outfit";
 import { OutfitSpec } from "grimoire-kolmafia";
+
+const BEST_INITIATIVE = byClass({
+  "Seal Clubber": 2, // Familiar exp: 2
+  "Turtle Tamer": 0, // Weapon Damage Percent: 100
+  "Disco Bandit": 0, // Maximum MP Percent: 30
+  "Accordion Thief": 2, // Booze Drop: 30
+  Pastamancer: 3, // Familiar exp: 2
+  Sauceror: 1, // Exp: 3
+  default: 0,
+});
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
 export const RunStartQuest: Quest = {
@@ -364,23 +370,15 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Vote",
-      completed: () => have($item`"I Voted!" sticker`) || !get("voteAlways"),
+      name: "Vote!",
+      completed: () => have($item`"I Voted!" sticker`),
       do: (): void => {
-        if (myClass() === $class`Pastamancer`) {
-          visitUrl("place.php?whichplace=town_right&action=townright_vote");
-          waitq(1);
-          visitUrl(
-            "choice.php?pwd&option=1&whichchoice=1331&g=" +
-              (random(2) + 1) +
-              "&local[]=2&local[]=2",
-            true,
-            false
-          );
-          cliExecute("set _voteToday = true");
-        } else cliExecute("VotingBooth.ash");
+        visitUrl("place.php?whichplace=town_right&action=townright_vote");
+        visitUrl(
+          `choice.php?option=1&whichchoice=1331&g=2&local%5B%5D=${BEST_INITIATIVE}&local%5B%5D=${BEST_INITIATIVE}`
+        );
+        visitUrl("place.php?whichplace=town_right&action=townright_vote");
       },
-      limit: { tries: 1 },
     },
     {
       name: "Daycare Nap",
@@ -474,11 +472,25 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Set Workshed",
+      completed: () =>
+        getWorkshed() === $item`Asdon Martin keyfob` && !get("instant_useAsdon", false),
+      do: () => use($item`Asdon Martin keyfob`),
+    },
+    {
+      name: "Learn About Bugs",
+      ready: () => have($item`S.I.T. Course Completion Certificate`),
+      completed: () => get("_sitCourseCompleted") || have($skill`Insectologist`),
+      do: () => use($item`S.I.T. Course Completion Certificate`),
+      choices: { 1494: 2 },
+    },
+    {
       name: "Configure Trainset",
       completed: () =>
         !have($item`model train set`) ||
         (getWorkshed() === $item`model train set` && !canConfigure()) ||
-        get("instant_skipBorrowedTime", false),
+        get("instant_skipBorrowedTime", false) ||
+        get("instant_useAsdon", false),
       do: (): void => {
         const statStation: Station = {
           Muscle: Station.BRAWN_SILO,

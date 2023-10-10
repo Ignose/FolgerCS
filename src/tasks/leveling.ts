@@ -82,6 +82,7 @@ import {
   abstractionXpItem,
   burnLibram,
   chooseLibram,
+  fuelUp,
   generalStoreXpEffect,
   getSynthExpBuff,
   getValidComplexCandyPairs,
@@ -112,6 +113,7 @@ import {
   chooseRift,
   rufusTarget,
 } from "libram/dist/resources/2023/ClosedCircuitPayphone";
+import { drive } from "libram/dist/resources/2017/AsdonMartin";
 
 const useCinch = !get("instant_saveCinch", false);
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
@@ -363,6 +365,17 @@ export const LevelingQuest: Quest = {
         use($item`cold-filtered water`, 1);
       },
       limit: { tries: 1 },
+    },
+    {
+      name: "Driving Recklessly",
+      completed: () =>
+        have($effect`Driving Recklessly`) ||
+        !have($item`Asdon Martin keyfob`) ||
+        !get("instant_useAsdon", false),
+      do: (): void => {
+        fuelUp(), drive($effect`Driving Recklessly`);
+      },
+      limit: { tries: 3 },
     },
     {
       name: "Crimbo Candy",
@@ -940,6 +953,16 @@ export const LevelingQuest: Quest = {
         sellMiscellaneousItems();
       },
       limit: { tries: 12 },
+    },
+    {
+      name: "Get Range",
+      completed: () => get("hasRange"),
+      do: (): void => {
+        if (!have($item`Dramatic™ range`)) {
+          buy(1, $item`Dramatic™ range`);
+        }
+        use(1, $item`Dramatic™ range`);
+      },
     },
     {
       name: "Use Reagent Booster",

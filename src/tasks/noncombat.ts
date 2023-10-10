@@ -21,9 +21,10 @@ import {
   have,
   uneffect,
 } from "libram";
-import { logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
+import { fuelUp, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
 import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
+import { drive } from "libram/dist/resources/2017/AsdonMartin";
 
 export const NoncombatQuest: Quest = {
   name: "Noncombat",
@@ -58,6 +59,17 @@ export const NoncombatQuest: Quest = {
         get("instant_saveFavoriteBird", false),
       do: () => useSkill($skill`Visit your Favorite Bird`),
       limit: { tries: 1 },
+    },
+    {
+      name: "Driving Stealthily",
+      completed: () =>
+        have($effect`Driving Stealthily`) ||
+        !have($item`Asdon Martin keyfob`) ||
+        !get("instant_useAsdon", false),
+      do: (): void => {
+        fuelUp(), drive($effect`Driving Stealthily`);
+      },
+      limit: { tries: 3 },
     },
     {
       name: "Test",
