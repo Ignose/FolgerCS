@@ -32,8 +32,8 @@
   "dependencies": {
     "core-js": "^3.16.4",
     "grimoire-kolmafia": "^0.3.18",
-    "kolmafia": "^5.27641.0",
-    "libram": "^0.8.13"
+    "kolmafia": "^5.27647.0",
+    "libram": "^0.8.14"
   },
   "author": "Pantocyclus/Seraphiii",
   "license": "MIT",
