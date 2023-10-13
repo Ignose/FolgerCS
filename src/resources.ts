@@ -93,6 +93,12 @@ const consumptionResources: Resource[] = [
     "instant_useAsdon",
     "Skip trainset and use Asdon; incompatible with saving borrowed time."
   ),
+  new Resource(
+    "instant_savePulls",
+    (n) => `Save ${n}/5 pulls (set a number)`,
+    [],
+    get("instant_savePulls", false) ? 5 : 0
+  ),
 ];
 
 const encounterResources: Resource[] = [

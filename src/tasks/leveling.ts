@@ -408,14 +408,14 @@ export const LevelingQuest: Quest = {
         get("_roninStoragePulls")
           .split(",")
           .includes(toInt($item`Deep Dish of Legend`).toString()) ||
-        get("_instant_skipDeepDishOfLegend", false) ||
+        get("instant_skipDeepDishOfLegend", false) ||
         (get("instant_skipOffstatPizzas", false) && myPrimestat() !== `Muscle`),
       do: (): void => {
         if (storageAmount($item`Deep Dish of Legend`) === 0) {
           print("Uh oh! You do not seem to have a Deep Dish of Legend in Hagnk's", "red");
           print("Consider pulling something to make up for the turngen and 300%mus,", "red");
           print(
-            "then type 'set _instant_skipDeepDishOfLegend=true' before re-running instantsccs",
+            "then type 'set instant_skipDeepDishOfLegend=true' before re-running instantsccs",
             "red"
           );
         }
@@ -431,7 +431,7 @@ export const LevelingQuest: Quest = {
         get("_roninStoragePulls")
           .split(",")
           .includes(toInt($item`Calzone of Legend`).toString()) ||
-        get("_instant_skipCalzoneOfLegend", false) ||
+        get("instant_skipCalzoneOfLegend", false) ||
         (get("instant_skipOffstatPizzas", false) && myPrimestat() !== `Mysticality`),
       do: (): void => {
         if (storageAmount($item`Calzone of Legend`) === 0) {
@@ -441,7 +441,7 @@ export const LevelingQuest: Quest = {
             "red"
           );
           print(
-            "then type 'set _instant_skipCalzoneOfLegend=true' before re-running instantsccs",
+            "then type 'set instant_skipCalzoneOfLegend=true' before re-running instantsccs",
             "red"
           );
         }
@@ -457,14 +457,14 @@ export const LevelingQuest: Quest = {
         get("_roninStoragePulls")
           .split(",")
           .includes(toInt($item`Pizza of Legend`).toString()) ||
-        get("_instant_skipPizzaOfLegend", false) ||
+        get("instant_skipPizzaOfLegend", false) ||
         (get("instant_skipOffstatPizzas", false) && myPrimestat() !== `Moxie`),
       do: (): void => {
         if (storageAmount($item`Pizza of Legend`) === 0) {
           print("Uh oh! You do not seem to have a Pizza of Legend in Hagnk's", "red");
           print("Consider pulling something to make up for the turngen and 300%mox,", "red");
           print(
-            "then type 'set _instant_skipPizzaOfLegend=true' before re-running instantsccs",
+            "then type 'set instant_skipPizzaOfLegend=true' before re-running instantsccs",
             "red"
           );
         }
@@ -476,6 +476,7 @@ export const LevelingQuest: Quest = {
       name: "Pull Daypass",
       completed: () =>
         powerlevelingLocation() !== $location`Uncle Gator's Country Fun-Time Liquid Waste Sluice` ||
+        5 - get("_roninStoragePulls").split(",").length >= get("instant_savePulls", 0) ||
         get("stenchAirportAlways") ||
         get("_stenchAirportToday"),
       do: (): void => {
@@ -512,6 +513,7 @@ export const LevelingQuest: Quest = {
       name: "Pull Snapper XP Buff", //Made this name generic
       completed: () =>
         get("_roninStoragePulls").split(",").length >= 5 ||
+        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
         get("_roninStoragePulls").split(",").includes(toInt(snapperXpItem).toString()) ||
         have(snapperXpItem) ||
         have(xpWishEffect) ||
@@ -528,6 +530,7 @@ export const LevelingQuest: Quest = {
       name: "Pull Abstraction item",
       completed: () =>
         get("_roninStoragePulls").split(",").length >= 5 ||
+        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
         get("_roninStoragePulls").split(",").includes(toInt(abstractionXpItem).toString()) ||
         have(abstractionXpItem) ||
         have(abstractionXpEffect) ||
@@ -543,6 +546,7 @@ export const LevelingQuest: Quest = {
       name: "Pull Repaid Diaper",
       completed: () =>
         get("_roninStoragePulls").split(",").length >= 5 ||
+        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
         get("_roninStoragePulls")
           .split(",")
           .includes(toInt($item`repaid diaper`).toString()) ||
@@ -558,6 +562,7 @@ export const LevelingQuest: Quest = {
       name: "Pull Beastly Trousers",
       completed: () =>
         get("_roninStoragePulls").split(",").length >= 5 ||
+        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
         get("_roninStoragePulls")
           .split(",")
           .includes(toInt($item`Great Wolf's beastly trousers`).toString()) ||
@@ -576,6 +581,7 @@ export const LevelingQuest: Quest = {
       name: "Pull Stick Knife",
       completed: () =>
         get("_roninStoragePulls").split(",").length >= 5 ||
+        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
         get("_roninStoragePulls")
           .split(",")
           .includes(toInt($item`Stick-Knife of Loathing`).toString()) ||
@@ -589,9 +595,10 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Pull Marble Soda",
+      name: "Pull Tobiko Marble Soda",
       completed: () =>
         get("_roninStoragePulls").split(",").length >= 5 ||
+        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
         get("_roninStoragePulls")
           .split(",")
           .includes(toInt($item`tobiko marble soda`).toString()) ||
@@ -600,6 +607,22 @@ export const LevelingQuest: Quest = {
         !get("instant_experimentPulls", true),
       do: (): void => {
         takeStorage($item`tobiko marble soda`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Wasabi Marble Soda",
+      completed: () =>
+        get("_roninStoragePulls").split(",").length >= 5 ||
+        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
+        get("_roninStoragePulls")
+          .split(",")
+          .includes(toInt($item`wasabi marble soda`).toString()) ||
+        have($item`wasabi marble soda`) ||
+        storageAmount($item`wasabi marble soda`) === 0 ||
+        !get("instant_experimentPulls", true),
+      do: (): void => {
+        takeStorage($item`wasabi marble soda`, 1);
       },
       limit: { tries: 1 },
     },

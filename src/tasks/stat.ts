@@ -1,10 +1,23 @@
-import { buy, create, Effect, itemAmount, myPrimestat, print, Stat, use } from "kolmafia";
+import {
+  buy,
+  cliExecute,
+  create,
+  Effect,
+  itemAmount,
+  myPrimestat,
+  print,
+  Stat,
+  storageAmount,
+  takeStorage,
+  use,
+} from "kolmafia";
 import {
   $coinmaster,
   $effect,
   $effects,
   $item,
   $items,
+  $skill,
   $stat,
   CommunityService,
   ensureEffect,
@@ -116,6 +129,26 @@ export const MuscleQuest: Quest = {
           $effect`Triple-Sized`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
+
+        if (
+          CommunityService.Muscle.actualCost() >= 7 &&
+          ((get("_deckCardsDrawn") <= 10 && !get("instant_saveDeck", false)) ||
+            5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0)) &&
+          !have($effect`Giant Growth`) &&
+          have($skill`Giant Growth`)
+        ) {
+          if (!have($item`green mana`) && have($item`Deck of Every Card`)) {
+            cliExecute("cheat giant growth");
+          } else {
+            if (
+              5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) &&
+              storageAmount($item`green mana`) >= 1
+            ) {
+              takeStorage($item`green mana`, 1);
+            }
+          }
+          tryAcquiringEffect($effect`Giant Growth`);
+        }
       },
       do: (): void => {
         const maxTurns = get("instant_musTestTurnLimit", 2);
@@ -178,6 +211,26 @@ export const MysticalityQuest: Quest = {
           $effect`Mystically Oiled`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
+
+        if (
+          CommunityService.Mysticality.actualCost() >= 7 &&
+          ((get("_deckCardsDrawn") <= 10 && !get("instant_saveDeck", false)) ||
+            5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0)) &&
+          !have($effect`Giant Growth`) &&
+          have($skill`Giant Growth`)
+        ) {
+          if (!have($item`green mana`) && have($item`Deck of Every Card`)) {
+            cliExecute("cheat giant growth");
+          } else {
+            if (
+              5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) &&
+              storageAmount($item`green mana`) >= 1
+            ) {
+              takeStorage($item`green mana`, 1);
+            }
+          }
+          tryAcquiringEffect($effect`Giant Growth`);
+        }
       },
       do: (): void => {
         const maxTurns = get("instant_mystTestTurnLimit", 1);
@@ -257,6 +310,26 @@ export const MoxieQuest: Quest = {
           $effect`Unrunnable Face`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
+
+        if (
+          CommunityService.Moxie.actualCost() >= 7 &&
+          ((get("_deckCardsDrawn") <= 10 && !get("instant_saveDeck", false)) ||
+            5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0)) &&
+          !have($effect`Giant Growth`) &&
+          have($skill`Giant Growth`)
+        ) {
+          if (!have($item`green mana`) && have($item`Deck of Every Card`)) {
+            cliExecute("cheat giant growth");
+          } else {
+            if (
+              5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) &&
+              storageAmount($item`green mana`) >= 1
+            ) {
+              takeStorage($item`green mana`, 1);
+            }
+          }
+          tryAcquiringEffect($effect`Giant Growth`);
+        }
       },
       do: (): void => {
         const maxTurns = get("instant_moxTestTurnLimit", 5);

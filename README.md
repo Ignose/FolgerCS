@@ -1,8 +1,6 @@
-# InstantSCCS - Seraphiii
+# FolgerCS - Seraphiii
 
-`InstantSCCS` is a softcore one-day Community Service script meant for looping in Kingdom of Loathing, and designed to work for low-to-mid-shiny accounts (i.e. accounts with minimal expensive items/skills). The user is expected to have a bunch of softcore-permed skills, and at least ~7 IotMs in order to enable this (one of which is the [Clan VIP Lounge key](https://kol.coldfront.net/thekolwiki/index.php/Clan_VIP_Lounge_key)).
-
-This version is designed with features for higher shiny people who want to get a little bit more out of the basic script.
+`FolgerCS` is a softcore one-day Community Service script meant for looping in Kingdom of Loathing, and designed to work for low-to-mid-shiny accounts (i.e. accounts with minimal expensive items/skills) with extra features for mid-to-high shiny accounts (i.e. accounts with more than a full standard set). The user is expected to have a bunch of softcore-permed skills, and at least ~7 IotMs in order to enable this (one of which is the [Clan VIP Lounge key](https://kol.coldfront.net/thekolwiki/index.php/Clan_VIP_Lounge_key)).
 
 ## Installation
 
@@ -14,7 +12,7 @@ git checkout https://github.com/Ignose/FolgerCS.git release
 
 ## Usage
 
-For those who are interested in using `InstantSCCS` as is, the following sections detail the prerequisites, choices in Valhalla, and required resources.
+For those who are interested in using `FolgerCS` as is, the following sections detail the prerequisites, choices in Valhalla, and required resources.
 
 ### Before Ascending
 
@@ -26,7 +24,7 @@ For those who are interested in using `InstantSCCS` as is, the following section
 - Have an [factory worker (female)](<https://kol.coldfront.net/thekolwiki/index.php/Factory_worker_(female)>), [Witchess King](https://kol.coldfront.net/thekolwiki/index.php/Witchess_King) and [red skeleton](https://kol.coldfront.net/thekolwiki/index.php/Red_skeleton) registered in your [combat lover's locket](https://kol.coldfront.net/thekolwiki/index.php/Combat_lover%27s_locket).
 - Have at least 10 ascensions so that you can purchase an [all-purpose flower](https://kol.coldfront.net/thekolwiki/index.php/All-purpose_flower) from [The Gift Shop](https://kol.coldfront.net/thekolwiki/index.php/The_Gift_Shop); this should include at least 5 100% familiar runs so that you have the [astral pet sweater](https://kol.coldfront.net/thekolwiki/index.php/Astral_pet_sweater) unlocked.
 - Have the following [cookbookbat](https://kol.coldfront.net/thekolwiki/index.php/Cookbookbat) recipes read: [honey bun of Boris](https://kol.coldfront.net/thekolwiki/index.php/Recipe_of_Before_Yore:_honey_bun_of_Boris), [Pete's wiley whey bar](https://kol.coldfront.net/thekolwiki/index.php/Pete%27s_wiley_whey_bar), [Boris's bread](https://kol.coldfront.net/thekolwiki/index.php/Recipe_of_Before_Yore:_Boris%27s_bread), [roasted vegetable of Jarlsberg](https://kol.coldfront.net/thekolwiki/index.php/Recipe_of_Before_Yore:_roasted_vegetable_of_J.), [Pete's rich ricotta](https://kol.coldfront.net/thekolwiki/index.php/Recipe_of_Before_Yore:_Pete%27s_rich_ricotta), [plain calzone](https://kol.coldfront.net/thekolwiki/index.php/Recipe_of_Before_Yore:_plain_calzone) and [baked veggie ricotta](https://kol.coldfront.net/thekolwiki/index.php/Recipe_of_Before_Yore:_baked_veggie_ricotta).
-- You should run `instantsccs sim` to check if you have all the necessary requirements. <br/>
+- You should run `fogercs sim` to check if you have all the necessary requirements. <br/>
   - Note that while not a lot of requirements are listed as necessary, you are highly encouraged to have most, if not all, of the highly recommended resources (or have shinies to make up for whichever is lacking). <br/>
   - The script will not break if you are lacking any particular non-necessary requirement, but it will also not guarantee you success for a one-day ascension if all you have are only the necessary requirements and nothing else. <br/>
   - It will, however, almost certainly break if any of the requirements marked "Necessary" are missing. <br/>
@@ -59,7 +57,7 @@ One of the hardest tasks in CS is levelling, due to the limited resources we hav
 
 <sub><sup>As of April 2023, the introduction of the [cursed monkey's paw](https://kol.coldfront.net/thekolwiki/index.php/Cursed_monkey%27s_paw) (which was released after this route was planned) could potentially wholly replace the cosmic bowling ball and unbreakable umbrella - the paw is currently supported but a minimal run with this has not been tested, so this remains a (highly likely) hypothetical. </sup></sub><br/>
 
-### Absolutely Non-Negotiable Requirements
+### For low-shinies, Absolutely Non-Negotiable Requirements
 
 Following the routing laid out in the Basic Run Plan, this script will definitely fail if you do not meet all of the following requirements, as various task completion conditions are hardcoded to depend on them: <br/>
 
@@ -72,11 +70,25 @@ Following the routing laid out in the Basic Run Plan, this script will definitel
 - Have at least 10 ascensions <br/>
 - Know all of the following [cookbookbat](https://kol.coldfront.net/thekolwiki/index.php/Cookbookbat) recipes: [honey bun of Boris](https://kol.coldfront.net/thekolwiki/index.php/Recipe_of_Before_Yore:_honey_bun_of_Boris), [Pete's wiley whey bar](https://kol.coldfront.net/thekolwiki/index.php/Pete%27s_wiley_whey_bar), [Boris's bread](https://kol.coldfront.net/thekolwiki/index.php/Recipe_of_Before_Yore:_Boris%27s_bread), [roasted vegetable of Jarlsberg](https://kol.coldfront.net/thekolwiki/index.php/Recipe_of_Before_Yore:_roasted_vegetable_of_J.), [Pete's rich ricotta](https://kol.coldfront.net/thekolwiki/index.php/Recipe_of_Before_Yore:_Pete%27s_rich_ricotta), [plain calzone](https://kol.coldfront.net/thekolwiki/index.php/Recipe_of_Before_Yore:_plain_calzone) and [baked veggie ricotta](https://kol.coldfront.net/thekolwiki/index.php/Recipe_of_Before_Yore:_baked_veggie_ricotta). <br/>
 
-Run `instantsccs sim` to ensure you have all the necessary requirements before you ascend! <br/>
+Run `folgercs sim` to ensure you have all the necessary requirements before you ascend! <br/>
 
 ### Basic Run Plan
 
 See the run plan [here](https://github.com/Pantocyclus/InstantSCCS/blob/main/RUNPLAN.md), which also provides a summary of the resources/organs used in the most basic route.
+
+For the alternative no borrowed time runplan, several things have been modified. This run plan requires:
+
+- A preconfigured trainset before ascension with coal followed by mainstat.
+- At least 4 free kills.
+- A minimum of 2 legendary pizzas.
+
+For the Asdon Martin runplan, ensure that a borrowed time is available to use.
+
+For any non-Sauceror class, ensure that ALL CookBookBat foods are disabled before running.
+
+For any Muscle class, ensure that Prevent Scurvy and Sobriety has been permed.
+
+For any Moxie class, ensure either a balancer potion or olive is available to pull, as the script will not acquire one in run.
 
 ## FAQ
 
@@ -86,7 +98,13 @@ This script is hardcoded to eat the 3x T4 cookbookbat foods (which are all pulle
 
 ### Does this script work for other classes?
 
-No. The completion criteria for the powerleveling task is hardcoded/tuned to the seeded cookbookbat ingredient drops for Saucerors. We will likely not be able to satisfy this criteria if you run any other class. However, one may consider looking into [forks](https://github.com/Pantocyclus/InstantSCCS/forks) that are have implemented support for alternative classes.
+Yes, with the following caveats:
+
+- For any non-Sauceror class, ensure that ALL CookBookBat foods are disabled before running.
+
+- For any Muscle class, ensure that Prevent Scurvy and Sobriety has been permed.
+
+- For any Moxie class, ensure either a balancer potion or olive is available to pull, as the script will not acquire one in run.
 
 ### Why Sauceror?
 
@@ -100,11 +118,11 @@ A Seal Clubber route might be viable for mid-to-high shiny, but the MP regen fro
 
 ### What IotMs are currently supported and how are they being used by the script?
 
-InstantSCCS supports a very large number of IotMs, but, as a generalist script, may not be able to eke out every last benefit from each IotM. For exact specifics, refer to [this list](https://github.com/Pantocyclus/InstantSCCS/blob/main/ITEMS.md).
+FolgerCS supports a very large number of IotMs, but, as a generalist script, may not be able to eke out every last benefit from each IotM. For exact specifics, refer to [this list](https://github.com/Ignose/FolgerCS/blob/main/ITEMS.md).
 
 ### I'm pretty shiny - can I get the script to save certain resources?
 
-Run `instantsccs savedresources` to see a list of preferences you can set to save specific resources. You may also explicitly exclude acquiring certain buffs by typing `set instant_explicitlyExcludedBuffs=<comma-separated effect IDs>` (and confirming that the correct buffs have been excluded in the savedresources printout). <br/>
+Run `folgercs savedresources` to see a list of preferences you can set to save specific resources. You may also explicitly exclude acquiring certain buffs by typing `set instant_explicitlyExcludedBuffs=<comma-separated effect IDs>` (and confirming that the correct buffs have been excluded in the savedresources printout). <br/>
 
 ![image](https://github.com/Pantocyclus/InstantSCCS/assets/98746573/3e836c0b-5e89-4a47-8b9c-bfb618ddfba0) <br/>
 
@@ -112,11 +130,11 @@ Similarly, you may exclude using certain familiars during the leveling phase by 
 
 ### My settings are such that the script no longer uses all 5 softcore pulls. Can I make the script pull and use some other resources?
 
-You can make the necessary softcore pulls prior to running InstantSCCS. This generally should be equipments (e.g. [Staff of the Roaring Hearth](https://kol.coldfront.net/thekolwiki/index.php/Staff_of_the_Roaring_Hearth), [repaid diaper](https://kol.coldfront.net/thekolwiki/index.php/Repaid_diaper), [meteorite necklace](https://kol.coldfront.net/thekolwiki/index.php/Meteorite_necklace) etc), since they would automatically be equipped by the maximizer for various tasks/tests. You may also consider pulling potions (that you may not have access to at your shininess level) which the script uses (e.g. [wasabi marble soda](https://kol.coldfront.net/thekolwiki/index.php/Wasabi_marble_soda), [tobiko marble soda](https://kol.coldfront.net/thekolwiki/index.php/Tobiko_marble_soda), [Yeg's Motel toothbrush](https://kol.coldfront.net/thekolwiki/index.php/Yeg%27s_Motel_toothbrush) etc).
+There is an experimental pull preference that will automatically pull certain items, if available. If not using this pref, pulls should be done manually. This generally should be equipments (e.g. [Staff of the Roaring Hearth](https://kol.coldfront.net/thekolwiki/index.php/Staff_of_the_Roaring_Hearth), [repaid diaper](https://kol.coldfront.net/thekolwiki/index.php/Repaid_diaper), [meteorite necklace](https://kol.coldfront.net/thekolwiki/index.php/Meteorite_necklace) etc), since they would automatically be equipped by the maximizer for various tasks/tests. You may also consider pulling potions (that you may not have access to at your shininess level) which the script uses (e.g. [wasabi marble soda](https://kol.coldfront.net/thekolwiki/index.php/Wasabi_marble_soda), [tobiko marble soda](https://kol.coldfront.net/thekolwiki/index.php/Tobiko_marble_soda), [Yeg's Motel toothbrush](https://kol.coldfront.net/thekolwiki/index.php/Yeg%27s_Motel_toothbrush) etc).
 
 ### I'm looking to improve my CS runs - what IotMs and skills should I go for next?
 
-`instantsccs sim` groups various resources by how impactful they are. You may also refer to [this slightly more comprehensive list](https://github.com/Pantocyclus/InstantSCCS/blob/main/RECOMMENDATIONS.md) for suggestions.
+`folgercs sim` groups various resources by how impactful they are. You may also refer to [this slightly more comprehensive list](https://github.com/Pantocyclus/InstantSCCS/blob/main/RECOMMENDATIONS.md) for suggestions.
 
 ### I don't have a lot of the recommended skills. Will this script still work for me?
 
@@ -141,10 +159,6 @@ If you're scripting your own run, try eating the Deep Dish of Legend early (this
 This script supports runs from anywhere between 90-320 turns (assuming no manual pulls; correct as of September 2023).If you are able to cap all the stat tests without using any CBB foods (including the T4 ones) because you have access to a bunch of free fights, stat% and xp% buffs, the script now fully supports running without CBB and can be pretty close to optimal (you might even want to consider setting `_instant_skip<calzone|deepDish|pizza>OfLegend` in your wrapper prior to running the script to save all 5 pulls for other manual turncutting pulls [or to run it in HC]).
 
 However, you may also consider using one of these other scripts listed [here](https://loathers.github.io/CS-Scripting-Resources.html) instead to eke out that last bit of efficiency. For example, [this personal script](https://github.com/Pantocyclus/InstantHCCS) is able to achieve a ~1/91 HCCS with fewer resources and organs used as compared to the ~1/93 HCCS (yes, HC) that I get with InstantSCCS (with my preferences already set to largely optimize for profits).
-
-### Why is InstantSCCS not using the S.I.T. Course Completion Certificate?
-
-The drops from the S.I.T. Course Completion Certificate aren't used in the route, so it is up to the user to decide which course they would like to commit to for the day before invoking InstantSCCS.
 
 ### Is there a way to automate the acquisition of the necessary T4 CBB foods/astral choices in Valhalla?
 
