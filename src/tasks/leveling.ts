@@ -360,7 +360,8 @@ export const LevelingQuest: Quest = {
         if (
           have($skill`Summon Clip Art`) &&
           get("tomeSummons") < 2 &&
-          !get("instant_saveClipArt", false)
+          !get("instant_saveClipArt", false) &&
+          get("instant_skipBorrowedTime", false)
         )
           create($item`cold-filtered water`, 1);
       },
