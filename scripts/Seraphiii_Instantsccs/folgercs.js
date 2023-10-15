@@ -14627,7 +14627,7 @@ var LevelingQuest = {
   }, {
     name: "Filtered Water",
     prepare: () => {
-      if (lib_have(template_string_$skill(leveling_templateObject117 || (leveling_templateObject117 = leveling_taggedTemplateLiteral(["Summon Clip Art"])))) && property_get("tomeSummons") < 2 && !property_get("instant_saveClipArt", false)) (0,external_kolmafia_namespaceObject.create)(template_string_$item(leveling_templateObject118 || (leveling_templateObject118 = leveling_taggedTemplateLiteral(["cold-filtered water"]))), 1);
+      if (lib_have(template_string_$skill(leveling_templateObject117 || (leveling_templateObject117 = leveling_taggedTemplateLiteral(["Summon Clip Art"])))) && property_get("tomeSummons") < 2 && !property_get("instant_saveClipArt", false) && property_get("instant_skipBorrowedTime", false)) (0,external_kolmafia_namespaceObject.create)(template_string_$item(leveling_templateObject118 || (leveling_templateObject118 = leveling_taggedTemplateLiteral(["cold-filtered water"]))), 1);
     },
     completed: () => property_get("instant_saveClipArt", false) || lib_have(template_string_$effect(leveling_templateObject119 || (leveling_templateObject119 = leveling_taggedTemplateLiteral(["Purity of Spirit"])))) || forbiddenEffects.includes(template_string_$effect(leveling_templateObject120 || (leveling_templateObject120 = leveling_taggedTemplateLiteral(["Purity of Spirit"])))),
     do: () => {
