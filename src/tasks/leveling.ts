@@ -9,6 +9,7 @@ import {
   eat,
   Effect,
   effectModifier,
+  equip,
   equippedItem,
   getMonsters,
   haveEffect,
@@ -675,13 +676,23 @@ export const LevelingQuest: Quest = {
     {
       name: "Eat Calzone",
       completed: () => get("calzoneOfLegendEaten") || !have($item`Calzone of Legend`),
-      do: () => eat($item`Calzone of Legend`, 1),
+      do: (): void => {
+        if (have($item`familiar scrapbook`)) {
+          equip($item`familiar scrapbook`);
+        }
+        eat($item`Calzone of Legend`, 1);
+      },
       limit: { tries: 1 },
     },
     {
       name: "Eat Deep Dish",
       completed: () => get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`),
-      do: () => eat($item`Deep Dish of Legend`, 1),
+      do: (): void => {
+        if (have($item`familiar scrapbook`)) {
+          equip($item`familiar scrapbook`);
+        }
+        eat($item`Deep Dish of Legend`, 1);
+      },
       limit: { tries: 1 },
     },
     {
@@ -763,7 +774,12 @@ export const LevelingQuest: Quest = {
       name: "Eat Pizza",
       ready: () => have($effect`Ready to Eat`), // only eat this after we red rocket
       completed: () => get("pizzaOfLegendEaten") || !have($item`Pizza of Legend`),
-      do: () => eat($item`Pizza of Legend`, 1),
+      do: (): void => {
+        if (have($item`familiar scrapbook`)) {
+          equip($item`familiar scrapbook`);
+        }
+        eat($item`Pizza of Legend`, 1);
+      },
       limit: { tries: 1 },
     },
     {

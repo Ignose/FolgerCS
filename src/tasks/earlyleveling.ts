@@ -328,8 +328,7 @@ export const earlyLevelingQuest: Quest = {
         get("_roninStoragePulls")
           .split(",")
           .includes(toInt($item`Deep Dish of Legend`).toString()) ||
-        get("_instant_skipDeepDishOfLegend", false) ||
-        (get("instant_skipOffstatPizzas", false) && myPrimestat() !== `Muscle`),
+        get("_instant_skipDeepDishOfLegend", false),
       do: (): void => {
         if (storageAmount($item`Deep Dish of Legend`) === 0) {
           print("Uh oh! You do not seem to have a Deep Dish of Legend in Hagnk's", "red");
@@ -351,8 +350,7 @@ export const earlyLevelingQuest: Quest = {
         get("_roninStoragePulls")
           .split(",")
           .includes(toInt($item`Calzone of Legend`).toString()) ||
-        get("_instant_skipCalzoneOfLegend", false) ||
-        (get("instant_skipOffstatPizzas", false) && myPrimestat() !== `Mysticality`),
+        get("_instant_skipCalzoneOfLegend", false),
       do: (): void => {
         if (storageAmount($item`Calzone of Legend`) === 0) {
           print("Uh oh! You do not seem to have a Calzone of Legend in Hagnk's", "red");
@@ -377,8 +375,7 @@ export const earlyLevelingQuest: Quest = {
         get("_roninStoragePulls")
           .split(",")
           .includes(toInt($item`Pizza of Legend`).toString()) ||
-        get("_instant_skipPizzaOfLegend", false) ||
-        (get("instant_skipOffstatPizzas", false) && myPrimestat() !== `Moxie`),
+        get("instant_skipPizzaOfLegend", false),
       do: (): void => {
         if (storageAmount($item`Pizza of Legend`) === 0) {
           print("Uh oh! You do not seem to have a Pizza of Legend in Hagnk's", "red");
@@ -397,21 +394,36 @@ export const earlyLevelingQuest: Quest = {
       ready: () => have($effect`Ready to Eat`), // only eat this after we red rocket
       completed: () =>
         get("pizzaOfLegendEaten") || !have($item`Pizza of Legend`) || myAdventures() > 60,
-      do: () => eat($item`Pizza of Legend`, 1),
+      do: (): void => {
+        if (have($item`familiar scrapbook`)) {
+          equip($item`familiar scrapbook`);
+        }
+        eat($item`Pizza of Legend`, 1);
+      },
       limit: { tries: 1 },
     },
     {
       name: "Eat Deep Dish",
       completed: () =>
         get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`) || myAdventures() > 60,
-      do: () => eat($item`Deep Dish of Legend`, 1),
+      do: (): void => {
+        if (have($item`familiar scrapbook`)) {
+          equip($item`familiar scrapbook`);
+        }
+        eat($item`Deep Dish of Legend`, 1);
+      },
       limit: { tries: 1 },
     },
     {
       name: "Eat Pizza",
       completed: () =>
         get("calzoneOfLegendEaten") || !have($item`Pizza of Legend`) || myAdventures() > 60,
-      do: () => eat($item`Calzone of Legend`, 1),
+      do: (): void => {
+        if (have($item`familiar scrapbook`)) {
+          equip($item`familiar scrapbook`);
+        }
+        eat($item`Deep Dish of Legend`, 1);
+      },
       limit: { tries: 1 },
     },
   ],
