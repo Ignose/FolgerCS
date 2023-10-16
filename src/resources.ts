@@ -85,10 +85,9 @@ const consumptionResources: Resource[] = [
     "Do not summon and drink a bottle of Cabernet Sauvignon",
     $effects`Cabernet Hunter`
   ),
-  new Resource(
-    "instant_skipOffstatPizzas",
-    "Do not pull and eat offstat Legenday pizzas? Make sure you know what you're doing before using this"
-  ),
+  new Resource("instant_skipDeepDishOfLegend", "Skip Deep Dish of legend."),
+  new Resource("instant_skipCalzoneOfLegend", "Skip Calzone of legend."),
+  new Resource("instant_skipPizzaOfLegend", "Skip Pizza of legend."),
   new Resource(
     "instant_useAsdon",
     "Skip trainset and use Asdon; incompatible with saving borrowed time."
