@@ -474,7 +474,6 @@ export function camelFightsLeft(): number {
     locketedWitchess,
     backups,
     noveltySkeleton,
-    freeCandy,
   ]);
 }
 
