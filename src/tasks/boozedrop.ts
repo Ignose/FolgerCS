@@ -89,7 +89,9 @@ export const BoozeDropQuest: Quest = {
     {
       name: "Configure Trainset",
       completed: () =>
-        (getWorkshed() === $item`model train set` && !canConfigure()) || !TrainSet.have(),
+        (getWorkshed() === $item`model train set` && !canConfigure()) ||
+        !TrainSet.have() ||
+        getWorkshed() === $item`Asdon Martin keyfob`,
       do: (): void => {
         const offset = get("trainsetPosition") % 8;
         const newStations: TrainSet.Station[] = [];

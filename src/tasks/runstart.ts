@@ -254,7 +254,7 @@ export const RunStartQuest: Quest = {
         have($item`dromedary drinking helmet`) ||
         get("instant_saveClipArt", false) ||
         !have($familiar`Melodramedary`) ||
-        !get("instant_camelExperiment", true),
+        !get("instant_camelExperiment", false),
       do: (): void => {
         if (!have($item`box of Familiar Jacks`)) create($item`box of Familiar Jacks`, 1);
 
