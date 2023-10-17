@@ -29,7 +29,6 @@ import {
   Clan,
   CommunityService,
   get,
-  getKramcoWandererChance,,
   have,
   SongBoom,
 } from "libram";
@@ -89,7 +88,7 @@ export const WeaponDamageQuest: Quest = {
       },
       completed: () =>
         !have($familiar`Ghost of Crimbo Carols`) ||
-        (have($skill`Meteor Lore`) && get("camelSpit") < 100)  ||
+        (have($skill`Meteor Lore`) && get("camelSpit") < 100) ||
         !haveFreeBanish() ||
         $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
           (ef) => have(ef)
@@ -166,13 +165,14 @@ export const WeaponDamageQuest: Quest = {
             }
           : {
               weapon: $item`Fourth of May Cosplay Saber`,
-              familiar: 
-              get("camelSpit") >= 100 
-              ? $familiar`Melodramedary` 
-              : $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
-                (ef) => have(ef)) 
-              ? $familiar`Ghost of Crimbo Carols`
-              : chooseFamiliar(false),
+              familiar:
+                get("camelSpit") >= 100
+                  ? $familiar`Melodramedary`
+                  : $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
+                      (ef) => have(ef)
+                    )
+                  ? $familiar`Ghost of Crimbo Carols`
+                  : chooseFamiliar(false),
               avoid: sugarItemsAboutToBreak(),
             };
       },
