@@ -29,6 +29,7 @@ import {
   Clan,
   CommunityService,
   get,
+  getKramcoWandererChance,,
   have,
   SongBoom,
 } from "libram";
@@ -81,13 +82,14 @@ export const WeaponDamageQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Carol Ghost Buff",
+      name: "Stand-Alone Carol Ghost Buff",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
       },
       completed: () =>
         !have($familiar`Ghost of Crimbo Carols`) ||
+        (have($skill`Meteor Lore`) && get("camelSpit") < 100)  ||
         !haveFreeBanish() ||
         $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
           (ef) => have(ef)
@@ -95,7 +97,9 @@ export const WeaponDamageQuest: Quest = {
       do: $location`The Dire Warren`,
       combat: new CombatStrategy().macro(Macro.banish().abort()),
       outfit: {
-        offhand: $item`latte lovers member's mug`,
+        offhand: (getKramcoWandererChance() < 1.0 && have($item`Kramco Sausage-o-Matic™`)) 
+        ? $item`Kramco Sausage-o-Matic™`
+        : $item`latte lovers member's mug`,
         acc1: $item`Kremlin's Greatest Briefcase`,
         acc2: $item`Lil' Doctor™ bag`,
         familiar: $familiar`Ghost of Crimbo Carols`,
@@ -158,14 +162,20 @@ export const WeaponDamageQuest: Quest = {
         return attemptKFH
           ? {
               weapon: $item.none,
-              offhand: $item.none,
               familiar: $familiar`Disembodied Hand`,
               famequip: $item`Fourth of May Cosplay Saber`,
               avoid: sugarItemsAboutToBreak(),
             }
           : {
               weapon: $item`Fourth of May Cosplay Saber`,
-              familiar: get("camelSpit") >= 100 ? $familiar`Melodramedary` : chooseFamiliar(false),
+              offhand: (getKramcoWandererChance() < 1.0 && have($item`Kramco Sausage-o-Matic™`)) ? $item`Kramco Sausage-o-Matic™` : $item.none,
+              familiar: 
+              get("camelSpit") >= 100 
+              ? $familiar`Melodramedary` 
+              : (getKramcoWandererChance() < 1.0 && have($item`Kramco Sausage-o-Matic™`) && $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
+                (ef) => have(ef))) 
+              ? $familiar`Ghost of Crimbo Carols`
+              : chooseFamiliar(false),
               avoid: sugarItemsAboutToBreak(),
             };
       },

@@ -55,7 +55,7 @@ import {
 import { fuelUp, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { CombatStrategy } from "grimoire-kolmafia";
-import Macro, { haveFreeBanish } from "../combat";
+import Macro from "../combat";
 import { forbiddenEffects } from "../resources";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
 
@@ -63,29 +63,6 @@ export const BoozeDropQuest: Quest = {
   name: "Booze Drop",
   completed: () => CommunityService.BoozeDrop.isDone(),
   tasks: [
-    {
-      name: "Carol Ghost Buff",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-      },
-      completed: () =>
-        !have($familiar`Ghost of Crimbo Carols`) ||
-        !haveFreeBanish() ||
-        $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
-          (ef) => have(ef)
-        ),
-      do: $location`The Dire Warren`,
-      combat: new CombatStrategy().macro(Macro.banish().abort()),
-      outfit: {
-        offhand: $item`latte lovers member's mug`,
-        acc1: $item`Kremlin's Greatest Briefcase`,
-        acc2: $item`Lil' Doctor™ bag`,
-        familiar: $familiar`Ghost of Crimbo Carols`,
-        famequip: $item.none,
-      },
-      limit: { tries: 1 },
-    },
     {
       name: "Configure Trainset",
       completed: () =>

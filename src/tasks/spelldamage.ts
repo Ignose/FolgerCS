@@ -81,13 +81,14 @@ export const SpellDamageQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Carol Ghost Buff",
+      name: "Stand-Alone Carol Ghost Buff",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
       },
       completed: () =>
         !have($familiar`Ghost of Crimbo Carols`) ||
+        (have($skill`Meteor Lore`) && get("camelSpit") < 100) ||
         !haveFreeBanish() ||
         $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
           (ef) => have(ef)
@@ -147,7 +148,14 @@ export const SpellDamageQuest: Quest = {
       ),
       outfit: () => ({
         weapon: $item`Fourth of May Cosplay Saber`,
-        familiar: get("camelSpit") >= 100 ? $familiar`Melodramedary` : chooseFamiliar(false),
+        familiar:
+          get("camelSpit") >= 100
+            ? $familiar`Melodramedary`
+            : $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
+                (ef) => have(ef)
+              )
+            ? $familiar`Ghost of Crimbo Carols`
+            : chooseFamiliar(false),
         avoid: sugarItemsAboutToBreak(),
       }),
       choices: { 1387: 3 },

@@ -238,12 +238,12 @@ export const earlyLevelingQuest: Quest = {
         }[myPrimestat().toString()];
         use($item`model train set`);
         setConfiguration([
-          Station.VIEWING_PLATFORM, // all stats
-          Station.COAL_HOPPER, // double mainstat gain
-          statStation, // main stats
           Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
           Station.WATER_BRIDGE, // +ML
           Station.TOWER_FIZZY, // mp regen
+          Station.VIEWING_PLATFORM, // all stats
+          Station.COAL_HOPPER, // double mainstat gain
+          statStation, // main stats
           Station.TOWER_FROZEN, // hot resist (useful)
           Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
         ]);
@@ -318,6 +318,12 @@ export const earlyLevelingQuest: Quest = {
         familiar: $familiar`Patriotic Eagle`,
       }),
       post: () => sellMiscellaneousItems(),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Bastille",
+      completed: () => get("_bastilleGames") > 0 || !have($item`Bastille Battalion control rig`),
+      do: () => cliExecute("bastille.ash mainstat brutalist"),
       limit: { tries: 1 },
     },
     {
@@ -405,7 +411,10 @@ export const earlyLevelingQuest: Quest = {
     {
       name: "Eat Deep Dish",
       completed: () =>
-        get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`) || myAdventures() > 60,
+        get("deepDishOfLegendEaten") ||
+        !have($item`Deep Dish of Legend`) ||
+        get("instant_skipDeepDishOfLegend", false) ||
+        myAdventures() > 60,
       do: (): void => {
         if (have($item`familiar scrapbook`)) {
           equip($item`familiar scrapbook`);
