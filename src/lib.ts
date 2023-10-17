@@ -1,4 +1,3 @@
-import { StrictCombatTask } from "grimoire-kolmafia";
 import {
   availableAmount,
   buy,
@@ -7,11 +6,12 @@ import {
   Effect,
   getCampground,
   getClanName,
-  getFuel,
+  handlingChoice,
   haveEffect,
   holiday,
   Item,
   itemAmount,
+  lastChoice,
   monkeyPaw,
   mpCost,
   myBasestat,
@@ -43,11 +43,9 @@ import {
   $skill,
   $skills,
   $stat,
-  AsdonMartin,
   canRememberSong,
   CombatLoversLocket,
   CommunityService,
-  Delayed,
   get,
   getKramcoWandererChance,
   have,
@@ -476,6 +474,7 @@ export function camelFightsLeft(): number {
     locketedWitchess,
     backups,
     noveltySkeleton,
+    freeCandy,
   ]);
 }
 
