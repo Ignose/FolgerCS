@@ -371,7 +371,7 @@ export const RunStartQuest: Quest = {
     },
     {
       name: "Vote!",
-      completed: () => have($item`"I Voted!" sticker`),
+      completed: () => have($item`"I Voted!" sticker`) || !get("voteAlways"),
       do: (): void => {
         visitUrl("place.php?whichplace=town_right&action=townright_vote");
         visitUrl(
