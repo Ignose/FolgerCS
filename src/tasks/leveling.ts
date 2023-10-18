@@ -1480,16 +1480,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Extra Camelspit Leveling",
       completed: () =>
-        myBasestat(myPrimestat()) >= targetBaseMyst - targetBaseMystGap && // I don't know if this will cause issues.
-        (haveCBBIngredients(false) ||
-          overlevelled() ||
-          craftedCBBEffects.some((ef) => have(ef)) ||
-          craftedCBBEffects.every((ef) => forbiddenEffects.includes(ef))) &&
-        (powerlevelingLocation() !== $location`The Neverending Party` ||
-          get("_neverendingPartyFreeTurns") >= 10) &&
-        !get("instant_camelExperiment", false) &&
-        get("camelSpit") > 94 &&
-        get("camelSpit") < 100,
+        !get("instant_camelExperiment", false) || (get("camelSpit") > 94 && get("camelSpit") < 100),
       do: powerlevelingLocation(),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
