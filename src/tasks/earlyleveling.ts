@@ -141,6 +141,12 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Scavenge",
+      completed: () => get("_daycareGymScavenges") > 0 || !get("daycareOpen"),
+      do: () => cliExecute("daycare scavenge free"),
+      limit: { tries: 1 },
+    },
+    {
       name: "Red Skeleton, Tropical Skeleton, Two For One",
       ready: () =>
         !have($effect`Everything Looks Yellow`) ||
@@ -334,7 +340,7 @@ export const earlyLevelingQuest: Quest = {
         get("_roninStoragePulls")
           .split(",")
           .includes(toInt($item`Calzone of Legend`).toString()) ||
-        get("_instant_skipCalzoneOfLegend", false),
+        get("instant_skipCalzoneOfLegend", false),
       do: (): void => {
         if (storageAmount($item`Calzone of Legend`) === 0) {
           print("Uh oh! You do not seem to have a Calzone of Legend in Hagnk's", "red");
