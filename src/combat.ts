@@ -12,30 +12,18 @@ export default class Macro extends StrictMacro {
         `!mpbelow ${mpCost($skill`Stuffed Mortar Shell`)}`,
         Macro.trySkill($skill`Stuffed Mortar Shell`)
       );
-    if (myPrimestat() === $stat`Mysticality`) {
-      //Update to add alternative combat options for non-Mys classes
-      return (useCinch ? macroHead.trySkill($skill`Cincho: Confetti Extravaganza`) : macroHead)
-        .while_(
-          `!mpbelow ${mpCost($skill`Saucegeyser`)} && hasskill ${toInt($skill`Saucegeyser`)}`,
-          Macro.skill($skill`Saucegeyser`)
-        )
-        .while_(
-          `!mpbelow ${mpCost($skill`Saucestorm`)} && hasskill ${toInt($skill`Saucestorm`)}`,
-          Macro.skill($skill`Saucestorm`)
-        )
-        .attack()
-        .repeat();
-    } else {
-      return (useCinch ? macroHead.trySkill($skill`Cincho: Confetti Extravaganza`) : macroHead)
-        .while_(
-          `!mpbelow ${mpCost($skill`Lunging Thrust-Smack`)} && hasskill ${toInt(
-            $skill`Lunging Thrust-Smack`
-          )}`,
-          Macro.skill($skill`Lunging Thrust-Smack`)
-        )
-        .attack()
-        .repeat();
-    }
+    //Update to add alternative combat options for non-Mys classes
+    return (useCinch ? macroHead.trySkill($skill`Cincho: Confetti Extravaganza`) : macroHead)
+      .while_(
+        `!mpbelow ${mpCost($skill`Saucegeyser`)} && hasskill ${toInt($skill`Saucegeyser`)}`,
+        Macro.skill($skill`Saucegeyser`)
+      )
+      .while_(
+        `!mpbelow ${mpCost($skill`Saucestorm`)} && hasskill ${toInt($skill`Saucestorm`)}`,
+        Macro.skill($skill`Saucestorm`)
+      )
+      .attack()
+      .repeat();
   }
 
   static kill(): Macro {

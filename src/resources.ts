@@ -112,10 +112,6 @@ const encounterResources: Resource[] = [
     [],
     get("instant_saveBackups", false) ? 11 : 0
   ),
-  new Resource(
-    "instant_skipEarlyTrainsetMeat",
-    "Do not spend an adventure in the Dire Warren pre-coil grabbing meat from the trainset"
-  ),
   new Resource("instant_saveLocketRedSkeleton", "Do not reminisce a Red Skeleton"),
   new Resource("instant_saveLocketWitchessKing", "Do not reminisce a Witchess King"),
   new Resource("instant_saveLocketFactoryWorker", "Do not reminisce a Factory Worker (female)"),

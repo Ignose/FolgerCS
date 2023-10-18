@@ -327,28 +327,6 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Pull Deep Dish of Legend",
-      completed: () =>
-        have($item`Deep Dish of Legend`) ||
-        have($effect`In the Depths`) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`Deep Dish of Legend`).toString()) ||
-        get("_instant_skipDeepDishOfLegend", false),
-      do: (): void => {
-        if (storageAmount($item`Deep Dish of Legend`) === 0) {
-          print("Uh oh! You do not seem to have a Deep Dish of Legend in Hagnk's", "red");
-          print("Consider pulling something to make up for the turngen and 300%mus,", "red");
-          print(
-            "then type 'set _instant_skipDeepDishOfLegend=true' before re-running instantsccs",
-            "red"
-          );
-        }
-        takeStorage($item`Deep Dish of Legend`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Pull Calzone of Legend",
       completed: () =>
         have($item`Calzone of Legend`) ||
@@ -409,22 +387,7 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Eat Deep Dish",
-      completed: () =>
-        get("deepDishOfLegendEaten") ||
-        !have($item`Deep Dish of Legend`) ||
-        get("instant_skipDeepDishOfLegend", false) ||
-        myAdventures() > 60,
-      do: (): void => {
-        if (have($item`familiar scrapbook`)) {
-          equip($item`familiar scrapbook`);
-        }
-        eat($item`Deep Dish of Legend`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Eat Pizza",
+      name: "Eat Calzone",
       completed: () =>
         get("calzoneOfLegendEaten") || !have($item`Pizza of Legend`) || myAdventures() > 60,
       do: (): void => {

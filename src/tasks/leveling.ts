@@ -356,18 +356,6 @@ export const LevelingQuest: Quest = {
       limit: { tries: 3 },
     },
     {
-      name: "Filtered Water",
-      completed: () =>
-        get("instant_saveClipArt", false) ||
-        !get("instant_skipBorrowedTime", false) ||
-        have($effect`Purity of Spirit`) ||
-        forbiddenEffects.includes($effect`Purity of Spirit`),
-      do: (): void => {
-        use($item`cold-filtered water`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Driving Recklessly",
       completed: () => have($effect`Driving Recklessly`) || !get("instant_useAsdon", false),
       do: (): void => {

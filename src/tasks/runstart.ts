@@ -498,49 +498,17 @@ export const RunStartQuest: Quest = {
           Moxie: Station.GROIN_SILO,
         }[myPrimestat().toString()];
         use($item`model train set`);
-        if (!get("instant_skipEarlyTrainsetMeat", false)) {
-          setConfiguration([
-            Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
-            Station.TOWER_FIZZY, // mp regen
-            Station.TOWER_FROZEN, // hot resist (useful)
-            Station.COAL_HOPPER, // double mainstat gain
-            statStation, // main stats
-            Station.VIEWING_PLATFORM, // all stats
-            Station.WATER_BRIDGE, // +ML
-            Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
-          ]);
-        } else {
-          setConfiguration([
-            Station.VIEWING_PLATFORM, // all stats
-            Station.COAL_HOPPER, // double mainstat gain
-            statStation, // main stats
-            Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
-            Station.TOWER_FIZZY, // mp regen
-            Station.TOWER_FROZEN, // hot resist (useful)
-            Station.WATER_BRIDGE, // +ML
-            Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
-          ]);
-        }
+        setConfiguration([
+          Station.VIEWING_PLATFORM, // all stats
+          Station.COAL_HOPPER, // double mainstat gain
+          statStation, // main stats
+          Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
+          Station.TOWER_FIZZY, // mp regen
+          Station.TOWER_FROZEN, // hot resist (useful)
+          Station.WATER_BRIDGE, // +ML
+          Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
+        ]);
       },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Grab Trainset Meat",
-      prepare: (): void => {
-        if (have($item`unbreakable umbrella`) && get("umbrellaState") !== "pitchfork style")
-          cliExecute("umbrella weapon");
-      },
-      completed: () =>
-        get("trainsetPosition") > 0 ||
-        turnsPlayed() > 0 ||
-        get("hasMaydayContract") ||
-        get("instant_skipEarlyTrainsetMeat", false),
-      do: $location`The Dire Warren`,
-      combat: new CombatStrategy().macro(Macro.attack()),
-      outfit: () => ({
-        ...baseOutfit(false),
-        modifier: `${baseOutfit().modifier}, -equip miniature crystal ball, -equip backup camera`,
-      }),
       limit: { tries: 1 },
     },
     {
