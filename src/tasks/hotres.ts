@@ -92,23 +92,6 @@ export const HotResQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Drink Boris Beer",
-      completed: () =>
-        have($effect`Beery Cool`) ||
-        ((!have($item`bowl of cottage cheese`) || !have($item`Yeast of Boris`)) &&
-          !have($item`Boris's beer`)) ||
-        myInebriety() >= inebrietyLimit() ||
-        get("instant_saveBorisBeer", false),
-      do: (): void => {
-        tryAcquiringEffect($effect`Ode to Booze`);
-        if (have($item`Yeast of Boris`) && have($item`bowl of cottage cheese`))
-          create($item`Boris's beer`, 1);
-        if (have($item`Boris's beer`)) drink($item`Boris's beer`, 1);
-        uneffect($effect`Ode to Booze`);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Horsery",
       completed: () => get("_horsery") === "pale horse" || !get("horseryAvailable"),
       do: () => cliExecute("horsery pale"),

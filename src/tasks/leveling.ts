@@ -87,7 +87,6 @@ import {
   generalStoreXpEffect,
   getSynthExpBuff,
   getValidComplexCandyPairs,
-  haveCBBIngredients,
   overlevelled,
   reagentBalancerEffect,
   reagentBalancerIngredient,
@@ -119,8 +118,6 @@ import { drive } from "libram/dist/resources/2017/AsdonMartin";
 const useCinch = !get("instant_saveCinch", false);
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
 const freeFightMonsters: Monster[] = $monsters`Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle`;
-const craftedCBBFoods: Item[] = $items`honey bun of Boris, roasted vegetable of Jarlsberg, Pete's rich ricotta, plain calzone`;
-const craftedCBBEffects: Effect[] = craftedCBBFoods.map((it) => effectModifier(it, "effect"));
 
 const mainStatStr = myPrimestat().toString();
 const muscleList: Effect[] = [
@@ -165,7 +162,6 @@ const statEffects =
     ? mysticalityList
     : moxieList;
 
-let triedCraftingCBBFoods = false;
 const usefulEffects: Effect[] = [
   // Stats
   $effect`Big`,
@@ -898,7 +894,7 @@ export const LevelingQuest: Quest = {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
       },
-      completed: () => have($effect`Everything Looks Blue`) || haveCBBIngredients(false),
+      completed: () => have($effect`Everything Looks Blue`),
       do: powerlevelingLocation(), // if your powerleveling location is the NEP you don't immediately get the MP regen
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Curse of Weaksauce`)
@@ -928,8 +924,7 @@ export const LevelingQuest: Quest = {
       completed: () =>
         powerlevelingLocation() !== $location`The Neverending Party` ||
         haveEffect($effect`Glowing Blue`) !== 10 ||
-        myMp() >= 500 ||
-        haveCBBIngredients(false), // But we can't benefit from Blue Rocket if we are only doing free fights
+        myMp() >= 500,
       do: $location`The Dire Warren`,
       outfit: () => baseOutfit(false),
       combat: new CombatStrategy().macro(Macro.attack().repeat()),
@@ -1430,10 +1425,6 @@ export const LevelingQuest: Quest = {
       name: "Powerlevel",
       completed: () =>
         myBasestat(myPrimestat()) >= targetBaseMyst - targetBaseMystGap && // I don't know if this will cause issues.
-        (haveCBBIngredients(false) ||
-          overlevelled() ||
-          craftedCBBEffects.some((ef) => have(ef)) ||
-          craftedCBBEffects.every((ef) => forbiddenEffects.includes(ef))) &&
         (powerlevelingLocation() !== $location`The Neverending Party` ||
           get("_neverendingPartyFreeTurns") >= 10),
       do: powerlevelingLocation(),
@@ -1471,7 +1462,6 @@ export const LevelingQuest: Quest = {
           .default(useCinch)
       ),
       post: (): void => {
-        haveCBBIngredients(false, true);
         if (have($item`SMOOCH coffee cup`)) chew($item`SMOOCH coffee cup`, 1);
         sendAutumnaton();
         sellMiscellaneousItems();
@@ -1519,7 +1509,6 @@ export const LevelingQuest: Quest = {
           .default(useCinch)
       ),
       post: (): void => {
-        haveCBBIngredients(false, true);
         if (have($item`SMOOCH coffee cup`)) chew($item`SMOOCH coffee cup`, 1);
         sendAutumnaton();
         sellMiscellaneousItems();
@@ -1537,36 +1526,6 @@ export const LevelingQuest: Quest = {
       },
       post: (): void => {
         if (!have($item`flat dough`)) use($item`wad of dough`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Craft and Eat CBB Foods",
-      after: ["Powerlevel"],
-      completed: () =>
-        craftedCBBEffects.every((ef) => have(ef) || forbiddenEffects.includes(ef)) ||
-        triedCraftingCBBFoods,
-      do: (): void => {
-        craftedCBBFoods.forEach((it) => {
-          const ef = effectModifier(it, "effect");
-          if (!have(ef) && !forbiddenEffects.includes(ef)) {
-            if (!have(it)) create(it, 1);
-            eat(it, 1);
-          }
-        });
-
-        if (
-          itemAmount($item`Vegetable of Jarlsberg`) >= 2 &&
-          itemAmount($item`St. Sneaky Pete's Whey`) >= 2 &&
-          !have($effect`Pretty Delicious`) &&
-          !get("instant_saveRicottaCasserole", false)
-        ) {
-          if (!have($item`baked veggie ricotta casserole`))
-            create($item`baked veggie ricotta casserole`, 1);
-          eat($item`baked veggie ricotta casserole`, 1);
-        }
-
-        triedCraftingCBBFoods = true;
       },
       limit: { tries: 1 },
     },
@@ -1726,7 +1685,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Free Kills and More Fights",
-      after: ["Craft and Eat CBB Foods", "Drink Bee's Knees"],
+      after: ["Drink Bee's Knees"],
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         if (equippedItem($slot`offhand`) !== $item`latte lovers member's mug`) {
@@ -1754,7 +1713,7 @@ export const LevelingQuest: Quest = {
         myBasestat(myPrimestat()) >= targetBaseMyst &&
         (get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
         (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`)) &&
-        (haveCBBIngredients(true) || overlevelled()),
+        overlevelled(),
       do: powerlevelingLocation(),
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Feel Pride`)
@@ -1774,25 +1733,6 @@ export const LevelingQuest: Quest = {
         1324: 5,
       },
       post: (): void => {
-        if (
-          itemAmount($item`Vegetable of Jarlsberg`) >= 2 &&
-          itemAmount($item`St. Sneaky Pete's Whey`) >= 2 &&
-          !have($effect`Pretty Delicious`) &&
-          !get("instant_saveRicottaCasserole", false)
-        ) {
-          if (!have($item`baked veggie ricotta casserole`))
-            create($item`baked veggie ricotta casserole`, 1);
-          eat($item`baked veggie ricotta casserole`, 1);
-        }
-        if (
-          itemAmount($item`St. Sneaky Pete's Whey`) >= 1 &&
-          !have($effect`Awfully Wily`) &&
-          !get("instant_saveWileyWheyBar", false)
-        ) {
-          create($item`Pete's wiley whey bar`, 1);
-          eat($item`Pete's wiley whey bar`, 1);
-        }
-        haveCBBIngredients(true, true);
         if (have($item`SMOOCH coffee cup`)) chew($item`SMOOCH coffee cup`, 1);
         sendAutumnaton();
         sellMiscellaneousItems();

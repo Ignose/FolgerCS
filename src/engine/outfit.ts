@@ -12,7 +12,7 @@ import {
   have,
   maxBy,
 } from "libram";
-import { camelFightsLeft, haveCBBIngredients, statToMaximizerString } from "../lib";
+import { camelFightsLeft, statToMaximizerString } from "../lib";
 
 export function garbageShirt(): void {
   if (
@@ -59,10 +59,6 @@ function nanorhino(allowAttackingFamiliars = false): Familiar {
   return allowAttackingFamiliars && get("_nanorhinoCharge", 0) === 100
     ? $familiar`Nanorhino`
     : $familiar.none;
-}
-
-function cookbookbat(): Familiar {
-  return !haveCBBIngredients(true) ? $familiar`Cookbookbat` : $familiar.none;
 }
 
 function shorterOrderCook(allowAttackingFamiliars = true): Familiar {
@@ -113,7 +109,6 @@ export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
     .map((i) => toInt(i));
   const defaultFam = have($familiar`Cookbookbat`) ? $familiar`Cookbookbat` : $familiar.none;
   const familiars = [
-    cookbookbat,
     shorterOrderCook,
     garbageFire,
     nanorhino,

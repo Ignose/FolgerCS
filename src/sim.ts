@@ -65,10 +65,6 @@ function buildIotmList(): Requirement[] {
       optional: true,
     },
     {
-      thing: $familiar`Cookbookbat`,
-      why: "Turngen, stat tests",
-    },
-    {
       thing: $item`combat lover's locket`,
       why: "Summons for various tests",
       optional: true,
@@ -357,48 +353,6 @@ function buildMiscList(): Requirement[] {
       why: "Stat test",
       optional: true,
       recommended: true,
-    },
-    {
-      thing: new Hardcoded(
-        // These unknownRecipe properties are false when the user knows the recipe
-        !get("unknownRecipe10972"),
-        "Recipe of Yore: Roasted vegetable of Jarlsberg"
-      ),
-      why: "Food we'll cook in-run",
-    },
-    {
-      thing: new Hardcoded(
-        !get("unknownRecipe10974"),
-        "Recipe of Yore: Pete's Pete's wily whey bar"
-      ),
-      why: "Food we'll cook in-run",
-    },
-    {
-      thing: new Hardcoded(!get("unknownRecipe10975"), "Recipe of Yore: Pete's rich ricotta"),
-      why: "Food we'll cook in-run",
-    },
-    {
-      thing: new Hardcoded(!get("unknownRecipe10976"), "Recipe of Before Yore: Boris's beer"),
-      why: "Booze we'll brew in-run",
-    },
-    {
-      thing: new Hardcoded(!get("unknownRecipe10977"), "Recipe of Yore: honey bun of Boris"),
-      why: "Food we'll cook in-run",
-    },
-    {
-      thing: new Hardcoded(!get("unknownRecipe10978"), "Recipe of Yore: Boris's bread"),
-      why: "Food we'll cook in-run",
-    },
-    {
-      thing: new Hardcoded(
-        !get("unknownRecipe10988"),
-        "Recipe of Yore: baked veggie ricotta casserole"
-      ),
-      why: "Food we'll cook in-run",
-    },
-    {
-      thing: new Hardcoded(!get("unknownRecipe10989"), "Recipe of Yore: plain calzone"),
-      why: "Food we'll cook in-run",
     },
     {
       thing: new Hardcoded(

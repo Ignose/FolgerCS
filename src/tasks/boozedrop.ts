@@ -194,23 +194,6 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 5 },
     },
     {
-      name: "Eat roasted vegetable of Jarlsberg",
-      completed: () =>
-        have($effect`Wizard Sight`) ||
-        get("instant_saveRoastedVegetableItem", false) ||
-        (!have($item`roasted vegetable of Jarlsberg`) &&
-          itemAmount($item`Vegetable of Jarlsberg`) < 2),
-      do: (): void => {
-        if (
-          itemAmount($item`Vegetable of Jarlsberg`) >= 2 &&
-          !have($item`roasted vegetable of Jarlsberg`)
-        )
-          create($item`roasted vegetable of Jarlsberg`, 1);
-        eat($item`roasted vegetable of Jarlsberg`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Drink Sacramento Wine",
       completed: () =>
         have($effect`Sacré Mental`) ||
