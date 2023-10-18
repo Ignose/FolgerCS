@@ -38,6 +38,7 @@ import {
   $skill,
   $slot,
   clamp,
+  CombatLoversLocket,
   CommunityService,
   DaylightShavings,
   get,
@@ -58,6 +59,19 @@ import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { forbiddenEffects } from "../resources";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
+
+function checkLocketAvailable(): boolean {
+  const locketAvailable =
+    (get("instant_saveLocketRedSkeleton", false) ? 1 : 0) +
+    (get("instant_saveLocketWitchessKing", false) ? 1 : 0) +
+    (get("instant_saveLocketFactoryWorker", false) ? 1 : 0);
+
+  if (locketAvailable >= 2) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 export const BoozeDropQuest: Quest = {
   name: "Booze Drop",
@@ -136,17 +150,21 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Fax Ungulith",
-      completed: () => get("_photocopyUsed"),
+      completed: () => have($item`corrupted marrow`) || have($effect`Cowrruption`),
       do: (): void => {
-        cliExecute("chat");
-        if (have($item`photocopied monster`) && get("photocopyMonster") !== $monster`ungulith`) {
-          cliExecute("fax send");
-        }
-        if (
-          (have($item`photocopied monster`) || faxbot($monster`ungulith`)) &&
-          get("photocopyMonster") === $monster`ungulith`
-        ) {
-          use($item`photocopied monster`);
+        if (checkLocketAvailable()) {
+          CombatLoversLocket.reminisce($monster`ungulith`);
+        } else {
+          cliExecute("chat");
+          if (have($item`photocopied monster`) && get("photocopyMonster") !== $monster`ungulith`) {
+            cliExecute("fax send");
+          }
+          if (
+            (have($item`photocopied monster`) || faxbot($monster`ungulith`)) &&
+            get("photocopyMonster") === $monster`ungulith`
+          ) {
+            use($item`photocopied monster`);
+          }
         }
       },
       outfit: () => ({
