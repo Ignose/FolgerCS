@@ -621,3 +621,12 @@ export const generalStoreXpEffect: Effect = {
   Mysticality: $effect`Glittering Eyelashes`,
   Moxie: $effect`Butt-Rock Hair`,
 }[mainStatStr];
+
+export function checkLocketAvailable(): number {
+  const locketAvailable =
+    (get("instant_saveLocketRedSkeleton", false) ? 1 : 0) +
+    (get("instant_saveLocketWitchessKing", false) ? 1 : 0) +
+    (get("instant_saveLocketFactoryWorker", false) ? 1 : 0);
+
+  return locketAvailable;
+}

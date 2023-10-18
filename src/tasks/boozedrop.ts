@@ -42,6 +42,7 @@ import {
   CommunityService,
   DaylightShavings,
   get,
+  getSaleValue,
   have,
   TrainSet,
   uneffect,
@@ -53,25 +54,12 @@ import {
   setConfiguration,
   Station,
 } from "libram/dist/resources/2022/TrainSet";
-import { fuelUp, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
+import { checkLocketAvailable, fuelUp, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { forbiddenEffects } from "../resources";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
-
-function checkLocketAvailable(): boolean {
-  const locketAvailable =
-    (get("instant_saveLocketRedSkeleton", false) ? 1 : 0) +
-    (get("instant_saveLocketWitchessKing", false) ? 1 : 0) +
-    (get("instant_saveLocketFactoryWorker", false) ? 1 : 0);
-
-  if (locketAvailable >= 2) {
-    return true;
-  } else {
-    return false;
-  }
-}
 
 export const BoozeDropQuest: Quest = {
   name: "Booze Drop",
@@ -122,7 +110,9 @@ export const BoozeDropQuest: Quest = {
       completed: () =>
         have($item`cyclops eyedrops`) ||
         have($effect`One Very Clear Eye`) ||
-        get("instant_skipCyclopsEyedrops", false),
+        get("instant_skipCyclopsEyedrops", false) ||
+        (get("instant_maximizeProfit", false) &&
+          getSaleValue($item`11-leaf clover`) > get("valueOfAdventure") * 3),
       do: (): void => {
         if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
         if (!have($item`cyclops eyedrops`)) adv1($location`The Limerick Dungeon`, -1);
@@ -152,7 +142,7 @@ export const BoozeDropQuest: Quest = {
       name: "Fax Ungulith",
       completed: () => have($item`corrupted marrow`) || have($effect`Cowrruption`),
       do: (): void => {
-        if (checkLocketAvailable()) {
+        if (checkLocketAvailable() >= 2) {
           CombatLoversLocket.reminisce($monster`ungulith`);
         } else {
           cliExecute("chat");
@@ -248,7 +238,9 @@ export const BoozeDropQuest: Quest = {
       completed: () =>
         !have($item`potted power plant`) ||
         (itemAmount($item`battery (AAA)`) < 5 && !have($item`battery (lantern)`)) ||
-        get("instant_savePowerSeed", false),
+        get("instant_savePowerSeed", false) ||
+        (get("instant_maximizeProfit", false) &&
+          getSaleValue($item`battery (AAA)`) * 5 > get("valueOfAdventure") * 4),
       do: (): void => {
         if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);
         use($item`battery (lantern)`, 1);

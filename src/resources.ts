@@ -219,6 +219,10 @@ const otherResources: Resource[] = [
     "instant_skipBorrowedTime",
     "Do not use borrowed time. Level to 5 using trainset, and eat pizzas to get coil adventures. Make sure you know what you're doing before using this."
   ),
+  new Resource(
+    "instant_maximizeProfit",
+    "Check the opportunity cost of every resource spent, before spending it. If the opportunity cost is higher than turnsave * MPA, skip it."
+  ),
 ];
 
 const allResources = [

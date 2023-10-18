@@ -82,6 +82,7 @@ import {
   abstractionXpEffect,
   abstractionXpItem,
   burnLibram,
+  checkLocketAvailable,
   chooseLibram,
   fuelUp,
   generalStoreXpEffect,
@@ -1566,7 +1567,11 @@ export const LevelingQuest: Quest = {
         have($item`dented scepter`) ||
         get("_witchessFights") >= 5 ||
         !Witchess.have() ||
-        get("instant_saveWitchess", false),
+        get("instant_saveWitchess", false) ||
+        (get("instant_maximizeProfit", false) &&
+          checkLocketAvailable() === 3 &&
+          get("valueOfAdventure", 3750) * get("embezzlerMultiplier", 2.5) >
+            get("valueOfAdventure", 3750) * 2),
       do: () => Witchess.fightPiece($monster`Witchess King`),
       combat: new CombatStrategy().macro(Macro.default(useCinch)),
       outfit: baseOutfit,
