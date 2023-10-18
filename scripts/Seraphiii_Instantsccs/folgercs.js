@@ -13599,6 +13599,13 @@ var earlyLevelingQuest = {
       tries: 1
     }
   }, {
+    name: "Scavenge",
+    completed: () => property_get("_daycareGymScavenges") > 0 || !property_get("daycareOpen"),
+    do: () => (0,external_kolmafia_namespaceObject.cliExecute)("daycare scavenge free"),
+    limit: {
+      tries: 1
+    }
+  }, {
     name: "Red Skeleton, Tropical Skeleton, Two For One",
     ready: () => !lib_have(template_string_$effect(earlyleveling_templateObject43 || (earlyleveling_templateObject43 = earlyleveling_taggedTemplateLiteral(["Everything Looks Yellow"])))) || lib_have(template_string_$skill(earlyleveling_templateObject44 || (earlyleveling_templateObject44 = earlyleveling_taggedTemplateLiteral(["Feel Envy"])))) && property_get("_feelEnvyUsed") < 3 || lib_have(template_string_$skill(earlyleveling_templateObject45 || (earlyleveling_templateObject45 = earlyleveling_taggedTemplateLiteral(["Feel Nostalgic"])))) && property_get("_feelNostalgicUsed") < 3,
     prepare: () => {
@@ -13739,7 +13746,7 @@ var earlyLevelingQuest = {
     }
   }, {
     name: "Pull Calzone of Legend",
-    completed: () => lib_have(template_string_$item(earlyleveling_templateObject113 || (earlyleveling_templateObject113 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"])))) || lib_have(template_string_$effect(earlyleveling_templateObject114 || (earlyleveling_templateObject114 = earlyleveling_taggedTemplateLiteral(["In the 'zone zone!"])))) || property_get("_roninStoragePulls").split(",").includes((0,external_kolmafia_namespaceObject.toInt)(template_string_$item(earlyleveling_templateObject115 || (earlyleveling_templateObject115 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"])))).toString()) || property_get("_instant_skipCalzoneOfLegend", false),
+    completed: () => lib_have(template_string_$item(earlyleveling_templateObject113 || (earlyleveling_templateObject113 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"])))) || lib_have(template_string_$effect(earlyleveling_templateObject114 || (earlyleveling_templateObject114 = earlyleveling_taggedTemplateLiteral(["In the 'zone zone!"])))) || property_get("_roninStoragePulls").split(",").includes((0,external_kolmafia_namespaceObject.toInt)(template_string_$item(earlyleveling_templateObject115 || (earlyleveling_templateObject115 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"])))).toString()) || property_get("instant_skipCalzoneOfLegend", false),
     do: () => {
       if ((0,external_kolmafia_namespaceObject.storageAmount)(template_string_$item(earlyleveling_templateObject116 || (earlyleveling_templateObject116 = earlyleveling_taggedTemplateLiteral(["Calzone of Legend"])))) === 0) {
         (0,external_kolmafia_namespaceObject.print)("Uh oh! You do not seem to have a Calzone of Legend in Hagnk's", "red");
