@@ -1478,6 +1478,63 @@ export const LevelingQuest: Quest = {
       },
     },
     {
+      name: "Extra Camelspit Leveling",
+      completed: () =>
+        myBasestat(myPrimestat()) >= targetBaseMyst - targetBaseMystGap && // I don't know if this will cause issues.
+        (haveCBBIngredients(false) ||
+          overlevelled() ||
+          craftedCBBEffects.some((ef) => have(ef)) ||
+          craftedCBBEffects.every((ef) => forbiddenEffects.includes(ef))) &&
+        (powerlevelingLocation() !== $location`The Neverending Party` ||
+          get("_neverendingPartyFreeTurns") >= 10) &&
+        !get("instant_camelExperiment", false) &&
+        get("camelSpit") > 94 &&
+        get("camelSpit") < 100,
+      do: powerlevelingLocation(),
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        unbreakableUmbrella();
+        garbageShirt();
+        if (mainStatStr === `Muscle`) {
+          muscleList.forEach((ef) => tryAcquiringEffect(ef));
+        }
+        if (mainStatStr === `Mysticality`) {
+          mysticalityList.forEach((ef) => tryAcquiringEffect(ef));
+        }
+        if (mainStatStr === `Moxie`) {
+          moxieList.forEach((ef) => tryAcquiringEffect(ef));
+        }
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
+        restoreMp(50);
+        if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
+          if (myMeat() >= 250) buy($item`red rocket`, 1);
+        }
+      },
+      outfit: () => ({
+        ...baseOutfit(),
+        familiar: $familiar`Melodramedary`,
+      }),
+      limit: { tries: 60 },
+      choices: {
+        1094: 5,
+        1115: 6,
+        1322: 2,
+        1324: 5,
+      },
+      combat: new CombatStrategy().macro(
+        Macro.tryItem($item`red rocket`)
+          .trySkill($skill`Bowl Sideways`)
+          .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
+          .default(useCinch)
+      ),
+      post: (): void => {
+        haveCBBIngredients(false, true);
+        if (have($item`SMOOCH coffee cup`)) chew($item`SMOOCH coffee cup`, 1);
+        sendAutumnaton();
+        sellMiscellaneousItems();
+      },
+    },
+    {
       name: "Acquire Wad of Dough",
       completed: () =>
         have($item`wad of dough`) ||

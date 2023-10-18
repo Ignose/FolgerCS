@@ -247,9 +247,9 @@ export const earlyLevelingQuest: Quest = {
           Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
           Station.WATER_BRIDGE, // +ML
           Station.TOWER_FIZZY, // mp regen
-          Station.VIEWING_PLATFORM, // all stats
           Station.COAL_HOPPER, // double mainstat gain
           statStation, // main stats
+          Station.VIEWING_PLATFORM, // all stats
           Station.TOWER_FROZEN, // hot resist (useful)
           Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
         ]);
@@ -324,12 +324,6 @@ export const earlyLevelingQuest: Quest = {
         familiar: $familiar`Patriotic Eagle`,
       }),
       post: () => sellMiscellaneousItems(),
-      limit: { tries: 1 },
-    },
-    {
-      name: "Bastille",
-      completed: () => get("_bastilleGames") > 0 || !have($item`Bastille Battalion control rig`),
-      do: () => cliExecute("bastille.ash mainstat brutalist"),
       limit: { tries: 1 },
     },
     {
