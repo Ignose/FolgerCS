@@ -131,7 +131,7 @@ export const HotResQuest: Quest = {
           $effect`Egged On`,
           $effect`Elemental Saucesphere`,
           $effect`Feeling Peaceful`,
-          $effect`Hot-Headed`,
+          // $effect`Hot-Headed`,
           $effect`Rainbowolin`,
 
           // Famwt Buffs
@@ -157,6 +157,8 @@ export const HotResQuest: Quest = {
           useFamiliar($familiar`Exotic Parrot`);
           use($item`box of Familiar Jacks`, 1);
         }
+
+        if (CommunityService.HotRes.actualCost() >= 7) tryAcquiringEffect($effect`Hot-Headed`);
       },
       completed: () => CommunityService.HotRes.isDone(),
       do: (): void => {

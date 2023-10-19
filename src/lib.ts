@@ -12,6 +12,7 @@ import {
   Item,
   itemAmount,
   lastChoice,
+  mallPrice,
   monkeyPaw,
   mpCost,
   myBasestat,
@@ -56,6 +57,7 @@ import {
 import { printModtrace } from "libram/dist/modifier";
 import { forbiddenEffects } from "./resources";
 import { mainStat } from "./combat";
+import { ShuffleTruffle } from "libram/dist/resources/2013/Florist";
 
 export const startingClan = getClanName();
 
@@ -630,3 +632,15 @@ export function checkLocketAvailable(): number {
 
   return locketAvailable;
 }
+
+/*
+export function checkValue(resource: Item): boolean {
+  if(mallPrice(resource) > get("valueOfAdventure") * expectedTurnSave(resource))
+    return true;
+  return false;
+}
+
+export function expectedTurnSave(resource: Item): number {
+  const myValue = 5 * resource;
+  return myValue;
+}*/
