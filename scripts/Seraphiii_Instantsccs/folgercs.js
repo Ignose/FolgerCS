@@ -15537,7 +15537,7 @@ var LevelingQuest = {
   }, {
     name: "Extra Camelspit Leveling",
     ready: () => property_get("camelSpit") >= 94,
-    completed: () => !property_get("instant_camelExperiment", false) && property_get("camelSpit") < 100,
+    completed: () => !property_get("instant_camelExperiment", false) || property_get("camelSpit") < 100,
     do: powerlevelingLocation(),
     prepare: () => {
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
