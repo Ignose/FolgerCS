@@ -241,7 +241,7 @@ export const WeaponDamageQuest: Quest = {
         $effects`Spit Upon, Pyramid Power`.forEach((ef) => {
           if (CommunityService.WeaponDamage.actualCost() >= 5) wishFor(ef); // The effects each save 2 turns on spelltest as well
         });
-        if (CommunityService.WeaponDamage.actualCost() >= 3) {
+        if (CommunityService.WeaponDamage.actualCost() >= 3 && !get("_madTeaParty")) {
           if (!have($item`goofily-plumed helmet`)) buy($item`goofily-plumed helmet`, 1);
           tryAcquiringEffect($effect`Weapon of Mass Destruction`);
         }

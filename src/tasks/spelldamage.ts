@@ -229,7 +229,7 @@ export const SpellDamageQuest: Quest = {
         ) {
           tryAcquiringEffect($effect`Offhand Remarkable`);
         }
-        if (!have($effect`Weapon of Mass Destruction`)) {
+        if (!get("_madTeaParty")) {
           while (!have($item`mariachi hat`)) {
             buy(1, $item`chewing gum on a string`);
             use(1, $item`chewing gum on a string`);
