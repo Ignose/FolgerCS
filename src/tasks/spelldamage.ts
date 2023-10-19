@@ -38,6 +38,7 @@ import {
   CommunityService,
   get,
   have,
+  Witchess,
 } from "libram";
 import { Quest } from "../engine/task";
 import { logTestSetup, shrugAT, startingClan, tryAcquiringEffect } from "../lib";
@@ -229,7 +230,7 @@ export const SpellDamageQuest: Quest = {
         ) {
           tryAcquiringEffect($effect`Offhand Remarkable`);
         }
-        if (!get("_madTeaParty")) {
+        if (!get("_madTeaParty") && !Witchess.have()) {
           if (!have($item`mariachi hat`)) retrieveItem(1, $item`chewing gum on a string`);
           tryAcquiringEffect($effect`Full Bottle in front of Me`);
         }

@@ -1,5 +1,6 @@
 import { CombatStrategy } from "grimoire-kolmafia";
 import {
+  buy,
   cliExecute,
   create,
   Effect,
@@ -154,6 +155,10 @@ export const FamiliarWeightQuest: Quest = {
             CommunityService.FamiliarWeight.actualCost() > 1
           ) {
             tryAcquiringEffect($effect`Offhand Remarkable`);
+          }
+          if (!get("_madTeaParty")) {
+            if (!have($item`sombrero-mounted sparkler`)) buy($item`sombrero-mounted sparkler`);
+            tryAcquiringEffect($effect`You Can Really Taste the Dormouse`);
           }
         }
       },
