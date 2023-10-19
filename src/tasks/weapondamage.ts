@@ -221,7 +221,7 @@ export const WeaponDamageQuest: Quest = {
           $effect`Tenacity of the Snapper`,
           $effect`The Power of LOV`,
           $effect`Wasabi With You`,
-          $effect`Weapon of Mass Destruction`,
+          // $effect`Weapon of Mass Destruction`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
@@ -241,6 +241,10 @@ export const WeaponDamageQuest: Quest = {
         $effects`Spit Upon, Pyramid Power`.forEach((ef) => {
           if (CommunityService.WeaponDamage.actualCost() >= 5) wishFor(ef); // The effects each save 2 turns on spelltest as well
         });
+        if (CommunityService.WeaponDamage.actualCost() >= 3) {
+          if (!have($item`goofily-plumed helmet`)) buy($item`goofily-plumed helmet`, 1);
+          tryAcquiringEffect($effect`Weapon of Mass Destruction`);
+        }
       },
       completed: () => CommunityService.WeaponDamage.isDone(),
       do: (): void => {

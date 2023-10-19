@@ -18,6 +18,7 @@ import {
   restoreHp,
   restoreMp,
   retrieveItem,
+  use,
   useSkill,
   visitUrl,
 } from "kolmafia";
@@ -227,6 +228,13 @@ export const SpellDamageQuest: Quest = {
           CommunityService.SpellDamage.actualCost() > 1
         ) {
           tryAcquiringEffect($effect`Offhand Remarkable`);
+        }
+        if (!have($effect`Weapon of Mass Destruction`)) {
+          while (!have($item`mariachi hat`)) {
+            buy(1, $item`chewing gum on a string`);
+            use(1, $item`chewing gum on a string`);
+          }
+          tryAcquiringEffect($effect`Full Bottle in front of Me`);
         }
       },
       completed: () => CommunityService.SpellDamage.isDone(),
