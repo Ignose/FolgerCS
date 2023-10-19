@@ -69,7 +69,7 @@ function checkWheelOfFortune(): void {
       !have($item`Deck of Every Card`) ||
       get("instant_saveDeck", false) ||
       (get("instant_maximizeProfit", false) &&
-        getSaleValue($item`blue mana`) > get("valueOfAdventure") * 4)
+        getSaleValue($item`blue mana`) > get("valueOfAdventure") * 6.6)
     )
   ) {
     cliExecute("cheat fortune");
@@ -127,7 +127,7 @@ export const BoozeDropQuest: Quest = {
         have($effect`One Very Clear Eye`) ||
         get("instant_skipCyclopsEyedrops", false) ||
         (get("instant_maximizeProfit", false) &&
-          getSaleValue($item`11-leaf clover`) > get("valueOfAdventure") * 3),
+          getSaleValue($item`11-leaf clover`) > get("valueOfAdventure") * 6.6),
       do: (): void => {
         if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
         if (!have($item`cyclops eyedrops`)) adv1($location`The Limerick Dungeon`, -1);
@@ -243,7 +243,7 @@ export const BoozeDropQuest: Quest = {
         (itemAmount($item`battery (AAA)`) < 5 && !have($item`battery (lantern)`)) ||
         get("instant_savePowerSeed", false) ||
         (get("instant_maximizeProfit", false) &&
-          getSaleValue($item`battery (AAA)`) * 5 > get("valueOfAdventure") * 4),
+          getSaleValue($item`battery (AAA)`) * 5 > get("valueOfAdventure") * 6.6),
       do: (): void => {
         if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);
         use($item`battery (lantern)`, 1);
@@ -317,6 +317,7 @@ export const BoozeDropQuest: Quest = {
           $effect`items.enh`,
           $effect`Joyful Resolve`,
           $effect`One Very Clear Eye`,
+          $effect`Shadow Waters`,
           $effect`Nearly All-Natural`,
           $effect`The Spirit of Taking`,
           $effect`Singer's Faithful Ocelot`,
