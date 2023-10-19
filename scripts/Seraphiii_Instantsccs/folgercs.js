@@ -9441,6 +9441,18 @@ function checkLocketAvailable() {
   var locketAvailable = (property_get("instant_saveLocketRedSkeleton", false) ? 1 : 0) + (property_get("instant_saveLocketWitchessKing", false) ? 1 : 0) + (property_get("instant_saveLocketFactoryWorker", false) ? 1 : 0);
   return locketAvailable;
 }
+
+/*
+export function checkValue(resource: Item): boolean {
+  if(mallPrice(resource) > get("valueOfAdventure") * expectedTurnSave(resource))
+    return true;
+  return false;
+}
+
+export function expectedTurnSave(resource: Item): number {
+  const myValue = 5 * resource;
+  return myValue;
+}*/
 ;// CONCATENATED MODULE: ./node_modules/libram/dist/since.js
 function since_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, since_toPropertyKey(descriptor.key), descriptor); } }
 function since_createClass(Constructor, protoProps, staticProps) { if (protoProps) since_defineProperties(Constructor.prototype, protoProps); if (staticProps) since_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -16961,18 +16973,20 @@ var HotResQuest = {
       (0,external_kolmafia_namespaceObject.cliExecute)("retrocape vampire hold");
       if (property_get("parkaMode") !== "pterodactyl") (0,external_kolmafia_namespaceObject.cliExecute)("parka pterodactyl");
       if (property_get("_kgbClicksUsed") < 22 && lib_have(template_string_$item(hotres_templateObject33 || (hotres_templateObject33 = hotres_taggedTemplateLiteral(["Kremlin's Greatest Briefcase"])))) && !property_get("instant_saveKGBClicks", false)) (0,external_kolmafia_namespaceObject.cliExecute)("briefcase e hot");
-      var usefulEffects = [template_string_$effect(hotres_templateObject34 || (hotres_templateObject34 = hotres_taggedTemplateLiteral(["Amazing"]))), template_string_$effect(hotres_templateObject35 || (hotres_templateObject35 = hotres_taggedTemplateLiteral(["Astral Shell"]))), template_string_$effect(hotres_templateObject36 || (hotres_templateObject36 = hotres_taggedTemplateLiteral(["Egged On"]))), template_string_$effect(hotres_templateObject37 || (hotres_templateObject37 = hotres_taggedTemplateLiteral(["Elemental Saucesphere"]))), template_string_$effect(hotres_templateObject38 || (hotres_templateObject38 = hotres_taggedTemplateLiteral(["Feeling Peaceful"]))), template_string_$effect(hotres_templateObject39 || (hotres_templateObject39 = hotres_taggedTemplateLiteral(["Hot-Headed"]))), template_string_$effect(hotres_templateObject40 || (hotres_templateObject40 = hotres_taggedTemplateLiteral(["Rainbowolin"]))), // Famwt Buffs
-      template_string_$effect(hotres_templateObject41 || (hotres_templateObject41 = hotres_taggedTemplateLiteral(["Blood Bond"]))), template_string_$effect(hotres_templateObject42 || (hotres_templateObject42 = hotres_taggedTemplateLiteral(["Empathy"]))), template_string_$effect(hotres_templateObject43 || (hotres_templateObject43 = hotres_taggedTemplateLiteral(["Leash of Linguini"]))), template_string_$effect(hotres_templateObject44 || (hotres_templateObject44 = hotres_taggedTemplateLiteral(["Robot Friends"])))];
+      var usefulEffects = [template_string_$effect(hotres_templateObject34 || (hotres_templateObject34 = hotres_taggedTemplateLiteral(["Amazing"]))), template_string_$effect(hotres_templateObject35 || (hotres_templateObject35 = hotres_taggedTemplateLiteral(["Astral Shell"]))), template_string_$effect(hotres_templateObject36 || (hotres_templateObject36 = hotres_taggedTemplateLiteral(["Egged On"]))), template_string_$effect(hotres_templateObject37 || (hotres_templateObject37 = hotres_taggedTemplateLiteral(["Elemental Saucesphere"]))), template_string_$effect(hotres_templateObject38 || (hotres_templateObject38 = hotres_taggedTemplateLiteral(["Feeling Peaceful"]))), // $effect`Hot-Headed`,
+      template_string_$effect(hotres_templateObject39 || (hotres_templateObject39 = hotres_taggedTemplateLiteral(["Rainbowolin"]))), // Famwt Buffs
+      template_string_$effect(hotres_templateObject40 || (hotres_templateObject40 = hotres_taggedTemplateLiteral(["Blood Bond"]))), template_string_$effect(hotres_templateObject41 || (hotres_templateObject41 = hotres_taggedTemplateLiteral(["Empathy"]))), template_string_$effect(hotres_templateObject42 || (hotres_templateObject42 = hotres_taggedTemplateLiteral(["Leash of Linguini"]))), template_string_$effect(hotres_templateObject43 || (hotres_templateObject43 = hotres_taggedTemplateLiteral(["Robot Friends"])))];
       usefulEffects.forEach(ef => tryAcquiringEffect(ef, true));
       (0,external_kolmafia_namespaceObject.cliExecute)("maximize hot res");
 
       // If it saves us >= 6 turns, try using a wish
-      if (CommunityService.HotRes.actualCost() >= 7) wishFor(template_string_$effect(hotres_templateObject45 || (hotres_templateObject45 = hotres_taggedTemplateLiteral(["Fireproof Lips"]))));
-      if (CommunityService.HotRes.actualCost() > 1 && lib_have(template_string_$skill(hotres_templateObject46 || (hotres_templateObject46 = hotres_taggedTemplateLiteral(["Summon Clip Art"])))) && !property_get("instant_saveClipArt", false) && lib_have(template_string_$familiar(hotres_templateObject47 || (hotres_templateObject47 = hotres_taggedTemplateLiteral(["Exotic Parrot"])))) && !lib_have(template_string_$item(hotres_templateObject48 || (hotres_templateObject48 = hotres_taggedTemplateLiteral(["cracker"]))))) {
-        if (!lib_have(template_string_$item(hotres_templateObject49 || (hotres_templateObject49 = hotres_taggedTemplateLiteral(["box of Familiar Jacks"]))))) (0,external_kolmafia_namespaceObject.create)(template_string_$item(hotres_templateObject50 || (hotres_templateObject50 = hotres_taggedTemplateLiteral(["box of Familiar Jacks"]))), 1);
-        (0,external_kolmafia_namespaceObject.useFamiliar)(template_string_$familiar(hotres_templateObject51 || (hotres_templateObject51 = hotres_taggedTemplateLiteral(["Exotic Parrot"]))));
-        (0,external_kolmafia_namespaceObject.use)(template_string_$item(hotres_templateObject52 || (hotres_templateObject52 = hotres_taggedTemplateLiteral(["box of Familiar Jacks"]))), 1);
+      if (CommunityService.HotRes.actualCost() >= 7) wishFor(template_string_$effect(hotres_templateObject44 || (hotres_templateObject44 = hotres_taggedTemplateLiteral(["Fireproof Lips"]))));
+      if (CommunityService.HotRes.actualCost() > 1 && lib_have(template_string_$skill(hotres_templateObject45 || (hotres_templateObject45 = hotres_taggedTemplateLiteral(["Summon Clip Art"])))) && !property_get("instant_saveClipArt", false) && lib_have(template_string_$familiar(hotres_templateObject46 || (hotres_templateObject46 = hotres_taggedTemplateLiteral(["Exotic Parrot"])))) && !lib_have(template_string_$item(hotres_templateObject47 || (hotres_templateObject47 = hotres_taggedTemplateLiteral(["cracker"]))))) {
+        if (!lib_have(template_string_$item(hotres_templateObject48 || (hotres_templateObject48 = hotres_taggedTemplateLiteral(["box of Familiar Jacks"]))))) (0,external_kolmafia_namespaceObject.create)(template_string_$item(hotres_templateObject49 || (hotres_templateObject49 = hotres_taggedTemplateLiteral(["box of Familiar Jacks"]))), 1);
+        (0,external_kolmafia_namespaceObject.useFamiliar)(template_string_$familiar(hotres_templateObject50 || (hotres_templateObject50 = hotres_taggedTemplateLiteral(["Exotic Parrot"]))));
+        (0,external_kolmafia_namespaceObject.use)(template_string_$item(hotres_templateObject51 || (hotres_templateObject51 = hotres_taggedTemplateLiteral(["box of Familiar Jacks"]))), 1);
       }
+      if (CommunityService.HotRes.actualCost() >= 7) tryAcquiringEffect(template_string_$effect(hotres_templateObject52 || (hotres_templateObject52 = hotres_taggedTemplateLiteral(["Hot-Headed"]))));
     },
     completed: () => CommunityService.HotRes.isDone(),
     do: () => {
