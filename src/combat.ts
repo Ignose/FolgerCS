@@ -8,6 +8,7 @@ export default class Macro extends StrictMacro {
   kill(useCinch = false): Macro {
     const macroHead = this.trySkill($skill`Curse of Weaksauce`)
       .trySkill($skill`Sing Along`)
+      .trySkill($skill`Micrometeorite`)
       .if_(
         `!mpbelow ${mpCost($skill`Stuffed Mortar Shell`)}`,
         Macro.trySkill($skill`Stuffed Mortar Shell`)
