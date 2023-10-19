@@ -15,6 +15,7 @@ import {
   mallPrice,
   myAdventures,
   myClass,
+  myLevel,
   myMaxhp,
   myMeat,
   myPrimestat,
@@ -147,6 +148,31 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Configure Trainset",
+      completed: () =>
+        !have($item`model train set`) ||
+        (getWorkshed() === $item`model train set` && !canConfigure()),
+      do: (): void => {
+        const statStation: Station = {
+          Muscle: Station.BRAWN_SILO,
+          Mysticality: Station.BRAIN_SILO,
+          Moxie: Station.GROIN_SILO,
+        }[myPrimestat().toString()];
+        use($item`model train set`);
+        setConfiguration([
+          Station.COAL_HOPPER, // double mainstat gain
+          statStation, // main stats
+          Station.VIEWING_PLATFORM, // all stats
+          Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
+          Station.WATER_BRIDGE, // +ML
+          Station.TOWER_FIZZY, // mp regen
+          Station.TOWER_FROZEN, // hot resist (useful)
+          Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
+        ]);
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Red Skeleton, Tropical Skeleton, Two For One",
       ready: () =>
         !have($effect`Everything Looks Yellow`) ||
@@ -217,21 +243,6 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Kramco",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-      },
-      ready: () => getKramcoWandererChance() >= 1.0,
-      completed: () => getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`),
-      do: $location`Noob Cave`,
-      outfit: () => ({
-        ...baseOutfit(),
-        offhand: $item`Kramco Sausage-o-Matic™`,
-      }),
-      combat: new CombatStrategy().macro(Macro.default()),
-    },
-    {
       name: "Configure Trainset",
       completed: () =>
         !have($item`model train set`) ||
@@ -246,15 +257,30 @@ export const earlyLevelingQuest: Quest = {
         setConfiguration([
           Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
           Station.WATER_BRIDGE, // +ML
-          Station.TOWER_FIZZY, // mp regen
           Station.COAL_HOPPER, // double mainstat gain
           statStation, // main stats
           Station.VIEWING_PLATFORM, // all stats
+          Station.TOWER_FIZZY, // mp regen
           Station.TOWER_FROZEN, // hot resist (useful)
           Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
         ]);
       },
       limit: { tries: 1 },
+    },
+    {
+      name: "Kramco",
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        restoreMp(50);
+      },
+      ready: () => getKramcoWandererChance() >= 1.0,
+      completed: () => getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`),
+      do: $location`Noob Cave`,
+      outfit: () => ({
+        ...baseOutfit(),
+        offhand: $item`Kramco Sausage-o-Matic™`,
+      }),
+      combat: new CombatStrategy().macro(Macro.default()),
     },
     {
       name: "Map Pocket Wishes",
@@ -272,6 +298,7 @@ export const earlyLevelingQuest: Quest = {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
       },
+      ready: () => myLevel() < 5,
       completed: () =>
         !have($skill`Map the Monsters`) ||
         !have($skill`Just the Facts`) ||

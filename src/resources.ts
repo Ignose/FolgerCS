@@ -223,6 +223,10 @@ const otherResources: Resource[] = [
     "instant_maximizeProfit",
     "Check the opportunity cost of every resource spent, before spending it. If the opportunity cost is higher than turnsave * MPA, skip it."
   ),
+  new Resource(
+    "instant_ExperimentalRouting",
+    "Try to better optimize routing to reduce resources used and improve aftercore."
+  ),
 ];
 
 const allResources = [

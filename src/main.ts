@@ -9,7 +9,7 @@ import {
   userConfirm,
   visitUrl,
 } from "kolmafia";
-import { computeCombatFrequency, convertMilliseconds, simpleDateDiff } from "./lib";
+import { computeCombatFrequency, convertMilliseconds, mainStatStr, simpleDateDiff } from "./lib";
 import { get, set, sinceKolmafiaRevision } from "libram";
 import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
@@ -76,23 +76,43 @@ export function main(command?: string): void {
   const swapFamAndNCTests =
     !get("instant_skipAutomaticOptimizations", false) && computeCombatFrequency() <= -95;
 
-  const tasks: Task[] = getTasks([
-    RunStartQuest,
-    earlyLevelingQuest,
-    CoilWireQuest,
-    LevelingQuest,
-    MysticalityQuest,
-    HPQuest,
-    MoxieQuest,
-    MuscleQuest,
-    swapFamAndNCTests ? NoncombatQuest : FamiliarWeightQuest,
-    swapFamAndNCTests ? FamiliarWeightQuest : NoncombatQuest,
-    BoozeDropQuest,
-    HotResQuest,
-    WeaponDamageQuest,
-    SpellDamageQuest,
-    DonateQuest,
-  ]);
+  const swapMoxieTest = mainStatStr === `Muscle`;
+
+  const tasks: Task[] = get("instant_ExperimentalRouting", false)
+    ? getTasks([
+        RunStartQuest,
+        earlyLevelingQuest,
+        CoilWireQuest,
+        LevelingQuest,
+        swapMoxieTest ? MoxieQuest : MysticalityQuest,
+        HPQuest,
+        swapMoxieTest ? MysticalityQuest : MoxieQuest,
+        MuscleQuest,
+        WeaponDamageQuest,
+        SpellDamageQuest,
+        HotResQuest,
+        swapFamAndNCTests ? FamiliarWeightQuest : NoncombatQuest,
+        BoozeDropQuest,
+        swapFamAndNCTests ? NoncombatQuest : FamiliarWeightQuest,
+        DonateQuest,
+      ])
+    : getTasks([
+        RunStartQuest,
+        earlyLevelingQuest,
+        CoilWireQuest,
+        LevelingQuest,
+        MysticalityQuest,
+        HPQuest,
+        MoxieQuest,
+        MuscleQuest,
+        swapFamAndNCTests ? NoncombatQuest : FamiliarWeightQuest,
+        swapFamAndNCTests ? FamiliarWeightQuest : NoncombatQuest,
+        BoozeDropQuest,
+        HotResQuest,
+        WeaponDamageQuest,
+        SpellDamageQuest,
+        DonateQuest,
+      ]);
   const engine = new Engine(tasks);
   try {
     setAutoAttack(0);
