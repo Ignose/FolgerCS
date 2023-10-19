@@ -230,10 +230,7 @@ export const SpellDamageQuest: Quest = {
           tryAcquiringEffect($effect`Offhand Remarkable`);
         }
         if (!get("_madTeaParty")) {
-          while (!have($item`mariachi hat`)) {
-            buy(1, $item`chewing gum on a string`);
-            use(1, $item`chewing gum on a string`);
-          }
+          if (!have($item`mariachi hat`)) retrieveItem(1, $item`chewing gum on a string`);
           tryAcquiringEffect($effect`Full Bottle in front of Me`);
         }
       },
