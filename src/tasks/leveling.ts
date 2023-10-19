@@ -1510,7 +1510,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Extra Camelspit Leveling",
       ready: () => get("camelSpit") >= 94,
-      completed: () => !get("instant_camelExperiment", false) || get("camelSpit") < 100,
+      completed: () => !get("instant_camelExperiment", false) || get("camelSpit") >= 100,
       do: powerlevelingLocation(),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
