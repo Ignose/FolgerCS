@@ -320,6 +320,10 @@ export const earlyLevelingQuest: Quest = {
             .default()
         ).abort()
       ),
+      outfit: () => ({
+        ...baseOutfit,
+        acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
+      }),
       post: () => sellMiscellaneousItems(),
       limit: { tries: 1 },
     },
@@ -349,6 +353,7 @@ export const earlyLevelingQuest: Quest = {
       outfit: () => ({
         ...baseOutfit,
         familiar: $familiar`Patriotic Eagle`,
+        acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
       }),
       post: () => sellMiscellaneousItems(),
       limit: { tries: 1 },
