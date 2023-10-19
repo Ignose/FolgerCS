@@ -1030,9 +1030,17 @@ export const LevelingQuest: Quest = {
       completed: () => get("_snojoFreeFights") >= 10 || !get("snojoAvailable"),
       do: $location`The X-32-F Combat Training Snowman`,
       combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Recall Facts: %phylum Circadian Rhythms`).default()
+        Macro.if_(
+          "!haseffect Citizen of a Zone",
+          Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`)
+        )
+          .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
+          .default()
       ),
-      outfit: baseOutfit,
+      outfit: () => ({
+        ...baseOutfit,
+        familiar: !have($effect`Citizen of a Zone`) ? $familiar`Patriotic Eagle` : undefined,
+      }),
       limit: { tries: 10 },
       post: (): void => {
         if (get("_snojoFreeFights") >= 10) cliExecute("hottub");
@@ -1101,6 +1109,36 @@ export const LevelingQuest: Quest = {
         sendAutumnaton();
         sellMiscellaneousItems();
       },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Bakery Pledge",
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        restoreMp(50);
+        docBag();
+        restoreMp(50);
+      },
+      ready: () => !have($effect`Citizen of a Zone`) && !get("snojoAvailable"),
+      completed: () =>
+        !have($familiar`Patriotic Eagle`) ||
+        ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
+          (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
+      do: $location`Madness Bakery`,
+      combat: new CombatStrategy().macro(
+        Macro.tryItem($item`blue rocket`)
+          .tryItem($item`red rocket`)
+          .trySkill($skill`%fn, let's pledge allegiance to a Zone`)
+          .trySkill($skill`Chest X-Ray`)
+          .trySkill($skill`Gingerbread Mob Hit`)
+          .trySkill($skill`Shattering Punch`)
+          .default()
+      ),
+      outfit: () => ({
+        ...baseOutfit,
+        familiar: $familiar`Patriotic Eagle`,
+      }),
+      post: () => sellMiscellaneousItems(),
       limit: { tries: 1 },
     },
     {

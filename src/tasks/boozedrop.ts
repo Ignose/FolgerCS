@@ -61,6 +61,21 @@ import Macro from "../combat";
 import { forbiddenEffects } from "../resources";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
 
+function checkWheelOfFortune(): void {
+  if (
+    !(
+      get("_deckCardsDrawn") > 10 ||
+      have($effect`Fortune of the Wheel`) ||
+      !have($item`Deck of Every Card`) ||
+      get("instant_saveDeck", false) ||
+      (get("instant_maximizeProfit", false) &&
+        getSaleValue($item`blue mana`) > get("valueOfAdventure") * 4)
+    )
+  ) {
+    cliExecute("cheat fortune");
+  }
+}
+
 export const BoozeDropQuest: Quest = {
   name: "Booze Drop",
   completed: () => CommunityService.BoozeDrop.isDone(),
@@ -222,18 +237,6 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Deck Wheel of Fortune",
-      completed: () =>
-        get("_deckCardsDrawn") > 10 ||
-        have($effect`Fortune of the Wheel`) ||
-        !have($item`Deck of Every Card`) ||
-        get("instant_saveDeck", false),
-      do: (): void => {
-        cliExecute("cheat fortune");
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Power Seed",
       completed: () =>
         !have($item`potted power plant`) ||
@@ -329,6 +332,8 @@ export const BoozeDropQuest: Quest = {
 
         // If it saves us >= 6 turns, try using a wish
         if (CommunityService.BoozeDrop.actualCost() >= 7) wishFor($effect`Infernal Thirst`);
+        // Check for wheel of fortune
+        if (CommunityService.BoozeDrop.actualCost() >= 5) checkWheelOfFortune();
       },
       completed: () => CommunityService.BoozeDrop.isDone(),
       do: (): void => {
