@@ -1,17 +1,5 @@
 import { CombatStrategy } from "grimoire-kolmafia";
-import {
-  buy,
-  cliExecute,
-  create,
-  drink,
-  Effect,
-  inebrietyLimit,
-  myInebriety,
-  print,
-  use,
-  useFamiliar,
-  useSkill,
-} from "kolmafia";
+import { buy, cliExecute, create, Effect, print, use, useFamiliar, useSkill } from "kolmafia";
 import {
   $effect,
   $familiar,
@@ -23,7 +11,6 @@ import {
   CommunityService,
   get,
   have,
-  uneffect,
 } from "libram";
 import { Quest } from "../engine/task";
 import { logTestSetup, tryAcquiringEffect, wishFor } from "../lib";

@@ -6,7 +6,6 @@ import {
   cliExecute,
   create,
   drink,
-  eat,
   Effect,
   equip,
   faxbot,
@@ -16,11 +15,8 @@ import {
   inMuscleSign,
   itemAmount,
   myInebriety,
-  myMaxhp,
   myMeat,
   print,
-  restoreHp,
-  restoreMp,
   retrieveItem,
   use,
   useFamiliar,
@@ -30,14 +26,12 @@ import {
 import {
   $coinmaster,
   $effect,
-  $effects,
   $familiar,
   $item,
   $location,
   $monster,
   $skill,
   $slot,
-  clamp,
   CombatLoversLocket,
   CommunityService,
   DaylightShavings,
@@ -85,6 +79,7 @@ export const BoozeDropQuest: Quest = {
       completed: () =>
         (getWorkshed() === $item`model train set` && !canConfigure()) ||
         !TrainSet.have() ||
+        get("instant_ExperimentalRouting", false) ||
         getWorkshed() === $item`Asdon Martin keyfob`,
       do: (): void => {
         const offset = get("trainsetPosition") % 8;

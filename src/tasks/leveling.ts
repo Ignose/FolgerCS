@@ -8,7 +8,6 @@ import {
   drink,
   eat,
   Effect,
-  effectModifier,
   equip,
   equippedItem,
   getMonsters,

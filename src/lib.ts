@@ -6,13 +6,10 @@ import {
   Effect,
   getCampground,
   getClanName,
-  handlingChoice,
   haveEffect,
   holiday,
   Item,
   itemAmount,
-  lastChoice,
-  mallPrice,
   monkeyPaw,
   mpCost,
   myBasestat,
@@ -57,7 +54,6 @@ import {
 import { printModtrace } from "libram/dist/modifier";
 import { forbiddenEffects } from "./resources";
 import { mainStat } from "./combat";
-import { ShuffleTruffle } from "libram/dist/resources/2013/Florist";
 
 export const startingClan = getClanName();
 

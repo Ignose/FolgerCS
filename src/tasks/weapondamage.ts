@@ -1,4 +1,4 @@
-import { CombatStrategy, OutfitSpec } from "grimoire-kolmafia";
+import { CombatStrategy } from "grimoire-kolmafia";
 import {
   buy,
   cliExecute,

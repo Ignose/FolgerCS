@@ -18,7 +18,6 @@ import {
   restoreHp,
   restoreMp,
   retrieveItem,
-  use,
   useSkill,
   visitUrl,
 } from "kolmafia";

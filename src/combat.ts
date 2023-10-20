@@ -1,5 +1,5 @@
 import { mpCost, myPrimestat, toInt } from "kolmafia";
-import { $item, $skill, $stat, get, have, StrictMacro } from "libram";
+import { $item, $skill, get, have, StrictMacro } from "libram";
 
 //export const mainStat = myClass().primestat;
 export const mainStat = myPrimestat(); //Update to select mainstat based on class derived from Libram
