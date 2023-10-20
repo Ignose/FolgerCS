@@ -355,6 +355,8 @@ export const earlyLevelingQuest: Quest = {
         Macro.tryItem($item`blue rocket`)
           .tryItem($item`red rocket`)
           .trySkill($skill`%fn, let's pledge allegiance to a Zone`)
+          .trySkill($skill`Snokebomb`)
+          .trySkill($skill`Reflex Hammer`)
           .trySkill($skill`Chest X-Ray`)
           .trySkill($skill`Gingerbread Mob Hit`)
           .trySkill($skill`Shattering Punch`)
