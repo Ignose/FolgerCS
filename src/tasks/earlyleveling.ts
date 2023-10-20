@@ -143,12 +143,14 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Scavenge",
+      after: ["Install Trainset"],
       completed: () => get("_daycareGymScavenges") > 0 || !get("daycareOpen"),
       do: () => cliExecute("daycare scavenge free"),
       limit: { tries: 1 },
     },
     {
       name: "Configure Trainset",
+      after: ["Scavenge"],
       completed: () =>
         !have($item`model train set`) ||
         (getWorkshed() === $item`model train set` && !canConfigure()),
@@ -194,7 +196,9 @@ export const earlyLevelingQuest: Quest = {
         get("instant_saveLocketRedSkeleton", false),
       do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
       combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Chest X-Ray`)
+        Macro.trySkill($skill`Snokebomb`)
+          .trySkill($skill`Reflex Hammer`)
+          .trySkill($skill`Chest X-Ray`)
           .trySkill($skill`Gingerbread Mob Hit`)
           .trySkill($skill`Shattering Punch`)
           .default()
