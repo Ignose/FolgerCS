@@ -341,9 +341,9 @@ export const LevelingQuest: Quest = {
         ((have($effect`Inscrutable Gaze`) || !have($skill`Inscrutable Gaze`)) &&
           myPrimestat() === $stat`Mysticality`) ||
         ((have($effect`Patient Smile`) || !have($skill`Patient Smile`)) &&
-          myPrimestat() !== $stat`Muscle`) ||
+          myPrimestat() === $stat`Muscle`) ||
         ((have($effect`Knowing Smile`) || !have($skill`Knowing Smile`)) &&
-          myPrimestat() !== $stat`Moxie`),
+          myPrimestat() === $stat`Moxie`),
       do: (): void => {
         const mainStatGainEffect: Effect = {
           Muscle: $effect`Patient Smile`,
