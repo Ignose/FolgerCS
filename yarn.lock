@@ -1998,6 +1998,11 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha512-dsKNQNdj6xA3T+QlADDA7mOSlX0qiMINjn0cgr+eGHGsbSHzTabcIogz2+p/iqP1Xs6EP/sS2SbqH+brGTbq0g==
 
+garbo-lib@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/garbo-lib/-/garbo-lib-0.0.1.tgz#260324142563e7c1ba6663d63a63c2f557472955"
+  integrity sha512-gAvUDfoEAzv4lk/h2BtuIyy1DsjfCrcaxaT/B6ddIhnaaKavDD71+VCSNdc7u56cN5PU41eGjZJTPGpRtrM1rg==
+
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/gensync/-/gensync-1.0.0-beta.2.tgz#32a6ee76c3d7f52d46b2b1ae5d93fea8580a25e0"
