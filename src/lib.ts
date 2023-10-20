@@ -53,7 +53,6 @@ import {
   Witchess,
 } from "libram";
 import { printModtrace } from "libram/dist/modifier";
-import { makeValue, ValueFunctions } from "garbo-lib";
 import { forbiddenEffects } from "./resources";
 import { mainStat } from "./combat";
 
