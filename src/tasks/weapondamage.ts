@@ -34,7 +34,6 @@ import {
   Clan,
   CombatLoversLocket,
   CommunityService,
-  DaylightShavings,
   get,
   have,
   SongBoom,
@@ -180,13 +179,6 @@ export const WeaponDamageQuest: Quest = {
         }
       },
       outfit: () => ({
-        hat:
-          DaylightShavings.nextBuff() === $effect`Musician's Musician's Moustache` &&
-          !DaylightShavings.hasBuff() &&
-          have($item`Daylight Shavings Helmet`)
-            ? $item`Daylight Shavings Helmet`
-            : undefined,
-        back: $item`vampyric cloake`,
         weapon: $item`Fourth of May Cosplay Saber`,
         offhand: have($skill`Double-Fisted Skull Smashing`)
           ? $item`industrial fire extinguisher`
