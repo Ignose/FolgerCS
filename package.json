@@ -1,8 +1,8 @@
 {
-  "name": "Seraphiii_Instantsccs",
-  "version": "0.0.1",
+  "name": "FolgerCS",
+  "version": "0.1.0",
   "description": "A low shiny SCCS script with some updates",
-  "main": "Seraphiii_Instantsccs",
+  "main": "FolgerCS",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "yarn run build:types && yarn run build:js",
@@ -38,15 +38,15 @@
   },
   "author": "Pantocyclus/Seraphiii",
   "license": "MIT",
-  "repository": "https://github.com/Ignose/InstantSCCS_Ignose",
+  "repository": "https://github.com/Ignose/FolgerCS",
   "keywords": [
     "KoLMafia",
     "JS",
     "TS"
   ],
   "bugs": {
-    "url": "https://github.com/Ignose/InstantSCCS_Ignose/issues"
+    "url": "https://github.com/Ignose/FolgerCS/issues"
   },
-  "homepage": "https://github.com/Ignose/InstantSCCS_Ignose#readme",
+  "homepage": "https://github.com/Ignose/FolgerCS#readme",
   "private": false
 }

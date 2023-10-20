@@ -1,4 +1,4 @@
-name: Build instantsccs
+name: Build FolgerCS
 
 on:
   push:
@@ -40,7 +40,7 @@ jobs:
 
       # Install dependencies
       - name: Install build dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install
 
       # Build script
       - run: |
