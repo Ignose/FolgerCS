@@ -1508,7 +1508,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Extra Camelspit Leveling",
-      ready: () => get("camelSpit") >= 94,
+      ready: () => get("camelSpit") >= 94 && myBasestat(myPrimestat()) >= targetBaseMyst,
       completed: () => !get("instant_camelExperiment", false) || get("camelSpit") >= 100,
       do: powerlevelingLocation(),
       prepare: (): void => {
@@ -1542,9 +1542,13 @@ export const LevelingQuest: Quest = {
         1324: 5,
       },
       combat: new CombatStrategy().macro(
-        Macro.tryItem($item`red rocket`)
-          .trySkill($skill`Bowl Sideways`)
+        Macro.trySkill($skill`Feel Pride`)
+          .trySkill($skill`Cincho: Confetti Extravaganza`)
+          .trySkill($skill`Gulp Latte`)
           .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
+          .trySkill($skill`Chest X-Ray`)
+          .trySkill($skill`Shattering Punch`)
+          .trySkill($skill`Gingerbread Mob Hit`)
           .default(useCinch)
       ),
       post: (): void => {
