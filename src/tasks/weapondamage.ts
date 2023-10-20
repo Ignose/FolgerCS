@@ -39,8 +39,6 @@ import { logTestSetup, startingClan, tryAcquiringEffect, wishFor } from "../lib"
 import { powerlevelingLocation } from "./leveling";
 import { forbiddenEffects } from "../resources";
 
-const attemptKFH = have($skill`Kung Fu Hustler`) && have($familiar`Disembodied Hand`);
-
 export const WeaponDamageQuest: Quest = {
   name: "Weapon Damage",
   completed: () => CommunityService.WeaponDamage.isDone(),
@@ -148,34 +146,25 @@ export const WeaponDamageQuest: Quest = {
         !have($item`Fourth of May Cosplay Saber`) ||
         !have($skill`Meteor Lore`) ||
         get("_saberForceUses") >= 5,
-      do: attemptKFH ? powerlevelingLocation() : $location`The Dire Warren`,
+      do: $location`The Dire Warren`,
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Meteor Shower`)
           .trySkill($skill`%fn, spit on me!`)
           .trySkill($skill`Use the Force`)
           .abort()
       ),
-      outfit: (): OutfitSpec => {
-        return attemptKFH
-          ? {
-              weapon: $item.none,
-              familiar: $familiar`Disembodied Hand`,
-              famequip: $item`Fourth of May Cosplay Saber`,
-              avoid: sugarItemsAboutToBreak(),
-            }
-          : {
-              weapon: $item`Fourth of May Cosplay Saber`,
-              familiar:
-                get("camelSpit") >= 100
-                  ? $familiar`Melodramedary`
-                  : $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
-                      (ef) => have(ef)
-                    )
-                  ? $familiar`Ghost of Crimbo Carols`
-                  : chooseFamiliar(false),
-              avoid: sugarItemsAboutToBreak(),
-            };
-      },
+      outfit: () => ({
+        weapon: $item`Fourth of May Cosplay Saber`,
+        familiar:
+          get("camelSpit") >= 100
+            ? $familiar`Melodramedary`
+            : $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
+                (ef) => have(ef)
+              )
+            ? $familiar`Ghost of Crimbo Carols`
+            : chooseFamiliar(false),
+        avoid: sugarItemsAboutToBreak(),
+      }),
       choices: { 1387: 3 },
       limit: { tries: 1 },
     },
