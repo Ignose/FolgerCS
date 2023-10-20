@@ -16664,7 +16664,7 @@ var BoozeDropQuest = {
   completed: () => CommunityService.BoozeDrop.isDone(),
   tasks: [{
     name: "Configure Trainset",
-    completed: () => (0,external_kolmafia_namespaceObject.getWorkshed)() === template_string_$item(boozedrop_templateObject4 || (boozedrop_templateObject4 = boozedrop_taggedTemplateLiteral(["model train set"]))) && !canConfigure() || !TrainSet_have() || (0,external_kolmafia_namespaceObject.getWorkshed)() === template_string_$item(boozedrop_templateObject5 || (boozedrop_templateObject5 = boozedrop_taggedTemplateLiteral(["Asdon Martin keyfob"]))),
+    completed: () => (0,external_kolmafia_namespaceObject.getWorkshed)() === template_string_$item(boozedrop_templateObject4 || (boozedrop_templateObject4 = boozedrop_taggedTemplateLiteral(["model train set"]))) && !canConfigure() || !TrainSet_have() || property_get("instant_ExperimentalRouting", false) || (0,external_kolmafia_namespaceObject.getWorkshed)() === template_string_$item(boozedrop_templateObject5 || (boozedrop_templateObject5 = boozedrop_taggedTemplateLiteral(["Asdon Martin keyfob"]))),
     do: () => {
       var offset = property_get("trainsetPosition") % 8;
       var newStations = [];
