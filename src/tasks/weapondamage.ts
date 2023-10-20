@@ -1,10 +1,13 @@
 import { CombatStrategy, OutfitSpec } from "grimoire-kolmafia";
 import {
   buy,
+  cliExecute,
   create,
   Effect,
   equippedItem,
+  faxbot,
   inebrietyLimit,
+  myClass,
   myHash,
   myInebriety,
   myMaxhp,
@@ -14,6 +17,7 @@ import {
   restoreHp,
   restoreMp,
   retrieveItem,
+  use,
   useSkill,
   visitUrl,
 } from "kolmafia";
@@ -23,11 +27,14 @@ import {
   $familiar,
   $item,
   $location,
+  $monster,
   $skill,
   $slot,
   clamp,
   Clan,
+  CombatLoversLocket,
   CommunityService,
+  DaylightShavings,
   get,
   have,
   SongBoom,
@@ -35,9 +42,15 @@ import {
 import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { Quest } from "../engine/task";
-import { logTestSetup, startingClan, tryAcquiringEffect, wishFor } from "../lib";
-import { powerlevelingLocation } from "./leveling";
+import {
+  checkLocketAvailable,
+  logTestSetup,
+  startingClan,
+  tryAcquiringEffect,
+  wishFor,
+} from "../lib";
 import { forbiddenEffects } from "../resources";
+import { checkThing } from "../sim";
 
 export const WeaponDamageQuest: Quest = {
   name: "Weapon Damage",
@@ -138,6 +151,64 @@ export const WeaponDamageQuest: Quest = {
         visitUrl("main.php");
       },
       limit: { tries: 1 },
+    },
+    {
+      name: "Fax Ungulith",
+      completed: () =>
+        !get("instant_ExperimentalRouting", false) ||
+        have($item`corrupted marrow`) ||
+        have($effect`Cowrruption`),
+      do: (): void => {
+        const monsterCow =
+          myClass().toString() === "Seal Clubber" && checkThing($monster`furious cow`)
+            ? $monster`furious cow`
+            : $monster`ungulith`;
+        if (checkLocketAvailable() >= 2) {
+          CombatLoversLocket.reminisce(monsterCow);
+        } else {
+          cliExecute("chat");
+          if (have($item`photocopied monster`) && get("photocopyMonster") !== monsterCow) {
+            cliExecute("fax send");
+          }
+          if (
+            (have($item`photocopied monster`) || faxbot(monsterCow)) &&
+            get("photocopyMonster") === monsterCow
+          ) {
+            use($item`photocopied monster`);
+          }
+        }
+      },
+      outfit: () => ({
+        hat:
+          DaylightShavings.nextBuff() === $effect`Musician's Musician's Moustache` &&
+          !DaylightShavings.hasBuff() &&
+          have($item`Daylight Shavings Helmet`)
+            ? $item`Daylight Shavings Helmet`
+            : undefined,
+        back: $item`vampyric cloake`,
+        weapon: $item`Fourth of May Cosplay Saber`,
+        offhand: have($skill`Double-Fisted Skull Smashing`)
+          ? $item`industrial fire extinguisher`
+          : undefined,
+        familiar:
+          get("camelSpit") >= 100
+            ? $familiar`Melodramedary`
+            : $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
+                (ef) => have(ef)
+              )
+            ? $familiar`Ghost of Crimbo Carols`
+            : chooseFamiliar(false),
+        modifier: "mus",
+        avoid: sugarItemsAboutToBreak(),
+      }),
+      choices: { 1387: 3 },
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`Meteor Shower`)
+          .trySkill($skill`%fn, spit on me!`)
+          .trySkill($skill`Use the Force`)
+          .abort()
+      ),
+      limit: { tries: 5 },
     },
     {
       name: "Meteor Shower",

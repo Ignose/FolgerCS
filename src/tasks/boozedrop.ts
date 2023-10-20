@@ -155,7 +155,10 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Fax Ungulith",
-      completed: () => have($item`corrupted marrow`) || have($effect`Cowrruption`),
+      completed: () =>
+        get("instant_ExperimentalRouting", false) ||
+        have($item`corrupted marrow`) ||
+        have($effect`Cowrruption`),
       do: (): void => {
         if (checkLocketAvailable() >= 2) {
           CombatLoversLocket.reminisce($monster`ungulith`);

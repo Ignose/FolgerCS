@@ -549,7 +549,7 @@ function buildMiscList(): Requirement[] {
   ];
 }
 
-function checkThing(thing: Thing): [boolean, string] {
+export function checkThing(thing: Thing): [boolean, string] {
   if (thing instanceof Hardcoded) return [thing.have, thing.name];
   if (thing instanceof Familiar) return [have(thing), thing.hatchling.name];
   if (thing instanceof Skill)
