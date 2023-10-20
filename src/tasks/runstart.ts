@@ -156,20 +156,6 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Deck",
-      ready: () => get("_deckCardsDrawn") === 0,
-      completed: () =>
-        get("_deckCardsDrawn") >= 10 ||
-        (have($item`wrench`) && have($item`candlestick`)) ||
-        !have($item`Deck of Every Card`) ||
-        get("instant_saveDeck", false),
-      do: (): void => {
-        cliExecute("cheat wrench");
-        cliExecute("cheat candlestick");
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Update Replica Store Credits",
       completed: () =>
         !have($item`2002 Mr. Store Catalog`) || get("_2002MrStoreCreditsCollected", true),

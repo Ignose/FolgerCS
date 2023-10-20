@@ -174,6 +174,7 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Red Skeleton, Tropical Skeleton, Two For One",
+      after: ["Configure Trainset"],
       ready: () =>
         !have($effect`Everything Looks Yellow`) ||
         (have($skill`Feel Envy`) && get("_feelEnvyUsed") < 3) ||
@@ -204,6 +205,7 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Map Novelty Tropical Skeleton",
+      after: ["Red Skeleton, Tropical Skeleton, Two For One"],
       prepare: (): void => {
         if (useParkaSpit) {
           cliExecute("parka dilophosaur");
@@ -243,7 +245,8 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Configure Trainset",
+      name: "ReConfigure Trainset",
+      after: ["Map Novelty Tropical Skeleton"],
       completed: () =>
         !have($item`model train set`) ||
         (getWorkshed() === $item`model train set` && !canConfigure()),
@@ -269,6 +272,7 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Kramco",
+      after: ["ReConfigure Trainset"],
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
@@ -284,6 +288,7 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Map Pocket Wishes",
+      after: ["Kramco"],
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(30);
@@ -329,6 +334,7 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Bakery Pledge",
+      after: ["Map Pocket Wishes"],
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
