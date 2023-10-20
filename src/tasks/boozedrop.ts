@@ -14,6 +14,7 @@ import {
   inebrietyLimit,
   inMuscleSign,
   itemAmount,
+  myClass,
   myInebriety,
   myMeat,
   print,
@@ -160,16 +161,21 @@ export const BoozeDropQuest: Quest = {
         have($item`corrupted marrow`) ||
         have($effect`Cowrruption`),
       do: (): void => {
+        const monsterCow =
+          myClass().toString() === "Seal Clubber" &&
+          CombatLoversLocket.unlockedLocketMonsters().includes($monster`furious cow`)
+            ? $monster`furious cow`
+            : $monster`ungulith`;
         if (checkLocketAvailable() >= 2) {
-          CombatLoversLocket.reminisce($monster`ungulith`);
+          CombatLoversLocket.reminisce(monsterCow);
         } else {
           cliExecute("chat");
-          if (have($item`photocopied monster`) && get("photocopyMonster") !== $monster`ungulith`) {
+          if (have($item`photocopied monster`) && get("photocopyMonster") !== monsterCow) {
             cliExecute("fax send");
           }
           if (
-            (have($item`photocopied monster`) || faxbot($monster`ungulith`)) &&
-            get("photocopyMonster") === $monster`ungulith`
+            (have($item`photocopied monster`) || faxbot(monsterCow)) &&
+            get("photocopyMonster") === monsterCow
           ) {
             use($item`photocopied monster`);
           }

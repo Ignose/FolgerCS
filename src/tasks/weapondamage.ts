@@ -51,7 +51,6 @@ import {
   wishFor,
 } from "../lib";
 import { forbiddenEffects } from "../resources";
-import { checkThing } from "../sim";
 
 export const WeaponDamageQuest: Quest = {
   name: "Weapon Damage",
@@ -157,13 +156,12 @@ export const WeaponDamageQuest: Quest = {
     },
     {
       name: "Fax Ungulith",
-      completed: () =>
-        !get("instant_ExperimentalRouting", false) ||
-        have($item`corrupted marrow`) ||
-        have($effect`Cowrruption`),
+      ready: () => get("instant_ExperimentalRouting", false),
+      completed: () => have($item`corrupted marrow`) || have($effect`Cowrruption`),
       do: (): void => {
         const monsterCow =
-          myClass().toString() === "Seal Clubber" && checkThing($monster`furious cow`)
+          myClass().toString() === "Seal Clubber" &&
+          CombatLoversLocket.unlockedLocketMonsters().includes($monster`furious cow`)
             ? $monster`furious cow`
             : $monster`ungulith`;
         if (checkLocketAvailable() >= 2) {

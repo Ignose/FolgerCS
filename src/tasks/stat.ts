@@ -28,11 +28,13 @@ import {
 } from "libram";
 import { Quest } from "../engine/task";
 import {
+  checkValue,
   logTestSetup,
   reagentBalancerEffect,
   reagentBalancerItem,
   tryAcquiringEffect,
 } from "../lib";
+import { forbiddenEffects } from "../resources";
 
 function useBalancerForTest(testStat: Stat): void {
   if (testStat === myPrimestat()) {
@@ -274,6 +276,23 @@ export const MoxieQuest: Quest = {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
         }
         withChoice(1506, 3, () => use($item`Letter from Carrie Bradshaw`));
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Loathing Idol Microphone",
+      completed: () =>
+        have($effect`Spitting Rhymes`) ||
+        !have($item`2002 Mr. Store Catalog`) ||
+        (get("availableMrStore2002Credits", 0) <= get("instant_saveCatalogCredits", 0) &&
+          !have($item`Loathing Idol Microphone`)) ||
+        forbiddenEffects.includes($effect`Poppy Performance`) ||
+        checkValue("2002", Math.min(2, CommunityService.Moxie.prediction)),
+      do: (): void => {
+        if (!have($item`Loathing Idol Microphone`)) {
+          buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
+        }
+        withChoice(1505, 3, () => use($item`Loathing Idol Microphone`));
       },
       limit: { tries: 1 },
     },
