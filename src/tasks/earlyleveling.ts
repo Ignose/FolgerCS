@@ -371,32 +371,8 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Pull Calzone of Legend",
-      completed: () =>
-        have($item`Calzone of Legend`) ||
-        have($effect`In the 'zone zone!`) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`Calzone of Legend`).toString()) ||
-        get("instant_skipCalzoneOfLegend", false),
-      do: (): void => {
-        if (storageAmount($item`Calzone of Legend`) === 0) {
-          print("Uh oh! You do not seem to have a Calzone of Legend in Hagnk's", "red");
-          print(
-            "Consider pulling something to make up for the turngen and 300%myst (e.g. a roasted vegetable focaccia),",
-            "red"
-          );
-          print(
-            "then type 'set _instant_skipCalzoneOfLegend=true' before re-running instantsccs",
-            "red"
-          );
-        }
-        takeStorage($item`Calzone of Legend`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Pull Pizza of Legend",
+      after: ["Bakery Pledge"],
       completed: () =>
         have($item`Pizza of Legend`) ||
         have($effect`Endless Drool`) ||
@@ -431,9 +407,36 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Eat Calzone",
+      name: "Pull Calzone of Legend",
+      after: ["Eat Pizza"],
       completed: () =>
-        get("calzoneOfLegendEaten") || !have($item`Pizza of Legend`) || myAdventures() > 60,
+        have($item`Calzone of Legend`) ||
+        have($effect`In the 'zone zone!`) ||
+        get("_roninStoragePulls")
+          .split(",")
+          .includes(toInt($item`Calzone of Legend`).toString()) ||
+        get("instant_skipCalzoneOfLegend", false),
+      do: (): void => {
+        if (storageAmount($item`Calzone of Legend`) === 0) {
+          print("Uh oh! You do not seem to have a Calzone of Legend in Hagnk's", "red");
+          print(
+            "Consider pulling something to make up for the turngen and 300%myst (e.g. a roasted vegetable focaccia),",
+            "red"
+          );
+          print(
+            "then type 'set _instant_skipCalzoneOfLegend=true' before re-running instantsccs",
+            "red"
+          );
+        }
+        takeStorage($item`Calzone of Legend`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Eat Calzone",
+      after: ["Eat Pizza"],
+      completed: () =>
+        get("calzoneOfLegendEaten") || !have($item`Calzone of Legend`) || myAdventures() > 60,
       do: (): void => {
         if (have($item`familiar scrapbook`)) {
           equip($item`familiar scrapbook`);

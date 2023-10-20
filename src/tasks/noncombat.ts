@@ -31,12 +31,6 @@ export const NoncombatQuest: Quest = {
   completed: () => CommunityService.Noncombat.isDone(),
   tasks: [
     {
-      name: "Buy Porkpie-mounted Popper",
-      completed: () => have($item`porkpie-mounted popper`),
-      do: () => buy($item`porkpie-mounted popper`, 1),
-      limit: { tries: 1 },
-    },
-    {
       name: "Use Shadow Lodestone",
       ready: () => have($item`Rufus's shadow lodestone`),
       completed: () => have($effect`Shadow Waters`),
@@ -67,6 +61,13 @@ export const NoncombatQuest: Quest = {
         fuelUp(), drive($effect`Driving Stealthily`);
       },
       limit: { tries: 3 },
+    },
+    {
+      name: "Buy Porkpie-mounted Popper",
+      completed: () =>
+        have($item`porkpie-mounted popper`) || CommunityService.BoozeDrop.prediction <= 1,
+      do: () => buy($item`porkpie-mounted popper`, 1),
+      limit: { tries: 1 },
     },
     {
       name: "Test",

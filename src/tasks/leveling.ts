@@ -82,6 +82,7 @@ import {
   abstractionXpItem,
   burnLibram,
   checkLocketAvailable,
+  checkValue,
   chooseLibram,
   fuelUp,
   generalStoreXpEffect,
@@ -1089,7 +1090,8 @@ export const LevelingQuest: Quest = {
       completed: () =>
         CombatLoversLocket.monstersReminisced().includes($monster`red skeleton`) ||
         !CombatLoversLocket.availableLocketMonsters().includes($monster`red skeleton`) ||
-        get("instant_saveLocketRedSkeleton", false),
+        get("instant_saveLocketRedSkeleton", false) ||
+        checkValue("Locket", 4),
       do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
       combat: new CombatStrategy().macro(
         Macro.if_("!haseffect Everything Looks Yellow", Macro.tryItem($item`yellow rocket`))

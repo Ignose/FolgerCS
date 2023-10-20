@@ -13,7 +13,7 @@ import {
   have,
 } from "libram";
 import { Quest } from "../engine/task";
-import { logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
+import { checkValue, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import Macro from "../combat";
 
@@ -21,38 +21,6 @@ export const HotResQuest: Quest = {
   name: "Hot Res",
   completed: () => CommunityService.HotRes.isDone(),
   tasks: [
-    {
-      name: "Reminisce Factory Worker (female)",
-      prepare: (): void => {
-        if (!have($item`yellow rocket`) && !have($effect`Everything Looks Yellow`))
-          buy($item`yellow rocket`, 1);
-      },
-      completed: () =>
-        CombatLoversLocket.monstersReminisced().includes($monster`factory worker (female)`) ||
-        !CombatLoversLocket.availableLocketMonsters().includes($monster`factory worker (female)`) ||
-        get("instant_saveLocketFactoryWorker", false),
-      do: () => CombatLoversLocket.reminisce($monster`factory worker (female)`),
-      outfit: () => ({
-        back: $item`vampyric cloake`,
-        weapon: $item`Fourth of May Cosplay Saber`,
-        offhand: have($skill`Double-Fisted Skull Smashing`)
-          ? $item`industrial fire extinguisher`
-          : undefined,
-        familiar: chooseFamiliar(false),
-        modifier: "Item Drop",
-        avoid: sugarItemsAboutToBreak(),
-      }),
-      choices: { 1387: 3 },
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Become a Cloud of Mist`)
-          .trySkill($skill`Fire Extinguisher: Foam Yourself`)
-          .trySkill($skill`Use the Force`)
-          .trySkill($skill`Shocking Lick`)
-          .tryItem($item`yellow rocket`)
-          .default()
-      ),
-      limit: { tries: 1 },
-    },
     {
       name: "Grab Foam Suit",
       completed: () =>
@@ -75,6 +43,40 @@ export const HotResQuest: Quest = {
           .skill($skill`Fire Extinguisher: Foam Yourself`)
           .skill($skill`Use the Force`)
           .abort()
+      ),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Reminisce Factory Worker (female)",
+      after: ["Grab Foam Suit"],
+      prepare: (): void => {
+        if (!have($item`yellow rocket`) && !have($effect`Everything Looks Yellow`))
+          buy($item`yellow rocket`, 1);
+      },
+      completed: () =>
+        CombatLoversLocket.monstersReminisced().includes($monster`factory worker (female)`) ||
+        !CombatLoversLocket.availableLocketMonsters().includes($monster`factory worker (female)`) ||
+        get("instant_saveLocketFactoryWorker", false) ||
+        checkValue("Locket", Math.min(14, CommunityService.HotRes.prediction - 1)),
+      do: () => CombatLoversLocket.reminisce($monster`factory worker (female)`),
+      outfit: () => ({
+        back: $item`vampyric cloake`,
+        weapon: $item`Fourth of May Cosplay Saber`,
+        offhand: have($skill`Double-Fisted Skull Smashing`)
+          ? $item`industrial fire extinguisher`
+          : undefined,
+        familiar: chooseFamiliar(false),
+        modifier: "Item Drop",
+        avoid: sugarItemsAboutToBreak(),
+      }),
+      choices: { 1387: 3 },
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`Become a Cloud of Mist`)
+          .trySkill($skill`Fire Extinguisher: Foam Yourself`)
+          .trySkill($skill`Use the Force`)
+          .trySkill($skill`Shocking Lick`)
+          .tryItem($item`yellow rocket`)
+          .default()
       ),
       limit: { tries: 1 },
     },

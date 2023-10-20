@@ -44,6 +44,7 @@ import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { Quest } from "../engine/task";
 import {
   checkLocketAvailable,
+  checkValue,
   logTestSetup,
   startingClan,
   tryAcquiringEffect,
@@ -62,7 +63,8 @@ export const WeaponDamageQuest: Quest = {
         have($effect`In a Lather`) ||
         myInebriety() >= inebrietyLimit() - 1 ||
         myMeat() < 500 ||
-        get("instant_saveSockdollager", false),
+        get("instant_saveSockdollager", false) ||
+        get("instant_maximizeProfit", false),
       do: (): void => {
         tryAcquiringEffect($effect`Ode to Booze`);
         visitUrl(`clan_viplounge.php?preaction=speakeasydrink&drink=6&pwd=${+myHash()}`); // Sockdollager
@@ -84,7 +86,8 @@ export const WeaponDamageQuest: Quest = {
         get("_cargoPocketEmptied") ||
         !have($item`Cargo Cultist Shorts`) ||
         get("instant_saveCargoShorts", false) ||
-        get("instant_experimentalCargoShorts", false),
+        get("instant_experimentalCargoShorts", false) ||
+        checkValue("Cargo", Math.min(8, CommunityService.WeaponDamage.prediction - 1)),
       do: (): void => {
         visitUrl("inventory.php?action=pocket");
         visitUrl("choice.php?whichchoice=1420&option=1&pocket=284");

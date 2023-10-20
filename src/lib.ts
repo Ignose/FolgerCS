@@ -10,6 +10,7 @@ import {
   holiday,
   Item,
   itemAmount,
+  mallPrice,
   monkeyPaw,
   mpCost,
   myBasestat,
@@ -52,6 +53,7 @@ import {
   Witchess,
 } from "libram";
 import { printModtrace } from "libram/dist/modifier";
+import { makeValue, ValueFunctions } from "garbo-lib";
 import { forbiddenEffects } from "./resources";
 import { mainStat } from "./combat";
 
@@ -629,14 +631,38 @@ export function checkLocketAvailable(): number {
   return locketAvailable;
 }
 
-/*
-export function checkValue(resource: Item): boolean {
-  if(mallPrice(resource) > get("valueOfAdventure") * expectedTurnSave(resource))
-    return true;
+type Thing = Item | string;
+
+export function checkValue(thing: Thing, turns: number): boolean {
+  if (!get("instant_maximizeProfit", false)) return true;
+  if (get("valueOfAdventure") * turns > checkPrice(thing)) return true;
   return false;
 }
 
-export function expectedTurnSave(resource: Item): number {
-  const myValue = 5 * resource;
-  return myValue;
-}*/
+function checkPrice(thing: Thing): number {
+  if (thing instanceof Item) return mallPrice(thing);
+  if (typeof thing === "string")
+    switch (thing) {
+      case "Locket":
+        return get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5);
+      case "Deck Cheat":
+        return 10000;
+      case "Fax":
+        return get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5);
+      case "2002":
+        return mallPrice($item`Spooky VHS Tape`);
+      case "Favorite Bird":
+        return 20000;
+      case "August Scepter":
+        if (have($familiar`Left-Hand Man`)) {
+          return get("valueOfAdventure") * 10;
+        } else return mallPrice($item`waffle`) * 3;
+      case "Pillkeeper":
+        return get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5); //Lucky
+      case "Cargo":
+        return 15000;
+      default:
+        return 0;
+    }
+  return 0;
+}

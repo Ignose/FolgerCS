@@ -40,7 +40,7 @@ import {
   Witchess,
 } from "libram";
 import { Quest } from "../engine/task";
-import { logTestSetup, shrugAT, startingClan, tryAcquiringEffect } from "../lib";
+import { checkValue, logTestSetup, shrugAT, startingClan, tryAcquiringEffect } from "../lib";
 import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { forbiddenEffects } from "../resources";
@@ -74,7 +74,8 @@ export const SpellDamageQuest: Quest = {
         get("_cargoPocketEmptied") ||
         !have($item`Cargo Cultist Shorts`) ||
         get("instant_saveCargoShorts", false) ||
-        !get("instant_experimentalCargoShorts", false),
+        !get("instant_experimentalCargoShorts", false) ||
+        checkValue("Cargo", Math.min(4, CommunityService.SpellDamage.prediction - 1)),
       do: (): void => {
         visitUrl("inventory.php?action=pocket");
         visitUrl("choice.php?whichchoice=1420&option=1&pocket=177");
@@ -220,12 +221,13 @@ export const SpellDamageQuest: Quest = {
         }
 
         if (
-          have($skill`Aug. 13th: Left/Off Hander's Day!`) &&
-          !get("instant_saveAugustScepter", false) &&
-          numericModifier(equippedItem($slot`off-hand`), "Spell Damage") +
-            numericModifier(equippedItem($slot`off-hand`), "Spell Damage Percent") >
-            0 &&
-          CommunityService.SpellDamage.actualCost() > 1
+          (have($skill`Aug. 13th: Left/Off Hander's Day!`) &&
+            !get("instant_saveAugustScepter", false) &&
+            numericModifier(equippedItem($slot`off-hand`), "Spell Damage") +
+              numericModifier(equippedItem($slot`off-hand`), "Spell Damage Percent") >
+              0 &&
+            CommunityService.SpellDamage.actualCost() > 1) ||
+          !checkValue("Scepter", Math.min(3, CommunityService.SpellDamage.prediction - 1))
         ) {
           tryAcquiringEffect($effect`Offhand Remarkable`);
         }

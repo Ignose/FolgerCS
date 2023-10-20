@@ -18,6 +18,7 @@ import {
   myMeat,
   print,
   retrieveItem,
+  runChoice,
   use,
   useFamiliar,
   useSkill,
@@ -36,7 +37,6 @@ import {
   CommunityService,
   DaylightShavings,
   get,
-  getSaleValue,
   have,
   TrainSet,
   uneffect,
@@ -48,27 +48,19 @@ import {
   setConfiguration,
   Station,
 } from "libram/dist/resources/2022/TrainSet";
-import { checkLocketAvailable, fuelUp, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
+import {
+  checkLocketAvailable,
+  checkValue,
+  fuelUp,
+  logTestSetup,
+  tryAcquiringEffect,
+  wishFor,
+} from "../lib";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { forbiddenEffects } from "../resources";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
-
-function checkWheelOfFortune(): void {
-  if (
-    !(
-      get("_deckCardsDrawn") > 10 ||
-      have($effect`Fortune of the Wheel`) ||
-      !have($item`Deck of Every Card`) ||
-      get("instant_saveDeck", false) ||
-      (get("instant_maximizeProfit", false) &&
-        getSaleValue($item`blue mana`) > get("valueOfAdventure") * 6.6)
-    )
-  ) {
-    cliExecute("cheat fortune");
-  }
-}
 
 export const BoozeDropQuest: Quest = {
   name: "Booze Drop",
@@ -103,6 +95,20 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Use Shadow Lodestone",
+      ready: () => have($item`Rufus's shadow lodestone`),
+      completed: () => have($effect`Shadow Waters`),
+      do: (): void => {
+        visitUrl("place.php?whichplace=town_right&action=townright_shadowrift");
+        runChoice(2);
+      },
+      choices: {
+        1500: 2,
+      },
+      combat: new CombatStrategy().macro(Macro.abort()),
+      limit: { tries: 1 },
+    },
+    {
       name: "Acquire Clover",
       completed: () =>
         have($item`11-leaf clover`) ||
@@ -121,8 +127,7 @@ export const BoozeDropQuest: Quest = {
         have($item`cyclops eyedrops`) ||
         have($effect`One Very Clear Eye`) ||
         get("instant_skipCyclopsEyedrops", false) ||
-        (get("instant_maximizeProfit", false) &&
-          getSaleValue($item`11-leaf clover`) > get("valueOfAdventure") * 6.6),
+        checkValue($item`11-leaf clover`, Math.min(6.6, CommunityService.BoozeDrop.prediction - 1)),
       do: (): void => {
         if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
         if (!have($item`cyclops eyedrops`)) adv1($location`The Limerick Dungeon`, -1);
@@ -221,7 +226,8 @@ export const BoozeDropQuest: Quest = {
           (!have($skill`Aug. 31st: Cabernet Sauvignon Day!`) ||
             get("instant_saveAugustScepter", false))) ||
         myInebriety() + 3 > inebrietyLimit() ||
-        get("instant_skipCabernetSauvignon", false),
+        get("instant_skipCabernetSauvignon", false) ||
+        checkValue("August Scepter", Math.min(2.6, CommunityService.BoozeDrop.prediction - 1)),
       do: (): void => {
         if (!have($item`bottle of Cabernet Sauvignon`))
           // eslint-disable-next-line libram/verify-constants
@@ -240,8 +246,10 @@ export const BoozeDropQuest: Quest = {
         !have($item`potted power plant`) ||
         (itemAmount($item`battery (AAA)`) < 5 && !have($item`battery (lantern)`)) ||
         get("instant_savePowerSeed", false) ||
-        (get("instant_maximizeProfit", false) &&
-          getSaleValue($item`battery (AAA)`) * 5 > get("valueOfAdventure") * 6.6),
+        checkValue(
+          $item`battery (lantern)`,
+          Math.min(6.6, CommunityService.BoozeDrop.prediction - 1)
+        ),
       do: (): void => {
         if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);
         use($item`battery (lantern)`, 1);
@@ -266,7 +274,8 @@ export const BoozeDropQuest: Quest = {
         have($effect`Spitting Rhymes`) ||
         !have($item`2002 Mr. Store Catalog`) ||
         get("availableMrStore2002Credits", 0) <= get("instant_saveCatalogCredits", 0) ||
-        forbiddenEffects.includes($effect`Spitting Rhymes`),
+        forbiddenEffects.includes($effect`Spitting Rhymes`) ||
+        checkValue("2002", 3),
       do: (): void => {
         if (!have($item`Loathing Idol Microphone`)) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
@@ -301,6 +310,31 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 3 },
     },
     {
+      name: "Wheel of Fortune",
+      completed: () =>
+        get("_deckCardsDrawn") > 10 ||
+        have($effect`Fortune of the Wheel`) ||
+        !have($item`Deck of Every Card`) ||
+        get("instant_saveDeck", false) ||
+        checkValue("Deck Cheat", Math.min(6.6, CommunityService.BoozeDrop.prediction - 1)) ||
+        CommunityService.BoozeDrop.prediction <= 6,
+      do: (): void => {
+        cliExecute("cheat fortune");
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Infernal Thirst",
+      completed: () =>
+        !have($item`pocket wish`) ||
+        checkValue($item`pocket wish`, Math.min(6.6, CommunityService.BoozeDrop.prediction - 1)) ||
+        CommunityService.BoozeDrop.prediction <= 6,
+      do: (): void => {
+        wishFor($effect`Infernal Thirst`);
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Test",
       prepare: (): void => {
         const usefulEffects: Effect[] = [
@@ -328,11 +362,6 @@ export const BoozeDropQuest: Quest = {
           useFamiliar($familiar`Trick-or-Treating Tot`);
           equip($slot`familiar`, $item`li'l ninja costume`);
         }
-
-        // If it saves us >= 6 turns, try using a wish
-        if (CommunityService.BoozeDrop.actualCost() >= 7) wishFor($effect`Infernal Thirst`);
-        // Check for wheel of fortune
-        if (CommunityService.BoozeDrop.actualCost() >= 5) checkWheelOfFortune();
       },
       completed: () => CommunityService.BoozeDrop.isDone(),
       do: (): void => {
