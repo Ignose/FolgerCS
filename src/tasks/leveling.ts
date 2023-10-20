@@ -466,6 +466,18 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Grab Green Mana",
+      completed: () =>
+        get("_deckCardsDrawn") >= 10 ||
+        get("instant_saveDeck", false) ||
+        have($effect`Giant Growth`) ||
+        !have($skill`Giant Growth`),
+      do: (): void => {
+        cliExecute("cheat green mana");
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Pull Daypass",
       completed: () =>
         powerlevelingLocation() !== $location`Uncle Gator's Country Fun-Time Liquid Waste Sluice` ||
@@ -975,6 +987,7 @@ export const LevelingQuest: Quest = {
       do: bestShadowRift(),
       combat: new CombatStrategy().macro(
         Macro.tryItem($item`red rocket`)
+          .trySkill($skill`Giant Growth`)
           .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
           .default()
       ),

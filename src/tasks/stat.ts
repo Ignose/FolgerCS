@@ -329,26 +329,6 @@ export const MoxieQuest: Quest = {
           $effect`Unrunnable Face`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
-
-        if (
-          CommunityService.Moxie.actualCost() >= 7 &&
-          ((get("_deckCardsDrawn") <= 10 && !get("instant_saveDeck", false)) ||
-            5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0)) &&
-          !have($effect`Giant Growth`) &&
-          have($skill`Giant Growth`)
-        ) {
-          if (!have($item`green mana`) && have($item`Deck of Every Card`)) {
-            cliExecute("cheat giant growth");
-          } else {
-            if (
-              5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) &&
-              storageAmount($item`green mana`) >= 1
-            ) {
-              takeStorage($item`green mana`, 1);
-            }
-          }
-          tryAcquiringEffect($effect`Giant Growth`);
-        }
       },
       do: (): void => {
         const maxTurns = get("instant_moxTestTurnLimit", 5);
