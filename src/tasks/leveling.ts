@@ -105,7 +105,13 @@ import {
   wishFor,
   xpWishEffect,
 } from "../lib";
-import { baseOutfit, docBag, garbageShirt, unbreakableUmbrella } from "../engine/outfit";
+import {
+  baseOutfit,
+  chooseFamiliar,
+  docBag,
+  garbageShirt,
+  unbreakableUmbrella,
+} from "../engine/outfit";
 import Macro, { haveFreeBanish } from "../combat";
 import { forbiddenEffects } from "../resources";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
@@ -330,12 +336,23 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Inscrutable Gaze",
+      name: "Mainstat Gaze",
       completed: () =>
-        have($effect`Inscrutable Gaze`) ||
-        !have($skill`Inscrutable Gaze`) ||
-        !myPrimestat() === $stat`Mysticality`,
-      do: (): void => ensureEffect($effect`Inscrutable Gaze`),
+        ((have($effect`Inscrutable Gaze`) || !have($skill`Inscrutable Gaze`)) &&
+          myPrimestat() === $stat`Mysticality`) ||
+        ((have($effect`Patient Smile`) || !have($skill`Patient Smile`)) &&
+          myPrimestat() !== $stat`Muscle`) ||
+        ((have($effect`Knowing Smile`) || !have($skill`Knowing Smile`)) &&
+          myPrimestat() !== $stat`Moxie`),
+      do: (): void => {
+        const mainStatGainEffect: Effect = {
+          Muscle: $effect`Patient Smile`,
+          Mysticality: $effect`Inscrutable Gaze`,
+          Moxie: $effect`Knowing Smile`,
+        }[mainStatStr];
+        ensureEffect(mainStatGainEffect);
+      },
+      limit: { tries: 1 },
     },
     {
       name: "Hot in Herre",
@@ -1039,7 +1056,7 @@ export const LevelingQuest: Quest = {
       ),
       outfit: () => ({
         ...baseOutfit,
-        familiar: !have($effect`Citizen of a Zone`) ? $familiar`Patriotic Eagle` : undefined,
+        familiar: !have($effect`Citizen of a Zone`) ? $familiar`Patriotic Eagle` : chooseFamiliar(),
       }),
       limit: { tries: 10 },
       post: (): void => {
@@ -1047,29 +1064,6 @@ export const LevelingQuest: Quest = {
         sendAutumnaton();
         sellMiscellaneousItems();
       },
-    },
-    {
-      name: "Snokebomb",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        restoreMp(50);
-      },
-      completed: () => get("_snokebombUsed") >= 3 - get("instant_saveSBForInnerElf", 0),
-      do: powerlevelingLocation(),
-      combat: new CombatStrategy().macro(Macro.trySkill($skill`Snokebomb`).abort()),
-      outfit: baseOutfit,
-      choices: {
-        1094: 5,
-        1115: 6,
-        1322: 2,
-        1324: 5,
-      },
-      post: (): void => {
-        sendAutumnaton();
-        sellMiscellaneousItems();
-      },
-      limit: { tries: 4 },
     },
     {
       name: "Get Totem and Saucepan",
@@ -1165,6 +1159,10 @@ export const LevelingQuest: Quest = {
               `!mpbelow ${mpCost($skill`Toynado`)} && hasskill ${toInt($skill`Toynado`)}`,
               Macro.skill($skill`Toynado`)
             )
+              .while_(
+                `!mpbelow ${mpCost($skill`Saucegeyser`)} && hasskill ${toInt($skill`Saucegeyser`)}`,
+                Macro.skill($skill`Saucegeyser`)
+              )
               .while_(
                 `!mpbelow ${mpCost($skill`Saucestorm`)} && hasskill ${toInt($skill`Saucestorm`)}`,
                 Macro.skill($skill`Saucestorm`)
@@ -1754,9 +1752,9 @@ export const LevelingQuest: Quest = {
           };
       },
       completed: () =>
-        myBasestat(myPrimestat()) >= targetBaseMyst &&
-        (get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
-        (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`)) &&
+        myBasestat(myPrimestat()) >= targetBaseMyst ||
+        ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
+          (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))) ||
         overlevelled(),
       do: powerlevelingLocation(),
       combat: new CombatStrategy().macro(
