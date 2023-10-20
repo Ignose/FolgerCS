@@ -1753,7 +1753,7 @@ export const LevelingQuest: Quest = {
           };
       },
       completed: () =>
-        myBasestat(myPrimestat()) >= targetBaseMyst ||
+        (myBasestat(myPrimestat()) >= targetBaseMyst && get("_feelPrideUsed", 3) >= 3) ||
         ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
           (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))) ||
         overlevelled(),
