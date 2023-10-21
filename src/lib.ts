@@ -633,9 +633,9 @@ export function checkLocketAvailable(): number {
 type Thing = Item | string;
 
 export function checkValue(thing: Thing, turns: number): boolean {
-  if (!get("instant_maximizeProfit", false)) return true;
-  if (get("valueOfAdventure") * turns > checkPrice(thing)) return true;
-  return false;
+  if (!get("instant_maximizeProfit", false)) return false;
+  if (get("valueOfAdventure") * turns > checkPrice(thing)) return false;
+  return true;
 }
 
 function checkPrice(thing: Thing): number {
