@@ -65,7 +65,7 @@ export const NoncombatQuest: Quest = {
     {
       name: "Buy Porkpie-mounted Popper",
       completed: () =>
-        have($item`porkpie-mounted popper`) || CommunityService.BoozeDrop.prediction <= 1,
+        have($item`porkpie-mounted popper`) || CommunityService.BoozeDrop.prediction <= 1 || get("_fireworksShopHatBought", false),
       do: () => buy($item`porkpie-mounted popper`, 1),
       limit: { tries: 1 },
     },
