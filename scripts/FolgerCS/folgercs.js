@@ -9442,9 +9442,9 @@ function checkLocketAvailable() {
   return locketAvailable;
 }
 function checkValue(thing, turns) {
-  if (!property_get("instant_maximizeProfit", false)) return true;
-  if (property_get("valueOfAdventure") * turns > checkPrice(thing)) return true;
-  return false;
+  if (!property_get("instant_maximizeProfit", false)) return false;
+  if (property_get("valueOfAdventure") * turns > checkPrice(thing)) return false;
+  return true;
 }
 function checkPrice(thing) {
   if (thing instanceof external_kolmafia_namespaceObject.Item) return (0,external_kolmafia_namespaceObject.mallPrice)(thing);
