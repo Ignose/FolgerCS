@@ -16631,7 +16631,7 @@ var NoncombatQuest = {
     }
   }, {
     name: "Buy Porkpie-mounted Popper",
-    completed: () => lib_have(template_string_$item(noncombat_templateObject7 || (noncombat_templateObject7 = noncombat_taggedTemplateLiteral(["porkpie-mounted popper"])))) || CommunityService.BoozeDrop.prediction <= 1,
+    completed: () => lib_have(template_string_$item(noncombat_templateObject7 || (noncombat_templateObject7 = noncombat_taggedTemplateLiteral(["porkpie-mounted popper"])))) || CommunityService.BoozeDrop.prediction <= 1 || property_get("_fireworksShopHatBought", false),
     do: () => (0,external_kolmafia_namespaceObject.buy)(template_string_$item(noncombat_templateObject8 || (noncombat_templateObject8 = noncombat_taggedTemplateLiteral(["porkpie-mounted popper"]))), 1),
     limit: {
       tries: 1
