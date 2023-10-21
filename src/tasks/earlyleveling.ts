@@ -353,7 +353,8 @@ export const earlyLevelingQuest: Quest = {
       },
       ready: () => !get("snojoAvailable"),
       completed: () =>
-        (have($effect`Citizen of a Zone`) && !have($familiar`Patriotic Eagle`)) ||
+        have($effect`Citizen of a Zone`) ||
+        !have($familiar`Patriotic Eagle`) ||
         ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
           (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
       do: $location`Madness Bakery`,
