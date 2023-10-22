@@ -55,6 +55,7 @@ import { chooseRift } from "libram/dist/resources/2023/ClosedCircuitPayphone";
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
+let pledgeCheck = false;
 
 let _bestShadowRift: Location | null = null;
 export function bestShadowRift(): Location {
@@ -351,12 +352,11 @@ export const earlyLevelingQuest: Quest = {
         docBag();
         restoreMp(50);
       },
-      ready: () => !get("snojoAvailable"),
+      ready: () => !get("snojoAvailable", false),
       completed: () =>
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
-        ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
-          (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
+        pledgeCheck,
       do: $location`Madness Bakery`,
       combat: new CombatStrategy().macro(
         Macro.tryItem($item`blue rocket`)
@@ -374,7 +374,17 @@ export const earlyLevelingQuest: Quest = {
         familiar: $familiar`Patriotic Eagle`,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
       }),
-      post: () => sellMiscellaneousItems(),
+      post: () => { sellMiscellaneousItems(),
+        pledgeCheck = true;
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Bastille",
+      after: ["Bakery Pledge"],
+      ready: () => myLevel() < 5,
+      completed: () => get("_bastilleGames") > 0 || !have($item`Bastille Battalion control rig`),
+      do: () => cliExecute("bastille.ash mainstat brutalist"),
       limit: { tries: 1 },
     },
     {

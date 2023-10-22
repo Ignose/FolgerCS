@@ -1510,6 +1510,7 @@ export const LevelingQuest: Quest = {
       },
       combat: new CombatStrategy().macro(
         Macro.tryItem($item`red rocket`)
+          .trySkill($skill`Feel Pride`)
           .trySkill($skill`Bowl Sideways`)
           .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
           .default(useCinch)
