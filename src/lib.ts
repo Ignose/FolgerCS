@@ -673,7 +673,7 @@ function checkPrice(thing: Thing): number {
       case "Favorite Bird":
         return 20000;
       case "August Scepter":
-        return mallPrice($item`waffle`) * 3;
+        return Math.max(mallPrice($item`waffle`) * 3, 30000);
       case "Pillkeeper":
         if(get("_freePillKeeperUsed", false))
           return get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5); //Lucky
