@@ -297,6 +297,12 @@ export const MoxieQuest: Quest = {
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
         if (CommunityService.Moxie.actualCost() >= 7 && 
+          (have($skill`Summon Clip Art`) && get("tomeSummons") === 0) && get("instant_skipBorrowedTime", false)) {
+            create($item`cold-filtered water`, 1);
+            use($item`cold-filtered water`, 1);
+          }
+
+        if (CommunityService.Moxie.actualCost() >= 7 && 
           have($item`Eight Days a Week Pill Keeper`) &&
           (checkValue("Pillkeeper", Math.min(7, Math.max(1, CommunityService.Mysticality.actualCost())))))
             tryAcquiringEffect($effect`Hulkien`);

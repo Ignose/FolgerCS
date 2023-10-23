@@ -213,12 +213,8 @@ export const WeaponDamageQuest: Quest = {
           visitUrl("inventory.php?action=pocket");
           visitUrl("choice.php?whichchoice=1420&option=1&pocket=284");
         }
-
-        // If it saves us >= 6 turns, try using a wish
-        if (checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Outer Wolf`, "Weapon Damage Percent"), Math.max(1, CommunityService.WeaponDamage.actualCost()))))
-          wishFor($effect`Outer Wolf™`);
         
-          $effects`Spit Upon, Pyramid Power`.forEach((ef) => {
+          $effects`Spit Upon, Pyramid Power, Outer Wolf`.forEach((ef) => {
           if (checkValue($item`pocket wish`, Math.min(resourceTurnSave(ef, "Weapon Damage Percent") 
           + resourceTurnSave(ef, "Spell Damage Percent"), Math.max(1, CommunityService.WeaponDamage.actualCost())))) 
             wishFor(ef); // The effects each save 2 turns on spelltest as well

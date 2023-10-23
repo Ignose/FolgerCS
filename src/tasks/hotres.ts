@@ -2,6 +2,7 @@ import { CombatStrategy } from "grimoire-kolmafia";
 import { buy, cliExecute, create, Effect, print, use, useFamiliar, useSkill } from "kolmafia";
 import {
   $effect,
+  $effects,
   $familiar,
   $item,
   $location,
@@ -133,19 +134,17 @@ export const HotResQuest: Quest = {
         cliExecute("maximize hot res");
 
         // If it saves us >= 6 turns, try using a wish
-        if (CommunityService.HotRes.actualCost() >= 7 &&
-        checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Fireproof Lips`, "Hot Res"), Math.max(1, CommunityService.HotRes.actualCost())))) 
-          wishFor($effect`Fireproof Lips`);
 
-        if (CommunityService.HotRes.actualCost() >= 7 &&
-          checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Hot-Headed`, "Hot Res"), Math.max(1, CommunityService.HotRes.actualCost())))) 
-            wishFor($effect`Fireproof Lips`);  
+        $effects`Fireproof Lips, Hot-Headed`.forEach((ef) => {
+          if (checkValue($item`pocket wish`, Math.min(resourceTurnSave(ef, "Hot Res"), Math.max(1, CommunityService.WeaponDamage.actualCost())))) 
+            wishFor(ef); // The effects each save 2 turns on spelltest as well
+        });
 
         if (CommunityService.HotRes.actualCost() >= 5 && 
           have($item`Eight Days a Week Pill Keeper`) &&
           (checkValue("Pillkeeper", Math.min(resourceTurnSave($effect`Rainbowlin`, "Hot Res"), Math.max(1, CommunityService.HotRes.actualCost())))))
             tryAcquiringEffect($effect`Rainbowlin`);
-            
+
       },
       completed: () => CommunityService.HotRes.isDone(),
       do: (): void => {
