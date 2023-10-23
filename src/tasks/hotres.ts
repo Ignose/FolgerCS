@@ -135,17 +135,10 @@ export const HotResQuest: Quest = {
         // If it saves us >= 6 turns, try using a wish
         if (CommunityService.HotRes.actualCost() >= 7) wishFor($effect`Fireproof Lips`);
 
-        if (
-          CommunityService.HotRes.actualCost() > 1 &&
-          have($skill`Summon Clip Art`) &&
-          !get("instant_saveClipArt", false) &&
-          have($familiar`Exotic Parrot`) &&
-          !have($item`cracker`)
-        ) {
-          if (!have($item`box of Familiar Jacks`)) create($item`box of Familiar Jacks`, 1);
-          useFamiliar($familiar`Exotic Parrot`);
-          use($item`box of Familiar Jacks`, 1);
-        }
+        if (CommunityService.HotRes.actualCost() >= 5 && 
+          have($item`Eight Days a Week Pill Keeper`) &&
+          (checkValue("Pillkeeper", Math.min(4, Math.max(1, CommunityService.HotRes.actualCost())))))
+            tryAcquiringEffect($effect`Rainbowlin`);
 
         if (CommunityService.HotRes.actualCost() >= 7) tryAcquiringEffect($effect`Hot-Headed`);
       },

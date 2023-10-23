@@ -165,7 +165,7 @@ const statEffects =
     ? muscleList
     : mainStatStr === `Mysticality`
     ? mysticalityList
-    : moxieList;
+    : moxieList;   
 
 const usefulEffects: Effect[] = [
   // Stats
@@ -173,7 +173,6 @@ const usefulEffects: Effect[] = [
   $effect`Feeling Excited`,
   $effect`Triple-Sized`,
   $effect`substats.enh`,
-  $effect`Hulkien`,
   $effect`Broad-Spectrum Vaccine`,
   // $effect`Think Win-Lose`,
   $effect`Confidence of the Votive`,

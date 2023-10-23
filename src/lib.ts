@@ -626,7 +626,6 @@ export function checkLocketAvailable(): number {
 type Thing = Item | string;
 
 export function checkValue(thing: Thing, turns: number): boolean {
-  if (!get("instant_maximizeProfit", false)) return true;
   if (get("valueOfAdventure") * turns > checkPrice(thing)) return true;
   return false;
 }
@@ -650,7 +649,9 @@ function checkPrice(thing: Thing): number {
           return get("valueOfAdventure") * 10;
         } else return mallPrice($item`waffle`) * 3;
       case "Pillkeeper":
-        return get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5); //Lucky
+        if(get("_freePillKeeperUsed", false))
+          return get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5); //Lucky
+        else return 7.5 * get("valueOfAdventure", 4000) + get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5);
       case "Cargo":
         return 15000;
       default:

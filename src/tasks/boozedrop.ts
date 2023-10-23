@@ -127,8 +127,7 @@ export const BoozeDropQuest: Quest = {
       ready: () => checkValue($item`11-leaf clover`, Math.min(6.6, CommunityService.BoozeDrop.prediction - 1)),
       completed: () =>
         have($item`cyclops eyedrops`) ||
-        have($effect`One Very Clear Eye`) ||
-        get("instant_skipCyclopsEyedrops", false),
+        have($effect`One Very Clear Eye`),
       do: (): void => {
         if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
         if (!have($item`cyclops eyedrops`)) adv1($location`The Limerick Dungeon`, -1);
