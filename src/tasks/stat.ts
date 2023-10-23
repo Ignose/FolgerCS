@@ -59,7 +59,6 @@ export const HPQuest: Quest = {
         const usefulEffects: Effect[] = [
           $effect`A Few Extra Pounds`,
           $effect`Big`,
-          $effect`Hulkien`,
           $effect`Mariachi Mood`,
           $effect`Patience of the Tortoise`,
           $effect`Power Ballad of the Arrowsmith`,
@@ -120,7 +119,6 @@ export const MuscleQuest: Quest = {
           $effect`Disdain of the War Snapper`,
           $effect`Feeling Excited`,
           $effect`Go Get 'Em, Tiger!`,
-          $effect`Hulkien`,
           $effect`Macaroni Coating`,
           $effect`Quiet Determination`,
           $effect`Power Ballad of the Arrowsmith`,
@@ -132,25 +130,10 @@ export const MuscleQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
-        if (
-          CommunityService.Muscle.actualCost() >= 7 &&
-          ((get("_deckCardsDrawn") <= 10 && !get("instant_saveDeck", false)) ||
-            5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0)) &&
-          !have($effect`Giant Growth`) &&
-          have($skill`Giant Growth`)
-        ) {
-          if (!have($item`green mana`) && have($item`Deck of Every Card`)) {
-            cliExecute("cheat giant growth");
-          } else {
-            if (
-              5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) &&
-              storageAmount($item`green mana`) >= 1
-            ) {
-              takeStorage($item`green mana`, 1);
-            }
-          }
-          tryAcquiringEffect($effect`Giant Growth`);
-        }
+        if (CommunityService.Muscle.actualCost() >= 7 && 
+          have($item`Eight Days a Week Pill Keeper`) &&
+          (checkValue("Pillkeeper", Math.min(7, Math.max(1, CommunityService.Mysticality.actualCost())))))
+            tryAcquiringEffect($effect`Hulkien`);
       },
       do: (): void => {
         const maxTurns = get("instant_musTestTurnLimit", 2);
@@ -202,7 +185,6 @@ export const MysticalityQuest: Quest = {
           $effect`Disdain of She-Who-Was`,
           $effect`Feeling Excited`,
           $effect`Glittering Eyelashes`,
-          $effect`Hulkien`,
           $effect`The Magical Mojomuscular Melody`,
           $effect`Triple-Sized`,
           $effect`Pasta Oneness`,
@@ -214,25 +196,10 @@ export const MysticalityQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
-        if (
-          CommunityService.Mysticality.actualCost() >= 7 &&
-          ((get("_deckCardsDrawn") <= 10 && !get("instant_saveDeck", false)) ||
-            5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0)) &&
-          !have($effect`Giant Growth`) &&
-          have($skill`Giant Growth`)
-        ) {
-          if (!have($item`green mana`) && have($item`Deck of Every Card`)) {
-            cliExecute("cheat giant growth");
-          } else {
-            if (
-              5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) &&
-              storageAmount($item`green mana`) >= 1
-            ) {
-              takeStorage($item`green mana`, 1);
-            }
-          }
-          tryAcquiringEffect($effect`Giant Growth`);
-        }
+        if (CommunityService.Mysticality.actualCost() >= 7 && 
+          have($item`Eight Days a Week Pill Keeper`) &&
+          (checkValue("Pillkeeper", Math.min(7, Math.max(1, CommunityService.Mysticality.actualCost())))))
+            tryAcquiringEffect($effect`Hulkien`);
       },
       do: (): void => {
         const maxTurns = get("instant_mystTestTurnLimit", 1);
@@ -318,7 +285,6 @@ export const MoxieQuest: Quest = {
           $effect`Disco Smirk`,
           $effect`Disco State of Mind`,
           $effect`Feeling Excited`,
-          $effect`Hulkien`,
           $effect`The Moxious Madrigal`,
           $effect`Triple-Sized`,
           $effect`Penne Fedora`,
@@ -329,6 +295,17 @@ export const MoxieQuest: Quest = {
           $effect`Unrunnable Face`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
+
+        if (CommunityService.Moxie.actualCost() >= 7 && 
+          (have($skill`Summon Clip Art`) && get("tomeSummons") === 0) && get("instant_skipBorrowedTime", false)) {
+            create($item`cold-filtered water`, 1);
+            use($item`cold-filtered water`, 1);
+          }
+
+        if (CommunityService.Moxie.actualCost() >= 7 && 
+          have($item`Eight Days a Week Pill Keeper`) &&
+          (checkValue("Pillkeeper", Math.min(7, Math.max(1, CommunityService.Mysticality.actualCost())))))
+            tryAcquiringEffect($effect`Hulkien`);
       },
       do: (): void => {
         const maxTurns = get("instant_moxTestTurnLimit", 5);

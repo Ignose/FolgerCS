@@ -25,7 +25,7 @@ class Resource {
 const consumptionResources: Resource[] = [
   new Resource(
     "instant_skipDistilledFortifiedWine",
-    "Do not grab the DFW lucky adventure (if you have numberology)"
+    "Do not grab the DFW lucky adventure (if you have numberology or are using skip-BT route)"
   ),
   new Resource(
     "instant_saveAstralPilsners",
@@ -39,11 +39,6 @@ const consumptionResources: Resource[] = [
   new Resource("instant_saveBeesKnees", "Do not buy and drink Bee's Knees"),
   new Resource("instant_saveSockdollager", "Do not buy and drink a sockdollager"),
   new Resource("instant_saveSacramentoWine", "Do not drink a Sacramento Wine for the item test"),
-  new Resource(
-    "instant_savePillkeeper",
-    "Do not acquire Hulkien, Rainbowolin and Fidoxene",
-    $effects`Hulkien, Rainbowolin, Fidoxene`
-  ),
   new Resource("instant_skipSynthExp", "Do not use synth for the Xp% buff"),
   new Resource(
     "instant_saveBodySpradium",
@@ -99,7 +94,6 @@ const encounterResources: Resource[] = [
     "instant_skipBishopsForRoyalty",
     "Save 3 Witchess fights for the Queen, King and Witch"
   ),
-  new Resource("instant_skipCyclopsEyedrops", "Do not spend a clover on Cyclops Eyedrops"),
 ];
 
 const farmingResources: Resource[] = [
@@ -111,8 +105,6 @@ const farmingResources: Resource[] = [
     "Do not use your snack voucher",
     $effects`Wasabi With You, Pisces in the Skyces`
   ),
-  new Resource("instant_saveClipArt", "Only summon borrowed time"),
-  new Resource("instant_saveDeck", "Do not use any deck summons"),
   new Resource("instant_saveBarrelShrine", "Do not get the barrel shrine buff", [
     $effect`Warlock, Warstock, and Warbarrel`,
   ]),
@@ -143,7 +135,7 @@ const farmingResources: Resource[] = [
     "instant_saveCinch",
     (n) => `Save ${n}/100 Cinch; set to 100 to avoid using any!`,
     [],
-    get("instant_saveSBForInnerElf", false) ? 100 : 0
+    get("instant_saveCinch", false) ? 100 : 0
   ),
   new Resource(
     "instant_saveFreeRests",
@@ -156,10 +148,6 @@ const farmingResources: Resource[] = [
     (n) => `Save ${n}/3 Mr. Store Catalog Credits (set a number)`,
     [],
     get("instant_saveCatalogCredits", false) ? 3 : 0
-  ),
-  new Resource(
-    "instant_skipHighHeels",
-    "Do not grab red-soled high heels from the Mr. Store Catalog"
   ),
   new Resource("instant_skipMeatButler", "Do not grab the meat butler from the Mr. Store Catalog"),
   new Resource(
@@ -192,10 +180,6 @@ const otherResources: Resource[] = [
     "Do not attempt to unlock the beach with meat to grab an anticheese"
   ),
   new Resource(
-    "instant_skipAutomaticOptimizations",
-    "Do not conduct automatic optimization of the route"
-  ),
-  new Resource(
     "instant_experimentPulls",
     "Automatically use pulls for Stick Knife, Soda, Diaper and/or Trousers?"
   ),
@@ -206,14 +190,6 @@ const otherResources: Resource[] = [
   new Resource(
     "instant_skipBorrowedTime",
     "Do not use borrowed time. Level to 5 using trainset, and eat pizzas to get coil adventures. Make sure you know what you're doing before using this."
-  ),
-  new Resource(
-    "instant_maximizeProfit",
-    "Check the opportunity cost of every resource spent, before spending it. If the opportunity cost is higher than turnsave * MPA, skip it."
-  ),
-  new Resource(
-    "instant_ExperimentalRouting",
-    "Try to better optimize routing to reduce resources used and improve aftercore."
   ),
 ];
 

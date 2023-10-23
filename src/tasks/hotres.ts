@@ -2,6 +2,7 @@ import { CombatStrategy } from "grimoire-kolmafia";
 import { buy, cliExecute, create, Effect, print, use, useFamiliar, useSkill } from "kolmafia";
 import {
   $effect,
+  $effects,
   $familiar,
   $item,
   $location,
@@ -13,9 +14,11 @@ import {
   have,
 } from "libram";
 import { Quest } from "../engine/task";
-import { checkValue, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
+import { checkValue, logTestSetup, resourceTurnSave, tryAcquiringEffect, wishFor } from "../lib";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import Macro from "../combat";
+
+const testType = "Hot Res";
 
 export const HotResQuest: Quest = {
   name: "Hot Res",
@@ -133,21 +136,17 @@ export const HotResQuest: Quest = {
         cliExecute("maximize hot res");
 
         // If it saves us >= 6 turns, try using a wish
-        if (CommunityService.HotRes.actualCost() >= 7) wishFor($effect`Fireproof Lips`);
 
-        if (
-          CommunityService.HotRes.actualCost() > 1 &&
-          have($skill`Summon Clip Art`) &&
-          !get("instant_saveClipArt", false) &&
-          have($familiar`Exotic Parrot`) &&
-          !have($item`cracker`)
-        ) {
-          if (!have($item`box of Familiar Jacks`)) create($item`box of Familiar Jacks`, 1);
-          useFamiliar($familiar`Exotic Parrot`);
-          use($item`box of Familiar Jacks`, 1);
-        }
+        $effects`Fireproof Lips, Hot-Headed`.forEach((ef) => {
+          if (checkValue($item`pocket wish`, Math.min(resourceTurnSave(ef, testType), Math.max(1, CommunityService.WeaponDamage.actualCost())))) 
+            wishFor(ef); // The effects each save 2 turns on spelltest as well
+        });
 
-        if (CommunityService.HotRes.actualCost() >= 7) tryAcquiringEffect($effect`Hot-Headed`);
+        if (CommunityService.HotRes.actualCost() >= 5 && 
+          have($item`Eight Days a Week Pill Keeper`) &&
+          (checkValue("Pillkeeper", Math.min(resourceTurnSave($effect`Rainbowlin`, testType), Math.max(1, CommunityService.HotRes.actualCost())))))
+            tryAcquiringEffect($effect`Rainbowlin`);
+
       },
       completed: () => CommunityService.HotRes.isDone(),
       do: (): void => {

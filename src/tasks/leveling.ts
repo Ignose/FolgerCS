@@ -81,6 +81,7 @@ import {
   abstractionXpEffect,
   abstractionXpItem,
   burnLibram,
+  camelFightsLeft,
   checkLocketAvailable,
   checkValue,
   chooseLibram,
@@ -165,7 +166,7 @@ const statEffects =
     ? muscleList
     : mainStatStr === `Mysticality`
     ? mysticalityList
-    : moxieList;
+    : moxieList;   
 
 const usefulEffects: Effect[] = [
   // Stats
@@ -173,7 +174,6 @@ const usefulEffects: Effect[] = [
   $effect`Feeling Excited`,
   $effect`Triple-Sized`,
   $effect`substats.enh`,
-  $effect`Hulkien`,
   $effect`Broad-Spectrum Vaccine`,
   // $effect`Think Win-Lose`,
   $effect`Confidence of the Votive`,
@@ -303,7 +303,9 @@ function sellMiscellaneousItems(): void {
 
 export const LevelingQuest: Quest = {
   name: "Leveling",
-  completed: () => get("csServicesPerformed").split(",").length > 1,
+  completed: () => get("csServicesPerformed").split(",").length > 1 ||
+  (myBasestat(myPrimestat()) >= targetBaseMyst && get("_feelPrideUsed", 3) >= 3 
+  && camelFightsLeft() === 0 && (get("camelSpit") < 94 || get("camelSpit") >= 100)),
   tasks: [
     {
       name: "LED Candle",

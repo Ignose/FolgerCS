@@ -21,10 +21,12 @@ import {
   have,
   uneffect,
 } from "libram";
-import { checkValue, fuelUp, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
+import { checkValue, fuelUp, logTestSetup, resourceTurnSave, tryAcquiringEffect, wishFor } from "../lib";
 import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
+
+const testType = "NonCombat";
 
 export const NoncombatQuest: Quest = {
   name: "Noncombat",
@@ -101,7 +103,7 @@ export const NoncombatQuest: Quest = {
         cliExecute("maximize -combat"); // To avoid maximizer bug, we invoke this once more
 
         // If it saves us >= 6 turns, try using a wish
-        if (checkValue($item`pocket wish`, Math.min(7, Math.max(1, CommunityService.WeaponDamage.actualCost()))))
+        if (checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Disquiet Riot`, testType), Math.max(1, CommunityService.WeaponDamage.actualCost()))))
           wishFor($effect`Disquiet Riot`);
       },
       do: (): void => {

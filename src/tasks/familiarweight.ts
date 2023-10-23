@@ -30,7 +30,7 @@ import {
   have,
 } from "libram";
 import { Quest } from "../engine/task";
-import { logTestSetup, shrugAT, tryAcquiringEffect } from "../lib";
+import { checkValue, logTestSetup, shrugAT, tryAcquiringEffect } from "../lib";
 import Macro from "../combat";
 import {
   avoidDaylightShavingsHelm,
@@ -126,7 +126,6 @@ export const FamiliarWeightQuest: Quest = {
           );
         if (
           have($skill`Summon Clip Art`) &&
-          !get("instant_saveClipArt", false) &&
           ($familiars`Mini-Trainbot, Exotic Parrot`.some((fam) => have(fam)) ||
             $familiars`Comma Chameleon, Homemade Robot`.every((fam) => have(fam)))
         ) {
@@ -146,16 +145,13 @@ export const FamiliarWeightQuest: Quest = {
             else useFamiliar($familiar`Exotic Parrot`);
             use($item`box of Familiar Jacks`, 1);
           }
+          if (CommunityService.FamiliarWeight.actualCost() >= 5 && 
+          have($item`Eight Days a Week Pill Keeper`) &&
+          (checkValue("Pillkeeper", Math.min(4, Math.max(1, CommunityService.Mysticality.actualCost())))))
+            tryAcquiringEffect($effect`Fidoxene`);
+            
           cliExecute("maximize familiar weight");
 
-          if (
-            have($skill`Aug. 13th: Left/Off Hander's Day!`) &&
-            !get("instant_saveAugustScepter", false) &&
-            numericModifier(equippedItem($slot`off-hand`), "Familiar Weight") > 0 &&
-            CommunityService.FamiliarWeight.actualCost() > 1
-          ) {
-            tryAcquiringEffect($effect`Offhand Remarkable`);
-          }
           if (!get("_madTeaParty")) {
             if (!have($item`sombrero-mounted sparkler`)) buy($item`sombrero-mounted sparkler`);
             tryAcquiringEffect($effect`You Can Really Taste the Dormouse`);

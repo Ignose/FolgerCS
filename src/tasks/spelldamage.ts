@@ -40,12 +40,13 @@ import {
   Witchess,
 } from "libram";
 import { Quest } from "../engine/task";
-import { checkValue, logTestSetup, shrugAT, startingClan, tryAcquiringEffect } from "../lib";
+import { checkValue, logTestSetup, resourceTurnSave, shrugAT, startingClan, tryAcquiringEffect } from "../lib";
 import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { forbiddenEffects } from "../resources";
 
 let triedDeepDark = false;
+const testType = "Spell Damage Percent";
 
 export const SpellDamageQuest: Quest = {
   name: "Spell Damage",
@@ -70,12 +71,10 @@ export const SpellDamageQuest: Quest = {
     },
     {
       name: "Cargo Shorts",
-      ready: () => checkValue("Cargo", Math.min(4, CommunityService.SpellDamage.prediction - 1)),
+      ready: () => checkValue("Cargo", Math.min(resourceTurnSave($effect`Sigils of Yeg`, testType), CommunityService.SpellDamage.prediction - 1)),
       completed: () =>
         get("_cargoPocketEmptied") ||
-        !have($item`Cargo Cultist Shorts`) ||
-        get("instant_saveCargoShorts", false) ||
-        !get("instant_experimentalCargoShorts", false),
+        !have($item`Cargo Cultist Shorts`),
       do: (): void => {
         visitUrl("inventory.php?action=pocket");
         visitUrl("choice.php?whichchoice=1420&option=1&pocket=177");
@@ -220,17 +219,6 @@ export const SpellDamageQuest: Quest = {
           drink(wines.filter((booze) => have(booze))[0], 1);
         }
 
-        if (
-          (have($skill`Aug. 13th: Left/Off Hander's Day!`) &&
-            !get("instant_saveAugustScepter", false) &&
-            numericModifier(equippedItem($slot`off-hand`), "Spell Damage") +
-              numericModifier(equippedItem($slot`off-hand`), "Spell Damage Percent") >
-              0 &&
-            CommunityService.SpellDamage.actualCost() > 1) ||
-          !checkValue("Scepter", Math.min(3, CommunityService.SpellDamage.prediction - 1))
-        ) {
-          tryAcquiringEffect($effect`Offhand Remarkable`);
-        }
         if (!get("_madTeaParty") && !Witchess.have()) {
           if (!have($item`mariachi hat`)) retrieveItem(1, $item`chewing gum on a string`);
           tryAcquiringEffect($effect`Full Bottle in front of Me`);

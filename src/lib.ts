@@ -4,6 +4,7 @@ import {
   cliExecute,
   create,
   Effect,
+  effectModifier,
   getCampground,
   getClanName,
   haveEffect,
@@ -19,6 +20,7 @@ import {
   myMaxhp,
   myMp,
   myPrimestat,
+  numericModifier,
   print,
   restoreMp,
   retrieveItem,
@@ -38,6 +40,7 @@ import {
   $familiar,
   $item,
   $items,
+  $modifier,
   $monster,
   $skill,
   $skills,
@@ -55,6 +58,7 @@ import {
 import { printModtrace } from "libram/dist/modifier";
 import { forbiddenEffects } from "./resources";
 import { mainStat } from "./combat";
+import { effect } from "libram/dist/resources/2022/TrainSet";
 
 export const startingClan = getClanName();
 
@@ -623,10 +627,33 @@ export function checkLocketAvailable(): number {
   return locketAvailable;
 }
 
-type Thing = Item | string;
+type Thing = Item | Effect | string;
+
+export function resourceTurnSave(thing: Effect, modifier: string): number {
+  if (haveEffect(thing)) return 0;
+  switch (modifier) {
+      case "Booze Drop":
+        return Math.floor(numericModifier(thing, modifier)/15);
+      case "Item Drop":
+         if(have($skill`Steely-Eyed Squint`) || have($effect`Steely-Eyed Squint`)) return Math.floor(numericModifier(thing, modifier)/15);
+         return Math.floor(numericModifier(thing, modifier)/30);
+      case "Weapon Damage Percent":
+        if(have($effect`Bow-Legged Swagger`) || have($skill`Bow-Legged Swagger`)) return Math.floor(numericModifier(thing, modifier)/25);
+        return Math.floor(numericModifier(thing, modifier)/50);
+      case "Spell Damage Percent":
+        return Math.floor(numericModifier(thing, modifier)/50);
+      case "Hot Res":
+        return numericModifier(thing, modifier);
+      case "Familiar Weight":
+        return Math.floor(numericModifier(thing, modifier)/5);
+      case "NonCombat":
+        return Math.floor(numericModifier(thing, modifier)*3/5);
+      default:
+        return 0;
+    }
+}
 
 export function checkValue(thing: Thing, turns: number): boolean {
-  if (!get("instant_maximizeProfit", false)) return true;
   if (get("valueOfAdventure") * turns > checkPrice(thing)) return true;
   return false;
 }
@@ -646,11 +673,11 @@ function checkPrice(thing: Thing): number {
       case "Favorite Bird":
         return 20000;
       case "August Scepter":
-        if (have($familiar`Left-Hand Man`)) {
-          return get("valueOfAdventure") * 10;
-        } else return mallPrice($item`waffle`) * 3;
+        return Math.max(mallPrice($item`waffle`) * 3, 30000);
       case "Pillkeeper":
-        return get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5); //Lucky
+        if(get("_freePillKeeperUsed", false))
+          return get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5); //Lucky
+        else return 7.5 * get("valueOfAdventure", 4000) + get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5);
       case "Cargo":
         return 15000;
       default:
