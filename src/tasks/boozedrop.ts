@@ -64,6 +64,9 @@ import Macro from "../combat";
 import { forbiddenEffects } from "../resources";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
 
+const testType = "Booze Drop";
+const itemType = "Item Drop";
+
 export const BoozeDropQuest: Quest = {
   name: "Booze Drop",
   completed: () => CommunityService.BoozeDrop.isDone(),
@@ -125,7 +128,8 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Get Cyclops Eyedrops",
-      ready: () => checkValue($item`11-leaf clover`, Math.min(6.6, CommunityService.BoozeDrop.prediction - 1)),
+      ready: () => checkValue($item`11-leaf clover`, Math.min(resourceTurnSave($effect`One Very Clear Eye`, itemType), 
+      CommunityService.BoozeDrop.prediction - 1)),
       completed: () =>
         have($item`cyclops eyedrops`) ||
         have($effect`One Very Clear Eye`),
@@ -364,14 +368,14 @@ export const BoozeDropQuest: Quest = {
           equip($slot`familiar`, $item`li'l ninja costume`);
         }
         if (have($item`Deck of Every Card`) && get("_deckCardsDrawn") <= 10 && 
-        Math.min(resourceTurnSave($effect`Fortune of the Wheel`, "Item Drop"), Math.max(1, CommunityService.BoozeDrop.actualCost())))
+        Math.min(resourceTurnSave($effect`Fortune of the Wheel`, itemType), Math.max(1, CommunityService.BoozeDrop.actualCost())))
           cliExecute("cheat fortune");
 
-        if (checkValue($item`battery (lantern)`, Math.min(resourceTurnSave($effect`Lantern-Charged`, "Item Drop"), Math.max(1, CommunityService.BoozeDrop.actualCost())))) {
+        if (checkValue($item`battery (lantern)`, Math.min(resourceTurnSave($effect`Lantern-Charged`, itemType), Math.max(1, CommunityService.BoozeDrop.actualCost())))) {
           if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);
           use($item`battery (lantern)`, 1);
         }
-        if (checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Infernal Thirst`, "Booze Drop"), Math.max(1, CommunityService.BoozeDrop.actualCost()))))
+        if (checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Infernal Thirst`, testType), Math.max(1, CommunityService.BoozeDrop.actualCost()))))
           wishFor($effect`Infernal Thirst`);
       },
       completed: () => CommunityService.BoozeDrop.isDone(),

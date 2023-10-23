@@ -26,6 +26,8 @@ import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
 
+const testType = "NonCombat";
+
 export const NoncombatQuest: Quest = {
   name: "Noncombat",
   completed: () => CommunityService.Noncombat.isDone(),
@@ -101,7 +103,7 @@ export const NoncombatQuest: Quest = {
         cliExecute("maximize -combat"); // To avoid maximizer bug, we invoke this once more
 
         // If it saves us >= 6 turns, try using a wish
-        if (checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Disquiet Riot`, "NonCombat"), Math.max(1, CommunityService.WeaponDamage.actualCost()))))
+        if (checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Disquiet Riot`, testType), Math.max(1, CommunityService.WeaponDamage.actualCost()))))
           wishFor($effect`Disquiet Riot`);
       },
       do: (): void => {

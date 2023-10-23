@@ -52,6 +52,9 @@ import {
 } from "../lib";
 import { forbiddenEffects } from "../resources";
 
+const testType = "Weapon Damage Percent";
+const offTestType = "Spell Damage Percent";
+
 export const WeaponDamageQuest: Quest = {
   name: "Weapon Damage",
   completed: () => CommunityService.WeaponDamage.isDone(),
@@ -205,18 +208,18 @@ export const WeaponDamageQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
-        if (checkValue("Favorite Bird", Math.min(4, Math.max(1, CommunityService.WeaponDamage.actualCost()))))
+        if (get("yourFavoriteBirdMods").includes("Weapon Damage Percent") && checkValue("Favorite Bird", Math.min(4, Math.max(1, CommunityService.WeaponDamage.actualCost()))))
           useSkill($skill`Visit your Favorite Bird`)
 
-        if (checkValue("Cargo", Math.min(resourceTurnSave($effect`Rictus of Yeg`, "Weapon Damage Percent"), Math.max(1, CommunityService.WeaponDamage.actualCost()))) && !get("_cargoPocketEmptied", false))
+        if (checkValue("Cargo", Math.min(resourceTurnSave($effect`Rictus of Yeg`, testType), Math.max(1, CommunityService.WeaponDamage.actualCost()))) && !get("_cargoPocketEmptied", false))
         {
           visitUrl("inventory.php?action=pocket");
           visitUrl("choice.php?whichchoice=1420&option=1&pocket=284");
         }
         
           $effects`Spit Upon, Pyramid Power, Outer Wolf`.forEach((ef) => {
-          if (checkValue($item`pocket wish`, Math.min(resourceTurnSave(ef, "Weapon Damage Percent") 
-          + resourceTurnSave(ef, "Spell Damage Percent"), Math.max(1, CommunityService.WeaponDamage.actualCost())))) 
+          if (checkValue($item`pocket wish`, Math.min(resourceTurnSave(ef, testType) 
+          + resourceTurnSave(ef, offTestType), Math.max(1, CommunityService.WeaponDamage.actualCost())))) 
             wishFor(ef); // The effects each save 2 turns on spelltest as well
         });
 

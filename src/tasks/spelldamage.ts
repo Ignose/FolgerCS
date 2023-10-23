@@ -46,6 +46,7 @@ import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { forbiddenEffects } from "../resources";
 
 let triedDeepDark = false;
+const testType = "Spell Damage Percent";
 
 export const SpellDamageQuest: Quest = {
   name: "Spell Damage",
@@ -70,7 +71,7 @@ export const SpellDamageQuest: Quest = {
     },
     {
       name: "Cargo Shorts",
-      ready: () => checkValue("Cargo", Math.min(resourceTurnSave($effect`Sigils of Yeg`, "Spell Damage Percent"), CommunityService.SpellDamage.prediction - 1)),
+      ready: () => checkValue("Cargo", Math.min(resourceTurnSave($effect`Sigils of Yeg`, testType), CommunityService.SpellDamage.prediction - 1)),
       completed: () =>
         get("_cargoPocketEmptied") ||
         !have($item`Cargo Cultist Shorts`),

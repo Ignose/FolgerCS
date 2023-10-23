@@ -18,6 +18,8 @@ import { checkValue, logTestSetup, resourceTurnSave, tryAcquiringEffect, wishFor
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import Macro from "../combat";
 
+const testType = "Hot Res";
+
 export const HotResQuest: Quest = {
   name: "Hot Res",
   completed: () => CommunityService.HotRes.isDone(),
@@ -136,13 +138,13 @@ export const HotResQuest: Quest = {
         // If it saves us >= 6 turns, try using a wish
 
         $effects`Fireproof Lips, Hot-Headed`.forEach((ef) => {
-          if (checkValue($item`pocket wish`, Math.min(resourceTurnSave(ef, "Hot Res"), Math.max(1, CommunityService.WeaponDamage.actualCost())))) 
+          if (checkValue($item`pocket wish`, Math.min(resourceTurnSave(ef, testType), Math.max(1, CommunityService.WeaponDamage.actualCost())))) 
             wishFor(ef); // The effects each save 2 turns on spelltest as well
         });
 
         if (CommunityService.HotRes.actualCost() >= 5 && 
           have($item`Eight Days a Week Pill Keeper`) &&
-          (checkValue("Pillkeeper", Math.min(resourceTurnSave($effect`Rainbowlin`, "Hot Res"), Math.max(1, CommunityService.HotRes.actualCost())))))
+          (checkValue("Pillkeeper", Math.min(resourceTurnSave($effect`Rainbowlin`, testType), Math.max(1, CommunityService.HotRes.actualCost())))))
             tryAcquiringEffect($effect`Rainbowlin`);
 
       },
