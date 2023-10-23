@@ -79,20 +79,6 @@ export const WeaponDamageQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Cargo Shorts",
-      completed: () =>
-        get("_cargoPocketEmptied") ||
-        !have($item`Cargo Cultist Shorts`) ||
-        get("instant_saveCargoShorts", false) ||
-        get("instant_experimentalCargoShorts", false) ||
-        checkValue("Cargo", Math.min(8, CommunityService.WeaponDamage.prediction - 1)),
-      do: (): void => {
-        visitUrl("inventory.php?action=pocket");
-        visitUrl("choice.php?whichchoice=1420&option=1&pocket=284");
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Stand-Alone Carol Ghost Buff",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -233,16 +219,6 @@ export const WeaponDamageQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Favorite Bird (Weapon Damage)",
-      completed: () =>
-        !have($skill`Visit your Favorite Bird`) ||
-        get("_favoriteBirdVisited") ||
-        !get("yourFavoriteBirdMods").includes("Weapon Damage") ||
-        get("instant_saveFavoriteBird", false),
-      do: () => useSkill($skill`Visit your Favorite Bird`),
-      limit: { tries: 1 },
-    },
-    {
       name: "Test",
       prepare: (): void => {
         if (have($item`SongBoom™ BoomBox`)) SongBoom.setSong("These Fists Were Made for Punchin'");
@@ -278,21 +254,20 @@ export const WeaponDamageQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
-        if (
-          have($skill`Aug. 13th: Left/Off Hander's Day!`) &&
-          !get("instant_saveAugustScepter", false) &&
-          numericModifier(equippedItem($slot`off-hand`), "Weapon Damage") +
-            numericModifier(equippedItem($slot`off-hand`), "Weapon Damage Percent") >
-            0 &&
-          CommunityService.WeaponDamage.actualCost() > 1
-        ) {
-          tryAcquiringEffect($effect`Offhand Remarkable`);
+        if (checkValue("Favorite Bird", Math.min(4, Math.max(1, CommunityService.WeaponDamage.actualCost()))))
+          useSkill($skill`Visit your Favorite Bird`)
+
+        if (checkValue("Cargo", Math.min(8, Math.max(1, CommunityService.WeaponDamage.actualCost()))) && !get("_cargoPocketEmptied", false))
+        {
+          visitUrl("inventory.php?action=pocket");
+          visitUrl("choice.php?whichchoice=1420&option=1&pocket=284");
         }
 
         // If it saves us >= 6 turns, try using a wish
-        if (CommunityService.WeaponDamage.actualCost() >= 7) wishFor($effect`Outer Wolf™`);
+        if (checkValue($item`pocket wish`, Math.min(8, Math.max(1, CommunityService.WeaponDamage.actualCost()))))
+          wishFor($effect`Outer Wolf™`);
         $effects`Spit Upon, Pyramid Power`.forEach((ef) => {
-          if (CommunityService.WeaponDamage.actualCost() >= 5) wishFor(ef); // The effects each save 2 turns on spelltest as well
+          if (checkValue($item`pocket wish`, Math.min(6, Math.max(1, CommunityService.WeaponDamage.actualCost())))) wishFor(ef); // The effects each save 2 turns on spelltest as well
         });
         if (CommunityService.WeaponDamage.actualCost() >= 3 && !get("_madTeaParty")) {
           if (!have($item`goofily-plumed helmet`)) buy($item`goofily-plumed helmet`, 1);

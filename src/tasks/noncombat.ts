@@ -21,7 +21,7 @@ import {
   have,
   uneffect,
 } from "libram";
-import { fuelUp, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
+import { checkValue, fuelUp, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
 import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
@@ -100,17 +100,9 @@ export const NoncombatQuest: Quest = {
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
         cliExecute("maximize -combat"); // To avoid maximizer bug, we invoke this once more
 
-        if (
-          have($skill`Aug. 13th: Left/Off Hander's Day!`) &&
-          !get("instant_saveAugustScepter", false) &&
-          numericModifier(equippedItem($slot`off-hand`), "Combat Rate") < 0 &&
-          CommunityService.Noncombat.actualCost() > 1
-        ) {
-          tryAcquiringEffect($effect`Offhand Remarkable`);
-        }
-
         // If it saves us >= 6 turns, try using a wish
-        if (CommunityService.Noncombat.actualCost() >= 7) wishFor($effect`Disquiet Riot`);
+        if (checkValue($item`pocket wish`, Math.min(7, Math.max(1, CommunityService.WeaponDamage.actualCost()))))
+          wishFor($effect`Disquiet Riot`);
       },
       do: (): void => {
         const maxTurns = get("instant_comTestTurnLimit", 12);

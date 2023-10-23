@@ -102,8 +102,6 @@ import {
   targetBaseMyst,
   targetBaseMystGap,
   tryAcquiringEffect,
-  wishFor,
-  xpWishEffect,
 } from "../lib";
 import {
   baseOutfit,
@@ -502,27 +500,12 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Wish for XP% buff",
-      // TODO: Make this completed if we've already wished twice with the paw (requires mafia tracking)
-      completed: () =>
-        have(xpWishEffect) ||
-        !have($item`cursed monkey's paw`) ||
-        forbiddenEffects.includes(xpWishEffect) ||
-        get("instant_saveMonkeysPaw", false) ||
-        myBasestat(myPrimestat()) >= targetBaseMyst - targetBaseMystGap ||
-        get("_monkeyPawWishesUsed", 0) >= 2,
-      do: (): void => {
-        wishFor(xpWishEffect, false);
-      },
-    },
-    {
       name: "Pull Snapper XP Buff", //Made this name generic
       completed: () =>
         get("_roninStoragePulls").split(",").length >= 5 ||
         5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
         get("_roninStoragePulls").split(",").includes(toInt(snapperXpItem).toString()) ||
         have(snapperXpItem) ||
-        have(xpWishEffect) ||
         storageAmount(snapperXpItem) === 0 ||
         get("instant_saveEuclideanAngle", false) ||
         !have($item`a ten-percent bonus`),
@@ -1132,6 +1115,7 @@ export const LevelingQuest: Quest = {
       completed: () =>
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
+        get("_pledgeCheck", false) ||
         ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
           (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
       do: $location`Madness Bakery`,
@@ -1148,7 +1132,9 @@ export const LevelingQuest: Quest = {
         ...baseOutfit,
         familiar: $familiar`Patriotic Eagle`,
       }),
-      post: () => sellMiscellaneousItems(),
+      post: () => { sellMiscellaneousItems(),
+        cliExecute("set _pledgeCheck = true");
+      },
       limit: { tries: 1 },
     },
     {

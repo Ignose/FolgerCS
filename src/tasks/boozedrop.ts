@@ -124,11 +124,11 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Get Cyclops Eyedrops",
+      ready: () => checkValue($item`11-leaf clover`, Math.min(6.6, CommunityService.BoozeDrop.prediction - 1)),
       completed: () =>
         have($item`cyclops eyedrops`) ||
         have($effect`One Very Clear Eye`) ||
-        get("instant_skipCyclopsEyedrops", false) ||
-        checkValue($item`11-leaf clover`, Math.min(6.6, CommunityService.BoozeDrop.prediction - 1)),
+        get("instant_skipCyclopsEyedrops", false),
       do: (): void => {
         if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
         if (!have($item`cyclops eyedrops`)) adv1($location`The Limerick Dungeon`, -1);
@@ -262,6 +262,7 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Drink Cabernet Sauvignon",
+      ready: () => checkValue("August Scepter", Math.min(2.6, CommunityService.BoozeDrop.prediction - 1)),
       completed: () =>
         have($effect`Cabernet Hunter`) ||
         (!have($item`bottle of Cabernet Sauvignon`) &&
@@ -269,8 +270,7 @@ export const BoozeDropQuest: Quest = {
           (!have($skill`Aug. 31st: Cabernet Sauvignon Day!`) ||
             get("instant_saveAugustScepter", false))) ||
         myInebriety() + 3 > inebrietyLimit() ||
-        get("instant_skipCabernetSauvignon", false) ||
-        checkValue("August Scepter", Math.min(2.6, CommunityService.BoozeDrop.prediction - 1)),
+        get("instant_skipCabernetSauvignon", false),
       do: (): void => {
         if (!have($item`bottle of Cabernet Sauvignon`))
           // eslint-disable-next-line libram/verify-constants
@@ -280,22 +280,6 @@ export const BoozeDropQuest: Quest = {
           drink($item`bottle of Cabernet Sauvignon`);
           uneffect($effect`Ode to Booze`);
         }
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Power Seed",
-      completed: () =>
-        !have($item`potted power plant`) ||
-        (itemAmount($item`battery (AAA)`) < 5 && !have($item`battery (lantern)`)) ||
-        get("instant_savePowerSeed", false) ||
-        checkValue(
-          $item`battery (lantern)`,
-          Math.min(6.6, CommunityService.BoozeDrop.prediction - 1)
-        ),
-      do: (): void => {
-        if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);
-        use($item`battery (lantern)`, 1);
       },
       limit: { tries: 1 },
     },
@@ -313,12 +297,12 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Loathing Idol Microphone",
+      ready: () => checkValue("2002", 3),
       completed: () =>
         have($effect`Spitting Rhymes`) ||
         !have($item`2002 Mr. Store Catalog`) ||
         get("availableMrStore2002Credits", 0) <= get("instant_saveCatalogCredits", 0) ||
-        forbiddenEffects.includes($effect`Spitting Rhymes`) ||
-        checkValue("2002", 3),
+        forbiddenEffects.includes($effect`Spitting Rhymes`),
       do: (): void => {
         if (!have($item`Loathing Idol Microphone`)) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
@@ -353,31 +337,6 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 3 },
     },
     {
-      name: "Wheel of Fortune",
-      completed: () =>
-        get("_deckCardsDrawn") > 10 ||
-        have($effect`Fortune of the Wheel`) ||
-        !have($item`Deck of Every Card`) ||
-        get("instant_saveDeck", false) ||
-        checkValue("Deck Cheat", Math.min(6.6, CommunityService.BoozeDrop.prediction - 1)) ||
-        CommunityService.BoozeDrop.prediction <= 6,
-      do: (): void => {
-        cliExecute("cheat fortune");
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Infernal Thirst",
-      completed: () =>
-        !have($item`pocket wish`) ||
-        checkValue($item`pocket wish`, Math.min(6.6, CommunityService.BoozeDrop.prediction - 1)) ||
-        CommunityService.BoozeDrop.prediction <= 6,
-      do: (): void => {
-        wishFor($effect`Infernal Thirst`);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Test",
       prepare: (): void => {
         const usefulEffects: Effect[] = [
@@ -405,6 +364,14 @@ export const BoozeDropQuest: Quest = {
           useFamiliar($familiar`Trick-or-Treating Tot`);
           equip($slot`familiar`, $item`li'l ninja costume`);
         }
+        if (have($item`Deck of Every Card`) && get("_deckCardsDrawn") <= 10 &&  Math.min(6.6, Math.max(1, CommunityService.BoozeDrop.actualCost())))
+          cliExecute("cheat fortune");
+        if (checkValue($item`battery (lantern)`, Math.min(6.6, Math.max(1, CommunityService.BoozeDrop.actualCost())))) {
+          if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);
+          use($item`battery (lantern)`, 1);
+        }
+        if (checkValue($item`pocket wish`, Math.min(13, Math.max(1, CommunityService.BoozeDrop.actualCost()))))
+          wishFor($effect`Infernal Thirst`);
       },
       completed: () => CommunityService.BoozeDrop.isDone(),
       do: (): void => {
