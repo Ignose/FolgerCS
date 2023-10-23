@@ -157,7 +157,6 @@ export const BoozeDropQuest: Quest = {
     {
       name: "Fax Ungulith",
       completed: () =>
-        get("instant_ExperimentalRouting", false) ||
         have($item`corrupted marrow`) ||
         have($effect`Cowrruption`),
       do: (): void => {

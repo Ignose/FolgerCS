@@ -73,13 +73,12 @@ export function main(command?: string): void {
   visitUrl("main.php");
   cliExecute("refresh all");
 
-  const swapFamAndNCTests =
-    !get("instant_skipAutomaticOptimizations", false) && computeCombatFrequency() <= -95;
+  const swapFamAndNCTests = computeCombatFrequency() <= -95;
 
   const swapMoxieTest = mainStatStr === `Muscle`;
 
-  const tasks: Task[] = get("instant_ExperimentalRouting", false)
-    ? getTasks([
+  const tasks: Task[] = 
+    getTasks([
         RunStartQuest,
         earlyLevelingQuest,
         CoilWireQuest,
@@ -87,23 +86,6 @@ export function main(command?: string): void {
         swapMoxieTest ? MoxieQuest : MysticalityQuest,
         HPQuest,
         swapMoxieTest ? MysticalityQuest : MoxieQuest,
-        MuscleQuest,
-        WeaponDamageQuest,
-        SpellDamageQuest,
-        HotResQuest,
-        swapFamAndNCTests ? FamiliarWeightQuest : NoncombatQuest,
-        BoozeDropQuest,
-        swapFamAndNCTests ? NoncombatQuest : FamiliarWeightQuest,
-        DonateQuest,
-      ])
-    : getTasks([
-        RunStartQuest,
-        earlyLevelingQuest,
-        CoilWireQuest,
-        LevelingQuest,
-        MysticalityQuest,
-        HPQuest,
-        MoxieQuest,
         MuscleQuest,
         swapFamAndNCTests ? NoncombatQuest : FamiliarWeightQuest,
         swapFamAndNCTests ? FamiliarWeightQuest : NoncombatQuest,

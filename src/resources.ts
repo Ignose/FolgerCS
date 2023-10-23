@@ -180,10 +180,6 @@ const otherResources: Resource[] = [
     "Do not attempt to unlock the beach with meat to grab an anticheese"
   ),
   new Resource(
-    "instant_skipAutomaticOptimizations",
-    "Do not conduct automatic optimization of the route"
-  ),
-  new Resource(
     "instant_experimentPulls",
     "Automatically use pulls for Stick Knife, Soda, Diaper and/or Trousers?"
   ),
@@ -194,10 +190,6 @@ const otherResources: Resource[] = [
   new Resource(
     "instant_skipBorrowedTime",
     "Do not use borrowed time. Level to 5 using trainset, and eat pizzas to get coil adventures. Make sure you know what you're doing before using this."
-  ),
-  new Resource(
-    "instant_ExperimentalRouting",
-    "Try to better optimize routing to reduce resources used and improve aftercore."
   ),
 ];
 

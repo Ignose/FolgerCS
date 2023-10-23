@@ -141,56 +141,6 @@ export const WeaponDamageQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Fax Ungulith",
-      ready: () => get("instant_ExperimentalRouting", false),
-      completed: () => have($item`corrupted marrow`) || have($effect`Cowrruption`),
-      do: (): void => {
-        const monsterCow =
-          myClass().toString() === "Seal Clubber" &&
-          CombatLoversLocket.unlockedLocketMonsters().includes($monster`furious cow`)
-            ? $monster`furious cow`
-            : $monster`ungulith`;
-        if (checkLocketAvailable() >= 2) {
-          CombatLoversLocket.reminisce(monsterCow);
-        } else {
-          cliExecute("chat");
-          if (have($item`photocopied monster`) && get("photocopyMonster") !== monsterCow) {
-            cliExecute("fax send");
-          }
-          if (
-            (have($item`photocopied monster`) || faxbot(monsterCow)) &&
-            get("photocopyMonster") === monsterCow
-          ) {
-            use($item`photocopied monster`);
-          }
-        }
-      },
-      outfit: () => ({
-        weapon: $item`Fourth of May Cosplay Saber`,
-        offhand: have($skill`Double-Fisted Skull Smashing`)
-          ? $item`industrial fire extinguisher`
-          : undefined,
-        familiar:
-          get("camelSpit") >= 100
-            ? $familiar`Melodramedary`
-            : $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
-                (ef) => have(ef)
-              )
-            ? $familiar`Ghost of Crimbo Carols`
-            : chooseFamiliar(false),
-        modifier: "mus",
-        avoid: sugarItemsAboutToBreak(),
-      }),
-      choices: { 1387: 3 },
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Meteor Shower`)
-          .trySkill($skill`%fn, spit on me!`)
-          .trySkill($skill`Use the Force`)
-          .abort()
-      ),
-      limit: { tries: 5 },
-    },
-    {
       name: "Meteor Shower",
       completed: () =>
         have($effect`Meteor Showered`) ||
@@ -273,7 +223,7 @@ export const WeaponDamageQuest: Quest = {
           + resourceTurnSave(ef, "Spell Damage Percent"), Math.max(1, CommunityService.WeaponDamage.actualCost())))) 
             wishFor(ef); // The effects each save 2 turns on spelltest as well
         });
-        
+
         if (CommunityService.WeaponDamage.actualCost() >= 3 && !get("_madTeaParty")) {
           if (!have($item`goofily-plumed helmet`)) buy($item`goofily-plumed helmet`, 1);
           tryAcquiringEffect($effect`Weapon of Mass Destruction`);
