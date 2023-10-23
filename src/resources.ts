@@ -127,8 +127,6 @@ const farmingResources: Resource[] = [
     $effects`Gummed Shoes`
   ),
   new Resource("instant_saveKGBClicks", "Do not use any KGB clicks"),
-  new Resource("instant_saveGenie", "Do not use any genie wishes"),
-  new Resource("instant_saveMonkeysPaw", "Do not use any monkey's paw wishes"),
   new Resource("instant_savePantogram", "Do not use your pantogram"),
   new Resource("instant_saveMummingTrunk", "Do not use your mumming trunk"),
   new Resource(

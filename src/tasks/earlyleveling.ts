@@ -356,7 +356,8 @@ export const earlyLevelingQuest: Quest = {
       completed: () =>
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
-        pledgeCheck,
+        pledgeCheck ||
+        get("_pledgeCheck", false),
       do: $location`Madness Bakery`,
       combat: new CombatStrategy().macro(
         Macro.tryItem($item`blue rocket`)
@@ -376,6 +377,7 @@ export const earlyLevelingQuest: Quest = {
       }),
       post: () => { sellMiscellaneousItems(),
         pledgeCheck = true;
+        cliExecute("set _pledgeCheck = true");
       },
       limit: { tries: 1 },
     },

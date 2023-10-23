@@ -258,7 +258,6 @@ export function wishFor(ef: Effect, useGenie = true): void {
 
   if (
     have($item`cursed monkey's paw`) &&
-    !get("instant_saveMonkeysPaw", false) &&
     get("_monkeyPawWishesUsed", 0) < 5
   ) {
     if (monkeyPaw(ef)) return;
@@ -591,12 +590,6 @@ export const reagentBoosterIngredient: Item = {
   Moxie: $item`olive`,
 }[mainStatStr];
 
-export const xpWishEffect: Effect = {
-  Muscle: $effect`HGH-charged`,
-  Mysticality: $effect`Different Way of Seeing Things`,
-  Moxie: $effect`Thou Shant Not Sing`,
-}[mainStatStr];
-
 export const snapperXpItem: Item = {
   Muscle: $item`vial of humanoid growth hormone`,
   Mysticality: $item`non-Euclidean angle`,
@@ -633,9 +626,9 @@ export function checkLocketAvailable(): number {
 type Thing = Item | string;
 
 export function checkValue(thing: Thing, turns: number): boolean {
-  if (!get("instant_maximizeProfit", false)) return false;
-  if (get("valueOfAdventure") * turns > checkPrice(thing)) return false;
-  return true;
+  if (!get("instant_maximizeProfit", false)) return true;
+  if (get("valueOfAdventure") * turns > checkPrice(thing)) return true;
+  return false;
 }
 
 function checkPrice(thing: Thing): number {
