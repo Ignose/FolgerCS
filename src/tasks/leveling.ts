@@ -81,6 +81,7 @@ import {
   abstractionXpEffect,
   abstractionXpItem,
   burnLibram,
+  camelFightsLeft,
   checkLocketAvailable,
   checkValue,
   chooseLibram,
@@ -302,7 +303,9 @@ function sellMiscellaneousItems(): void {
 
 export const LevelingQuest: Quest = {
   name: "Leveling",
-  completed: () => get("csServicesPerformed").split(",").length > 1,
+  completed: () => get("csServicesPerformed").split(",").length > 1 ||
+  (myBasestat(myPrimestat()) >= targetBaseMyst && get("_feelPrideUsed", 3) >= 3 
+  && camelFightsLeft() === 0 && (get("camelSpit") < 94 || get("camelSpit") >= 100)),
   tasks: [
     {
       name: "LED Candle",

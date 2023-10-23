@@ -219,17 +219,6 @@ export const SpellDamageQuest: Quest = {
           drink(wines.filter((booze) => have(booze))[0], 1);
         }
 
-        if (
-          (have($skill`Aug. 13th: Left/Off Hander's Day!`) &&
-            !get("instant_saveAugustScepter", false) &&
-            numericModifier(equippedItem($slot`off-hand`), "Spell Damage") +
-              numericModifier(equippedItem($slot`off-hand`), "Spell Damage Percent") >
-              0 &&
-            CommunityService.SpellDamage.actualCost() > 1) ||
-          !checkValue("Scepter", Math.min(3, CommunityService.SpellDamage.prediction - 1))
-        ) {
-          tryAcquiringEffect($effect`Offhand Remarkable`);
-        }
         if (!get("_madTeaParty") && !Witchess.have()) {
           if (!have($item`mariachi hat`)) retrieveItem(1, $item`chewing gum on a string`);
           tryAcquiringEffect($effect`Full Bottle in front of Me`);

@@ -630,6 +630,7 @@ export function checkLocketAvailable(): number {
 type Thing = Item | Effect | string;
 
 export function resourceTurnSave(thing: Effect, modifier: string): number {
+  if (haveEffect(thing)) return 0;
   switch (modifier) {
       case "Booze Drop":
         return Math.floor(numericModifier(thing, modifier)/15);
@@ -672,9 +673,7 @@ function checkPrice(thing: Thing): number {
       case "Favorite Bird":
         return 20000;
       case "August Scepter":
-        if (have($familiar`Left-Hand Man`)) {
-          return get("valueOfAdventure") * 10;
-        } else return Math.max(mallPrice($item`waffle`) * 3, get("valueOfAdventure") * 5);
+        return mallPrice($item`waffle`) * 3;
       case "Pillkeeper":
         if(get("_freePillKeeperUsed", false))
           return get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5); //Lucky

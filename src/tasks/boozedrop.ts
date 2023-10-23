@@ -211,43 +211,6 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 5 },
     },
     {
-      name: "Bat and Hat",
-      ready: () =>
-        get("instant_ExperimentalRouting", false) &&
-        (DaylightShavings.nextBuff() === $effect`Musician's Musician's Moustache` ||
-          have($item`vampyric cloake`)),
-      completed: () =>
-        get("instant_ExperimentalRouting", false) ||
-        have($effect`Musician's Musician's Moustache`) ||
-        have($effect`Bat-Adjacent Form`),
-      do: $location`The Dire Warren`,
-      outfit: () => ({
-        hat:
-          DaylightShavings.nextBuff() === $effect`Musician's Musician's Moustache` &&
-          !DaylightShavings.hasBuff() &&
-          have($item`Daylight Shavings Helmet`)
-            ? $item`Daylight Shavings Helmet`
-            : undefined,
-        back: $item`vampyric cloake`,
-        weapon: $item`Fourth of May Cosplay Saber`,
-        offhand: have($skill`Double-Fisted Skull Smashing`)
-          ? $item`industrial fire extinguisher`
-          : undefined,
-        familiar: chooseFamiliar(false),
-        modifier: "myst",
-        avoid: sugarItemsAboutToBreak(),
-      }),
-      choices: { 1387: 3 },
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Bowl Straight Up`)
-          .trySkill($skill`Become a Bat`)
-          .trySkill($skill`Fire Extinguisher: Polar Vortex`)
-          .trySkill($skill`Use the Force`)
-          .default()
-      ),
-      limit: { tries: 5 },
-    },
-    {
       name: "Drink Sacramento Wine",
       completed: () =>
         have($effect`Sacré Mental`) ||
@@ -350,7 +313,6 @@ export const BoozeDropQuest: Quest = {
           $effect`Fortunate Resolve`,
           $effect`Heart of Lavender`,
           $effect`I See Everything Thrice!`,
-          $effect`Incredibly Well Lit`,
           $effect`items.enh`,
           $effect`Joyful Resolve`,
           $effect`One Very Clear Eye`,
@@ -377,6 +339,9 @@ export const BoozeDropQuest: Quest = {
         }
         if (checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Infernal Thirst`, testType), Math.max(1, CommunityService.BoozeDrop.actualCost()))))
           wishFor($effect`Infernal Thirst`);
+
+        if (checkValue("August Scepter", Math.min(resourceTurnSave($effect`Incredibly Well Lit`, testType), Math.max(1, CommunityService.BoozeDrop.actualCost()))))
+          tryAcquiringEffect($effect`Incredibly Well Lit`);
       },
       completed: () => CommunityService.BoozeDrop.isDone(),
       do: (): void => {

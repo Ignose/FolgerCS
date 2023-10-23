@@ -152,14 +152,6 @@ export const FamiliarWeightQuest: Quest = {
             
           cliExecute("maximize familiar weight");
 
-          if (
-            have($skill`Aug. 13th: Left/Off Hander's Day!`) &&
-            !get("instant_saveAugustScepter", false) &&
-            numericModifier(equippedItem($slot`off-hand`), "Familiar Weight") > 0 &&
-            CommunityService.FamiliarWeight.actualCost() > 1
-          ) {
-            tryAcquiringEffect($effect`Offhand Remarkable`);
-          }
           if (!get("_madTeaParty")) {
             if (!have($item`sombrero-mounted sparkler`)) buy($item`sombrero-mounted sparkler`);
             tryAcquiringEffect($effect`You Can Really Taste the Dormouse`);
