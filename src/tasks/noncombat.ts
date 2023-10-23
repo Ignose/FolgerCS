@@ -21,7 +21,7 @@ import {
   have,
   uneffect,
 } from "libram";
-import { fuelUp, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
+import { checkValue, fuelUp, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
 import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
