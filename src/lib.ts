@@ -674,7 +674,7 @@ function checkPrice(thing: Thing): number {
       case "August Scepter":
         if (have($familiar`Left-Hand Man`)) {
           return get("valueOfAdventure") * 10;
-        } else return mallPrice($item`waffle`) * 3;
+        } else return Math.max(mallPrice($item`waffle`) * 3, get("valueOfAdventure") * 5);
       case "Pillkeeper":
         if(get("_freePillKeeperUsed", false))
           return get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5); //Lucky
