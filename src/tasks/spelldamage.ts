@@ -40,7 +40,7 @@ import {
   Witchess,
 } from "libram";
 import { Quest } from "../engine/task";
-import { checkValue, logTestSetup, shrugAT, startingClan, tryAcquiringEffect } from "../lib";
+import { checkValue, logTestSetup, resourceTurnSave, shrugAT, startingClan, tryAcquiringEffect } from "../lib";
 import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { forbiddenEffects } from "../resources";
@@ -70,12 +70,10 @@ export const SpellDamageQuest: Quest = {
     },
     {
       name: "Cargo Shorts",
-      ready: () => checkValue("Cargo", Math.min(4, CommunityService.SpellDamage.prediction - 1)),
+      ready: () => checkValue("Cargo", Math.min(resourceTurnSave($effect`Sigils of Yeg`, "Spell Damage Percent"), CommunityService.SpellDamage.prediction - 1)),
       completed: () =>
         get("_cargoPocketEmptied") ||
-        !have($item`Cargo Cultist Shorts`) ||
-        get("instant_saveCargoShorts", false) ||
-        !get("instant_experimentalCargoShorts", false),
+        !have($item`Cargo Cultist Shorts`),
       do: (): void => {
         visitUrl("inventory.php?action=pocket");
         visitUrl("choice.php?whichchoice=1420&option=1&pocket=177");

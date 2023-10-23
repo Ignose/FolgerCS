@@ -13,7 +13,7 @@ import {
   have,
 } from "libram";
 import { Quest } from "../engine/task";
-import { checkValue, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
+import { checkValue, logTestSetup, resourceTurnSave, tryAcquiringEffect, wishFor } from "../lib";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import Macro from "../combat";
 
@@ -133,14 +133,19 @@ export const HotResQuest: Quest = {
         cliExecute("maximize hot res");
 
         // If it saves us >= 6 turns, try using a wish
-        if (CommunityService.HotRes.actualCost() >= 7) wishFor($effect`Fireproof Lips`);
+        if (CommunityService.HotRes.actualCost() >= 7 &&
+        checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Fireproof Lips`, "Hot Res"), Math.max(1, CommunityService.HotRes.actualCost())))) 
+          wishFor($effect`Fireproof Lips`);
+
+        if (CommunityService.HotRes.actualCost() >= 7 &&
+          checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Hot-Headed`, "Hot Res"), Math.max(1, CommunityService.HotRes.actualCost())))) 
+            wishFor($effect`Fireproof Lips`);  
 
         if (CommunityService.HotRes.actualCost() >= 5 && 
           have($item`Eight Days a Week Pill Keeper`) &&
-          (checkValue("Pillkeeper", Math.min(4, Math.max(1, CommunityService.HotRes.actualCost())))))
+          (checkValue("Pillkeeper", Math.min(resourceTurnSave($effect`Rainbowlin`, "Hot Res"), Math.max(1, CommunityService.HotRes.actualCost())))))
             tryAcquiringEffect($effect`Rainbowlin`);
-
-        if (CommunityService.HotRes.actualCost() >= 7) tryAcquiringEffect($effect`Hot-Headed`);
+            
       },
       completed: () => CommunityService.HotRes.isDone(),
       do: (): void => {
