@@ -646,7 +646,7 @@ export function resourceTurnSave(thing: Effect, modifier: string): number {
       case "Familiar Weight":
         return Math.floor(numericModifier(thing, modifier)/5);
       case "NonCombat":
-        return Math.floor(numericModifier(thing, modifier)/5);
+        return Math.floor(numericModifier(thing, modifier)*3/5);
       default:
         return 0;
     }
