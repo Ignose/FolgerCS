@@ -134,12 +134,6 @@ const farmingResources: Resource[] = [
     "Do not acquire Triple-Sized and Invisible Avatar",
     $effects`Triple-Sized, Invisible Avatar`
   ),
-  new Resource("instant_saveCargoShorts", "Do not use a pull from your Cargo Shorts"),
-  new Resource(
-    "instant_experimentalCargoShorts",
-    "Use Cargo Shorts for Spell Damage instead of Weapon Damage?"
-  ),
-  new Resource("instant_savePowerSeed", "Do not use any batteries", $effects`AAA-Charged`),
   new Resource("instant_saveMayday", "Do not use your Mayday survival package"),
   new Resource("instant_savePumpkins", "Do not use harvested pumpkins"),
   new Resource("instant_saveSugar", "Do not spend tome uses on sugar shorts/chapeau/shank"),
@@ -173,10 +167,6 @@ const farmingResources: Resource[] = [
     (n) => `Save ${n}/${get("skillLevel144") > 3 ? 3 : get("skillLevel144")} Numberology casts`,
     [],
     get("instant_saveNumberology", false) ? 3 : 0
-  ),
-  new Resource(
-    "instant_saveFavoriteBird",
-    "Do not use Visit your Favorite Bird on any of the tests"
   ),
   new Resource(
     "instant_saveAugustScepter",

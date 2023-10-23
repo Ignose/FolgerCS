@@ -70,12 +70,12 @@ export const SpellDamageQuest: Quest = {
     },
     {
       name: "Cargo Shorts",
+      ready: () => checkValue("Cargo", Math.min(4, CommunityService.SpellDamage.prediction - 1)),
       completed: () =>
         get("_cargoPocketEmptied") ||
         !have($item`Cargo Cultist Shorts`) ||
         get("instant_saveCargoShorts", false) ||
-        !get("instant_experimentalCargoShorts", false) ||
-        checkValue("Cargo", Math.min(4, CommunityService.SpellDamage.prediction - 1)),
+        !get("instant_experimentalCargoShorts", false),
       do: (): void => {
         visitUrl("inventory.php?action=pocket");
         visitUrl("choice.php?whichchoice=1420&option=1&pocket=177");

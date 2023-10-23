@@ -370,7 +370,7 @@ export const BoozeDropQuest: Quest = {
           if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);
           use($item`battery (lantern)`, 1);
         }
-        if (checkValue($item`pocket wish`, Math.min(6.6, Math.max(1, CommunityService.BoozeDrop.actualCost()))))
+        if (checkValue($item`pocket wish`, Math.min(13, Math.max(1, CommunityService.BoozeDrop.actualCost()))))
           wishFor($effect`Infernal Thirst`);
       },
       completed: () => CommunityService.BoozeDrop.isDone(),
