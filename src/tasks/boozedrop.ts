@@ -364,7 +364,7 @@ export const BoozeDropQuest: Quest = {
           useFamiliar($familiar`Trick-or-Treating Tot`);
           equip($slot`familiar`, $item`li'l ninja costume`);
         }
-        if (have($item`Deck of Cards`) && get("_deckCardsDrawn") <= 10 &&  Math.min(6.6, Math.max(1, CommunityService.BoozeDrop.actualCost())))
+        if (have($item`Deck of Every Card`) && get("_deckCardsDrawn") <= 10 &&  Math.min(6.6, Math.max(1, CommunityService.BoozeDrop.actualCost())))
           cliExecute("cheat fortune");
         if (checkValue($item`battery (lantern)`, Math.min(6.6, Math.max(1, CommunityService.BoozeDrop.actualCost())))) {
           if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);
