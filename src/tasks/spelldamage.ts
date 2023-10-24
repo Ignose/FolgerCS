@@ -89,7 +89,7 @@ export const SpellDamageQuest: Quest = {
       },
       completed: () =>
         !have($familiar`Ghost of Crimbo Carols`) ||
-        (have($skill`Meteor Lore`) && get("camelSpit") <= 100) ||
+        (have($skill`Meteor Lore`) && get("camelSpit") < 100) ||
         !haveFreeBanish() ||
         $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
           (ef) => have(ef)

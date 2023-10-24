@@ -1,5 +1,5 @@
-import { mpCost, myPrimestat, toInt } from "kolmafia";
-import { $item, $skill, get, have, StrictMacro } from "libram";
+import { Skill, mpCost, myPrimestat, toInt } from "kolmafia";
+import { $item, $skill, $stat, get, have, StrictMacro } from "libram";
 
 //export const mainStat = myClass().primestat;
 export const mainStat = myPrimestat(); //Update to select mainstat based on class derived from Libram
@@ -8,20 +8,22 @@ export default class Macro extends StrictMacro {
   kill(useCinch = false): Macro {
     const macroHead = this.trySkill($skill`Curse of Weaksauce`)
       .trySkill($skill`Sing Along`)
-      .trySkill($skill`Micrometeorite`)
       .if_(
         `!mpbelow ${mpCost($skill`Stuffed Mortar Shell`)}`,
         Macro.trySkill($skill`Stuffed Mortar Shell`)
       );
-    //Update to add alternative combat options for non-Mys classes
+
+    const whileCondition = (sk: Skill): [string, Macro] => {
+      return [`!mpbelow ${sk} && hasskill ${toInt(sk)}`, Macro.skill(sk)];
+    };
+
     return (useCinch ? macroHead.trySkill($skill`Cincho: Confetti Extravaganza`) : macroHead)
-      .while_(
-        `!mpbelow ${mpCost($skill`Saucegeyser`)} && hasskill ${toInt($skill`Saucegeyser`)}`,
-        Macro.skill($skill`Saucegeyser`)
-      )
-      .while_(
-        `!mpbelow ${mpCost($skill`Saucestorm`)} && hasskill ${toInt($skill`Saucestorm`)}`,
-        Macro.skill($skill`Saucestorm`)
+      .externalIf(
+        mainStat === $stat`Muscle`,
+        Macro.while_(...whileCondition($skill`Lunging Thrust-Smack`)),
+        Macro.while_(...whileCondition($skill`Saucegeyser`)).while_(
+          ...whileCondition($skill`Saucestorm`)
+        )
       )
       .attack()
       .repeat();

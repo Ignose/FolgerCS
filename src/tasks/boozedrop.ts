@@ -76,7 +76,6 @@ export const BoozeDropQuest: Quest = {
       completed: () =>
         (getWorkshed() === $item`model train set` && !canConfigure()) ||
         !TrainSet.have() ||
-        get("instant_ExperimentalRouting", false) ||
         getWorkshed() === $item`Asdon Martin keyfob`,
       do: (): void => {
         const offset = get("trainsetPosition") % 8;
@@ -330,17 +329,17 @@ export const BoozeDropQuest: Quest = {
           equip($slot`familiar`, $item`li'l ninja costume`);
         }
         if (have($item`Deck of Every Card`) && get("_deckCardsDrawn") <= 10 && 
-        Math.min(resourceTurnSave($effect`Fortune of the Wheel`, itemType), Math.max(1, CommunityService.BoozeDrop.actualCost())))
+        Math.min(resourceTurnSave($effect`Fortune of the Wheel`, itemType), Math.max(0, CommunityService.BoozeDrop.actualCost())))
           cliExecute("cheat fortune");
 
-        if (checkValue($item`battery (lantern)`, Math.min(resourceTurnSave($effect`Lantern-Charged`, itemType), Math.max(1, CommunityService.BoozeDrop.actualCost())))) {
+        if (checkValue($item`battery (lantern)`, Math.min(resourceTurnSave($effect`Lantern-Charged`, itemType), Math.max(0, CommunityService.BoozeDrop.actualCost())))) {
           if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);
           use($item`battery (lantern)`, 1);
         }
-        if (checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Infernal Thirst`, testType), Math.max(1, CommunityService.BoozeDrop.actualCost()))))
+        if (checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Infernal Thirst`, testType), Math.max(0, CommunityService.BoozeDrop.actualCost()))))
           wishFor($effect`Infernal Thirst`);
 
-        if (checkValue("August Scepter", Math.min(resourceTurnSave($effect`Incredibly Well Lit`, testType), Math.max(1, CommunityService.BoozeDrop.actualCost()))))
+        if (checkValue("August Scepter", Math.min(resourceTurnSave($effect`Incredibly Well Lit`, testType), Math.max(0, CommunityService.BoozeDrop.actualCost()))))
           tryAcquiringEffect($effect`Incredibly Well Lit`);
       },
       completed: () => CommunityService.BoozeDrop.isDone(),

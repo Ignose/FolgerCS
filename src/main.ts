@@ -9,7 +9,7 @@ import {
   userConfirm,
   visitUrl,
 } from "kolmafia";
-import { computeCombatFrequency, convertMilliseconds, mainStatStr, simpleDateDiff } from "./lib";
+import { compareTestCompletion, computeCombatFrequency, convertMilliseconds, logTestCompletion, mainStatStr, simpleDateDiff } from "./lib";
 import { get, set, sinceKolmafiaRevision } from "libram";
 import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
@@ -108,7 +108,9 @@ export function main(command?: string): void {
       if (task.ready !== undefined && !task.ready()) throw `Task ${task.name} is not ready`;
       engine.execute(task);
     }
-
+    
+    logTestCompletion();
+    compareTestCompletion();
     print("Community Service complete!", "purple");
     print(`Adventures used: ${turnsPlayed()}`, "purple");
     print(`Adventures remaining: ${myAdventures()}`, "purple");

@@ -45,10 +45,11 @@ import {
   getKramcoWandererChance,
   have,
   sum,
+  TrainSet,
 } from "libram";
 import { CombatStrategy } from "grimoire-kolmafia";
 import { baseOutfit, docBag, unbreakableUmbrella } from "../engine/outfit";
-import { canConfigure, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
+import { canConfigure, Cycle, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { chooseRift } from "libram/dist/resources/2023/ClosedCircuitPayphone";
@@ -132,7 +133,7 @@ function sellMiscellaneousItems(): void {
 
 export const earlyLevelingQuest: Quest = {
   name: "Early Leveling",
-  completed: () => get("pizzaOfLegendEaten") || !get("instant_skipBorrowedTime", false),
+  completed: () => get("pizzaOfLegendEaten") || !get("instant_skipBorrowedTime", false) || get("instant_useAsdon", false),
   tasks: [
     {
       name: "Install Trainset",
@@ -145,7 +146,12 @@ export const earlyLevelingQuest: Quest = {
     {
       name: "Scavenge",
       completed: () => get("_daycareGymScavenges") > 0 || !get("daycareOpen"),
-      do: () => cliExecute("daycare scavenge free"),
+      do: (): void => {
+      if(have($item`familiar scrapbook`)) {
+        equip($item`familiar scrapbook`);
+      }
+      cliExecute("daycare scavenge free");
+    },
       limit: { tries: 1 },
     },
     {
@@ -259,25 +265,31 @@ export const earlyLevelingQuest: Quest = {
       name: "ReConfigure Trainset",
       after: ["Map Novelty Tropical Skeleton"],
       completed: () =>
-        !have($item`model train set`) ||
-        (getWorkshed() === $item`model train set` && !canConfigure()),
+        (getWorkshed() === $item`model train set` && !canConfigure()) ||
+        !have($item`model train set`),
       do: (): void => {
+        const offset = get("trainsetPosition") % 8;
+        const newStations: TrainSet.Station[] = [];
         const statStation: Station = {
           Muscle: Station.BRAWN_SILO,
           Mysticality: Station.BRAIN_SILO,
           Moxie: Station.GROIN_SILO,
         }[myPrimestat().toString()];
-        use($item`model train set`);
-        setConfiguration([
-          Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
-          Station.WATER_BRIDGE, // +ML
+        const stations = [
           Station.COAL_HOPPER, // double mainstat gain
           statStation, // main stats
           Station.VIEWING_PLATFORM, // all stats
+          Station.GAIN_MEAT, // meat
           Station.TOWER_FIZZY, // mp regen
-          Station.TOWER_FROZEN, // hot resist (useful)
-          Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
-        ]);
+          Station.BRAIN_SILO, // myst stats
+          Station.WATER_BRIDGE, // +ML
+          Station.CANDY_FACTORY, // candies
+        ] as Cycle;
+        for (let i = 0; i < 8; i++) {
+          const newPos = (i + offset) % 8;
+          newStations[newPos] = stations[i];
+        }
+        setConfiguration(newStations as Cycle);
       },
       limit: { tries: 1 },
     },
@@ -386,7 +398,12 @@ export const earlyLevelingQuest: Quest = {
       after: ["Bakery Pledge"],
       ready: () => myLevel() < 5,
       completed: () => get("_bastilleGames") > 0 || !have($item`Bastille Battalion control rig`),
-      do: () => cliExecute("bastille.ash mainstat brutalist"),
+      do: (): void => {
+      if(have($item`familiar scrapbook`)) {
+        equip($item`familiar scrapbook`);
+      }
+      cliExecute("bastille.ash mainstat brutalist");
+    },
       limit: { tries: 1 },
     },
     {

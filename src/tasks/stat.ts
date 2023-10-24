@@ -132,7 +132,7 @@ export const MuscleQuest: Quest = {
 
         if (CommunityService.Muscle.actualCost() >= 7 && 
           have($item`Eight Days a Week Pill Keeper`) &&
-          (checkValue("Pillkeeper", Math.min(7, Math.max(1, CommunityService.Mysticality.actualCost())))))
+          (checkValue("Pillkeeper", Math.min(7, Math.max(0, CommunityService.Mysticality.actualCost())))))
             tryAcquiringEffect($effect`Hulkien`);
       },
       do: (): void => {
@@ -198,7 +198,7 @@ export const MysticalityQuest: Quest = {
 
         if (CommunityService.Mysticality.actualCost() >= 7 && 
           have($item`Eight Days a Week Pill Keeper`) &&
-          (checkValue("Pillkeeper", Math.min(7, Math.max(1, CommunityService.Mysticality.actualCost())))))
+          (checkValue("Pillkeeper", Math.min(7, Math.max(0, CommunityService.Mysticality.actualCost())))))
             tryAcquiringEffect($effect`Hulkien`);
       },
       do: (): void => {
@@ -259,7 +259,7 @@ export const MoxieQuest: Quest = {
         if (!have($item`Loathing Idol Microphone`)) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
         }
-        withChoice(1505, 3, () => use($item`Loathing Idol Microphone`));
+        withChoice(1505, 1, () => use($item`Loathing Idol Microphone`));
       },
       limit: { tries: 1 },
     },
@@ -304,7 +304,7 @@ export const MoxieQuest: Quest = {
 
         if (CommunityService.Moxie.actualCost() >= 7 && 
           have($item`Eight Days a Week Pill Keeper`) &&
-          (checkValue("Pillkeeper", Math.min(7, Math.max(1, CommunityService.Mysticality.actualCost())))))
+          (checkValue("Pillkeeper", Math.min(7, Math.max(0, CommunityService.Mysticality.actualCost())))))
             tryAcquiringEffect($effect`Hulkien`);
       },
       do: (): void => {

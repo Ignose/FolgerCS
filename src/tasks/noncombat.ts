@@ -103,7 +103,7 @@ export const NoncombatQuest: Quest = {
         cliExecute("maximize -combat"); // To avoid maximizer bug, we invoke this once more
 
         // If it saves us >= 6 turns, try using a wish
-        if (checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Disquiet Riot`, testType), Math.max(1, CommunityService.WeaponDamage.actualCost()))))
+        if (checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Disquiet Riot`, testType), Math.max(0, CommunityService.WeaponDamage.actualCost()))))
           wishFor($effect`Disquiet Riot`);
       },
       do: (): void => {
