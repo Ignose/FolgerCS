@@ -3,7 +3,9 @@ import {
   buy,
   cliExecute,
   create,
+  eat,
   Effect,
+  equip,
   equippedItem,
   haveEffect,
   itemAmount,
@@ -11,6 +13,8 @@ import {
   mySign,
   numericModifier,
   print,
+  storageAmount,
+  takeStorage,
   toInt,
   use,
   useFamiliar,
@@ -53,6 +57,18 @@ export const FamiliarWeightQuest: Quest = {
       do: (): void => {
         cliExecute("spoon platypus");
       },
+    },
+    {
+      name: "Late Eat Deep Dish",
+      ready: () => get("instant_lateDeepDish", false),
+      completed: () => get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`),
+      do: (): void => {
+        if (have($item`familiar scrapbook`)) {
+          equip($item`familiar scrapbook`);
+        }
+        eat($item`Deep Dish of Legend`, 1);
+      },
+      limit: { tries: 1 },
     },
     {
       name: "Chorale of Companionship",
@@ -106,7 +122,6 @@ export const FamiliarWeightQuest: Quest = {
           $effect`Boxing Day Glow`,
           $effect`Do I Know You From Somewhere?`,
           $effect`Empathy`,
-          $effect`Fidoxene`,
           $effect`Heart of Green`,
           $effect`Kindly Resolve`,
           $effect`Leash of Linguini`,

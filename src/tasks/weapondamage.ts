@@ -1,23 +1,13 @@
 import { CombatStrategy } from "grimoire-kolmafia";
 import {
   buy,
-  cliExecute,
   create,
   Effect,
-  equippedItem,
-  faxbot,
-  inebrietyLimit,
-  myClass,
-  myHash,
-  myInebriety,
   myMaxhp,
-  myMeat,
-  numericModifier,
   print,
   restoreHp,
   restoreMp,
   retrieveItem,
-  use,
   useSkill,
   visitUrl,
 } from "kolmafia";
@@ -27,12 +17,9 @@ import {
   $familiar,
   $item,
   $location,
-  $monster,
   $skill,
-  $slot,
   clamp,
   Clan,
-  CombatLoversLocket,
   CommunityService,
   get,
   have,
@@ -60,20 +47,6 @@ export const WeaponDamageQuest: Quest = {
   completed: () => CommunityService.WeaponDamage.isDone(),
   tasks: [
     {
-      name: "Drink Sockdollager",
-      completed: () =>
-        have($effect`In a Lather`) ||
-        myInebriety() >= inebrietyLimit() - 1 ||
-        myMeat() < 500 ||
-        get("instant_saveSockdollager", false) ||
-        get("instant_maximizeProfit", false),
-      do: (): void => {
-        tryAcquiringEffect($effect`Ode to Booze`);
-        visitUrl(`clan_viplounge.php?preaction=speakeasydrink&drink=6&pwd=${+myHash()}`); // Sockdollager
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Potion of Potency",
       completed: () =>
         have($item`potion of potency`) ||
@@ -90,7 +63,7 @@ export const WeaponDamageQuest: Quest = {
       },
       completed: () =>
         !have($familiar`Ghost of Crimbo Carols`) ||
-        (have($skill`Meteor Lore`) && get("camelSpit") <= 100) ||
+        (have($skill`Meteor Lore`) && get("camelSpit") < 100) ||
         !haveFreeBanish() ||
         $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
           (ef) => have(ef)
@@ -197,7 +170,6 @@ export const WeaponDamageQuest: Quest = {
           $effect`Lack of Body-Building`,
           $effect`Pronounced Potency`,
           $effect`Rage of the Reindeer`,
-          $effect`Rictus of Yeg`,
           $effect`Seeing Red`,
           $effect`Scowl of the Auk`,
           $effect`Song of the North`,
@@ -208,10 +180,10 @@ export const WeaponDamageQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
-        if (get("yourFavoriteBirdMods").includes("Weapon Damage Percent") && checkValue("Favorite Bird", Math.min(4, Math.max(1, CommunityService.WeaponDamage.actualCost()))))
+        if (get("yourFavoriteBirdMods").includes("Weapon Damage Percent") && checkValue("Favorite Bird", Math.min(4, Math.max(0, CommunityService.WeaponDamage.actualCost()))))
           useSkill($skill`Visit your Favorite Bird`)
 
-        if (checkValue("Cargo", Math.min(resourceTurnSave($effect`Rictus of Yeg`, testType), Math.max(1, CommunityService.WeaponDamage.actualCost()))) && !get("_cargoPocketEmptied", false))
+        if (checkValue("Cargo", Math.min(resourceTurnSave($effect`Rictus of Yeg`, testType), Math.max(0, CommunityService.WeaponDamage.actualCost()))) && !get("_cargoPocketEmptied", false))
         {
           visitUrl("inventory.php?action=pocket");
           visitUrl("choice.php?whichchoice=1420&option=1&pocket=284");
@@ -219,8 +191,8 @@ export const WeaponDamageQuest: Quest = {
         
           $effects`Spit Upon, Pyramid Power, Outer Wolf`.forEach((ef) => {
           if (checkValue($item`pocket wish`, Math.min(resourceTurnSave(ef, testType) 
-          + resourceTurnSave(ef, offTestType), Math.max(1, CommunityService.WeaponDamage.actualCost())))) 
-            wishFor(ef); // The effects each save 2 turns on spelltest as well
+          + resourceTurnSave(ef, offTestType), Math.max(0, CommunityService.WeaponDamage.actualCost())))) 
+            wishFor(ef);
         });
 
         if (CommunityService.WeaponDamage.actualCost() >= 3 && !get("_madTeaParty")) {

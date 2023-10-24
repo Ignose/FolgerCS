@@ -685,3 +685,49 @@ function checkPrice(thing: Thing): number {
     }
   return 0;
 }
+
+export function logTestCompletion() {
+  cliExecute(`set folgerHPYesterday = ${get("folgerHPToday", 1)}`);
+  cliExecute(`set folgerHPToday = ${get("_CSTest1")}`);
+  cliExecute(`set folgerMusYesterday = ${get("folgerMusToday", 1)}`);
+  cliExecute(`set folgerMusToday= ${get("_CSTest2")}`);
+  cliExecute(`set folgerMysYesterday = ${get("folgerMysToday", 1)}`);
+  cliExecute(`set folgerMysToday= ${get("_CSTest3")}`);
+  cliExecute(`set folgerMoxYesterday = ${get("folgerMoxToday", 1)}`);
+  cliExecute(`set folgerMoxToday= ${get("_CSTest4")}`);
+  cliExecute(`set folgerFWYesterday = ${get("folgerFWToday", 1)}`);
+  cliExecute(`set folgerFWToday= ${get("_CSTest5")}`);
+  cliExecute(`set folgerWDYesterday = ${get("folgerWDToday", 1)}`);
+  cliExecute(`set folgerWDToday= ${get("_CSTest6")}`);
+  cliExecute(`set folgerSDYesterday = ${get("folgerSDToday", 1)}`);
+  cliExecute(`set folgerSDToday= ${get("_CSTest7")}`);
+  cliExecute(`set folgerNCYesterday = ${get("folgerNCToday", 1)}`);
+  cliExecute(`set folgerNCToday= ${get("_CSTest8")}`);
+  cliExecute(`set folgerBDYesterday = ${get("folgerBDToday", 1)}`);
+  cliExecute(`set folgerBDToday= ${get("_CSTest9")}`);
+  cliExecute(`set folgerHRYesterday = ${get("folgerHRToday", 1)}`);
+  cliExecute(`set folgerHRToday= ${get("_CSTest10")}`);
+}
+
+export function compareTestCompletion() {
+  const HP = get("folgerHPToday", 0) - get("folgerHPYesterday", 0);
+  const Mus = get("folgerMusToday", 0) - get("folgerMusYesterday", 0);
+  const Mys = get("folgerMysToday", 0) - get("folgerMysYesterday", 0);
+  const Mox = get("folgerMoxToday", 0) - get("folgerMoxYesterday", 0);
+  const FW = get("folgerFWToday", 0) - get("folgerFWYesterday", 0);
+  const WD = get("folgerWDToday", 0) - get("folgerWDYesterday", 0);
+  const SD = get("folgerSDToday", 0) - get("folgerSDYesterday", 0);
+  const NC = get("folgerNCToday", 0) - get("folgerNCYesterday", 0);
+  const BD = get("folgerBDToday", 0) - get("folgerBDYesterday", 0);
+  const HR = get("folgerHRToday", 0) - get("folgerHRYesterday", 0);
+  print(`Took ${HP} turns on HP test compared to yesterday!`);
+  print(`Took ${Mus} turns on Muscle test compared to yesterday!`);
+  print(`Took ${Mys} turns on Mysticality test compared to yesterday!`);
+  print(`Took ${Mox} turns on Moxie test compared to yesterday!`);
+  print(`Took ${FW} turns on Familiar Weight test compared to yesterday!`);
+  print(`Took ${WD} turns on Weapon Damage test compared to yesterday!`);
+  print(`Took ${SD} turns on Spell Damage test compared to yesterday!`);
+  print(`Took ${NC} turns on NonCombat test compared to yesterday!`);
+  print(`Took ${BD} turns on Booze Drop test compared to yesterday!`);
+  print(`Took ${HR} turns on Hot Res test compared to yesterday!`);
+}

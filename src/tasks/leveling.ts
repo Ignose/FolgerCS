@@ -175,6 +175,7 @@ const usefulEffects: Effect[] = [
   $effect`Triple-Sized`,
   $effect`substats.enh`,
   $effect`Broad-Spectrum Vaccine`,
+  $effect`Pyrite Pride`,
   // $effect`Think Win-Lose`,
   $effect`Confidence of the Votive`,
   $effect`Song of Bravado`,
@@ -183,9 +184,11 @@ const usefulEffects: Effect[] = [
   $effect`Pride of the Puffin`,
   $effect`Drescher's Annoying Noise`,
   $effect`Ur-Kel's Aria of Annoyance`,
+  $effect`Misplaced Rage`,
 
   // Xp
   $effect`Carol of the Thrills`,
+  $effect`Wisdom of Others`,
 
   // Songs
   $effect`Stevedave's Shanty of Superiority`,
@@ -502,38 +505,6 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Pull Snapper XP Buff", //Made this name generic
-      completed: () =>
-        get("_roninStoragePulls").split(",").length >= 5 ||
-        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        get("_roninStoragePulls").split(",").includes(toInt(snapperXpItem).toString()) ||
-        have(snapperXpItem) ||
-        storageAmount(snapperXpItem) === 0 ||
-        get("instant_saveEuclideanAngle", false) ||
-        !have($item`a ten-percent bonus`),
-      do: (): void => {
-        takeStorage(snapperXpItem, 1);
-        chew(snapperXpItem, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Abstraction item",
-      completed: () =>
-        get("_roninStoragePulls").split(",").length >= 5 ||
-        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        get("_roninStoragePulls").split(",").includes(toInt(abstractionXpItem).toString()) ||
-        have(abstractionXpItem) ||
-        have(abstractionXpEffect) ||
-        storageAmount(abstractionXpItem) === 0 ||
-        get("instant_saveAbstraction", false),
-      do: (): void => {
-        takeStorage(abstractionXpItem, 1);
-        chew(abstractionXpItem, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Pull Repaid Diaper",
       completed: () =>
         get("_roninStoragePulls").split(",").length >= 5 ||
@@ -678,7 +649,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Eat Deep Dish",
-      completed: () => get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`),
+      completed: () => get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`) || get("instant_lateDeepDish", false),
       do: (): void => {
         if (have($item`familiar scrapbook`)) {
           equip($item`familiar scrapbook`);

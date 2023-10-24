@@ -33,8 +33,6 @@ const consumptionResources: Resource[] = [
     [],
     get("instant_saveAstralPilsners", false) ? 6 : 0
   ),
-  new Resource("instant_saveEuclideanAngle", "Do not pull a non-Euclidean Angle"),
-  new Resource("instant_saveAbstraction", "Do not pull an Abstraction: Category"),
   new Resource("instant_savePerfectFreeze", "Do not craft and drink a perfect drink"),
   new Resource("instant_saveBeesKnees", "Do not buy and drink Bee's Knees"),
   new Resource("instant_saveSockdollager", "Do not buy and drink a sockdollager"),
@@ -98,7 +96,7 @@ const encounterResources: Resource[] = [
 
 const farmingResources: Resource[] = [
   new Resource("instant_savePorquoise", "Do not autosell your porquoise"),
-  new Resource("instant_saveFloundry", "Do not create a codpiece"),
+  new Resource("instant_saveFloundry", "Do not create a carpe"),
   new Resource("instant_saveFortuneTeller", "Do not consult Zatara for the myst buff"),
   new Resource(
     "instant_saveSnackVoucher",
@@ -158,8 +156,8 @@ const farmingResources: Resource[] = [
   ),
   new Resource(
     "instant_saveAugustScepter",
-    "Do not use any August Scepter skills",
-    $effects`Incredibly Well Lit, Offhand Remarkable`
+    "Do not use Offhand Remarkable",
+    $effects`Offhand Remarkable`
   ),
   new Resource(
     "instant_saveMonsterHabitats",

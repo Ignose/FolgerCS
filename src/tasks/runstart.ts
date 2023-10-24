@@ -15,6 +15,7 @@ import {
   hermit,
   Item,
   itemAmount,
+  mallPrice,
   myInebriety,
   myMaxhp,
   myMaxmp,
@@ -67,6 +68,10 @@ import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { baseOutfit, chooseFamiliar, unbreakableUmbrella } from "../engine/outfit";
 import { OutfitSpec } from "grimoire-kolmafia";
+
+const bestSIT = mallPrice($item`hollow rock`) + mallPrice($item`lump of loyal latite`) > mallPrice($item`Flapper Fly`) + mallPrice($item`filled mosquito`) 
+? 1 
+: 2
 
 const BEST_INITIATIVE = byClass({
   "Seal Clubber": 2, // Familiar exp: 2
@@ -136,21 +141,22 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "SIT Course",
+      // eslint-disable-next-line libram/verify-constants
+      ready: () => have($item`S.I.T. Course Completion Certificate`),
+      completed: () => get("_sitCourseCompleted", false),
+      choices: {
+        1494: bestSIT,
+      },
+      do: () =>
+        // eslint-disable-next-line libram/verify-constants
+        use($item`S.I.T. Course Completion Certificate`),
+    },
+    {
       name: "Get Floundry item",
       completed: () => get("_floundryItemCreated") || get("instant_saveFloundry", false),
       do: (): void => {
-        if (myPrimestat() === $stat`Muscle`) {
-          retrieveItem($item`fish hatchet`);
-        } else if (myPrimestat() === $stat`Mysticality`) {
-          retrieveItem($item`codpiece`, 1);
-          use($item`codpiece`, 1);
-          create($item`oil cap`, 1);
-          autosell($item`oil cap`, 1);
-        } else if (myPrimestat() === $stat`Moxie`) {
-          retrieveItem($item`bass clarinet`);
-          use($item`bass clarinet`, 1);
-          autosell($item`white pixel`, 10);
-        }
+          retrieveItem($item`carpe`);
       },
       limit: { tries: 1 },
     },
@@ -267,7 +273,7 @@ export const RunStartQuest: Quest = {
       completed: () => !have($item`sugar sheet`),
       do: (): void => {
         const nextMissingSugarItem =
-          $items`sugar shorts, sugar chapeau, sugar shank, sugar shield`.find((it) => !have(it)) ||
+          $items`sugar shorts, sugar chapeau, sugar shank`.find((it) => !have(it)) ||
           $item`none`;
         create(nextMissingSugarItem);
       },
@@ -323,7 +329,7 @@ export const RunStartQuest: Quest = {
           "Hot Resistance: 2",
           "Maximum HP: 40",
           "Combat Rate: -5",
-          "Weapon Damage: 20"
+          "Spell Damage Percent: 20"
         );
       },
       limit: { tries: 1 },
@@ -374,7 +380,12 @@ export const RunStartQuest: Quest = {
     {
       name: "Scavenge",
       completed: () => get("_daycareGymScavenges") > 0 || !get("daycareOpen"),
-      do: () => cliExecute("daycare scavenge free"),
+      do: (): void => {
+      if(have($item`familiar scrapbook`)) {
+        equip($item`familiar scrapbook`);
+      }
+      cliExecute("daycare scavenge free");
+    },
       limit: { tries: 1 },
     },
     {
@@ -457,7 +468,7 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Set Workshed",
+      name: "Set Asdon Workshed",
       completed: () =>
         getWorkshed() === $item`Asdon Martin keyfob` || !get("instant_useAsdon", false),
       do: () => use($item`Asdon Martin keyfob`),
