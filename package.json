@@ -1,7 +1,7 @@
 {
   "name": "FolgerCS",
-  "version": "0.1.0",
-  "description": "A low shiny SCCS script with some updates",
+  "version": "0.2.0",
+  "description": "A medium shiny SCCS-based script designed for profit maximization.",
   "main": "FolgerCS",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

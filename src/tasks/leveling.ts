@@ -80,6 +80,7 @@ import { CombatStrategy, OutfitSpec } from "grimoire-kolmafia";
 import {
   abstractionXpEffect,
   abstractionXpItem,
+  boomBoxProfit,
   burnLibram,
   camelFightsLeft,
   checkLocketAvailable,
@@ -111,7 +112,7 @@ import {
   garbageShirt,
   unbreakableUmbrella,
 } from "../engine/outfit";
-import Macro, { haveFreeBanish } from "../combat";
+import Macro, { haveFreeBanish, haveFreeKill } from "../combat";
 import { forbiddenEffects } from "../resources";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import {
@@ -308,7 +309,8 @@ export const LevelingQuest: Quest = {
   name: "Leveling",
   completed: () => get("csServicesPerformed").split(",").length > 1 ||
   (myBasestat(myPrimestat()) >= targetBaseMyst && get("_feelPrideUsed", 3) >= 3 
-  && camelFightsLeft() === 0 && (get("camelSpit") < 94 || get("camelSpit") >= 100)),
+  && camelFightsLeft() === 0 && (get("camelSpit") < 94 || get("camelSpit") >= 100)
+  && !haveFreeKill()),
   tasks: [
     {
       name: "LED Candle",
@@ -593,6 +595,9 @@ export const LevelingQuest: Quest = {
       prepare: (): void => {
         if (get("getawayCampsiteUnlocked"))
           visitUrl("place.php?whichplace=campaway&action=campaway_sky");
+        if (have($item`familiar scrapbook`)) {
+          equip($item`familiar scrapbook`);
+        }
       },
       completed: () => !have($item`a ten-percent bonus`),
       do: () => use($item`a ten-percent bonus`, 1),
@@ -825,7 +830,7 @@ export const LevelingQuest: Quest = {
         ...baseOutfit,
         familiar: $familiar`Trick-or-Treating Tot`,
       }),
-      post: () => sellMiscellaneousItems(),
+      post: () => { sellMiscellaneousItems(); boomBoxProfit();},
       limit: { tries: 1 },
     },
     {
@@ -864,7 +869,7 @@ export const LevelingQuest: Quest = {
             .default()
         ).abort()
       ),
-      post: () => sellMiscellaneousItems(),
+      post: () => { sellMiscellaneousItems(); boomBoxProfit();},
       limit: { tries: 1 },
     },
     {
@@ -918,6 +923,7 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
       limit: { tries: 1 },
     },
@@ -955,6 +961,7 @@ export const LevelingQuest: Quest = {
         }
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
       limit: { tries: 12 },
     },
@@ -1073,6 +1080,7 @@ export const LevelingQuest: Quest = {
         use($item`red box`, 1);
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
       limit: { tries: 1 },
     },
@@ -1210,6 +1218,7 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
       limit: { tries: 15 },
     },
@@ -1273,6 +1282,7 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
     },
     {
@@ -1299,6 +1309,7 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
     },
     {
@@ -1321,6 +1332,7 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
     },
     {
@@ -1338,6 +1350,7 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
     },
     {
@@ -1361,6 +1374,7 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
     },
     {
@@ -1409,6 +1423,7 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
       limit: { tries: 5 },
     },
@@ -1431,6 +1446,7 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
     },
     {
@@ -1478,6 +1494,7 @@ export const LevelingQuest: Quest = {
         if (have($item`SMOOCH coffee cup`)) chew($item`SMOOCH coffee cup`, 1);
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
     },
     {
@@ -1529,6 +1546,7 @@ export const LevelingQuest: Quest = {
         if (have($item`SMOOCH coffee cup`)) chew($item`SMOOCH coffee cup`, 1);
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
     },
     {
@@ -1594,6 +1612,7 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
       limit: { tries: 1 },
     },
@@ -1634,6 +1653,7 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
       limit: { tries: 1 },
     },
@@ -1669,6 +1689,7 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
       limit: { tries: 1 },
     },
@@ -1701,6 +1722,7 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
       limit: { tries: 1 },
     },
@@ -1759,6 +1781,7 @@ export const LevelingQuest: Quest = {
         sellMiscellaneousItems();
         burnLibram(500);
         refillLatte();
+        boomBoxProfit();
       },
       limit: { tries: 20 },
     },

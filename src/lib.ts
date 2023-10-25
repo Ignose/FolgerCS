@@ -52,6 +52,7 @@ import {
   getKramcoWandererChance,
   have,
   set,
+  SongBoom,
   sumNumbers,
   Witchess,
 } from "libram";
@@ -730,4 +731,9 @@ export function compareTestCompletion() {
   print(`Took ${NC} turns on NonCombat test compared to yesterday!`);
   print(`Took ${BD} turns on Booze Drop test compared to yesterday!`);
   print(`Took ${HR} turns on Hot Res test compared to yesterday!`);
+}
+
+export function boomBoxProfit(): void {
+  if(have($item`Punching Potion`) && SongBoom.song() !== "Total Eclipse of Your Meat")
+    SongBoom.setSong("Total Eclipse of Your Meat")
 }

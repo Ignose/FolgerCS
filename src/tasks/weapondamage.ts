@@ -148,8 +148,6 @@ export const WeaponDamageQuest: Quest = {
     {
       name: "Test",
       prepare: (): void => {
-        if (have($item`SongBoom™ BoomBox`)) SongBoom.setSong("These Fists Were Made for Punchin'");
-        if (!have($item`goofily-plumed helmet`)) buy($item`goofily-plumed helmet`, 1);
         if (
           have($item`Ye Wizard's Shack snack voucher`) &&
           !forbiddenEffects.includes($effect`Wasabi With You`)
@@ -157,6 +155,7 @@ export const WeaponDamageQuest: Quest = {
           retrieveItem($item`wasabi marble soda`);
         const usefulEffects: Effect[] = [
           $effect`Billiards Belligerence`,
+          $effect`Blood Frenzy`,
           $effect`Bow-Legged Swagger`,
           $effect`Carol of the Bulls`,
           $effect`Cowrruption`,
@@ -181,19 +180,19 @@ export const WeaponDamageQuest: Quest = {
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
         if (get("yourFavoriteBirdMods").includes("Weapon Damage Percent") && checkValue("Favorite Bird", Math.min(4, Math.max(0, CommunityService.WeaponDamage.actualCost()))))
-          useSkill($skill`Visit your Favorite Bird`)
+          useSkill($skill`Visit your Favorite Bird`);
+        
+          $effects`Spit Upon, Pyramid Power, Outer Wolf`.forEach((ef) => {
+          if (checkValue($item`pocket wish`, Math.min(resourceTurnSave(ef, testType) 
+          + resourceTurnSave(ef, offTestType), Math.max(0, CommunityService.WeaponDamage.actualCost())))) 
+            wishFor(ef);
+        })
 
         if (checkValue("Cargo", Math.min(resourceTurnSave($effect`Rictus of Yeg`, testType), Math.max(0, CommunityService.WeaponDamage.actualCost()))) && !get("_cargoPocketEmptied", false))
         {
           visitUrl("inventory.php?action=pocket");
           visitUrl("choice.php?whichchoice=1420&option=1&pocket=284");
         }
-        
-          $effects`Spit Upon, Pyramid Power, Outer Wolf`.forEach((ef) => {
-          if (checkValue($item`pocket wish`, Math.min(resourceTurnSave(ef, testType) 
-          + resourceTurnSave(ef, offTestType), Math.max(0, CommunityService.WeaponDamage.actualCost())))) 
-            wishFor(ef);
-        });
 
         if (CommunityService.WeaponDamage.actualCost() >= 3 && !get("_madTeaParty")) {
           if (!have($item`goofily-plumed helmet`)) buy($item`goofily-plumed helmet`, 1);

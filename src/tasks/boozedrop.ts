@@ -145,9 +145,8 @@ export const BoozeDropQuest: Quest = {
         get("lastAnticheeseDay") > 0 ||
         get("instant_skipGovernment", false),
       do: (): void => {
-        inMuscleSign()
-          ? retrieveItem($item`bitchin' meatcar`)
-          : retrieveItem($item`Desert Bus pass`);
+        if(myMeat() >= 15000)
+          retrieveItem($item`Desert Bus pass`);
         if (!have($item`Desert Bus pass`) && !have($item`bitchin' meatcar`)) {
           autosell($item`government cheese`, itemAmount($item`government cheese`));
           return;
