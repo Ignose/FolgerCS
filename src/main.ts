@@ -95,11 +95,11 @@ export function main(command?: string): void {
         earlyLevelingQuest,
         CoilWireQuest,
         LevelingQuest,
-        statTestOrder,
+        ...statTestOrder,
         NoncombatQuest,
         HotResQuest,
         FamiliarWeightQuest,
-        skillTestOrder,
+        ...skillTestOrder,
         DonateQuest,
       ]);
   const engine = new Engine(tasks);
