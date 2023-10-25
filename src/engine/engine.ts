@@ -136,17 +136,13 @@ export class Engine extends BaseEngine {
     this.checkLimits(task, undefined);
 
     super.execute(task);
+
     if (have($effect`Beaten Up`)) {
-      if (
-        [
-          "Poetic Justice",
-          "Lost and Found",
-          "Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl",
-        ].includes(get("lastEncounter"))
-      )
-        uneffect($effect`Beaten Up`);
-      else throw "Fight was lost; stop.";
+      if (get("_lastCombatLost") && !get("lastEncounter").includes("Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl"))
+        throw "Fight was lost; stop.";
+      else uneffect($effect`Beaten Up`);
     }
+    
     originalValues.forEach(([resource, val]) => {
       if (
         get(resource, "").toString().length > 0

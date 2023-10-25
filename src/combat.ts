@@ -7,6 +7,7 @@ export const mainStat = myPrimestat(); //Update to select mainstat based on clas
 export default class Macro extends StrictMacro {
   kill(useCinch = false): Macro {
     const macroHead = this.trySkill($skill`Curse of Weaksauce`)
+      .trySkill($skill`Micrometeorite`)
       .trySkill($skill`Sing Along`)
       .if_(
         `!mpbelow ${mpCost($skill`Stuffed Mortar Shell`)}`,

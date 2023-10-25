@@ -45,6 +45,7 @@ import {
   get,
   getKramcoWandererChance,
   have,
+  SongBoom,
   sum,
   TrainSet,
 } from "libram";
@@ -54,6 +55,7 @@ import { canConfigure, Cycle, setConfiguration, Station } from "libram/dist/reso
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { chooseRift } from "libram/dist/resources/2023/ClosedCircuitPayphone";
+import { boomBoxProfit } from "../lib";
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
@@ -159,8 +161,7 @@ export const earlyLevelingQuest: Quest = {
       name: "Configure Trainset",
       after: ["Install Trainset"],
       completed: () =>
-        !have($item`model train set`) ||
-        (getWorkshed() === $item`model train set` && !canConfigure()),
+        get("_folgerInitialConfig", false),
       do: (): void => {
         const statStation: Station = {
           Muscle: Station.BRAWN_SILO,
@@ -178,6 +179,7 @@ export const earlyLevelingQuest: Quest = {
           Station.TOWER_FROZEN, // hot resist (useful)
           Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
         ]);
+        cliExecute("set _folgerInitialConfig = true");
       },
       limit: { tries: 1 },
     },
@@ -204,7 +206,8 @@ export const earlyLevelingQuest: Quest = {
       do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
       combat: get("_daycareGymScavenges")
         ? new CombatStrategy().macro(
-            Macro.trySkill($skill`Snokebomb`)
+            Macro.trySkill($skill`Bowl a Curveball`)
+              .trySkill($skill`Snokebomb`)
               .trySkill($skill`Reflex Hammer`)
               .trySkill($skill`Chest X-Ray`)
               .trySkill($skill`Gingerbread Mob Hit`)
@@ -259,6 +262,7 @@ export const earlyLevelingQuest: Quest = {
         use($item`red box`, 1);
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
       limit: { tries: 1 },
     },
@@ -266,8 +270,7 @@ export const earlyLevelingQuest: Quest = {
       name: "ReConfigure Trainset",
       after: ["Map Novelty Tropical Skeleton"],
       completed: () =>
-        (getWorkshed() === $item`model train set` && !canConfigure()) ||
-        !have($item`model train set`),
+        get("_folgerSecondConfig", false),
       do: (): void => {
         const offset = get("trainsetPosition") % 8;
         const newStations: TrainSet.Station[] = [];
@@ -291,6 +294,7 @@ export const earlyLevelingQuest: Quest = {
           newStations[newPos] = stations[i];
         }
         setConfiguration(newStations as Cycle);
+        cliExecute("set _folgerSecondConfig = true");
       },
       limit: { tries: 1 },
     },
@@ -353,7 +357,7 @@ export const earlyLevelingQuest: Quest = {
         ...baseOutfit,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
       }),
-      post: () => sellMiscellaneousItems(),
+      post: () => { sellMiscellaneousItems(); boomBoxProfit();},
       limit: { tries: 1 },
     },
     {
@@ -391,6 +395,7 @@ export const earlyLevelingQuest: Quest = {
       post: () => { sellMiscellaneousItems(),
         pledgeCheck = true;
         cliExecute("set _pledgeCheck = true");
+        boomBoxProfit();
       },
       limit: { tries: 1 },
     },

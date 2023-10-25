@@ -2,6 +2,7 @@ import {
   cliExecute,
   myAdventures,
   myAscensions,
+  myPrimestat,
   nowToString,
   print,
   setAutoAttack,
@@ -10,7 +11,7 @@ import {
   visitUrl,
 } from "kolmafia";
 import { compareTestCompletion, computeCombatFrequency, convertMilliseconds, logTestCompletion, mainStatStr, simpleDateDiff } from "./lib";
-import { get, set, sinceKolmafiaRevision } from "libram";
+import { $effect, $stat, CommunityService, get, have, set, sinceKolmafiaRevision } from "libram";
 import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
 import { Task } from "./engine/task";
@@ -75,7 +76,18 @@ export function main(command?: string): void {
 
   const swapFamAndNCTests = computeCombatFrequency() <= -95;
 
-  const swapMoxieTest = mainStatStr === `Muscle`;
+  const swapMainStatTest = have($effect`Giant Growth`) || get("_folgerGiantFirst", false);
+  const statTestOrder: Task[] = 
+  myPrimestat === $stat`Muscle` 
+  ? [swapMainStatTest ? MoxieQuest : MuscleQuest, MysticalityQuest, swapMainStatTest ? MuscleQuest : MoxieQuest, HPQuest]
+  : myPrimestat === $stat`Mysticality` 
+  ? [swapMainStatTest ? [MuscleQuest, HPQuest] : MysticalityQuest, MoxieQuest, swapMainStatTest ? MysticalityQuest : [MuscleQuest, HPQuest]]
+  : myPrimestat === $stat`Moxie`
+  ? [swapMainStatTest ? MysticalityQuest : MoxieQuest, MuscleQuest, HPQuest, swapMainStatTest ? MoxieQuest: MysticalityQuest ]
+  : [];
+
+  const skillTestOrder: Task[] =
+  CommunityService.SpellDamage.prediction >= 30 ? [BoozeDropQuest, WeaponDamageQuest, SpellDamageQuest] : [WeaponDamageQuest, SpellDamageQuest, BoozeDropQuest];
 
   const tasks: Task[] = 
     getTasks([
@@ -83,16 +95,11 @@ export function main(command?: string): void {
         earlyLevelingQuest,
         CoilWireQuest,
         LevelingQuest,
-        swapMoxieTest ? MoxieQuest : MysticalityQuest,
-        HPQuest,
-        swapMoxieTest ? MysticalityQuest : MoxieQuest,
-        MuscleQuest,
-        FamiliarWeightQuest,
+        statTestOrder,
         NoncombatQuest,
-        BoozeDropQuest,
         HotResQuest,
-        WeaponDamageQuest,
-        SpellDamageQuest,
+        FamiliarWeightQuest,
+        skillTestOrder,
         DonateQuest,
       ]);
   const engine = new Engine(tasks);

@@ -162,7 +162,7 @@ export const FamiliarWeightQuest: Quest = {
           }
           if (CommunityService.FamiliarWeight.actualCost() >= 5 && 
           have($item`Eight Days a Week Pill Keeper`) &&
-          (checkValue("Pillkeeper", Math.min(4, Math.max(1, CommunityService.Mysticality.actualCost())))))
+          (checkValue("Pillkeeper", Math.min(2, Math.max(1, CommunityService.Mysticality.actualCost())))))
             tryAcquiringEffect($effect`Fidoxene`);
             
           cliExecute("maximize familiar weight");
