@@ -11,7 +11,7 @@ import {
   visitUrl,
 } from "kolmafia";
 import { compareTestCompletion, computeCombatFrequency, convertMilliseconds, logTestCompletion, mainStatStr, simpleDateDiff } from "./lib";
-import { $effect, $stat, CommunityService, get, have, set, sinceKolmafiaRevision } from "libram";
+import { $effect, $item, $stat, CommunityService, get, have, set, sinceKolmafiaRevision } from "libram";
 import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
 import { Task } from "./engine/task";
@@ -74,11 +74,12 @@ export function main(command?: string): void {
   visitUrl("main.php");
   cliExecute("refresh all");
 
-  const swapFamAndNCTests = computeCombatFrequency() <= -95;
+  const swapMainStatTest = have($item`Deck of every card`) && myPrimestat === $stat`Muscle`;
 
-  const swapMainStatTest = have($effect`Giant Growth`) || get("_folgerGiantFirst", false);
+  const swapSkillTestOrder = CommunityService.SpellDamage.prediction >= 15;
 
-  const swapSkillTestOrder = CommunityService.SpellDamage.prediction >= 17;
+  const nonComSwapOrder = CommunityService.FamiliarWeight.prediction >= 14 && swapSkillTestOrder;
+ 
 
   const tasks: Task[] = 
     getTasks([
@@ -86,16 +87,16 @@ export function main(command?: string): void {
         earlyLevelingQuest,
         CoilWireQuest,
         LevelingQuest,
-        myPrimestat === $stat`Muscle` && swapMainStatTest ? [MoxieQuest, MysticalityQuest, MuscleQuest, HPQuest,]
-        : myPrimestat === $stat`Muscle` && !swapMainStatTest ? [MuscleQuest, HPQuest, MysticalityQuest, MoxieQuest,]
-        : myPrimestat === $stat`Mysticality` && swapMainStatTest ? [MuscleQuest, HPQuest, MysticalityQuest, MoxieQuest,]
-        : myPrimestat === $stat`Mysticality` && !swapMainStatTest ? [MysticalityQuest, MoxieQuest, MuscleQuest, HPQuest,]
-        : myPrimestat === $stat`Moxie` && swapMainStatTest ? [MysticalityQuest, MoxieQuest, MuscleQuest, HPQuest,]
-        : [MoxieQuest, MuscleQuest, HPQuest, MysticalityQuest,],
-        NoncombatQuest,
+        swapMainStatTest ? MoxieQuest : MuscleQuest,
+        swapMainStatTest ? MysticalityQuest : HPQuest,
+        swapMainStatTest ? MuscleQuest : MysticalityQuest,
+        swapMainStatTest ? HPQuest : MoxieQuest,
         HotResQuest,
-        FamiliarWeightQuest,
-        swapSkillTestOrder ? [BoozeDropQuest, WeaponDamageQuest, SpellDamageQuest] : [WeaponDamageQuest, SpellDamageQuest, BoozeDropQuest],
+        nonComSwapOrder ? FamiliarWeightQuest : NoncombatQuest,
+        nonComSwapOrder ? NoncombatQuest : FamiliarWeightQuest,
+        swapSkillTestOrder ? BoozeDropQuest : WeaponDamageQuest,
+        swapSkillTestOrder ? WeaponDamageQuest : SpellDamageQuest,
+        swapSkillTestOrder ? SpellDamageQuest : BoozeDropQuest,
         DonateQuest,
       ]);
   const engine = new Engine(tasks);
