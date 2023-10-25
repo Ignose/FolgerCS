@@ -470,7 +470,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Grab Green Mana",
-      ready: () => have($item`Deck of Cards`),
+      ready: () => have($item`Deck of Every Card`),
       completed: () =>
         get("_deckCardsDrawn") >= 10 ||
         get("instant_saveDeck", false) ||
