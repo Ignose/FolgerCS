@@ -155,7 +155,6 @@ export const WeaponDamageQuest: Quest = {
           retrieveItem($item`wasabi marble soda`);
         const usefulEffects: Effect[] = [
           $effect`Billiards Belligerence`,
-          $effect`Blood Frenzy`,
           $effect`Bow-Legged Swagger`,
           $effect`Carol of the Bulls`,
           $effect`Cowrruption`,
