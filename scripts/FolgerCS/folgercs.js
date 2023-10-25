@@ -14827,7 +14827,7 @@ var LevelingQuest = {
     }
   }, {
     name: "Grab Green Mana",
-    ready: () => lib_have(template_string_$item(leveling_templateObject147 || (leveling_templateObject147 = leveling_taggedTemplateLiteral(["Deck of Cards"])))),
+    ready: () => lib_have(template_string_$item(leveling_templateObject147 || (leveling_templateObject147 = leveling_taggedTemplateLiteral(["Deck of Every Card"])))),
     completed: () => property_get("_deckCardsDrawn") >= 10 || property_get("instant_saveDeck", false) || lib_have(template_string_$effect(_templateObject148 || (_templateObject148 = leveling_taggedTemplateLiteral(["Giant Growth"])))) || !lib_have(template_string_$skill(_templateObject149 || (_templateObject149 = leveling_taggedTemplateLiteral(["Giant Growth"])))),
     do: () => {
       (0,external_kolmafia_namespaceObject.cliExecute)("cheat green mana");
@@ -16028,7 +16028,7 @@ var BEST_INITIATIVE = byClass({
   // Maximum MP Percent: 30
   "Accordion Thief": 2,
   // Booze Drop: 30
-  Pastamancer: 3,
+  Pastamancer: 2,
   // Familiar exp: 2
   Sauceror: 1,
   // Exp: 3
