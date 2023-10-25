@@ -77,20 +77,8 @@ export function main(command?: string): void {
   const swapFamAndNCTests = computeCombatFrequency() <= -95;
 
   const swapMainStatTest = have($effect`Giant Growth`) || get("_folgerGiantFirst", false);
-  const statTestOrderChecker: Task[] = 
-  myPrimestat === $stat`Muscle` 
-  ? [swapMainStatTest ? MoxieQuest : MuscleQuest, MysticalityQuest, swapMainStatTest ? MuscleQuest : MoxieQuest, HPQuest]
-  : myPrimestat === $stat`Mysticality` 
-  ? [swapMainStatTest ? [MuscleQuest, HPQuest] : MysticalityQuest, MoxieQuest, swapMainStatTest ? MysticalityQuest : [MuscleQuest, HPQuest]]
-  : myPrimestat === $stat`Moxie`
-  ? [swapMainStatTest ? MysticalityQuest : MoxieQuest, MuscleQuest, HPQuest, swapMainStatTest ? MoxieQuest: MysticalityQuest ]
-  : [];
-  const statTestOrder: Task[] = statTestOrderChecker;
 
-  const skillTestOrderChecker: Task[] =
-  CommunityService.SpellDamage.prediction >= 17 ? [BoozeDropQuest, WeaponDamageQuest, SpellDamageQuest] : [WeaponDamageQuest, SpellDamageQuest, BoozeDropQuest];
-
-  const skillTestOrder: Task[] = skillTestOrderChecker;
+  const swapSkillTestOrder = CommunityService.SpellDamage.prediction >= 17;
 
   const tasks: Task[] = 
     getTasks([
@@ -98,11 +86,16 @@ export function main(command?: string): void {
         earlyLevelingQuest,
         CoilWireQuest,
         LevelingQuest,
-        ...statTestOrder,
+        myPrimestat === $stat`Muscle` && swapMainStatTest ? [MoxieQuest, MysticalityQuest, MuscleQuest, HPQuest,]
+        : myPrimestat === $stat`Muscle` && !swapMainStatTest ? [MuscleQuest, HPQuest, MysticalityQuest, MoxieQuest,]
+        : myPrimestat === $stat`Mysticality` && swapMainStatTest ? [MuscleQuest, HPQuest, MysticalityQuest, MoxieQuest,]
+        : myPrimestat === $stat`Mysticality` && !swapMainStatTest ? [MysticalityQuest, MoxieQuest, MuscleQuest, HPQuest,]
+        : myPrimestat === $stat`Moxie` && swapMainStatTest ? [MysticalityQuest, MoxieQuest, MuscleQuest, HPQuest,]
+        : [MoxieQuest, MuscleQuest, HPQuest, MysticalityQuest,],
         NoncombatQuest,
         HotResQuest,
         FamiliarWeightQuest,
-        ...skillTestOrder,
+        swapSkillTestOrder ? [BoozeDropQuest, WeaponDamageQuest, SpellDamageQuest] : [WeaponDamageQuest, SpellDamageQuest, BoozeDropQuest],
         DonateQuest,
       ]);
   const engine = new Engine(tasks);
