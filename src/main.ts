@@ -77,7 +77,7 @@ export function main(command?: string): void {
   const swapFamAndNCTests = computeCombatFrequency() <= -95;
 
   const swapMainStatTest = have($effect`Giant Growth`) || get("_folgerGiantFirst", false);
-  const statTestOrder: Task[] = 
+  const statTestOrder = 
   myPrimestat === $stat`Muscle` 
   ? [swapMainStatTest ? MoxieQuest : MuscleQuest, MysticalityQuest, swapMainStatTest ? MuscleQuest : MoxieQuest, HPQuest]
   : myPrimestat === $stat`Mysticality` 
@@ -86,7 +86,7 @@ export function main(command?: string): void {
   ? [swapMainStatTest ? MysticalityQuest : MoxieQuest, MuscleQuest, HPQuest, swapMainStatTest ? MoxieQuest: MysticalityQuest ]
   : [];
 
-  const skillTestOrder: Task[] =
+  const skillTestOrder =
   CommunityService.SpellDamage.prediction >= 30 ? [BoozeDropQuest, WeaponDamageQuest, SpellDamageQuest] : [WeaponDamageQuest, SpellDamageQuest, BoozeDropQuest];
 
   const tasks: Task[] = 
