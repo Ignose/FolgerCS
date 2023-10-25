@@ -88,7 +88,7 @@ export function main(command?: string): void {
   const statTestOrder: Task[] = statTestOrderChecker;
 
   const skillTestOrderChecker =
-  CommunityService.SpellDamage.prediction >= 30 ? [BoozeDropQuest, WeaponDamageQuest, SpellDamageQuest] : [WeaponDamageQuest, SpellDamageQuest, BoozeDropQuest];
+  CommunityService.SpellDamage.prediction >= 17 ? [BoozeDropQuest, WeaponDamageQuest, SpellDamageQuest] : [WeaponDamageQuest, SpellDamageQuest, BoozeDropQuest];
 
   const skillTestOrder: Task[] = skillTestOrderChecker;
 
