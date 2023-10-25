@@ -41,6 +41,7 @@ import {
   AutumnAton,
   clamp,
   CombatLoversLocket,
+  CommunityService,
   get,
   getKramcoWandererChance,
   have,
@@ -133,7 +134,7 @@ function sellMiscellaneousItems(): void {
 
 export const earlyLevelingQuest: Quest = {
   name: "Early Leveling",
-  completed: () => get("pizzaOfLegendEaten") || !get("instant_skipBorrowedTime", false) || get("instant_useAsdon", false),
+  completed: () => get("pizzaOfLegendEaten") || !get("instant_skipBorrowedTime", false) || get("instant_useAsdon", false) || CommunityService.CoilWire.isDone(),
   tasks: [
     {
       name: "Install Trainset",
@@ -403,6 +404,15 @@ export const earlyLevelingQuest: Quest = {
         equip($item`familiar scrapbook`);
       }
       cliExecute("bastille.ash mainstat brutalist");
+    },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Whetstone",
+      after: ["Bakery Pledge"],
+      completed: () => !have($item`whet stone`),
+      do: (): void => {
+      use($item`whet stone`);
     },
       limit: { tries: 1 },
     },
