@@ -714,6 +714,7 @@ export function boomBoxProfit(): void {
 
 export function checkPull(item: Item): boolean {
   if (
+    get("_roninStoragePulls").split(",").length >= 5 ||
     have(item) ||
     get("_roninStoragePulls").split(",").includes(toInt(item).toString()) ||
     storageAmount(item) === 0

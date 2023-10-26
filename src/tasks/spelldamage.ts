@@ -40,7 +40,14 @@ import {
   Witchess,
 } from "libram";
 import { Quest } from "../engine/task";
-import { checkValue, logTestSetup, shrugAT, startingClan, tryAcquiringEffect } from "../lib";
+import {
+  checkPull,
+  checkValue,
+  logTestSetup,
+  shrugAT,
+  startingClan,
+  tryAcquiringEffect,
+} from "../lib";
 import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { forbiddenEffects } from "../resources";
@@ -162,15 +169,10 @@ export const SpellDamageQuest: Quest = {
     },
     {
       name: "Pull Tobiko Marble Soda",
+      ready: () => get("instant_experimentPulls", false),
       completed: () =>
-        get("_roninStoragePulls").split(",").length >= 5 ||
         5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`tobiko marble soda`).toString()) ||
-        have($item`tobiko marble soda`) ||
-        storageAmount($item`tobiko marble soda`) === 0 ||
-        !get("instant_experimentPulls", true),
+        checkPull($item`tobiko marble soda`),
       do: (): void => {
         takeStorage($item`tobiko marble soda`, 1);
       },
@@ -178,15 +180,10 @@ export const SpellDamageQuest: Quest = {
     },
     {
       name: "Pull Staff of Simering Hatred",
+      ready: () => get("instant_experimentPulls", false),
       completed: () =>
-        get("_roninStoragePulls").split(",").length >= 5 ||
         5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`Staff of Simmering Hatred`).toString()) ||
-        have($item`Staff of Simmering Hatred`) ||
-        storageAmount($item`Staff of Simmering Hatred`) === 0 ||
-        !get("instant_experimentPulls", true),
+        checkPull($item`Staff of Simmering Hatred`),
       do: (): void => {
         takeStorage($item`Staff of Simmering Hatred`, 1);
       },

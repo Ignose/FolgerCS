@@ -31,7 +31,7 @@ import {
   have,
 } from "libram";
 import { Quest } from "../engine/task";
-import { checkValue, logTestSetup, shrugAT, tryAcquiringEffect } from "../lib";
+import { checkPull, checkValue, logTestSetup, shrugAT, tryAcquiringEffect } from "../lib";
 import Macro from "../combat";
 import {
   avoidDaylightShavingsHelm,
@@ -87,18 +87,11 @@ export const FamiliarWeightQuest: Quest = {
     },
     {
       name: "Pull Repaid Diaper",
+      ready: () => get("instant_experimentPulls", false),
       completed: () =>
-        get("_roninStoragePulls").split(",").length >= 5 ||
         5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`repaid diaper`).toString()) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`Great Wolf's beastly trousers`).toString()) ||
-        have($item`repaid diaper`) ||
-        storageAmount($item`repaid diaper`) === 0 ||
-        !get("instant_experimentPulls", true),
+        checkPull($item`Great Wolf's beastly trousers`) ||
+        checkPull($item`repaid diaper`),
       do: (): void => {
         takeStorage($item`repaid diaper`, 1);
       },
@@ -106,18 +99,11 @@ export const FamiliarWeightQuest: Quest = {
     },
     {
       name: "Pull Great Wolf's beastly trousers",
+      ready: () => get("instant_experimentPulls", false),
       completed: () =>
-        get("_roninStoragePulls").split(",").length >= 5 ||
         5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`repaid diaper`).toString()) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`Great Wolf's beastly trousers`).toString()) ||
-        have($item`Great Wolf's beastly trousers`) ||
-        storageAmount($item`Great Wolf's beastly trousers`) === 0 ||
-        !get("instant_experimentPulls", true),
+        checkPull($item`Great Wolf's beastly trousers`) ||
+        checkPull($item`repaid diaper`),
       do: (): void => {
         takeStorage($item`Great Wolf's beastly trousers`, 1);
       },

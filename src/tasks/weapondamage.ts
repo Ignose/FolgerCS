@@ -32,7 +32,14 @@ import {
 import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { Quest } from "../engine/task";
-import { checkValue, logTestSetup, startingClan, tryAcquiringEffect, wishFor } from "../lib";
+import {
+  checkPull,
+  checkValue,
+  logTestSetup,
+  startingClan,
+  tryAcquiringEffect,
+  wishFor,
+} from "../lib";
 import { forbiddenEffects } from "../resources";
 
 export const WeaponDamageQuest: Quest = {
@@ -193,13 +200,8 @@ export const WeaponDamageQuest: Quest = {
         });
 
         if (
-          get("_roninStoragePulls").split(",").length < 5 &&
+          !checkPull($item`Stick-Knife of Loathing`) &&
           5 - get("_roninStoragePulls").split(",").length < get("instant_savePulls", 0) &&
-          get("_roninStoragePulls")
-            .split(",")
-            .includes(toInt($item`Stick-Knife of Loathing`).toString()) &&
-          !have($item`Stick-Knife of Loathing`) &&
-          storageAmount($item`Stick-Knife of Loathing`) >= 1 &&
           myBasestat($stat`Muscle`) >= 150 &&
           get("instant_experimentPulls", false)
         )
@@ -213,17 +215,9 @@ export const WeaponDamageQuest: Quest = {
         }
 
         if (
-          get("_roninStoragePulls").split(",").length < 5 &&
           5 - get("_roninStoragePulls").split(",").length < get("instant_savePulls", 0) &&
-          !get("_roninStoragePulls")
-            .split(",")
-            .includes(toInt($item`Great Wolf's beastly trousers`).toString()) &&
-          !get("_roninStoragePulls")
-            .split(",")
-            .includes(toInt($item`repaid diaper`).toString()) &&
-          !have($item`Great Wolf's beastly trousers`) &&
-          storageAmount($item`Great Wolf's beastly trousers`) === 0 &&
-          !get("instant_experimentPulls", true) &&
+          !(checkPull($item`Great Wolf's beastly trousers`) || checkPull($item`repaid diaper`)) &&
+          get("instant_experimentPulls", false) &&
           CommunityService.WeaponDamage.actualCost() >= 3
         )
           takeStorage($item`Great Wolf's beastly trousers`, 1);
