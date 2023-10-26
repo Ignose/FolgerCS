@@ -18802,7 +18802,7 @@ function main_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.sl
 
 
 var timeProperty = "fullday_elapsedTime";
-var args = Args.create("FolgerCS", "An automated low to mid-shiny SCCS script.", {
+var args = Args.create("FolgerCS", "An automated mid-shiny SCCS script.", {
   confirm: Args.boolean({
     help: "If the user must confirm execution of each task.",
     default: false
@@ -18813,6 +18813,10 @@ var args = Args.create("FolgerCS", "An automated low to mid-shiny SCCS script.",
   }),
   savedresources: Args.flag({
     help: "Check which resources you have current set to be saved.",
+    setting: ""
+  }),
+  recap: Args.flag({
+    help: "Recap of today's run.",
     setting: ""
   })
 });
@@ -18830,6 +18834,10 @@ function main_main(command) {
   }
   if (args.savedresources) {
     checkResources();
+    return;
+  }
+  if (args.recap) {
+    logResourceUsage();
     return;
   }
   if (runComplete()) {
