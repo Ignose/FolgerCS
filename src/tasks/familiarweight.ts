@@ -6,15 +6,11 @@ import {
   eat,
   Effect,
   equip,
-  equippedItem,
   haveEffect,
   itemAmount,
   myClass,
   mySign,
-  numericModifier,
   print,
-  storageAmount,
-  takeStorage,
   toInt,
   use,
   useFamiliar,
@@ -28,7 +24,6 @@ import {
   $item,
   $location,
   $skill,
-  $slot,
   CommunityService,
   get,
   have,
@@ -160,11 +155,12 @@ export const FamiliarWeightQuest: Quest = {
             else useFamiliar($familiar`Exotic Parrot`);
             use($item`box of Familiar Jacks`, 1);
           }
-          if (CommunityService.FamiliarWeight.actualCost() >= 5 && 
-          have($item`Eight Days a Week Pill Keeper`) &&
-          (checkValue("Pillkeeper", Math.min(2, Math.max(1, CommunityService.Mysticality.actualCost())))))
+          if (
+            have($item`Eight Days a Week Pill Keeper`) &&
+            checkValue("Pillkeeper", Math.min(3, CommunityService.FamiliarWeight.actualCost()))
+          )
             tryAcquiringEffect($effect`Fidoxene`);
-            
+
           cliExecute("maximize familiar weight");
 
           if (!get("_madTeaParty")) {

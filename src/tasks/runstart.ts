@@ -1,4 +1,4 @@
-import { CombatStrategy } from "grimoire-kolmafia";
+import { CombatStrategy, OutfitSpec } from "grimoire-kolmafia";
 import {
   adv1,
   autosell,
@@ -49,7 +49,6 @@ import {
   $monster,
   $skill,
   $slot,
-  $stat,
   byClass,
   clamp,
   CommunityService,
@@ -67,11 +66,12 @@ import { getGarden, statToMaximizerString, tryAcquiringEffect } from "../lib";
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { baseOutfit, chooseFamiliar, unbreakableUmbrella } from "../engine/outfit";
-import { OutfitSpec } from "grimoire-kolmafia";
 
-const bestSIT = mallPrice($item`hollow rock`) + mallPrice($item`lump of loyal latite`) > mallPrice($item`Flapper Fly`) + mallPrice($item`filled mosquito`) 
-? 1 
-: 2
+const bestSIT =
+  mallPrice($item`hollow rock`) + mallPrice($item`lump of loyal latite`) >
+  mallPrice($item`flapper fly`) + mallPrice($item`filled mosquito`)
+    ? 1
+    : 2;
 
 const BEST_INITIATIVE = byClass({
   "Seal Clubber": 2, // Familiar exp: 2
@@ -156,7 +156,7 @@ export const RunStartQuest: Quest = {
       name: "Get Floundry item",
       completed: () => get("_floundryItemCreated") || get("instant_saveFloundry", false),
       do: (): void => {
-          retrieveItem($item`carpe`);
+        retrieveItem($item`carpe`);
       },
       limit: { tries: 1 },
     },
@@ -273,8 +273,7 @@ export const RunStartQuest: Quest = {
       completed: () => !have($item`sugar sheet`),
       do: (): void => {
         const nextMissingSugarItem =
-          $items`sugar shorts, sugar chapeau, sugar shank`.find((it) => !have(it)) ||
-          $item`none`;
+          $items`sugar shorts, sugar chapeau, sugar shank`.find((it) => !have(it)) || $item`none`;
         create(nextMissingSugarItem);
       },
       limit: { tries: 3 },
@@ -381,11 +380,11 @@ export const RunStartQuest: Quest = {
       name: "Scavenge",
       completed: () => get("_daycareGymScavenges") > 0 || !get("daycareOpen"),
       do: (): void => {
-      if(have($item`familiar scrapbook`)) {
-        equip($item`familiar scrapbook`);
-      }
-      cliExecute("daycare scavenge free");
-    },
+        if (have($item`familiar scrapbook`)) {
+          equip($item`familiar scrapbook`);
+        }
+        cliExecute("daycare scavenge free");
+      },
       limit: { tries: 1 },
     },
     {

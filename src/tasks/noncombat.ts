@@ -1,32 +1,10 @@
 import { Quest } from "../engine/task";
-import {
-  buy,
-  cliExecute,
-  Effect,
-  equippedItem,
-  numericModifier,
-  print,
-  runChoice,
-  useSkill,
-  visitUrl,
-} from "kolmafia";
-import {
-  $effect,
-  $familiar,
-  $item,
-  $skill,
-  $slot,
-  CommunityService,
-  get,
-  have,
-  uneffect,
-} from "libram";
-import { checkValue, fuelUp, logTestSetup, resourceTurnSave, tryAcquiringEffect, wishFor } from "../lib";
+import { buy, cliExecute, Effect, print, runChoice, useSkill, visitUrl } from "kolmafia";
+import { $effect, $familiar, $item, $skill, CommunityService, get, have, uneffect } from "libram";
+import { checkValue, fuelUp, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
 import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
-
-const testType = "NonCombat";
 
 export const NoncombatQuest: Quest = {
   name: "Noncombat",
@@ -67,7 +45,9 @@ export const NoncombatQuest: Quest = {
     {
       name: "Buy Porkpie-mounted Popper",
       completed: () =>
-        have($item`porkpie-mounted popper`) || CommunityService.BoozeDrop.prediction <= 1 || get("_fireworksShopHatBought", false),
+        have($item`porkpie-mounted popper`) ||
+        CommunityService.BoozeDrop.prediction <= 1 ||
+        get("_fireworksShopHatBought", false),
       do: () => buy($item`porkpie-mounted popper`, 1),
       limit: { tries: 1 },
     },
@@ -103,7 +83,12 @@ export const NoncombatQuest: Quest = {
         cliExecute("maximize -combat"); // To avoid maximizer bug, we invoke this once more
 
         // If it saves us >= 6 turns, try using a wish
-        if (checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Disquiet Riot`, testType), Math.max(0, CommunityService.WeaponDamage.actualCost()))))
+        if (
+          checkValue(
+            $item`pocket wish`,
+            CommunityService.Noncombat.turnsSavedBy($effect`Disquiet Riot`)
+          )
+        )
           wishFor($effect`Disquiet Riot`);
       },
       do: (): void => {

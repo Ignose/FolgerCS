@@ -4,7 +4,6 @@ import {
   cliExecute,
   create,
   Effect,
-  effectModifier,
   getCampground,
   getClanName,
   haveEffect,
@@ -20,7 +19,6 @@ import {
   myMaxhp,
   myMp,
   myPrimestat,
-  numericModifier,
   print,
   restoreMp,
   retrieveItem,
@@ -40,7 +38,6 @@ import {
   $familiar,
   $item,
   $items,
-  $modifier,
   $monster,
   $skill,
   $skills,
@@ -59,7 +56,6 @@ import {
 import { printModtrace } from "libram/dist/modifier";
 import { forbiddenEffects } from "./resources";
 import { mainStat } from "./combat";
-import { effect } from "libram/dist/resources/2022/TrainSet";
 
 export const startingClan = getClanName();
 
@@ -261,10 +257,7 @@ export function wishFor(ef: Effect, useGenie = true): void {
   // However, we can always sell Genie Wishes, so we prioritize using the paw
   // TODO: Use mafia's pref to check if we can still use the paw for wishes
 
-  if (
-    have($item`cursed monkey's paw`) &&
-    get("_monkeyPawWishesUsed", 0) < 5
-  ) {
+  if (have($item`cursed monkey's paw`) && get("_monkeyPawWishesUsed", 0) < 5) {
     if (monkeyPaw(ef)) return;
   }
 
@@ -630,30 +623,6 @@ export function checkLocketAvailable(): number {
 
 type Thing = Item | Effect | string;
 
-export function resourceTurnSave(thing: Effect, modifier: string): number {
-  if (haveEffect(thing)) return 0;
-  switch (modifier) {
-      case "Booze Drop":
-        return Math.floor(numericModifier(thing, modifier)/15);
-      case "Item Drop":
-         if(have($skill`Steely-Eyed Squint`) || have($effect`Steely-Eyed Squint`)) return Math.floor(numericModifier(thing, modifier)/15);
-         return Math.floor(numericModifier(thing, modifier)/30);
-      case "Weapon Damage Percent":
-        if(have($effect`Bow-Legged Swagger`) || have($skill`Bow-Legged Swagger`)) return Math.floor(numericModifier(thing, modifier)/25);
-        return Math.floor(numericModifier(thing, modifier)/50);
-      case "Spell Damage Percent":
-        return Math.floor(numericModifier(thing, modifier)/50);
-      case "Hot Res":
-        return numericModifier(thing, modifier);
-      case "Familiar Weight":
-        return Math.floor(numericModifier(thing, modifier)/5);
-      case "NonCombat":
-        return Math.floor(numericModifier(thing, modifier)*3/5);
-      default:
-        return 0;
-    }
-}
-
 export function checkValue(thing: Thing, turns: number): boolean {
   if (get("valueOfAdventure") * turns > checkPrice(thing)) return true;
   return false;
@@ -676,9 +645,13 @@ function checkPrice(thing: Thing): number {
       case "August Scepter":
         return Math.max(mallPrice($item`waffle`) * 3, 30000);
       case "Pillkeeper":
-        if(get("_freePillKeeperUsed", false))
+        if (get("_freePillKeeperUsed", false))
           return get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5); //Lucky
-        else return 7.5 * get("valueOfAdventure", 4000) + get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5);
+        else
+          return (
+            7.5 * get("valueOfAdventure", 4000) +
+            get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5)
+          );
       case "Cargo":
         return 15000;
       default:
@@ -687,7 +660,7 @@ function checkPrice(thing: Thing): number {
   return 0;
 }
 
-export function logTestCompletion() {
+export function logTestCompletion(): void {
   cliExecute(`set folgerHPYesterday = ${get("folgerHPToday", 1)}`);
   cliExecute(`set folgerHPToday = ${get("_CSTest1")}`);
   cliExecute(`set folgerMusYesterday = ${get("folgerMusToday", 1)}`);
@@ -710,7 +683,7 @@ export function logTestCompletion() {
   cliExecute(`set folgerHRToday= ${get("_CSTest10")}`);
 }
 
-export function compareTestCompletion() {
+export function compareTestCompletion(): void {
   const HP = get("folgerHPToday", 0) - get("folgerHPYesterday", 0);
   const Mus = get("folgerMusToday", 0) - get("folgerMusYesterday", 0);
   const Mys = get("folgerMysToday", 0) - get("folgerMysYesterday", 0);
@@ -734,6 +707,6 @@ export function compareTestCompletion() {
 }
 
 export function boomBoxProfit(): void {
-  if(have($item`Punching Potion`) && SongBoom.song() !== "Total Eclipse of Your Meat")
-    SongBoom.setSong("Total Eclipse of Your Meat")
+  if (have($item`Punching Potion`) && SongBoom.song() !== "Total Eclipse of Your Meat")
+    SongBoom.setSong("Total Eclipse of Your Meat");
 }

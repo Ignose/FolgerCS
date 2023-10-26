@@ -23,24 +23,12 @@ import {
   CommunityService,
   get,
   have,
-  SongBoom,
 } from "libram";
 import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { Quest } from "../engine/task";
-import {
-  checkLocketAvailable,
-  checkValue,
-  logTestSetup,
-  resourceTurnSave,
-  startingClan,
-  tryAcquiringEffect,
-  wishFor,
-} from "../lib";
+import { checkValue, logTestSetup, startingClan, tryAcquiringEffect, wishFor } from "../lib";
 import { forbiddenEffects } from "../resources";
-
-const testType = "Weapon Damage Percent";
-const offTestType = "Spell Damage Percent";
 
 export const WeaponDamageQuest: Quest = {
   name: "Weapon Damage",
@@ -178,22 +166,37 @@ export const WeaponDamageQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
-        if (get("yourFavoriteBirdMods").includes("Weapon Damage Percent") && checkValue("Favorite Bird", Math.min(4, Math.max(0, CommunityService.WeaponDamage.actualCost()))))
+        if (
+          get("yourFavoriteBirdMods").includes("Weapon Damage Percent") &&
+          checkValue(
+            "Favorite Bird",
+            Math.min(4, Math.max(0, CommunityService.WeaponDamage.actualCost()))
+          )
+        )
           useSkill($skill`Visit your Favorite Bird`);
-        
-          $effects`Spit Upon, Pyramid Power, Outer Wolf`.forEach((ef) => {
-          if (checkValue($item`pocket wish`, Math.min(resourceTurnSave(ef, testType) 
-          + resourceTurnSave(ef, offTestType), Math.max(0, CommunityService.WeaponDamage.actualCost())))) 
-            wishFor(ef);
-        })
 
-        if (checkValue("Cargo", Math.min(resourceTurnSave($effect`Rictus of Yeg`, testType), Math.max(0, CommunityService.WeaponDamage.actualCost()))) && !get("_cargoPocketEmptied", false))
-        {
+        $effects`Spit Upon, Pyramid Power, Outer Wolf™`.forEach((ef) => {
+          if (
+            checkValue(
+              $item`pocket wish`,
+              CommunityService.WeaponDamage.turnsSavedBy(ef) +
+                CommunityService.SpellDamage.turnsSavedBy(ef)
+            )
+          )
+            wishFor(ef);
+        });
+
+        if (
+          checkValue("Cargo", CommunityService.WeaponDamage.turnsSavedBy($effect`Rictus of Yeg`))
+        ) {
           visitUrl("inventory.php?action=pocket");
           visitUrl("choice.php?whichchoice=1420&option=1&pocket=284");
         }
 
-        if (CommunityService.WeaponDamage.actualCost() >= 3 && !get("_madTeaParty")) {
+        if (
+          CommunityService.WeaponDamage.turnsSavedBy($effect`Weapon of Mass Destruction`) >= 2 &&
+          !get("_madTeaParty")
+        ) {
           if (!have($item`goofily-plumed helmet`)) buy($item`goofily-plumed helmet`, 1);
           tryAcquiringEffect($effect`Weapon of Mass Destruction`);
         }

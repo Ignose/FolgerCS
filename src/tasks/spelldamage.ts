@@ -6,14 +6,12 @@ import {
   Effect,
   elementalResistance,
   equip,
-  equippedItem,
   inebrietyLimit,
   myAdventures,
   myClass,
   myHp,
   myInebriety,
   myMaxhp,
-  numericModifier,
   print,
   restoreHp,
   restoreMp,
@@ -31,7 +29,6 @@ import {
   $items,
   $location,
   $skill,
-  $slot,
   clamp,
   Clan,
   CommunityService,
@@ -40,13 +37,12 @@ import {
   Witchess,
 } from "libram";
 import { Quest } from "../engine/task";
-import { checkValue, logTestSetup, resourceTurnSave, shrugAT, startingClan, tryAcquiringEffect } from "../lib";
+import { checkValue, logTestSetup, shrugAT, startingClan, tryAcquiringEffect } from "../lib";
 import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { forbiddenEffects } from "../resources";
 
 let triedDeepDark = false;
-const testType = "Spell Damage Percent";
 
 export const SpellDamageQuest: Quest = {
   name: "Spell Damage",
@@ -71,10 +67,9 @@ export const SpellDamageQuest: Quest = {
     },
     {
       name: "Cargo Shorts",
-      ready: () => checkValue("Cargo", Math.min(resourceTurnSave($effect`Sigils of Yeg`, testType), CommunityService.SpellDamage.prediction - 1)),
-      completed: () =>
-        get("_cargoPocketEmptied") ||
-        !have($item`Cargo Cultist Shorts`),
+      ready: () =>
+        checkValue("Cargo", CommunityService.SpellDamage.turnsSavedBy($effect`Sigils of Yeg`)),
+      completed: () => get("_cargoPocketEmptied") || !have($item`Cargo Cultist Shorts`),
       do: (): void => {
         visitUrl("inventory.php?action=pocket");
         visitUrl("choice.php?whichchoice=1420&option=1&pocket=177");

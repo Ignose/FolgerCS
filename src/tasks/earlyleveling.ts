@@ -45,13 +45,12 @@ import {
   get,
   getKramcoWandererChance,
   have,
-  SongBoom,
   sum,
   TrainSet,
 } from "libram";
 import { CombatStrategy } from "grimoire-kolmafia";
 import { baseOutfit, docBag, unbreakableUmbrella } from "../engine/outfit";
-import { canConfigure, Cycle, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
+import { Cycle, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { chooseRift } from "libram/dist/resources/2023/ClosedCircuitPayphone";
@@ -136,7 +135,11 @@ function sellMiscellaneousItems(): void {
 
 export const earlyLevelingQuest: Quest = {
   name: "Early Leveling",
-  completed: () => get("pizzaOfLegendEaten") || !get("instant_skipBorrowedTime", false) || get("instant_useAsdon", false) || CommunityService.CoilWire.isDone(),
+  completed: () =>
+    get("pizzaOfLegendEaten") ||
+    !get("instant_skipBorrowedTime", false) ||
+    get("instant_useAsdon", false) ||
+    CommunityService.CoilWire.isDone(),
   tasks: [
     {
       name: "Install Trainset",
@@ -150,18 +153,17 @@ export const earlyLevelingQuest: Quest = {
       name: "Scavenge",
       completed: () => get("_daycareGymScavenges") > 0 || !get("daycareOpen"),
       do: (): void => {
-      if(have($item`familiar scrapbook`)) {
-        equip($item`familiar scrapbook`);
-      }
-      cliExecute("daycare scavenge free");
-    },
+        if (have($item`familiar scrapbook`)) {
+          equip($item`familiar scrapbook`);
+        }
+        cliExecute("daycare scavenge free");
+      },
       limit: { tries: 1 },
     },
     {
       name: "Configure Trainset",
       after: ["Install Trainset"],
-      completed: () =>
-        get("_folgerInitialConfig", false),
+      completed: () => get("_folgerInitialConfig", false),
       do: (): void => {
         const statStation: Station = {
           Muscle: Station.BRAWN_SILO,
@@ -269,8 +271,7 @@ export const earlyLevelingQuest: Quest = {
     {
       name: "ReConfigure Trainset",
       after: ["Map Novelty Tropical Skeleton"],
-      completed: () =>
-        get("_folgerSecondConfig", false),
+      completed: () => get("_folgerSecondConfig", false),
       do: (): void => {
         const offset = get("trainsetPosition") % 8;
         const newStations: TrainSet.Station[] = [];
@@ -357,7 +358,10 @@ export const earlyLevelingQuest: Quest = {
         ...baseOutfit,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
       }),
-      post: () => { sellMiscellaneousItems(); boomBoxProfit();},
+      post: () => {
+        sellMiscellaneousItems();
+        boomBoxProfit();
+      },
       limit: { tries: 1 },
     },
     {
@@ -392,8 +396,8 @@ export const earlyLevelingQuest: Quest = {
         familiar: $familiar`Patriotic Eagle`,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
       }),
-      post: () => { sellMiscellaneousItems(),
-        pledgeCheck = true;
+      post: () => {
+        sellMiscellaneousItems(), (pledgeCheck = true);
         cliExecute("set _pledgeCheck = true");
         boomBoxProfit();
       },
@@ -405,11 +409,11 @@ export const earlyLevelingQuest: Quest = {
       ready: () => myLevel() < 5,
       completed: () => get("_bastilleGames") > 0 || !have($item`Bastille Battalion control rig`),
       do: (): void => {
-      if(have($item`familiar scrapbook`)) {
-        equip($item`familiar scrapbook`);
-      }
-      cliExecute("bastille.ash mainstat brutalist");
-    },
+        if (have($item`familiar scrapbook`)) {
+          equip($item`familiar scrapbook`);
+        }
+        cliExecute("bastille.ash mainstat brutalist");
+      },
       limit: { tries: 1 },
     },
     {
@@ -417,8 +421,8 @@ export const earlyLevelingQuest: Quest = {
       after: ["Bakery Pledge"],
       completed: () => !have($item`whet stone`),
       do: (): void => {
-      use($item`whet stone`);
-    },
+        use($item`whet stone`);
+      },
       limit: { tries: 1 },
     },
     {

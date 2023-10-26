@@ -78,8 +78,6 @@ import {
 } from "libram";
 import { CombatStrategy, OutfitSpec } from "grimoire-kolmafia";
 import {
-  abstractionXpEffect,
-  abstractionXpItem,
   boomBoxProfit,
   burnLibram,
   camelFightsLeft,
@@ -98,7 +96,6 @@ import {
   reagentBoosterIngredient,
   reagentBoosterItem,
   refillLatte,
-  snapperXpItem,
   statToMaximizerString,
   synthExpBuff,
   targetBaseMyst,
@@ -167,7 +164,7 @@ const statEffects =
     ? muscleList
     : mainStatStr === `Mysticality`
     ? mysticalityList
-    : moxieList;   
+    : moxieList;
 
 const usefulEffects: Effect[] = [
   // Stats
@@ -307,10 +304,13 @@ function sellMiscellaneousItems(): void {
 
 export const LevelingQuest: Quest = {
   name: "Leveling",
-  completed: () => get("csServicesPerformed").split(",").length > 1 ||
-  (myBasestat(myPrimestat()) >= targetBaseMyst && get("_feelPrideUsed", 3) >= 3 
-  && camelFightsLeft() === 0 && (get("camelSpit") < 94 || get("camelSpit") >= 100)
-  && !haveFreeKill()),
+  completed: () =>
+    get("csServicesPerformed").split(",").length > 1 ||
+    (myBasestat(myPrimestat()) >= targetBaseMyst &&
+      get("_feelPrideUsed", 3) >= 3 &&
+      camelFightsLeft() === 0 &&
+      (get("camelSpit") < 94 || get("camelSpit") >= 100) &&
+      !haveFreeKill()),
   tasks: [
     {
       name: "LED Candle",
@@ -575,6 +575,22 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Pull Staff of Simering Hatred",
+      completed: () =>
+        get("_roninStoragePulls").split(",").length >= 5 ||
+        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
+        get("_roninStoragePulls")
+          .split(",")
+          .includes(toInt($item`Staff of Simmering Hatred`).toString()) ||
+        have($item`Staff of Simmering Hatred`) ||
+        storageAmount($item`Staff of Simmering Hatred`) === 0 ||
+        !get("instant_experimentPulls", true),
+      do: (): void => {
+        takeStorage($item`Staff of Simmering Hatred`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Pull Wasabi Marble Soda",
       completed: () =>
         get("_roninStoragePulls").split(",").length >= 5 ||
@@ -654,7 +670,10 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Eat Deep Dish",
-      completed: () => get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`) || get("instant_lateDeepDish", false),
+      completed: () =>
+        get("deepDishOfLegendEaten") ||
+        !have($item`Deep Dish of Legend`) ||
+        get("instant_lateDeepDish", false),
       do: (): void => {
         if (have($item`familiar scrapbook`)) {
           equip($item`familiar scrapbook`);
@@ -830,7 +849,10 @@ export const LevelingQuest: Quest = {
         ...baseOutfit,
         familiar: $familiar`Trick-or-Treating Tot`,
       }),
-      post: () => { sellMiscellaneousItems(); boomBoxProfit();},
+      post: () => {
+        sellMiscellaneousItems();
+        boomBoxProfit();
+      },
       limit: { tries: 1 },
     },
     {
@@ -869,7 +891,10 @@ export const LevelingQuest: Quest = {
             .default()
         ).abort()
       ),
-      post: () => { sellMiscellaneousItems(); boomBoxProfit();},
+      post: () => {
+        sellMiscellaneousItems();
+        boomBoxProfit();
+      },
       limit: { tries: 1 },
     },
     {
@@ -1113,8 +1138,8 @@ export const LevelingQuest: Quest = {
         ...baseOutfit,
         familiar: $familiar`Patriotic Eagle`,
       }),
-      post: () => { sellMiscellaneousItems(),
-        cliExecute("set _pledgeCheck = true");
+      post: () => {
+        sellMiscellaneousItems(), cliExecute("set _pledgeCheck = true");
       },
       limit: { tries: 1 },
     },

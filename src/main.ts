@@ -10,8 +10,13 @@ import {
   userConfirm,
   visitUrl,
 } from "kolmafia";
-import { compareTestCompletion, computeCombatFrequency, convertMilliseconds, logTestCompletion, mainStatStr, simpleDateDiff } from "./lib";
-import { $effect, $item, $stat, CommunityService, get, have, set, sinceKolmafiaRevision } from "libram";
+import {
+  compareTestCompletion,
+  convertMilliseconds,
+  logTestCompletion,
+  simpleDateDiff,
+} from "./lib";
+import { $item, $stat, CommunityService, get, have, set, sinceKolmafiaRevision } from "libram";
 import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
 import { Task } from "./engine/task";
@@ -44,6 +49,8 @@ export const args = Args.create("FolgerCS", "An automated low to mid-shiny SCCS 
   }),
 });
 
+export const swapSkillTestOrder = CommunityService.SpellDamage.prediction >= 15;
+
 export function main(command?: string): void {
   sinceKolmafiaRevision(27637);
 
@@ -74,31 +81,27 @@ export function main(command?: string): void {
   visitUrl("main.php");
   cliExecute("refresh all");
 
-  const swapMainStatTest = have($item`Deck of every card`) && myPrimestat === $stat`Muscle`;
-
-  const swapSkillTestOrder = CommunityService.SpellDamage.prediction >= 15;
+  const swapMainStatTest = have($item`Deck of Every Card`) && myPrimestat === $stat`Muscle`;
 
   const nonComSwapOrder = CommunityService.FamiliarWeight.prediction >= 14 && swapSkillTestOrder;
- 
 
-  const tasks: Task[] = 
-    getTasks([
-        RunStartQuest,
-        earlyLevelingQuest,
-        CoilWireQuest,
-        LevelingQuest,
-        swapMainStatTest ? MoxieQuest : MuscleQuest,
-        swapMainStatTest ? MysticalityQuest : HPQuest,
-        swapMainStatTest ? MuscleQuest : MysticalityQuest,
-        swapMainStatTest ? HPQuest : MoxieQuest,
-        HotResQuest,
-        nonComSwapOrder ? FamiliarWeightQuest : NoncombatQuest,
-        nonComSwapOrder ? NoncombatQuest : FamiliarWeightQuest,
-        swapSkillTestOrder ? BoozeDropQuest : WeaponDamageQuest,
-        swapSkillTestOrder ? WeaponDamageQuest : SpellDamageQuest,
-        swapSkillTestOrder ? SpellDamageQuest : BoozeDropQuest,
-        DonateQuest,
-      ]);
+  const tasks: Task[] = getTasks([
+    RunStartQuest,
+    earlyLevelingQuest,
+    CoilWireQuest,
+    LevelingQuest,
+    swapMainStatTest ? MoxieQuest : MuscleQuest,
+    swapMainStatTest ? MysticalityQuest : HPQuest,
+    swapMainStatTest ? MuscleQuest : MysticalityQuest,
+    swapMainStatTest ? HPQuest : MoxieQuest,
+    HotResQuest,
+    nonComSwapOrder ? FamiliarWeightQuest : NoncombatQuest,
+    nonComSwapOrder ? NoncombatQuest : FamiliarWeightQuest,
+    swapSkillTestOrder ? BoozeDropQuest : WeaponDamageQuest,
+    swapSkillTestOrder ? WeaponDamageQuest : SpellDamageQuest,
+    swapSkillTestOrder ? SpellDamageQuest : BoozeDropQuest,
+    DonateQuest,
+  ]);
   const engine = new Engine(tasks);
   try {
     setAutoAttack(0);
@@ -112,7 +115,7 @@ export function main(command?: string): void {
       if (task.ready !== undefined && !task.ready()) throw `Task ${task.name} is not ready`;
       engine.execute(task);
     }
-    
+
     logTestCompletion();
     compareTestCompletion();
     print("Community Service complete!", "purple");
