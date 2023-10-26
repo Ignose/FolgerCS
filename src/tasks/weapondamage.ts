@@ -259,6 +259,3 @@ export const WeaponDamageQuest: Quest = {
     },
   ],
 };
-function myBaseStat(arg0: any) {
-  throw new Error("Function not implemented.");
-}
