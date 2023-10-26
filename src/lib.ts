@@ -25,6 +25,7 @@ import {
   retrievePrice,
   Skill,
   Stat,
+  storageAmount,
   sweetSynthesis,
   toInt,
   toItem,
@@ -709,4 +710,14 @@ export function compareTestCompletion(): void {
 export function boomBoxProfit(): void {
   if (have($item`Punching Potion`) && SongBoom.song() !== "Total Eclipse of Your Meat")
     SongBoom.setSong("Total Eclipse of Your Meat");
+}
+
+export function checkPull(item: Item): boolean {
+  if (
+    have(item) ||
+    get("_roninStoragePulls").split(",").includes(toInt(item).toString()) ||
+    storageAmount(item) === 0
+  )
+    return true;
+  return false;
 }

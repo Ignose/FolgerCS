@@ -152,10 +152,10 @@ export const earlyLevelingQuest: Quest = {
     {
       name: "Scavenge",
       completed: () => get("_daycareGymScavenges") > 0 || !get("daycareOpen"),
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       do: (): void => {
-        if (have($item`familiar scrapbook`)) {
-          equip($item`familiar scrapbook`);
-        }
         cliExecute("daycare scavenge free");
       },
       limit: { tries: 1 },
@@ -407,6 +407,9 @@ export const earlyLevelingQuest: Quest = {
       name: "Bastille",
       after: ["Bakery Pledge"],
       ready: () => myLevel() < 5,
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       completed: () => get("_bastilleGames") > 0 || !have($item`Bastille Battalion control rig`),
       do: (): void => {
         if (have($item`familiar scrapbook`)) {
@@ -453,6 +456,9 @@ export const earlyLevelingQuest: Quest = {
       ready: () => have($effect`Ready to Eat`), // only eat this after we red rocket
       completed: () =>
         get("pizzaOfLegendEaten") || !have($item`Pizza of Legend`) || myAdventures() > 60,
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       do: (): void => {
         if (have($item`familiar scrapbook`)) {
           equip($item`familiar scrapbook`);
@@ -490,6 +496,9 @@ export const earlyLevelingQuest: Quest = {
     {
       name: "Eat Calzone",
       after: ["Eat Pizza"],
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       completed: () =>
         get("calzoneOfLegendEaten") || !have($item`Calzone of Legend`) || myAdventures() > 60,
       do: (): void => {
