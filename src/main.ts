@@ -30,14 +30,14 @@ import { NoncombatQuest } from "./tasks/noncombat";
 import { BoozeDropQuest } from "./tasks/boozedrop";
 import { HotResQuest } from "./tasks/hotres";
 import { WeaponDamageQuest } from "./tasks/weapondamage";
-import { DonateQuest } from "./tasks/donate";
+import { DonateQuest, logResourceUsage } from "./tasks/donate";
 import { SpellDamageQuest } from "./tasks/spelldamage";
 import { checkRequirements } from "./sim";
 import { checkResources } from "./resources";
 
 const timeProperty = "fullday_elapsedTime";
 
-export const args = Args.create("FolgerCS", "An automated low to mid-shiny SCCS script.", {
+export const args = Args.create("FolgerCS", "An automated mid-shiny SCCS script.", {
   confirm: Args.boolean({
     help: "If the user must confirm execution of each task.",
     default: false,
@@ -47,6 +47,7 @@ export const args = Args.create("FolgerCS", "An automated low to mid-shiny SCCS 
     help: "Check which resources you have current set to be saved.",
     setting: "",
   }),
+  recap: Args.flag({ help: "Recap of today's run.", setting: "" }),
 });
 
 export const swapSkillTestOrder = CommunityService.SpellDamage.prediction >= 15;
@@ -65,6 +66,11 @@ export function main(command?: string): void {
   }
   if (args.savedresources) {
     checkResources();
+    return;
+  }
+
+  if (args.recap) {
+    logResourceUsage();
     return;
   }
 
