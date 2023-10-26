@@ -3,11 +3,15 @@ import {
   buy,
   create,
   Effect,
+  myBasestat,
   myMaxhp,
   print,
   restoreHp,
   restoreMp,
   retrieveItem,
+  storageAmount,
+  takeStorage,
+  toInt,
   useSkill,
   visitUrl,
 } from "kolmafia";
@@ -18,6 +22,7 @@ import {
   $item,
   $location,
   $skill,
+  $stat,
   clamp,
   Clan,
   CommunityService,
@@ -166,14 +171,15 @@ export const WeaponDamageQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
-        if (
-          get("yourFavoriteBirdMods").includes("Weapon Damage Percent") &&
-          checkValue(
-            "Favorite Bird",
-            Math.min(4, Math.max(0, CommunityService.WeaponDamage.actualCost()))
+        if (get("instant_experimentPulls", false))
+          if (
+            get("yourFavoriteBirdMods").includes("Weapon Damage Percent") &&
+            checkValue(
+              "Favorite Bird",
+              Math.min(4, Math.max(0, CommunityService.WeaponDamage.actualCost()))
+            )
           )
-        )
-          useSkill($skill`Visit your Favorite Bird`);
+            useSkill($skill`Visit your Favorite Bird`);
 
         $effects`Spit Upon, Pyramid Power, Outer Wolf™`.forEach((ef) => {
           if (
@@ -187,11 +193,40 @@ export const WeaponDamageQuest: Quest = {
         });
 
         if (
+          get("_roninStoragePulls").split(",").length < 5 &&
+          5 - get("_roninStoragePulls").split(",").length < get("instant_savePulls", 0) &&
+          get("_roninStoragePulls")
+            .split(",")
+            .includes(toInt($item`Stick-Knife of Loathing`).toString()) &&
+          !have($item`Stick-Knife of Loathing`) &&
+          storageAmount($item`Stick-Knife of Loathing`) >= 1 &&
+          myBasestat($stat`Muscle`) >= 150 &&
+          get("instant_experimentPulls", false)
+        )
+          takeStorage($item`Stick-Knife of Loathing`, 1);
+
+        if (
           checkValue("Cargo", CommunityService.WeaponDamage.turnsSavedBy($effect`Rictus of Yeg`))
         ) {
           visitUrl("inventory.php?action=pocket");
           visitUrl("choice.php?whichchoice=1420&option=1&pocket=284");
         }
+
+        if (
+          get("_roninStoragePulls").split(",").length < 5 &&
+          5 - get("_roninStoragePulls").split(",").length < get("instant_savePulls", 0) &&
+          !get("_roninStoragePulls")
+            .split(",")
+            .includes(toInt($item`Great Wolf's beastly trousers`).toString()) &&
+          !get("_roninStoragePulls")
+            .split(",")
+            .includes(toInt($item`repaid diaper`).toString()) &&
+          !have($item`Great Wolf's beastly trousers`) &&
+          storageAmount($item`Great Wolf's beastly trousers`) === 0 &&
+          !get("instant_experimentPulls", true) &&
+          CommunityService.WeaponDamage.actualCost() >= 3
+        )
+          takeStorage($item`Great Wolf's beastly trousers`, 1);
 
         if (
           CommunityService.WeaponDamage.turnsSavedBy($effect`Weapon of Mass Destruction`) >= 2 &&
@@ -224,3 +259,6 @@ export const WeaponDamageQuest: Quest = {
     },
   ],
 };
+function myBaseStat(arg0: any) {
+  throw new Error("Function not implemented.");
+}

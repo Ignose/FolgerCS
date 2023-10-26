@@ -11,6 +11,8 @@ import {
   myClass,
   mySign,
   print,
+  storageAmount,
+  takeStorage,
   toInt,
   use,
   useFamiliar,
@@ -81,6 +83,44 @@ export const FamiliarWeightQuest: Quest = {
       name: "Fold Burning Newspaper",
       completed: () => !have($item`burning newspaper`),
       do: () => cliExecute("create burning paper crane"),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Repaid Diaper",
+      completed: () =>
+        get("_roninStoragePulls").split(",").length >= 5 ||
+        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
+        get("_roninStoragePulls")
+          .split(",")
+          .includes(toInt($item`repaid diaper`).toString()) ||
+        get("_roninStoragePulls")
+          .split(",")
+          .includes(toInt($item`Great Wolf's beastly trousers`).toString()) ||
+        have($item`repaid diaper`) ||
+        storageAmount($item`repaid diaper`) === 0 ||
+        !get("instant_experimentPulls", true),
+      do: (): void => {
+        takeStorage($item`repaid diaper`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Great Wolf's beastly trousers",
+      completed: () =>
+        get("_roninStoragePulls").split(",").length >= 5 ||
+        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
+        get("_roninStoragePulls")
+          .split(",")
+          .includes(toInt($item`repaid diaper`).toString()) ||
+        get("_roninStoragePulls")
+          .split(",")
+          .includes(toInt($item`Great Wolf's beastly trousers`).toString()) ||
+        have($item`Great Wolf's beastly trousers`) ||
+        storageAmount($item`Great Wolf's beastly trousers`) === 0 ||
+        !get("instant_experimentPulls", true),
+      do: (): void => {
+        takeStorage($item`Great Wolf's beastly trousers`, 1);
+      },
       limit: { tries: 1 },
     },
     {

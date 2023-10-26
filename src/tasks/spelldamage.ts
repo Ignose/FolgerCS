@@ -16,6 +16,9 @@ import {
   restoreHp,
   restoreMp,
   retrieveItem,
+  storageAmount,
+  takeStorage,
+  toInt,
   useSkill,
   visitUrl,
 } from "kolmafia";
@@ -155,6 +158,38 @@ export const SpellDamageQuest: Quest = {
         avoid: sugarItemsAboutToBreak(),
       }),
       choices: { 1387: 3 },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Tobiko Marble Soda",
+      completed: () =>
+        get("_roninStoragePulls").split(",").length >= 5 ||
+        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
+        get("_roninStoragePulls")
+          .split(",")
+          .includes(toInt($item`tobiko marble soda`).toString()) ||
+        have($item`tobiko marble soda`) ||
+        storageAmount($item`tobiko marble soda`) === 0 ||
+        !get("instant_experimentPulls", true),
+      do: (): void => {
+        takeStorage($item`tobiko marble soda`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Staff of Simering Hatred",
+      completed: () =>
+        get("_roninStoragePulls").split(",").length >= 5 ||
+        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
+        get("_roninStoragePulls")
+          .split(",")
+          .includes(toInt($item`Staff of Simmering Hatred`).toString()) ||
+        have($item`Staff of Simmering Hatred`) ||
+        storageAmount($item`Staff of Simmering Hatred`) === 0 ||
+        !get("instant_experimentPulls", true),
+      do: (): void => {
+        takeStorage($item`Staff of Simmering Hatred`, 1);
+      },
       limit: { tries: 1 },
     },
     {
