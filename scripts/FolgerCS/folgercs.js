@@ -9565,6 +9565,24 @@ function checkPrice(thing) {
   }
   return 0;
 }
+function checkTurnSave(test, ef) {
+  switch (test) {
+    case "BoozeDrop":
+      return Math.min(CommunityService.BoozeDrop.turnsSavedBy(ef), CommunityService.BoozeDrop.actualCost());
+    case "HotRes":
+      return Math.min(CommunityService.HotRes.turnsSavedBy(ef), CommunityService.HotRes.actualCost());
+    case "FamiliarWeight":
+      return Math.min(CommunityService.FamiliarWeight.turnsSavedBy(ef), CommunityService.FamiliarWeight.actualCost());
+    case "NonCombat":
+      return Math.min(CommunityService.Noncombat.turnsSavedBy(ef), CommunityService.Noncombat.actualCost());
+    case "SpellDamage":
+      return Math.min(CommunityService.SpellDamage.turnsSavedBy(ef), CommunityService.SpellDamage.actualCost());
+    case "WeaponDamage":
+      return Math.min(CommunityService.WeaponDamage.turnsSavedBy(ef), CommunityService.WeaponDamage.actualCost());
+    default:
+      return 0;
+  }
+}
 function logTestCompletion() {
   (0,external_kolmafia_namespaceObject.cliExecute)("set folgerHPYesterday = ".concat(property_get("folgerHPToday", 1)));
   (0,external_kolmafia_namespaceObject.cliExecute)("set folgerHPToday = ".concat(property_get("_CSTest1")));
@@ -16810,7 +16828,7 @@ var NoncombatQuest = {
       (0,external_kolmafia_namespaceObject.cliExecute)("maximize -combat"); // To avoid maximizer bug, we invoke this once more
 
       // If it saves us >= 6 turns, try using a wish
-      if (checkValue(template_string_$item(noncombat_templateObject23 || (noncombat_templateObject23 = noncombat_taggedTemplateLiteral(["pocket wish"]))), CommunityService.Noncombat.turnsSavedBy(template_string_$effect(noncombat_templateObject24 || (noncombat_templateObject24 = noncombat_taggedTemplateLiteral(["Disquiet Riot"])))))) wishFor(template_string_$effect(noncombat_templateObject25 || (noncombat_templateObject25 = noncombat_taggedTemplateLiteral(["Disquiet Riot"]))));
+      if (checkValue(template_string_$item(noncombat_templateObject23 || (noncombat_templateObject23 = noncombat_taggedTemplateLiteral(["pocket wish"]))), checkTurnSave("NonCombat", template_string_$effect(noncombat_templateObject24 || (noncombat_templateObject24 = noncombat_taggedTemplateLiteral(["Disquiet Riot"])))))) wishFor(template_string_$effect(noncombat_templateObject25 || (noncombat_templateObject25 = noncombat_taggedTemplateLiteral(["Disquiet Riot"]))));
     },
     do: () => {
       var maxTurns = property_get("instant_comTestTurnLimit", 12);
@@ -17023,14 +17041,14 @@ var BoozeDropQuest = {
         (0,external_kolmafia_namespaceObject.useFamiliar)(template_string_$familiar(boozedrop_templateObject87 || (boozedrop_templateObject87 = boozedrop_taggedTemplateLiteral(["Trick-or-Treating Tot"]))));
         (0,external_kolmafia_namespaceObject.equip)($slot(boozedrop_templateObject88 || (boozedrop_templateObject88 = boozedrop_taggedTemplateLiteral(["familiar"]))), template_string_$item(boozedrop_templateObject89 || (boozedrop_templateObject89 = boozedrop_taggedTemplateLiteral(["li'l ninja costume"]))));
       }
-      if (checkValue(template_string_$item(boozedrop_templateObject90 || (boozedrop_templateObject90 = boozedrop_taggedTemplateLiteral(["cyclops eyedrops"]))), CommunityService.BoozeDrop.turnsSavedBy(template_string_$effect(boozedrop_templateObject91 || (boozedrop_templateObject91 = boozedrop_taggedTemplateLiteral(["One Very Clear Eye"])))))) tryAcquiringEffect(template_string_$effect(boozedrop_templateObject92 || (boozedrop_templateObject92 = boozedrop_taggedTemplateLiteral(["One Very Clear Eye"]))));
-      if (checkValue(template_string_$item(boozedrop_templateObject93 || (boozedrop_templateObject93 = boozedrop_taggedTemplateLiteral(["battery (lantern)"]))), CommunityService.BoozeDrop.turnsSavedBy(template_string_$effect(boozedrop_templateObject94 || (boozedrop_templateObject94 = boozedrop_taggedTemplateLiteral(["Lantern-Charged"])))) + (!swapSkillTestOrder ? CommunityService.SpellDamage.turnsSavedBy(template_string_$effect(boozedrop_templateObject95 || (boozedrop_templateObject95 = boozedrop_taggedTemplateLiteral(["Lantern-Charged"])))) : 0))) {
+      if (checkValue(template_string_$item(boozedrop_templateObject90 || (boozedrop_templateObject90 = boozedrop_taggedTemplateLiteral(["cyclops eyedrops"]))), checkTurnSave("BoozeDrop", template_string_$effect(boozedrop_templateObject91 || (boozedrop_templateObject91 = boozedrop_taggedTemplateLiteral(["One Very Clear Eye"])))))) tryAcquiringEffect(template_string_$effect(boozedrop_templateObject92 || (boozedrop_templateObject92 = boozedrop_taggedTemplateLiteral(["One Very Clear Eye"]))));
+      if (checkValue(template_string_$item(boozedrop_templateObject93 || (boozedrop_templateObject93 = boozedrop_taggedTemplateLiteral(["battery (lantern)"]))), checkTurnSave("BoozeDrop", template_string_$effect(boozedrop_templateObject94 || (boozedrop_templateObject94 = boozedrop_taggedTemplateLiteral(["Lantern-Charged"])))) + (!swapSkillTestOrder ? checkTurnSave("SpellDamage", template_string_$effect(boozedrop_templateObject95 || (boozedrop_templateObject95 = boozedrop_taggedTemplateLiteral(["Lantern-Charged"])))) : 0))) {
         if ((0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(boozedrop_templateObject96 || (boozedrop_templateObject96 = boozedrop_taggedTemplateLiteral(["battery (AAA)"])))) >= 5) (0,external_kolmafia_namespaceObject.create)(template_string_$item(boozedrop_templateObject97 || (boozedrop_templateObject97 = boozedrop_taggedTemplateLiteral(["battery (lantern)"]))), 1);
         (0,external_kolmafia_namespaceObject.use)(template_string_$item(boozedrop_templateObject98 || (boozedrop_templateObject98 = boozedrop_taggedTemplateLiteral(["battery (lantern)"]))), 1);
       }
-      if (lib_have(template_string_$item(boozedrop_templateObject99 || (boozedrop_templateObject99 = boozedrop_taggedTemplateLiteral(["Deck of Every Card"])))) && property_get("_deckCardsDrawn") <= 10 && checkValue("Deck Cheat", CommunityService.BoozeDrop.turnsSavedBy(template_string_$effect(boozedrop_templateObject100 || (boozedrop_templateObject100 = boozedrop_taggedTemplateLiteral(["Fortune of the Wheel"])))))) (0,external_kolmafia_namespaceObject.cliExecute)("cheat fortune");
-      if (checkValue(template_string_$item(boozedrop_templateObject101 || (boozedrop_templateObject101 = boozedrop_taggedTemplateLiteral(["pocket wish"]))), CommunityService.BoozeDrop.turnsSavedBy(template_string_$effect(boozedrop_templateObject102 || (boozedrop_templateObject102 = boozedrop_taggedTemplateLiteral(["Infernal Thirst"])))))) wishFor(template_string_$effect(boozedrop_templateObject103 || (boozedrop_templateObject103 = boozedrop_taggedTemplateLiteral(["Infernal Thirst"]))));
-      if (checkValue("August Scepter", CommunityService.BoozeDrop.turnsSavedBy(template_string_$effect(boozedrop_templateObject104 || (boozedrop_templateObject104 = boozedrop_taggedTemplateLiteral(["Incredibly Well Lit"])))))) tryAcquiringEffect(template_string_$effect(boozedrop_templateObject105 || (boozedrop_templateObject105 = boozedrop_taggedTemplateLiteral(["Incredibly Well Lit"]))));
+      if (lib_have(template_string_$item(boozedrop_templateObject99 || (boozedrop_templateObject99 = boozedrop_taggedTemplateLiteral(["Deck of Every Card"])))) && property_get("_deckCardsDrawn") <= 10 && checkValue("Deck Cheat", checkTurnSave("BoozeDrop", template_string_$effect(boozedrop_templateObject100 || (boozedrop_templateObject100 = boozedrop_taggedTemplateLiteral(["Fortune of the Wheel"])))))) (0,external_kolmafia_namespaceObject.cliExecute)("cheat fortune");
+      if (checkValue(template_string_$item(boozedrop_templateObject101 || (boozedrop_templateObject101 = boozedrop_taggedTemplateLiteral(["pocket wish"]))), checkTurnSave("BoozeDrop", template_string_$effect(boozedrop_templateObject102 || (boozedrop_templateObject102 = boozedrop_taggedTemplateLiteral(["Infernal Thirst"])))))) wishFor(template_string_$effect(boozedrop_templateObject103 || (boozedrop_templateObject103 = boozedrop_taggedTemplateLiteral(["Infernal Thirst"]))));
+      if (checkValue("August Scepter", checkTurnSave("BoozeDrop", template_string_$effect(boozedrop_templateObject104 || (boozedrop_templateObject104 = boozedrop_taggedTemplateLiteral(["Incredibly Well Lit"])))))) tryAcquiringEffect(template_string_$effect(boozedrop_templateObject105 || (boozedrop_templateObject105 = boozedrop_taggedTemplateLiteral(["Incredibly Well Lit"]))));
     },
     completed: () => CommunityService.BoozeDrop.isDone(),
     do: () => {
@@ -17141,10 +17159,10 @@ var HotResQuest = {
       // If it saves us >= 6 turns, try using a wish
 
       $effects(hotres_templateObject44 || (hotres_templateObject44 = hotres_taggedTemplateLiteral(["Fireproof Lips, Hot-Headed"]))).forEach(ef => {
-        if (checkValue(template_string_$item(hotres_templateObject45 || (hotres_templateObject45 = hotres_taggedTemplateLiteral(["pocket wish"]))), CommunityService.HotRes.turnsSavedBy(ef))) wishFor(ef); // The effects each save 2 turns on spelltest as well
+        if (checkValue(template_string_$item(hotres_templateObject45 || (hotres_templateObject45 = hotres_taggedTemplateLiteral(["pocket wish"]))), checkTurnSave("HotRes", ef))) wishFor(ef); // The effects each save 2 turns on spelltest as well
       });
 
-      if (lib_have(template_string_$item(hotres_templateObject46 || (hotres_templateObject46 = hotres_taggedTemplateLiteral(["Eight Days a Week Pill Keeper"])))) && checkValue("Pillkeeper", Math.min(CommunityService.HotRes.turnsSavedBy(template_string_$effect(hotres_templateObject47 || (hotres_templateObject47 = hotres_taggedTemplateLiteral(["Rainbowolin"])))), CommunityService.HotRes.actualCost()))) tryAcquiringEffect(template_string_$effect(hotres_templateObject48 || (hotres_templateObject48 = hotres_taggedTemplateLiteral(["Rainbowolin"]))));
+      if (lib_have(template_string_$item(hotres_templateObject46 || (hotres_templateObject46 = hotres_taggedTemplateLiteral(["Eight Days a Week Pill Keeper"])))) && checkValue("Pillkeeper", checkTurnSave("HotRes", template_string_$effect(hotres_templateObject47 || (hotres_templateObject47 = hotres_taggedTemplateLiteral(["Rainbowolin"])))))) tryAcquiringEffect(template_string_$effect(hotres_templateObject48 || (hotres_templateObject48 = hotres_taggedTemplateLiteral(["Rainbowolin"]))));
     },
     completed: () => CommunityService.HotRes.isDone(),
     do: () => {
@@ -17634,10 +17652,10 @@ var WeaponDamageQuest = {
       usefulEffects.forEach(ef => tryAcquiringEffect(ef, true));
       if (property_get("instant_experimentPulls", false)) if (property_get("yourFavoriteBirdMods").includes("Weapon Damage Percent") && checkValue("Favorite Bird", Math.min(4, Math.max(0, CommunityService.WeaponDamage.actualCost())))) (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(weapondamage_templateObject58 || (weapondamage_templateObject58 = weapondamage_taggedTemplateLiteral(["Visit your Favorite Bird"]))));
       $effects(weapondamage_templateObject59 || (weapondamage_templateObject59 = weapondamage_taggedTemplateLiteral(["Spit Upon, Pyramid Power, Outer Wolf\u2122"]))).forEach(ef => {
-        if (checkValue(template_string_$item(weapondamage_templateObject60 || (weapondamage_templateObject60 = weapondamage_taggedTemplateLiteral(["pocket wish"]))), CommunityService.WeaponDamage.turnsSavedBy(ef) + CommunityService.SpellDamage.turnsSavedBy(ef))) wishFor(ef);
+        if (checkValue(template_string_$item(weapondamage_templateObject60 || (weapondamage_templateObject60 = weapondamage_taggedTemplateLiteral(["pocket wish"]))), checkTurnSave("WeaponDamage", ef) + CommunityService.SpellDamage.turnsSavedBy(ef))) wishFor(ef);
       });
       if (!checkPull(template_string_$item(weapondamage_templateObject61 || (weapondamage_templateObject61 = weapondamage_taggedTemplateLiteral(["Stick-Knife of Loathing"])))) && 5 - property_get("_roninStoragePulls").split(",").length < property_get("instant_savePulls", 0) && (0,external_kolmafia_namespaceObject.myBasestat)(template_string_$stat(weapondamage_templateObject62 || (weapondamage_templateObject62 = weapondamage_taggedTemplateLiteral(["Muscle"])))) >= 150 && property_get("instant_experimentPulls", false)) (0,external_kolmafia_namespaceObject.takeStorage)(template_string_$item(weapondamage_templateObject63 || (weapondamage_templateObject63 = weapondamage_taggedTemplateLiteral(["Stick-Knife of Loathing"]))), 1);
-      if (checkValue("Cargo", CommunityService.WeaponDamage.turnsSavedBy(template_string_$effect(weapondamage_templateObject64 || (weapondamage_templateObject64 = weapondamage_taggedTemplateLiteral(["Rictus of Yeg"])))))) {
+      if (checkValue("Cargo", checkTurnSave("WeaponDamage", template_string_$effect(weapondamage_templateObject64 || (weapondamage_templateObject64 = weapondamage_taggedTemplateLiteral(["Rictus of Yeg"])))))) {
         (0,external_kolmafia_namespaceObject.visitUrl)("inventory.php?action=pocket");
         (0,external_kolmafia_namespaceObject.visitUrl)("choice.php?whichchoice=1420&option=1&pocket=284");
       }
