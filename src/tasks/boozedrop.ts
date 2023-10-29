@@ -42,6 +42,7 @@ import {
 } from "libram";
 import {
   checkLocketAvailable,
+  checkTurnSave,
   checkValue,
   fuelUp,
   logTestSetup,
@@ -285,7 +286,7 @@ export const BoozeDropQuest: Quest = {
         if (
           checkValue(
             $item`cyclops eyedrops`,
-            CommunityService.BoozeDrop.turnsSavedBy($effect`One Very Clear Eye`)
+            checkTurnSave("BoozeDrop", $effect`One Very Clear Eye`)
           )
         )
           tryAcquiringEffect($effect`One Very Clear Eye`);
@@ -293,10 +294,8 @@ export const BoozeDropQuest: Quest = {
         if (
           checkValue(
             $item`battery (lantern)`,
-            CommunityService.BoozeDrop.turnsSavedBy($effect`Lantern-Charged`) +
-              (!swapSkillTestOrder
-                ? CommunityService.SpellDamage.turnsSavedBy($effect`Lantern-Charged`)
-                : 0)
+            checkTurnSave("BoozeDrop", $effect`Lantern-Charged`) +
+              (!swapSkillTestOrder ? checkTurnSave("SpellDamage", $effect`Lantern-Charged`) : 0)
           )
         ) {
           if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);
@@ -306,27 +305,14 @@ export const BoozeDropQuest: Quest = {
         if (
           have($item`Deck of Every Card`) &&
           get("_deckCardsDrawn") <= 10 &&
-          checkValue(
-            "Deck Cheat",
-            CommunityService.BoozeDrop.turnsSavedBy($effect`Fortune of the Wheel`)
-          )
+          checkValue("Deck Cheat", checkTurnSave("BoozeDrop", $effect`Fortune of the Wheel`))
         )
           cliExecute("cheat fortune");
 
-        if (
-          checkValue(
-            $item`pocket wish`,
-            CommunityService.BoozeDrop.turnsSavedBy($effect`Infernal Thirst`)
-          )
-        )
+        if (checkValue($item`pocket wish`, checkTurnSave("BoozeDrop", $effect`Infernal Thirst`)))
           wishFor($effect`Infernal Thirst`);
 
-        if (
-          checkValue(
-            "August Scepter",
-            CommunityService.BoozeDrop.turnsSavedBy($effect`Incredibly Well Lit`)
-          )
-        )
+        if (checkValue("August Scepter", checkTurnSave("BoozeDrop", $effect`Incredibly Well Lit`)))
           tryAcquiringEffect($effect`Incredibly Well Lit`);
       },
       completed: () => CommunityService.BoozeDrop.isDone(),

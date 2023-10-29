@@ -14,7 +14,7 @@ import {
   have,
 } from "libram";
 import { Quest } from "../engine/task";
-import { checkValue, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
+import { checkTurnSave, checkValue, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import Macro from "../combat";
 
@@ -136,18 +136,12 @@ export const HotResQuest: Quest = {
         // If it saves us >= 6 turns, try using a wish
 
         $effects`Fireproof Lips, Hot-Headed`.forEach((ef) => {
-          if (checkValue($item`pocket wish`, CommunityService.HotRes.turnsSavedBy(ef))) wishFor(ef); // The effects each save 2 turns on spelltest as well
+          if (checkValue($item`pocket wish`, checkTurnSave("HotRes", ef))) wishFor(ef); // The effects each save 2 turns on spelltest as well
         });
 
         if (
           have($item`Eight Days a Week Pill Keeper`) &&
-          checkValue(
-            "Pillkeeper",
-            Math.min(
-              CommunityService.HotRes.turnsSavedBy($effect`Rainbowolin`),
-              CommunityService.HotRes.actualCost()
-            )
-          )
+          checkValue("Pillkeeper", checkTurnSave("HotRes", $effect`Rainbowolin`))
         )
           tryAcquiringEffect($effect`Rainbowolin`);
       },

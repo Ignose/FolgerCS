@@ -661,6 +661,43 @@ function checkPrice(thing: Thing): number {
   return 0;
 }
 
+export function checkTurnSave(test: string, ef: Effect): number {
+  switch (test) {
+    case "BoozeDrop":
+      return Math.min(
+        CommunityService.BoozeDrop.turnsSavedBy(ef),
+        CommunityService.BoozeDrop.actualCost()
+      );
+    case "HotRes":
+      return Math.min(
+        CommunityService.HotRes.turnsSavedBy(ef),
+        CommunityService.HotRes.actualCost()
+      );
+    case "FamiliarWeight":
+      return Math.min(
+        CommunityService.FamiliarWeight.turnsSavedBy(ef),
+        CommunityService.FamiliarWeight.actualCost()
+      );
+    case "NonCombat":
+      return Math.min(
+        CommunityService.Noncombat.turnsSavedBy(ef),
+        CommunityService.Noncombat.actualCost()
+      );
+    case "SpellDamage":
+      return Math.min(
+        CommunityService.SpellDamage.turnsSavedBy(ef),
+        CommunityService.SpellDamage.actualCost()
+      );
+    case "WeaponDamage":
+      return Math.min(
+        CommunityService.WeaponDamage.turnsSavedBy(ef),
+        CommunityService.WeaponDamage.actualCost()
+      );
+    default:
+      return 0;
+  }
+}
+
 export function logTestCompletion(): void {
   cliExecute(`set folgerHPYesterday = ${get("folgerHPToday", 1)}`);
   cliExecute(`set folgerHPToday = ${get("_CSTest1")}`);

@@ -32,6 +32,7 @@ import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { Quest } from "../engine/task";
 import {
   checkPull,
+  checkTurnSave,
   checkValue,
   logTestSetup,
   startingClan,
@@ -190,8 +191,7 @@ export const WeaponDamageQuest: Quest = {
           if (
             checkValue(
               $item`pocket wish`,
-              CommunityService.WeaponDamage.turnsSavedBy(ef) +
-                CommunityService.SpellDamage.turnsSavedBy(ef)
+              checkTurnSave("WeaponDamage", ef) + CommunityService.SpellDamage.turnsSavedBy(ef)
             )
           )
             wishFor(ef);
@@ -205,9 +205,7 @@ export const WeaponDamageQuest: Quest = {
         )
           takeStorage($item`Stick-Knife of Loathing`, 1);
 
-        if (
-          checkValue("Cargo", CommunityService.WeaponDamage.turnsSavedBy($effect`Rictus of Yeg`))
-        ) {
+        if (checkValue("Cargo", checkTurnSave("WeaponDamage", $effect`Rictus of Yeg`))) {
           visitUrl("inventory.php?action=pocket");
           visitUrl("choice.php?whichchoice=1420&option=1&pocket=284");
         }
