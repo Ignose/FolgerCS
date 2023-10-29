@@ -9,7 +9,6 @@ import {
   Effect,
   equip,
   faxbot,
-  getWorkshed,
   hermit,
   inebrietyLimit,
   itemAmount,
@@ -38,16 +37,9 @@ import {
   DaylightShavings,
   get,
   have,
-  TrainSet,
   uneffect,
   withChoice,
 } from "libram";
-import {
-  canConfigure,
-  Cycle,
-  setConfiguration,
-  Station,
-} from "libram/dist/resources/2022/TrainSet";
 import {
   checkLocketAvailable,
   checkValue,
