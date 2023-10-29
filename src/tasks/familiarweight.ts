@@ -11,7 +11,6 @@ import {
   myClass,
   mySign,
   print,
-  storageAmount,
   takeStorage,
   toInt,
   use,

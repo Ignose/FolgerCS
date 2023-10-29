@@ -141,7 +141,13 @@ export const HotResQuest: Quest = {
 
         if (
           have($item`Eight Days a Week Pill Keeper`) &&
-          checkValue("Pillkeeper", CommunityService.HotRes.turnsSavedBy($effect`Rainbowolin`))
+          checkValue(
+            "Pillkeeper",
+            Math.min(
+              CommunityService.HotRes.turnsSavedBy($effect`Rainbowolin`),
+              CommunityService.HotRes.actualCost()
+            )
+          )
         )
           tryAcquiringEffect($effect`Rainbowolin`);
       },

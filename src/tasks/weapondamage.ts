@@ -9,9 +9,7 @@ import {
   restoreHp,
   restoreMp,
   retrieveItem,
-  storageAmount,
   takeStorage,
-  toInt,
   useSkill,
   visitUrl,
 } from "kolmafia";
