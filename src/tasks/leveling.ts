@@ -36,6 +36,7 @@ import {
   putCloset,
   restoreHp,
   restoreMp,
+  retrieveItem,
   runChoice,
   storageAmount,
   takeStorage,
@@ -474,6 +475,64 @@ export const LevelingQuest: Quest = {
       completed: () => checkPull($item`Buddy Bjorn`),
       do: (): void => {
         takeStorage($item`Buddy Bjorn`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Stick-Knife",
+      ready: () => get("instant_experimentPulls", false),
+      completed: () => checkPull($item`Stick-Knife of Loathing`),
+      do: (): void => {
+        takeStorage($item`Stick-Knife of Loathing`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Repaid Diaper",
+      ready: () => get("instant_experimentPulls", false),
+      completed: () =>
+        checkPull($item`Great Wolf's beastly trousers`) || checkPull($item`repaid diaper`),
+      do: (): void => {
+        takeStorage($item`repaid diaper`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Beastly Trousers",
+      ready: () => get("instant_experimentPulls", false),
+      completed: () =>
+        checkPull($item`Great Wolf's beastly trousers`) || have($item`astral trousers`),
+      do: (): void => {
+        takeStorage($item`Great Wolf's beastly trousers`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Staff of Simering Hatred",
+      ready: () => get("instant_experimentPulls", false),
+      completed: () => checkPull($item`Staff of Simmering Hatred`),
+      do: (): void => {
+        takeStorage($item`Staff of Simmering Hatred`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Tobiko Marble Soda",
+      ready: () => get("instant_experimentPulls", false),
+      completed: () => checkPull($item`tobiko marble soda`),
+      do: (): void => {
+        takeStorage($item`tobiko marble soda`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Lathe",
+      prepare: () => visitUrl("shop.php?whichshop=lathe"),
+      completed: () => have($item`weeping willow wand`) || !have($item`SpinMaster™ lathe`),
+      do: (): void => {
+        if (!have($item`Staff of Simmering Hatred`)) {
+          retrieveItem($item`weeping willow wand`);
+        } else retrieveItem($item`ebony epee`);
       },
       limit: { tries: 1 },
     },

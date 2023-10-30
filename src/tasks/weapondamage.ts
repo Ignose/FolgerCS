@@ -197,26 +197,10 @@ export const WeaponDamageQuest: Quest = {
             wishFor(ef);
         });
 
-        if (
-          !checkPull($item`Stick-Knife of Loathing`) &&
-          5 - get("_roninStoragePulls").split(",").length < get("instant_savePulls", 0) &&
-          myBasestat($stat`Muscle`) >= 150 &&
-          get("instant_experimentPulls", false)
-        )
-          takeStorage($item`Stick-Knife of Loathing`, 1);
-
         if (checkValue("Cargo", checkTurnSave("WeaponDamage", $effect`Rictus of Yeg`))) {
           visitUrl("inventory.php?action=pocket");
           visitUrl("choice.php?whichchoice=1420&option=1&pocket=284");
         }
-
-        if (
-          5 - get("_roninStoragePulls").split(",").length < get("instant_savePulls", 0) &&
-          !(checkPull($item`Great Wolf's beastly trousers`) || checkPull($item`repaid diaper`)) &&
-          get("instant_experimentPulls", false) &&
-          CommunityService.WeaponDamage.actualCost() >= 3
-        )
-          takeStorage($item`Great Wolf's beastly trousers`, 1);
 
         if (
           CommunityService.WeaponDamage.turnsSavedBy($effect`Weapon of Mass Destruction`) >= 2 &&

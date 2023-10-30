@@ -166,28 +166,6 @@ export const SpellDamageQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Pull Tobiko Marble Soda",
-      ready: () => get("instant_experimentPulls", false),
-      completed: () =>
-        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        checkPull($item`tobiko marble soda`),
-      do: (): void => {
-        takeStorage($item`tobiko marble soda`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Staff of Simering Hatred",
-      ready: () => get("instant_experimentPulls", false),
-      completed: () =>
-        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        checkPull($item`Staff of Simmering Hatred`),
-      do: (): void => {
-        takeStorage($item`Staff of Simmering Hatred`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Deep Dark Visions",
       completed: () =>
         have($effect`Visions of the Deep Dark Deeps`) ||

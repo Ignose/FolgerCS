@@ -85,30 +85,6 @@ export const FamiliarWeightQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Pull Repaid Diaper",
-      ready: () => get("instant_experimentPulls", false),
-      completed: () =>
-        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        checkPull($item`Great Wolf's beastly trousers`) ||
-        checkPull($item`repaid diaper`),
-      do: (): void => {
-        takeStorage($item`repaid diaper`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Great Wolf's beastly trousers",
-      ready: () => get("instant_experimentPulls", false),
-      completed: () =>
-        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        checkPull($item`Great Wolf's beastly trousers`) ||
-        checkPull($item`repaid diaper`),
-      do: (): void => {
-        takeStorage($item`Great Wolf's beastly trousers`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Meteor Shower",
       completed: () =>
         have($effect`Meteor Showered`) ||

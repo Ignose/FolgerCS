@@ -754,7 +754,8 @@ export function checkPull(item: Item): boolean {
     get("_roninStoragePulls").split(",").length >= 5 ||
     have(item) ||
     get("_roninStoragePulls").split(",").includes(toInt(item).toString()) ||
-    storageAmount(item) === 0
+    storageAmount(item) === 0 ||
+    5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0)
   )
     return true;
   return false;

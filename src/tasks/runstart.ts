@@ -400,13 +400,6 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Lathe",
-      prepare: () => visitUrl("shop.php?whichshop=lathe"),
-      completed: () => have($item`weeping willow wand`) || !have($item`SpinMaster™ lathe`),
-      do: () => retrieveItem($item`weeping willow wand`),
-      limit: { tries: 1 },
-    },
-    {
       name: "Backup Camera",
       completed: () =>
         !have($item`backup camera`) ||
