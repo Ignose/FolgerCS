@@ -168,23 +168,29 @@ export const earlyLevelingQuest: Quest = {
       after: ["Install Trainset"],
       completed: () => get("_folgerInitialConfig", false),
       do: (): void => {
+        const offset = get("trainsetPosition") % 8;
+        const newStations: TrainSet.Station[] = [];
         const statStation: Station = {
           Muscle: Station.BRAWN_SILO,
           Mysticality: Station.BRAIN_SILO,
           Moxie: Station.GROIN_SILO,
         }[myPrimestat().toString()];
-        use($item`model train set`);
-        setConfiguration([
+        const stations = [
           Station.COAL_HOPPER, // double mainstat gain
           statStation, // main stats
           Station.VIEWING_PLATFORM, // all stats
-          Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
-          Station.WATER_BRIDGE, // +ML
+          Station.GAIN_MEAT, // meat
           Station.TOWER_FIZZY, // mp regen
-          Station.TOWER_FROZEN, // hot resist (useful)
-          Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
-        ]);
-        cliExecute("set _folgerInitialConfig = true");
+          Station.BRAIN_SILO, // myst stats
+          Station.WATER_BRIDGE, // +ML
+          Station.CANDY_FACTORY, // candies
+        ] as Cycle;
+        for (let i = 0; i < 8; i++) {
+          const newPos = (i + offset) % 8;
+          newStations[newPos] = stations[i];
+        }
+        setConfiguration(newStations as Cycle);
+        cliExecute("set _folgerSecondConfig = true");
       },
       limit: { tries: 1 },
     },
