@@ -531,7 +531,8 @@ export const LevelingQuest: Quest = {
       completed: () =>
         have($item`weeping willow wand`) ||
         !have($item`SpinMaster™ lathe`) ||
-        have($item`ebony epee`),
+        have($item`ebony epee`) ||
+        get("_spinmasterLatheVisited", false),
       do: (): void => {
         if (!have($item`Staff of Simmering Hatred`)) {
           retrieveItem($item`weeping willow wand`);
