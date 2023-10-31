@@ -11,7 +11,6 @@ import {
   myClass,
   mySign,
   print,
-  takeStorage,
   toInt,
   use,
   useFamiliar,
@@ -30,7 +29,7 @@ import {
   have,
 } from "libram";
 import { Quest } from "../engine/task";
-import { checkPull, checkValue, logTestSetup, shrugAT, tryAcquiringEffect } from "../lib";
+import { checkValue, logTestSetup, shrugAT, tryAcquiringEffect } from "../lib";
 import Macro from "../combat";
 import {
   avoidDaylightShavingsHelm,

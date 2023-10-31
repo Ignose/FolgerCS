@@ -275,6 +275,7 @@ export const BoozeDropQuest: Quest = {
           $effect`Singer's Faithful Ocelot`,
           $effect`Steely-Eyed Squint`,
           $effect`Uncucumbered`,
+          $effect`One Very Clear Eye`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
@@ -282,14 +283,6 @@ export const BoozeDropQuest: Quest = {
           useFamiliar($familiar`Trick-or-Treating Tot`);
           equip($slot`familiar`, $item`li'l ninja costume`);
         }
-
-        if (
-          checkValue(
-            $item`cyclops eyedrops`,
-            checkTurnSave("BoozeDrop", $effect`One Very Clear Eye`)
-          )
-        )
-          tryAcquiringEffect($effect`One Very Clear Eye`);
 
         if (
           checkValue(

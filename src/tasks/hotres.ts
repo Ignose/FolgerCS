@@ -122,7 +122,6 @@ export const HotResQuest: Quest = {
           $effect`Elemental Saucesphere`,
           $effect`Feeling Peaceful`,
           // $effect`Hot-Headed`,
-          $effect`Rainbowolin`,
 
           // Famwt Buffs
           $effect`Blood Bond`,
