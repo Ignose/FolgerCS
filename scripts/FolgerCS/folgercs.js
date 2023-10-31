@@ -14971,7 +14971,7 @@ var LevelingQuest = {
   }, {
     name: "Lathe",
     prepare: () => (0,external_kolmafia_namespaceObject.visitUrl)("shop.php?whichshop=lathe"),
-    completed: () => lib_have(template_string_$item(_templateObject158 || (_templateObject158 = leveling_taggedTemplateLiteral(["weeping willow wand"])))) || !lib_have(template_string_$item(_templateObject159 || (_templateObject159 = leveling_taggedTemplateLiteral(["SpinMaster\u2122 lathe"])))) || lib_have(template_string_$item(_templateObject160 || (_templateObject160 = leveling_taggedTemplateLiteral(["ebony epee"])))),
+    completed: () => lib_have(template_string_$item(_templateObject158 || (_templateObject158 = leveling_taggedTemplateLiteral(["weeping willow wand"])))) || !lib_have(template_string_$item(_templateObject159 || (_templateObject159 = leveling_taggedTemplateLiteral(["SpinMaster\u2122 lathe"])))) || lib_have(template_string_$item(_templateObject160 || (_templateObject160 = leveling_taggedTemplateLiteral(["ebony epee"])))) || property_get("_spinmasterLatheVisited", false),
     do: () => {
       if (!lib_have(template_string_$item(_templateObject161 || (_templateObject161 = leveling_taggedTemplateLiteral(["Staff of Simmering Hatred"]))))) {
         (0,external_kolmafia_namespaceObject.retrieveItem)(template_string_$item(_templateObject162 || (_templateObject162 = leveling_taggedTemplateLiteral(["weeping willow wand"]))));
