@@ -9580,6 +9580,7 @@ function checkPrice(thing) {
     case "Cargo":
       return 15000;
     /*case "inflammable leaf":
+      if(get("camelSpit") >= 100) return 0;
       return mallPrice($item`lit leaf lasso`) * 11 / 69;*/
     default:
       return 0;
