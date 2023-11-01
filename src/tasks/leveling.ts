@@ -127,8 +127,6 @@ const useCinch = !get("instant_saveCinch", false);
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
 const freeFightMonsters: Monster[] = $monsters`Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle`;
 
-let leafyBoysFought = 0;
-
 const mainStatStr = myPrimestat().toString();
 const muscleList: Effect[] = [
   $effect`Seal Clubbing Frenzy`,
@@ -881,9 +879,14 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 1 },
     },
-    /*{
+    {
       name: "Free Fight Leafy Boys",
-      ready: () => checkValue("inflammable leaf", checkTurnSave("WeaponDamage", $effect`Spit Upon`) + CommunityService.SpellDamage.turnsSavedBy($effect`Spit Upon`)),
+      ready: () =>
+        checkValue(
+          "inflammable leaf",
+          checkTurnSave("WeaponDamage", $effect`Spit Upon`) +
+            CommunityService.SpellDamage.turnsSavedBy($effect`Spit Upon`)
+        ),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
@@ -897,24 +900,19 @@ export const LevelingQuest: Quest = {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
       },
-      completed: () =>
-        !have($item`inflammable leaf`, 11) ||
-        get("_leafyBoysFought", 0) >= 5,
-      do: () => burnLeaves(11),
+      completed: () => !have($item`inflammable leaf`, 11) || get("_leafMonstersFought", 0) >= 5,
+      do: () => visitUrl("choice.php?pwd&whichchoice=1510&leaves=11"),
       combat: new CombatStrategy().macro(
-          Macro.tryItem($item`blue rocket`)
-            .tryItem($item`red rocket`)
-            .default()
-        ),
+        Macro.tryItem($item`blue rocket`)
+          .tryItem($item`red rocket`)
+          .default()
+      ),
       post: (): void => {
         sellMiscellaneousItems();
         boomBoxProfit();
-        leafyBoysFought = toInt(get("_leafyBoysFought"));
-        leafyBoysFought++;
-        cliExecute(`set _leafyBoysFought = ${leafyBoysFought}`)
       },
       limit: { tries: 1 },
-    },*/
+    },
     {
       name: "Restore MP with Glowing Blue",
       prepare: (): void => {

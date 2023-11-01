@@ -53,7 +53,7 @@ export const args = Args.create("FolgerCS", "An automated mid-shiny SCCS script.
 export const swapSkillTestOrder = CommunityService.SpellDamage.prediction >= 15;
 
 export function main(command?: string): void {
-  sinceKolmafiaRevision(27637);
+  sinceKolmafiaRevision(27667);
 
   Args.fill(args, command);
   if (args.help) {
