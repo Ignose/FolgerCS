@@ -9420,8 +9420,27 @@ function camelFightsLeft() {
   var noveltySkeleton = lib_have(template_string_$item(_templateObject67 || (_templateObject67 = lib_taggedTemplateLiteral(["cherry"])))) || CommunityService.CoilWire.isDone() ? 0 : 1;
   // Red skeleton is not guaranteed since we can't guarantee we run out of yellow ray by then
 
-  return utils_sumNumbers([shadowRift, snojo, NEP, witchess, DMT, LOV, olivers, tentacle, sausageGoblin, XRay, shatteringPunch, mobHit, locketedWitchess, backups, noveltySkeleton]);
+  /*const leafyBoys = have($item`leafy thingy`) ? sumNumbers([shadowRift,
+    snojo,
+    NEP,
+    witchess,
+    DMT,
+    LOV,
+    olivers,
+    tentacle,
+    sausageGoblin,
+    XRay,
+    shatteringPunch,
+    mobHit,
+    locketedWitchess,
+    backups,
+    noveltySkeleton]) * 1 / 11 : 0; */
+
+  return utils_sumNumbers([shadowRift, snojo, NEP, witchess, DMT, LOV, olivers, tentacle, sausageGoblin, XRay, shatteringPunch, mobHit, locketedWitchess, backups, noveltySkeleton
+  //leafyBoys,
+  ]);
 }
+
 function computeCombatFrequency() {
   var vipHat = have($item(_templateObject68 || (_templateObject68 = lib_taggedTemplateLiteral(["Clan VIP Lounge key"])))) ? -5 : 0;
   var hat = vipHat;
@@ -9560,6 +9579,8 @@ function checkPrice(thing) {
       else return 7.5 * property_get("valueOfAdventure", 4000) + property_get("valueOfAdventure", 4000) * property_get("garbo_embezzlerMultiplier", 2.5);
     case "Cargo":
       return 15000;
+    /*case "inflammable leaf":
+      return mallPrice($item`lit leaf lasso`) * 11 / 69;*/
     default:
       return 0;
   }
@@ -13333,7 +13354,10 @@ function baseOutfit() {
     acc1: lib_have(template_string_$item(engine_outfit_templateObject42 || (engine_outfit_templateObject42 = engine_outfit_taggedTemplateLiteral(["codpiece"])))) ? template_string_$item(engine_outfit_templateObject43 || (engine_outfit_templateObject43 = engine_outfit_taggedTemplateLiteral(["codpiece"]))) : undefined,
     acc2: lib_have(template_string_$item(engine_outfit_templateObject44 || (engine_outfit_templateObject44 = engine_outfit_taggedTemplateLiteral(["Cincho de Mayo"])))) && property_get("_cinchUsed", 0) < 95 && 100 - property_get("_cinchUsed", 0) > property_get("instant_saveCinch", 0) ? template_string_$item(engine_outfit_templateObject45 || (engine_outfit_templateObject45 = engine_outfit_taggedTemplateLiteral(["Cincho de Mayo"]))) : undefined,
     familiar: chooseFamiliar(allowAttackingFamiliars),
-    famequip: lib_have(template_string_$item(engine_outfit_templateObject46 || (engine_outfit_templateObject46 = engine_outfit_taggedTemplateLiteral(["dromedary drinking helmet"])))) && chooseFamiliar() === template_string_$familiar(engine_outfit_templateObject47 || (engine_outfit_templateObject47 = engine_outfit_taggedTemplateLiteral(["Melodramedary"]))) ? template_string_$item(engine_outfit_templateObject48 || (engine_outfit_templateObject48 = engine_outfit_taggedTemplateLiteral(["dromedary drinking helmet"]))) : undefined,
+    famequip: lib_have(template_string_$item(engine_outfit_templateObject46 || (engine_outfit_templateObject46 = engine_outfit_taggedTemplateLiteral(["dromedary drinking helmet"])))) && chooseFamiliar() === template_string_$familiar(engine_outfit_templateObject47 || (engine_outfit_templateObject47 = engine_outfit_taggedTemplateLiteral(["Melodramedary"]))) ? template_string_$item(engine_outfit_templateObject48 || (engine_outfit_templateObject48 = engine_outfit_taggedTemplateLiteral(["dromedary drinking helmet"]))) :
+    /*: have($item`familiar rake`) && chooseFamiliar() === $familiar`Melodramedary`
+    ? $item`familiar rake`*/
+    undefined,
     modifier: "0.25 ".concat(statToMaximizerString((0,external_kolmafia_namespaceObject.myPrimestat)()), ", 0.33 ML, -equip tinsel tights, -equip wad of used tape"),
     //Update to check prime stat
     avoid: [].concat(engine_outfit_toConsumableArray(sugarItemsAboutToBreak()), engine_outfit_toConsumableArray(avoidDaylightShavingsHelm() ? [template_string_$item(engine_outfit_templateObject49 || (engine_outfit_templateObject49 = engine_outfit_taggedTemplateLiteral(["Daylight Shavings Helmet"])))] : []))
@@ -14737,6 +14761,7 @@ function leveling_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = string
 var useCinch = !property_get("instant_saveCinch", false);
 var leveling_baseBoozes = template_string_$items(leveling_templateObject || (leveling_templateObject = leveling_taggedTemplateLiteral(["bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey"])));
 var freeFightMonsters = $monsters(leveling_templateObject2 || (leveling_templateObject2 = leveling_taggedTemplateLiteral(["Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle"])));
+var leafyBoysFought = 0;
 var leveling_mainStatStr = (0,external_kolmafia_namespaceObject.myPrimestat)().toString();
 var muscleList = [template_string_$effect(leveling_templateObject3 || (leveling_templateObject3 = leveling_taggedTemplateLiteral(["Seal Clubbing Frenzy"]))), template_string_$effect(leveling_templateObject4 || (leveling_templateObject4 = leveling_taggedTemplateLiteral(["Patience of the Tortoise"]))), template_string_$effect(leveling_templateObject5 || (leveling_templateObject5 = leveling_taggedTemplateLiteral(["Disdain of the War Snapper"]))), template_string_$effect(leveling_templateObject6 || (leveling_templateObject6 = leveling_taggedTemplateLiteral(["Go Get 'Em, Tiger!"]))), template_string_$effect(leveling_templateObject7 || (leveling_templateObject7 = leveling_taggedTemplateLiteral(["Muddled"]))), template_string_$effect(leveling_templateObject8 || (leveling_templateObject8 = leveling_taggedTemplateLiteral(["Lack of Body-Building"]))), template_string_$effect(leveling_templateObject9 || (leveling_templateObject9 = leveling_taggedTemplateLiteral(["Adrenaline Rush"]))), // Weapon dmg
 template_string_$effect(leveling_templateObject10 || (leveling_templateObject10 = leveling_taggedTemplateLiteral(["Carol of the Bulls"])))];
@@ -15269,7 +15294,42 @@ var LevelingQuest = {
     limit: {
       tries: 1
     }
-  }, {
+  },
+  /*{
+    name: "Free Fight Leafy Boys",
+    ready: () => checkValue("inflammable leaf", checkTurnSave("WeaponDamage", $effect`Spit Upon`) + CommunityService.SpellDamage.turnsSavedBy($effect`Spit Upon`)),
+    prepare: (): void => {
+      restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+      if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
+        if (myMeat() < 250) throw new Error("Insufficient Meat to purchase blue rocket!");
+        buy($item`blue rocket`, 1);
+      }
+      unbreakableUmbrella();
+      docBag();
+      restoreMp(50);
+      if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
+        if (myMeat() >= 250) buy($item`red rocket`, 1);
+      }
+    },
+    completed: () =>
+      !have($item`inflammable leaf`, 11) ||
+      get("_leafyBoysFought", 0) >= 5,
+    do: () => burnLeaves(11),
+    combat: new CombatStrategy().macro(
+        Macro.tryItem($item`blue rocket`)
+          .tryItem($item`red rocket`)
+          .default()
+      ),
+    post: (): void => {
+      sellMiscellaneousItems();
+      boomBoxProfit();
+      leafyBoysFought = toInt(get("_leafyBoysFought"));
+      leafyBoysFought++;
+      cliExecute(`set _leafyBoysFought = ${leafyBoysFought}`)
+    },
+    limit: { tries: 1 },
+  },*/
+  {
     name: "Restore MP with Glowing Blue",
     prepare: () => {
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
