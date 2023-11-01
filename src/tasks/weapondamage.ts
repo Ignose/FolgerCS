@@ -3,13 +3,11 @@ import {
   buy,
   create,
   Effect,
-  myBasestat,
   myMaxhp,
   print,
   restoreHp,
   restoreMp,
   retrieveItem,
-  takeStorage,
   useSkill,
   visitUrl,
 } from "kolmafia";
@@ -20,7 +18,6 @@ import {
   $item,
   $location,
   $skill,
-  $stat,
   clamp,
   Clan,
   CommunityService,
@@ -31,7 +28,6 @@ import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { Quest } from "../engine/task";
 import {
-  checkPull,
   checkTurnSave,
   checkValue,
   logTestSetup,

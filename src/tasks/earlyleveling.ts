@@ -7,7 +7,6 @@ import {
   equip,
   getMonsters,
   getWorkshed,
-  handlingChoice,
   haveEquipped,
   Item,
   itemAmount,
@@ -28,7 +27,6 @@ import {
   toInt,
   toItem,
   use,
-  visitUrl,
 } from "kolmafia";
 import {
   $class,
@@ -49,7 +47,6 @@ import {
   have,
   sum,
   TrainSet,
-  uneffect,
 } from "libram";
 import { CombatStrategy } from "grimoire-kolmafia";
 import { baseOutfit, docBag, unbreakableUmbrella } from "../engine/outfit";
