@@ -415,6 +415,22 @@ export function camelFightsLeft(): number {
   const noveltySkeleton = have($item`cherry`) || CommunityService.CoilWire.isDone() ? 0 : 1;
   // Red skeleton is not guaranteed since we can't guarantee we run out of yellow ray by then
 
+  /*const leafyBoys = have($item`leafy thingy`) ? sumNumbers([shadowRift,
+    snojo,
+    NEP,
+    witchess,
+    DMT,
+    LOV,
+    olivers,
+    tentacle,
+    sausageGoblin,
+    XRay,
+    shatteringPunch,
+    mobHit,
+    locketedWitchess,
+    backups,
+    noveltySkeleton]) * 1 / 11 : 0; */
+
   return sumNumbers([
     shadowRift,
     snojo,
@@ -431,6 +447,7 @@ export function camelFightsLeft(): number {
     locketedWitchess,
     backups,
     noveltySkeleton,
+    //leafyBoys,
   ]);
 }
 
@@ -655,6 +672,8 @@ function checkPrice(thing: Thing): number {
           );
       case "Cargo":
         return 15000;
+      /*case "inflammable leaf":
+        return mallPrice($item`lit leaf lasso`) * 11 / 69;*/
       default:
         return 0;
     }

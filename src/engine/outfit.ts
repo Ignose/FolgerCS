@@ -158,7 +158,9 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
     famequip:
       have($item`dromedary drinking helmet`) && chooseFamiliar() === $familiar`Melodramedary`
         ? $item`dromedary drinking helmet`
-        : undefined,
+        : /*: have($item`familiar rake`) && chooseFamiliar() === $familiar`Melodramedary`
+        ? $item`familiar rake`*/
+          undefined,
     modifier: `0.25 ${statToMaximizerString(
       myPrimestat()
     )}, 0.33 ML, -equip tinsel tights, -equip wad of used tape`, //Update to check prime stat

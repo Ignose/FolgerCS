@@ -66,6 +66,7 @@ import {
   AutumnAton,
   clamp,
   CombatLoversLocket,
+  CommunityService,
   ensureEffect,
   get,
   getBanishedMonsters,
@@ -86,6 +87,7 @@ import {
   camelFightsLeft,
   checkLocketAvailable,
   checkPull,
+  checkTurnSave,
   checkValue,
   chooseLibram,
   fuelUp,
@@ -126,6 +128,8 @@ import { drive } from "libram/dist/resources/2017/AsdonMartin";
 const useCinch = !get("instant_saveCinch", false);
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
 const freeFightMonsters: Monster[] = $monsters`Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle`;
+
+let leafyBoysFought = 0;
 
 const mainStatStr = myPrimestat().toString();
 const muscleList: Effect[] = [
@@ -879,6 +883,40 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 1 },
     },
+    /*{
+      name: "Free Fight Leafy Boys",
+      ready: () => checkValue("inflammable leaf", checkTurnSave("WeaponDamage", $effect`Spit Upon`) + CommunityService.SpellDamage.turnsSavedBy($effect`Spit Upon`)),
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
+          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase blue rocket!");
+          buy($item`blue rocket`, 1);
+        }
+        unbreakableUmbrella();
+        docBag();
+        restoreMp(50);
+        if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
+          if (myMeat() >= 250) buy($item`red rocket`, 1);
+        }
+      },
+      completed: () =>
+        !have($item`inflammable leaf`, 11) ||
+        get("_leafyBoysFought", 0) >= 5,
+      do: () => burnLeaves(11),
+      combat: new CombatStrategy().macro(
+          Macro.tryItem($item`blue rocket`)
+            .tryItem($item`red rocket`)
+            .default()
+        ),
+      post: (): void => {
+        sellMiscellaneousItems();
+        boomBoxProfit();
+        leafyBoysFought = toInt(get("_leafyBoysFought"));
+        leafyBoysFought++;
+        cliExecute(`set _leafyBoysFought = ${leafyBoysFought}`)
+      },
+      limit: { tries: 1 },
+    },*/
     {
       name: "Restore MP with Glowing Blue",
       prepare: (): void => {
