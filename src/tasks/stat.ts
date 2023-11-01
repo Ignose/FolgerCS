@@ -7,8 +7,6 @@ import {
   myPrimestat,
   print,
   Stat,
-  storageAmount,
-  takeStorage,
   use,
 } from "kolmafia";
 import {
@@ -130,10 +128,22 @@ export const MuscleQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
-        if (CommunityService.Muscle.actualCost() >= 7 && 
+        if (
+          CommunityService.Muscle.turnsSavedBy($effect`Purity of Spirit`) >= 7 &&
+          have($skill`Summon Clip Art`) &&
+          get("tomeSummons") === 0 &&
+          get("instant_skipBorrowedTime", false)
+        ) {
+          create($item`cold-filtered water`, 1);
+          use($item`cold-filtered water`, 1);
+        }
+
+        if (
+          CommunityService.Muscle.turnsSavedBy($effect`Hulkien`) >= 7 &&
           have($item`Eight Days a Week Pill Keeper`) &&
-          (checkValue("Pillkeeper", Math.min(7, Math.max(0, CommunityService.Mysticality.actualCost())))))
-            tryAcquiringEffect($effect`Hulkien`);
+          checkValue("Pillkeeper", CommunityService.Moxie.turnsSavedBy($effect`Hulkien`))
+        )
+          tryAcquiringEffect($effect`Hulkien`);
       },
       do: (): void => {
         const maxTurns = get("instant_musTestTurnLimit", 2);
@@ -147,13 +157,13 @@ export const MuscleQuest: Quest = {
             "red"
           );
         }
-        if(have($effect`Giant Growth`)) cliExecute("set _folgerGiantFirst = true");
+        if (have($effect`Giant Growth`)) cliExecute("set _folgerGiantFirst = true");
         CommunityService.Muscle.run(() => logTestSetup(CommunityService.Muscle), maxTurns);
       },
       outfit: { modifier: "Muscle, switch disembodied hand, -switch left-hand man" },
       post: (): void => {
         uneffect($effect`Power Ballad of the Arrowsmith`);
-        if(have($effect`Giant Growth`)) cliExecute("set _folgerGiantFirst = true");
+        if (have($effect`Giant Growth`)) cliExecute("set _folgerGiantFirst = true");
       },
       limit: { tries: 1 },
     },
@@ -198,10 +208,22 @@ export const MysticalityQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
-        if (CommunityService.Mysticality.actualCost() >= 7 && 
+        if (
+          CommunityService.Mysticality.turnsSavedBy($effect`Purity of Spirit`) >= 7 &&
+          have($skill`Summon Clip Art`) &&
+          get("tomeSummons") === 0 &&
+          get("instant_skipBorrowedTime", false)
+        ) {
+          create($item`cold-filtered water`, 1);
+          use($item`cold-filtered water`, 1);
+        }
+
+        if (
+          CommunityService.Mysticality.turnsSavedBy($effect`Hulkien`) >= 7 &&
           have($item`Eight Days a Week Pill Keeper`) &&
-          (checkValue("Pillkeeper", Math.min(7, Math.max(0, CommunityService.Mysticality.actualCost())))))
-            tryAcquiringEffect($effect`Hulkien`);
+          checkValue("Pillkeeper", CommunityService.Moxie.turnsSavedBy($effect`Hulkien`))
+        )
+          tryAcquiringEffect($effect`Hulkien`);
       },
       do: (): void => {
         const maxTurns = get("instant_mystTestTurnLimit", 1);
@@ -215,7 +237,7 @@ export const MysticalityQuest: Quest = {
             "red"
           );
         }
-        if(have($effect`Giant Growth`)) cliExecute("set _folgerGiantFirst = true");
+        if (have($effect`Giant Growth`)) cliExecute("set _folgerGiantFirst = true");
         CommunityService.Mysticality.run(
           () => logTestSetup(CommunityService.Mysticality),
           maxTurns
@@ -299,18 +321,29 @@ export const MoxieQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
-        if(CommunityService.Moxie.actualCost() >= 7 && have($item`Pocket maze`) && !have($effect`Amazing`)) use($item`Pocket Maze`);
+        if (
+          CommunityService.Moxie.turnsSavedBy($effect`Amazing`) >= 7 &&
+          have($item`pocket maze`) &&
+          !have($effect`Amazing`)
+        )
+          use($item`pocket maze`);
 
-        if (CommunityService.Moxie.actualCost() >= 7 && 
-          (have($skill`Summon Clip Art`) && get("tomeSummons") === 0) && get("instant_skipBorrowedTime", false)) {
-            create($item`cold-filtered water`, 1);
-            use($item`cold-filtered water`, 1);
-          }
+        if (
+          CommunityService.Moxie.turnsSavedBy($effect`Purity of Spirit`) >= 7 &&
+          have($skill`Summon Clip Art`) &&
+          get("tomeSummons") === 0 &&
+          get("instant_skipBorrowedTime", false)
+        ) {
+          create($item`cold-filtered water`, 1);
+          use($item`cold-filtered water`, 1);
+        }
 
-        if (CommunityService.Moxie.actualCost() >= 7 && 
+        if (
+          CommunityService.Moxie.turnsSavedBy($effect`Hulkien`) >= 7 &&
           have($item`Eight Days a Week Pill Keeper`) &&
-          (checkValue("Pillkeeper", Math.min(7, Math.max(0, CommunityService.Mysticality.actualCost())))))
-            tryAcquiringEffect($effect`Hulkien`);
+          checkValue("Pillkeeper", CommunityService.Moxie.turnsSavedBy($effect`Hulkien`))
+        )
+          tryAcquiringEffect($effect`Hulkien`);
       },
       do: (): void => {
         const maxTurns = get("instant_moxTestTurnLimit", 5);
@@ -324,7 +357,7 @@ export const MoxieQuest: Quest = {
             "red"
           );
         }
-        if(have($effect`Giant Growth`)) cliExecute("set _folgerGiantFirst = true");
+        if (have($effect`Giant Growth`)) cliExecute("set _folgerGiantFirst = true");
         CommunityService.Moxie.run(() => logTestSetup(CommunityService.Moxie), maxTurns);
       },
       outfit: { modifier: "Moxie, switch disembodied hand, -switch left-hand man" },

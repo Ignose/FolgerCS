@@ -9,10 +9,8 @@ import {
   Effect,
   equip,
   faxbot,
-  getWorkshed,
   hermit,
   inebrietyLimit,
-  inMuscleSign,
   itemAmount,
   myClass,
   myInebriety,
@@ -39,22 +37,15 @@ import {
   DaylightShavings,
   get,
   have,
-  TrainSet,
   uneffect,
   withChoice,
 } from "libram";
 import {
-  canConfigure,
-  Cycle,
-  setConfiguration,
-  Station,
-} from "libram/dist/resources/2022/TrainSet";
-import {
   checkLocketAvailable,
+  checkTurnSave,
   checkValue,
   fuelUp,
   logTestSetup,
-  resourceTurnSave,
   tryAcquiringEffect,
   wishFor,
 } from "../lib";
@@ -63,41 +54,12 @@ import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { forbiddenEffects } from "../resources";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
-
-const testType = "Booze Drop";
-const itemType = "Item Drop";
+import { swapSkillTestOrder } from "../main";
 
 export const BoozeDropQuest: Quest = {
   name: "Booze Drop",
   completed: () => CommunityService.BoozeDrop.isDone(),
   tasks: [
-    {
-      name: "Configure Trainset",
-      completed: () =>
-        (getWorkshed() === $item`model train set` && !canConfigure()) ||
-        !TrainSet.have() ||
-        getWorkshed() === $item`Asdon Martin keyfob`,
-      do: (): void => {
-        const offset = get("trainsetPosition") % 8;
-        const newStations: TrainSet.Station[] = [];
-        const stations = [
-          Station.COAL_HOPPER, // double hot resist
-          Station.TOWER_FROZEN, // hot resist
-          Station.GAIN_MEAT, // meat
-          Station.TOWER_FIZZY, // mp regen
-          Station.BRAIN_SILO, // myst stats
-          Station.VIEWING_PLATFORM, // all stats
-          Station.WATER_BRIDGE, // +ML
-          Station.CANDY_FACTORY, // candies
-        ] as Cycle;
-        for (let i = 0; i < 8; i++) {
-          const newPos = (i + offset) % 8;
-          newStations[newPos] = stations[i];
-        }
-        setConfiguration(newStations as Cycle);
-      },
-      limit: { tries: 1 },
-    },
     {
       name: "Use Shadow Lodestone",
       ready: () => have($item`Rufus's shadow lodestone`),
@@ -127,11 +89,7 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Get Cyclops Eyedrops",
-      ready: () => checkValue($item`11-leaf clover`, Math.min(resourceTurnSave($effect`One Very Clear Eye`, itemType), 
-      CommunityService.BoozeDrop.prediction - 1)),
-      completed: () =>
-        have($item`cyclops eyedrops`) ||
-        have($effect`One Very Clear Eye`),
+      completed: () => have($item`cyclops eyedrops`) || have($effect`One Very Clear Eye`),
       do: (): void => {
         if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
         if (!have($item`cyclops eyedrops`)) adv1($location`The Limerick Dungeon`, -1);
@@ -145,8 +103,7 @@ export const BoozeDropQuest: Quest = {
         get("lastAnticheeseDay") > 0 ||
         get("instant_skipGovernment", false),
       do: (): void => {
-        if(myMeat() >= 15000)
-          retrieveItem($item`Desert Bus pass`);
+        if (myMeat() >= 15000) retrieveItem($item`Desert Bus pass`);
         if (!have($item`Desert Bus pass`) && !have($item`bitchin' meatcar`)) {
           autosell($item`government cheese`, itemAmount($item`government cheese`));
           return;
@@ -158,9 +115,7 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Fax Ungulith",
-      completed: () =>
-        have($item`corrupted marrow`) ||
-        have($effect`Cowrruption`),
+      completed: () => have($item`corrupted marrow`) || have($effect`Cowrruption`),
       do: (): void => {
         const monsterCow =
           myClass().toString() === "Seal Clubber" &&
@@ -226,7 +181,8 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Drink Cabernet Sauvignon",
-      ready: () => checkValue("August Scepter", Math.min(2.6, CommunityService.BoozeDrop.prediction - 1)),
+      ready: () =>
+        checkValue("August Scepter", Math.min(2.6, CommunityService.BoozeDrop.prediction - 1)),
       completed: () =>
         have($effect`Cabernet Hunter`) ||
         (!have($item`bottle of Cabernet Sauvignon`) &&
@@ -313,13 +269,13 @@ export const BoozeDropQuest: Quest = {
           $effect`I See Everything Thrice!`,
           $effect`items.enh`,
           $effect`Joyful Resolve`,
-          $effect`One Very Clear Eye`,
           $effect`Shadow Waters`,
           $effect`Nearly All-Natural`,
           $effect`The Spirit of Taking`,
           $effect`Singer's Faithful Ocelot`,
           $effect`Steely-Eyed Squint`,
           $effect`Uncucumbered`,
+          $effect`One Very Clear Eye`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
@@ -327,18 +283,29 @@ export const BoozeDropQuest: Quest = {
           useFamiliar($familiar`Trick-or-Treating Tot`);
           equip($slot`familiar`, $item`li'l ninja costume`);
         }
-        if (have($item`Deck of Every Card`) && get("_deckCardsDrawn") <= 10 && 
-        Math.min(resourceTurnSave($effect`Fortune of the Wheel`, itemType), Math.max(0, CommunityService.BoozeDrop.actualCost())))
-          cliExecute("cheat fortune");
 
-        if (checkValue($item`battery (lantern)`, Math.min(resourceTurnSave($effect`Lantern-Charged`, itemType), Math.max(0, CommunityService.BoozeDrop.actualCost())))) {
+        if (
+          checkValue(
+            $item`battery (lantern)`,
+            checkTurnSave("BoozeDrop", $effect`Lantern-Charged`) +
+              (!swapSkillTestOrder ? checkTurnSave("SpellDamage", $effect`Lantern-Charged`) : 0)
+          )
+        ) {
           if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);
           use($item`battery (lantern)`, 1);
         }
-        if (checkValue($item`pocket wish`, Math.min(resourceTurnSave($effect`Infernal Thirst`, testType), Math.max(0, CommunityService.BoozeDrop.actualCost()))))
+
+        if (
+          have($item`Deck of Every Card`) &&
+          get("_deckCardsDrawn") <= 10 &&
+          checkValue("Deck Cheat", checkTurnSave("BoozeDrop", $effect`Fortune of the Wheel`))
+        )
+          cliExecute("cheat fortune");
+
+        if (checkValue($item`pocket wish`, checkTurnSave("BoozeDrop", $effect`Infernal Thirst`)))
           wishFor($effect`Infernal Thirst`);
 
-        if (checkValue("August Scepter", Math.min(resourceTurnSave($effect`Incredibly Well Lit`, testType), Math.max(0, CommunityService.BoozeDrop.actualCost()))))
+        if (checkValue("August Scepter", checkTurnSave("BoozeDrop", $effect`Incredibly Well Lit`)))
           tryAcquiringEffect($effect`Incredibly Well Lit`);
       },
       completed: () => CommunityService.BoozeDrop.isDone(),

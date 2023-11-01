@@ -83,17 +83,7 @@ function buildIotmList(): Requirement[] {
       recommended: true,
     },
     {
-      thing: new Hardcoded(
-        have($item`one-day ticket to Dinseylandfill`) ||
-          storageAmount($item`one-day ticket to Dinseylandfill`) > 0 ||
-          get("stenchAirportAlways") ||
-          get("spookyAirportAlways") ||
-          get("hotAirportAlways") ||
-          get("coldAirportAlways") ||
-          get("sleazeAirportAlways") ||
-          get("neverendingPartyAlways"),
-        "Scaler Zone Access"
-      ),
+      thing: new Hardcoded(get("neverendingPartyAlways"), "Scaler Zone Access"),
       why: "Scalers for leveling",
     },
     {
@@ -124,12 +114,6 @@ function buildLocketList(): Requirement[] {
     {
       thing: $monster`red skeleton`,
       why: "Weapon Damage",
-      optional: true,
-      recommended: true,
-    },
-    {
-      thing: $monster`factory worker (female)`,
-      why: "Hot Resistance",
       optional: true,
       recommended: true,
     },

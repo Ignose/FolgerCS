@@ -143,9 +143,7 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
   const lovTunnelCompleted = get("_loveTunnelUsed") || !get("loveTunnelAvailable");
 
   return {
-    weapon: have($item`june cleaver`)
-      ? $item`june cleaver`
-      : undefined,
+    weapon: have($item`June cleaver`) ? $item`June cleaver` : undefined,
     hat: avoidDaylightShavingsHelm() ? undefined : $item`Daylight Shavings Helmet`,
     offhand: $item`unbreakable umbrella`,
     back: lovTunnelCompleted ? $item`LOV Epaulettes` : undefined,
@@ -160,7 +158,9 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
     famequip:
       have($item`dromedary drinking helmet`) && chooseFamiliar() === $familiar`Melodramedary`
         ? $item`dromedary drinking helmet`
-        : undefined,
+        : /*: have($item`familiar rake`) && chooseFamiliar() === $familiar`Melodramedary`
+        ? $item`familiar rake`*/
+          undefined,
     modifier: `0.25 ${statToMaximizerString(
       myPrimestat()
     )}, 0.33 ML, -equip tinsel tights, -equip wad of used tape`, //Update to check prime stat

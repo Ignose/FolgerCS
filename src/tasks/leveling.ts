@@ -11,6 +11,7 @@ import {
   equip,
   equippedItem,
   getMonsters,
+  handlingChoice,
   haveEffect,
   inebrietyLimit,
   Item,
@@ -20,6 +21,7 @@ import {
   mallPrice,
   Monster,
   mpCost,
+  myAdventures,
   myBasestat,
   myClass,
   myHash,
@@ -36,6 +38,7 @@ import {
   putCloset,
   restoreHp,
   restoreMp,
+  retrieveItem,
   runChoice,
   storageAmount,
   takeStorage,
@@ -63,6 +66,7 @@ import {
   AutumnAton,
   clamp,
   CombatLoversLocket,
+  CommunityService,
   ensureEffect,
   get,
   getBanishedMonsters,
@@ -78,12 +82,12 @@ import {
 } from "libram";
 import { CombatStrategy, OutfitSpec } from "grimoire-kolmafia";
 import {
-  abstractionXpEffect,
-  abstractionXpItem,
   boomBoxProfit,
   burnLibram,
   camelFightsLeft,
   checkLocketAvailable,
+  checkPull,
+  checkTurnSave,
   checkValue,
   chooseLibram,
   fuelUp,
@@ -98,7 +102,6 @@ import {
   reagentBoosterIngredient,
   reagentBoosterItem,
   refillLatte,
-  snapperXpItem,
   statToMaximizerString,
   synthExpBuff,
   targetBaseMyst,
@@ -125,6 +128,8 @@ import { drive } from "libram/dist/resources/2017/AsdonMartin";
 const useCinch = !get("instant_saveCinch", false);
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
 const freeFightMonsters: Monster[] = $monsters`Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle`;
+
+let leafyBoysFought = 0;
 
 const mainStatStr = myPrimestat().toString();
 const muscleList: Effect[] = [
@@ -167,7 +172,7 @@ const statEffects =
     ? muscleList
     : mainStatStr === `Mysticality`
     ? mysticalityList
-    : moxieList;   
+    : moxieList;
 
 const usefulEffects: Effect[] = [
   // Stats
@@ -307,10 +312,13 @@ function sellMiscellaneousItems(): void {
 
 export const LevelingQuest: Quest = {
   name: "Leveling",
-  completed: () => get("csServicesPerformed").split(",").length > 1 ||
-  (myBasestat(myPrimestat()) >= targetBaseMyst && get("_feelPrideUsed", 3) >= 3 
-  && camelFightsLeft() === 0 && (get("camelSpit") < 94 || get("camelSpit") >= 100)
-  && !haveFreeKill()),
+  completed: () =>
+    get("csServicesPerformed").split(",").length > 1 ||
+    (myBasestat(myPrimestat()) >= targetBaseMyst &&
+      get("_feelPrideUsed", 3) >= 3 &&
+      camelFightsLeft() === 0 &&
+      (get("camelSpit") < 94 || get("camelSpit") >= 100) &&
+      !haveFreeKill()),
   tasks: [
     {
       name: "LED Candle",
@@ -404,12 +412,12 @@ export const LevelingQuest: Quest = {
     {
       name: "Pull Deep Dish of Legend",
       completed: () =>
-        have($item`Deep Dish of Legend`) ||
+        checkPull($item`Deep Dish of Legend`) ||
         have($effect`In the Depths`) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`Deep Dish of Legend`).toString()) ||
         get("instant_skipDeepDishOfLegend", false),
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       do: (): void => {
         if (storageAmount($item`Deep Dish of Legend`) === 0) {
           print("Uh oh! You do not seem to have a Deep Dish of Legend in Hagnk's", "red");
@@ -426,12 +434,12 @@ export const LevelingQuest: Quest = {
     {
       name: "Pull Calzone of Legend",
       completed: () =>
-        have($item`Calzone of Legend`) ||
+        checkPull($item`Calzone of Legend`) ||
         have($effect`In the 'zone zone!`) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`Calzone of Legend`).toString()) ||
         get("instant_skipCalzoneOfLegend", false),
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       do: (): void => {
         if (storageAmount($item`Calzone of Legend`) === 0) {
           print("Uh oh! You do not seem to have a Calzone of Legend in Hagnk's", "red");
@@ -451,11 +459,8 @@ export const LevelingQuest: Quest = {
     {
       name: "Pull Pizza of Legend",
       completed: () =>
-        have($item`Pizza of Legend`) ||
+        checkPull($item`Pizza of Legend`) ||
         have($effect`Endless Drool`) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`Pizza of Legend`).toString()) ||
         get("instant_skipPizzaOfLegend", false),
       do: (): void => {
         if (storageAmount($item`Pizza of Legend`) === 0) {
@@ -467,6 +472,77 @@ export const LevelingQuest: Quest = {
           );
         }
         takeStorage($item`Pizza of Legend`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Buddy Bjorn",
+      ready: () => get("instant_experimentPulls", false),
+      completed: () => checkPull($item`Buddy Bjorn`),
+      do: (): void => {
+        takeStorage($item`Buddy Bjorn`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Stick-Knife",
+      ready: () => get("instant_experimentPulls", false),
+      completed: () => checkPull($item`Stick-Knife of Loathing`),
+      do: (): void => {
+        takeStorage($item`Stick-Knife of Loathing`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Repaid Diaper",
+      ready: () => get("instant_experimentPulls", false),
+      completed: () =>
+        checkPull($item`Great Wolf's beastly trousers`) || checkPull($item`repaid diaper`),
+      do: (): void => {
+        takeStorage($item`repaid diaper`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Beastly Trousers",
+      ready: () => get("instant_experimentPulls", false),
+      completed: () =>
+        checkPull($item`Great Wolf's beastly trousers`) || have($item`astral trousers`),
+      do: (): void => {
+        takeStorage($item`Great Wolf's beastly trousers`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Staff of Simering Hatred",
+      ready: () => get("instant_experimentPulls", false),
+      completed: () => checkPull($item`Staff of Simmering Hatred`),
+      do: (): void => {
+        takeStorage($item`Staff of Simmering Hatred`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pull Tobiko Marble Soda",
+      ready: () => get("instant_experimentPulls", false),
+      completed: () => checkPull($item`tobiko marble soda`),
+      do: (): void => {
+        takeStorage($item`tobiko marble soda`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Lathe",
+      prepare: () => visitUrl("shop.php?whichshop=lathe"),
+      completed: () =>
+        have($item`weeping willow wand`) ||
+        !have($item`SpinMaster™ lathe`) ||
+        have($item`ebony epee`) ||
+        get("_spinmasterLatheVisited", false),
+      do: (): void => {
+        if (!have($item`Staff of Simmering Hatred`)) {
+          retrieveItem($item`weeping willow wand`);
+        } else retrieveItem($item`ebony epee`);
       },
       limit: { tries: 1 },
     },
@@ -507,97 +583,11 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Pull Repaid Diaper",
-      completed: () =>
-        get("_roninStoragePulls").split(",").length >= 5 ||
-        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`repaid diaper`).toString()) ||
-        have($item`repaid diaper`) ||
-        storageAmount($item`repaid diaper`) === 0 ||
-        !get("instant_experimentPulls", true),
-      do: (): void => {
-        takeStorage($item`repaid diaper`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Beastly Trousers",
-      completed: () =>
-        get("_roninStoragePulls").split(",").length >= 5 ||
-        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`Great Wolf's beastly trousers`).toString()) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`repaid diaper`).toString()) ||
-        have($item`Great Wolf's beastly trousers`) ||
-        storageAmount($item`Great Wolf's beastly trousers`) === 0 ||
-        !get("instant_experimentPulls", true),
-      do: (): void => {
-        takeStorage($item`Great Wolf's beastly trousers`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Stick Knife",
-      completed: () =>
-        get("_roninStoragePulls").split(",").length >= 5 ||
-        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`Stick-Knife of Loathing`).toString()) ||
-        have($item`Stick-Knife of Loathing`) ||
-        storageAmount($item`Stick-Knife of Loathing`) === 0 ||
-        !myPrimestat() === $stat`Muscle` ||
-        !get("instant_experimentPulls", true),
-      do: (): void => {
-        takeStorage($item`Stick-Knife of Loathing`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Tobiko Marble Soda",
-      completed: () =>
-        get("_roninStoragePulls").split(",").length >= 5 ||
-        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`tobiko marble soda`).toString()) ||
-        have($item`tobiko marble soda`) ||
-        storageAmount($item`tobiko marble soda`) === 0 ||
-        !get("instant_experimentPulls", true),
-      do: (): void => {
-        takeStorage($item`tobiko marble soda`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Wasabi Marble Soda",
-      completed: () =>
-        get("_roninStoragePulls").split(",").length >= 5 ||
-        5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`wasabi marble soda`).toString()) ||
-        have($item`wasabi marble soda`) ||
-        storageAmount($item`wasabi marble soda`) === 0 ||
-        !get("instant_experimentPulls", true),
-      do: (): void => {
-        takeStorage($item`wasabi marble soda`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Use Ten-Percent Bonus",
       prepare: (): void => {
         if (get("getawayCampsiteUnlocked"))
           visitUrl("place.php?whichplace=campaway&action=campaway_sky");
-        if (have($item`familiar scrapbook`)) {
-          equip($item`familiar scrapbook`);
-        }
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
       },
       completed: () => !have($item`a ten-percent bonus`),
       do: () => use($item`a ten-percent bonus`, 1),
@@ -605,6 +595,9 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Bastille",
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       completed: () => get("_bastilleGames") > 0 || !have($item`Bastille Battalion control rig`),
       do: () => cliExecute("bastille.ash mainstat brutalist"),
       limit: { tries: 1 },
@@ -644,17 +637,23 @@ export const LevelingQuest: Quest = {
     {
       name: "Eat Calzone",
       completed: () => get("calzoneOfLegendEaten") || !have($item`Calzone of Legend`),
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       do: (): void => {
-        if (have($item`familiar scrapbook`)) {
-          equip($item`familiar scrapbook`);
-        }
         eat($item`Calzone of Legend`, 1);
       },
       limit: { tries: 1 },
     },
     {
       name: "Eat Deep Dish",
-      completed: () => get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`) || get("instant_lateDeepDish", false),
+      completed: () =>
+        get("deepDishOfLegendEaten") ||
+        !have($item`Deep Dish of Legend`) ||
+        get("instant_lateDeepDish", false),
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       do: (): void => {
         if (have($item`familiar scrapbook`)) {
           equip($item`familiar scrapbook`);
@@ -687,6 +686,9 @@ export const LevelingQuest: Quest = {
         !have($item`perfect ice cube`) ||
         !baseBoozes.some((it) => have(it)) ||
         get("instant_savePerfectFreeze", false),
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       do: (): void => {
         tryAcquiringEffect($effect`Ode to Booze`);
         const baseBooze = baseBoozes.filter((it) => have(it))[0];
@@ -742,10 +744,10 @@ export const LevelingQuest: Quest = {
       name: "Eat Pizza",
       ready: () => have($effect`Ready to Eat`), // only eat this after we red rocket
       completed: () => get("pizzaOfLegendEaten") || !have($item`Pizza of Legend`),
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       do: (): void => {
-        if (have($item`familiar scrapbook`)) {
-          equip($item`familiar scrapbook`);
-        }
         eat($item`Pizza of Legend`, 1);
       },
       limit: { tries: 1 },
@@ -757,7 +759,10 @@ export const LevelingQuest: Quest = {
         myInebriety() >= inebrietyLimit() ||
         (!have($item`astral six-pack`) &&
           itemAmount($item`astral pilsner`) <= get("instant_saveAstralPilsners", 0)),
-      prepare: () => tryAcquiringEffect($effect`Ode to Booze`),
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+        tryAcquiringEffect($effect`Ode to Booze`);
+      },
       do: (): void => {
         if (have($item`astral six-pack`)) use($item`astral six-pack`, 1);
         if (itemAmount($item`astral pilsner`) > get("instant_saveAstralPilsners", 0))
@@ -830,7 +835,10 @@ export const LevelingQuest: Quest = {
         ...baseOutfit,
         familiar: $familiar`Trick-or-Treating Tot`,
       }),
-      post: () => { sellMiscellaneousItems(); boomBoxProfit();},
+      post: () => {
+        sellMiscellaneousItems();
+        boomBoxProfit();
+      },
       limit: { tries: 1 },
     },
     {
@@ -869,9 +877,46 @@ export const LevelingQuest: Quest = {
             .default()
         ).abort()
       ),
-      post: () => { sellMiscellaneousItems(); boomBoxProfit();},
+      post: () => {
+        sellMiscellaneousItems();
+        boomBoxProfit();
+      },
       limit: { tries: 1 },
     },
+    /*{
+      name: "Free Fight Leafy Boys",
+      ready: () => checkValue("inflammable leaf", checkTurnSave("WeaponDamage", $effect`Spit Upon`) + CommunityService.SpellDamage.turnsSavedBy($effect`Spit Upon`)),
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
+          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase blue rocket!");
+          buy($item`blue rocket`, 1);
+        }
+        unbreakableUmbrella();
+        docBag();
+        restoreMp(50);
+        if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
+          if (myMeat() >= 250) buy($item`red rocket`, 1);
+        }
+      },
+      completed: () =>
+        !have($item`inflammable leaf`, 11) ||
+        get("_leafyBoysFought", 0) >= 5,
+      do: () => burnLeaves(11),
+      combat: new CombatStrategy().macro(
+          Macro.tryItem($item`blue rocket`)
+            .tryItem($item`red rocket`)
+            .default()
+        ),
+      post: (): void => {
+        sellMiscellaneousItems();
+        boomBoxProfit();
+        leafyBoysFought = toInt(get("_leafyBoysFought"));
+        leafyBoysFought++;
+        cliExecute(`set _leafyBoysFought = ${leafyBoysFought}`)
+      },
+      limit: { tries: 1 },
+    },*/
     {
       name: "Restore MP with Glowing Blue",
       prepare: (): void => {
@@ -1113,8 +1158,8 @@ export const LevelingQuest: Quest = {
         ...baseOutfit,
         familiar: $familiar`Patriotic Eagle`,
       }),
-      post: () => { sellMiscellaneousItems(),
-        cliExecute("set _pledgeCheck = true");
+      post: () => {
+        sellMiscellaneousItems(), cliExecute("set _pledgeCheck = true");
       },
       limit: { tries: 1 },
     },

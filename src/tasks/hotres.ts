@@ -1,5 +1,5 @@
 import { CombatStrategy } from "grimoire-kolmafia";
-import { buy, cliExecute, create, Effect, print, use, useFamiliar, useSkill } from "kolmafia";
+import { buy, cliExecute, create, Effect, print, useSkill } from "kolmafia";
 import {
   $effect,
   $effects,
@@ -14,11 +14,9 @@ import {
   have,
 } from "libram";
 import { Quest } from "../engine/task";
-import { checkValue, logTestSetup, resourceTurnSave, tryAcquiringEffect, wishFor } from "../lib";
+import { checkTurnSave, checkValue, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import Macro from "../combat";
-
-const testType = "Hot Res";
 
 export const HotResQuest: Quest = {
   name: "Hot Res",
@@ -124,7 +122,6 @@ export const HotResQuest: Quest = {
           $effect`Elemental Saucesphere`,
           $effect`Feeling Peaceful`,
           // $effect`Hot-Headed`,
-          $effect`Rainbowolin`,
 
           // Famwt Buffs
           $effect`Blood Bond`,
@@ -138,15 +135,14 @@ export const HotResQuest: Quest = {
         // If it saves us >= 6 turns, try using a wish
 
         $effects`Fireproof Lips, Hot-Headed`.forEach((ef) => {
-          if (checkValue($item`pocket wish`, Math.min(resourceTurnSave(ef, testType), Math.max(1, CommunityService.WeaponDamage.actualCost())))) 
-            wishFor(ef); // The effects each save 2 turns on spelltest as well
+          if (checkValue($item`pocket wish`, checkTurnSave("HotRes", ef))) wishFor(ef); // The effects each save 2 turns on spelltest as well
         });
 
-        if (CommunityService.HotRes.actualCost() >= 5 && 
+        if (
           have($item`Eight Days a Week Pill Keeper`) &&
-          (checkValue("Pillkeeper", Math.min(resourceTurnSave($effect`Rainbowlin`, testType), Math.max(1, CommunityService.HotRes.actualCost())))))
-            tryAcquiringEffect($effect`Rainbowlin`);
-
+          checkValue("Pillkeeper", checkTurnSave("HotRes", $effect`Rainbowolin`))
+        )
+          tryAcquiringEffect($effect`Rainbowolin`);
       },
       completed: () => CommunityService.HotRes.isDone(),
       do: (): void => {

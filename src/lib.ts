@@ -4,7 +4,6 @@ import {
   cliExecute,
   create,
   Effect,
-  effectModifier,
   getCampground,
   getClanName,
   haveEffect,
@@ -20,13 +19,13 @@ import {
   myMaxhp,
   myMp,
   myPrimestat,
-  numericModifier,
   print,
   restoreMp,
   retrieveItem,
   retrievePrice,
   Skill,
   Stat,
+  storageAmount,
   sweetSynthesis,
   toInt,
   toItem,
@@ -40,7 +39,6 @@ import {
   $familiar,
   $item,
   $items,
-  $modifier,
   $monster,
   $skill,
   $skills,
@@ -59,7 +57,6 @@ import {
 import { printModtrace } from "libram/dist/modifier";
 import { forbiddenEffects } from "./resources";
 import { mainStat } from "./combat";
-import { effect } from "libram/dist/resources/2022/TrainSet";
 
 export const startingClan = getClanName();
 
@@ -261,10 +258,7 @@ export function wishFor(ef: Effect, useGenie = true): void {
   // However, we can always sell Genie Wishes, so we prioritize using the paw
   // TODO: Use mafia's pref to check if we can still use the paw for wishes
 
-  if (
-    have($item`cursed monkey's paw`) &&
-    get("_monkeyPawWishesUsed", 0) < 5
-  ) {
+  if (have($item`cursed monkey's paw`) && get("_monkeyPawWishesUsed", 0) < 5) {
     if (monkeyPaw(ef)) return;
   }
 
@@ -421,6 +415,22 @@ export function camelFightsLeft(): number {
   const noveltySkeleton = have($item`cherry`) || CommunityService.CoilWire.isDone() ? 0 : 1;
   // Red skeleton is not guaranteed since we can't guarantee we run out of yellow ray by then
 
+  /*const leafyBoys = have($item`leafy thingy`) ? sumNumbers([shadowRift,
+    snojo,
+    NEP,
+    witchess,
+    DMT,
+    LOV,
+    olivers,
+    tentacle,
+    sausageGoblin,
+    XRay,
+    shatteringPunch,
+    mobHit,
+    locketedWitchess,
+    backups,
+    noveltySkeleton]) * 1 / 11 : 0; */
+
   return sumNumbers([
     shadowRift,
     snojo,
@@ -437,6 +447,7 @@ export function camelFightsLeft(): number {
     locketedWitchess,
     backups,
     noveltySkeleton,
+    //leafyBoys,
   ]);
 }
 
@@ -630,30 +641,6 @@ export function checkLocketAvailable(): number {
 
 type Thing = Item | Effect | string;
 
-export function resourceTurnSave(thing: Effect, modifier: string): number {
-  if (haveEffect(thing)) return 0;
-  switch (modifier) {
-      case "Booze Drop":
-        return Math.floor(numericModifier(thing, modifier)/15);
-      case "Item Drop":
-         if(have($skill`Steely-Eyed Squint`) || have($effect`Steely-Eyed Squint`)) return Math.floor(numericModifier(thing, modifier)/15);
-         return Math.floor(numericModifier(thing, modifier)/30);
-      case "Weapon Damage Percent":
-        if(have($effect`Bow-Legged Swagger`) || have($skill`Bow-Legged Swagger`)) return Math.floor(numericModifier(thing, modifier)/25);
-        return Math.floor(numericModifier(thing, modifier)/50);
-      case "Spell Damage Percent":
-        return Math.floor(numericModifier(thing, modifier)/50);
-      case "Hot Res":
-        return numericModifier(thing, modifier);
-      case "Familiar Weight":
-        return Math.floor(numericModifier(thing, modifier)/5);
-      case "NonCombat":
-        return Math.floor(numericModifier(thing, modifier)*3/5);
-      default:
-        return 0;
-    }
-}
-
 export function checkValue(thing: Thing, turns: number): boolean {
   if (get("valueOfAdventure") * turns > checkPrice(thing)) return true;
   return false;
@@ -676,18 +663,61 @@ function checkPrice(thing: Thing): number {
       case "August Scepter":
         return Math.max(mallPrice($item`waffle`) * 3, 30000);
       case "Pillkeeper":
-        if(get("_freePillKeeperUsed", false))
+        if (get("_freePillKeeperUsed", false))
           return get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5); //Lucky
-        else return 7.5 * get("valueOfAdventure", 4000) + get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5);
+        else
+          return (
+            7.5 * get("valueOfAdventure", 4000) +
+            get("valueOfAdventure", 4000) * get("garbo_embezzlerMultiplier", 2.5)
+          );
       case "Cargo":
         return 15000;
+      /*case "inflammable leaf":
+        return mallPrice($item`lit leaf lasso`) * 11 / 69;*/
       default:
         return 0;
     }
   return 0;
 }
 
-export function logTestCompletion() {
+export function checkTurnSave(test: string, ef: Effect): number {
+  switch (test) {
+    case "BoozeDrop":
+      return Math.min(
+        CommunityService.BoozeDrop.turnsSavedBy(ef),
+        CommunityService.BoozeDrop.actualCost()
+      );
+    case "HotRes":
+      return Math.min(
+        CommunityService.HotRes.turnsSavedBy(ef),
+        CommunityService.HotRes.actualCost()
+      );
+    case "FamiliarWeight":
+      return Math.min(
+        CommunityService.FamiliarWeight.turnsSavedBy(ef),
+        CommunityService.FamiliarWeight.actualCost()
+      );
+    case "NonCombat":
+      return Math.min(
+        CommunityService.Noncombat.turnsSavedBy(ef),
+        CommunityService.Noncombat.actualCost()
+      );
+    case "SpellDamage":
+      return Math.min(
+        CommunityService.SpellDamage.turnsSavedBy(ef),
+        CommunityService.SpellDamage.actualCost()
+      );
+    case "WeaponDamage":
+      return Math.min(
+        CommunityService.WeaponDamage.turnsSavedBy(ef),
+        CommunityService.WeaponDamage.actualCost()
+      );
+    default:
+      return 0;
+  }
+}
+
+export function logTestCompletion(): void {
   cliExecute(`set folgerHPYesterday = ${get("folgerHPToday", 1)}`);
   cliExecute(`set folgerHPToday = ${get("_CSTest1")}`);
   cliExecute(`set folgerMusYesterday = ${get("folgerMusToday", 1)}`);
@@ -710,7 +740,7 @@ export function logTestCompletion() {
   cliExecute(`set folgerHRToday= ${get("_CSTest10")}`);
 }
 
-export function compareTestCompletion() {
+export function compareTestCompletion(): void {
   const HP = get("folgerHPToday", 0) - get("folgerHPYesterday", 0);
   const Mus = get("folgerMusToday", 0) - get("folgerMusYesterday", 0);
   const Mys = get("folgerMysToday", 0) - get("folgerMysYesterday", 0);
@@ -734,6 +764,18 @@ export function compareTestCompletion() {
 }
 
 export function boomBoxProfit(): void {
-  if(have($item`Punching Potion`) && SongBoom.song() !== "Total Eclipse of Your Meat")
-    SongBoom.setSong("Total Eclipse of Your Meat")
+  if (have($item`Punching Potion`) && SongBoom.song() !== "Total Eclipse of Your Meat")
+    SongBoom.setSong("Total Eclipse of Your Meat");
+}
+
+export function checkPull(item: Item): boolean {
+  if (
+    get("_roninStoragePulls").split(",").length >= 5 ||
+    have(item) ||
+    get("_roninStoragePulls").split(",").includes(toInt(item).toString()) ||
+    storageAmount(item) === 0 ||
+    5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0)
+  )
+    return true;
+  return false;
 }

@@ -7,6 +7,7 @@ import {
   equip,
   getMonsters,
   getWorkshed,
+  handlingChoice,
   haveEquipped,
   Item,
   itemAmount,
@@ -27,6 +28,7 @@ import {
   toInt,
   toItem,
   use,
+  visitUrl,
 } from "kolmafia";
 import {
   $class,
@@ -45,13 +47,13 @@ import {
   get,
   getKramcoWandererChance,
   have,
-  SongBoom,
   sum,
   TrainSet,
+  uneffect,
 } from "libram";
 import { CombatStrategy } from "grimoire-kolmafia";
 import { baseOutfit, docBag, unbreakableUmbrella } from "../engine/outfit";
-import { canConfigure, Cycle, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
+import { Cycle, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { chooseRift } from "libram/dist/resources/2023/ClosedCircuitPayphone";
@@ -136,7 +138,11 @@ function sellMiscellaneousItems(): void {
 
 export const earlyLevelingQuest: Quest = {
   name: "Early Leveling",
-  completed: () => get("pizzaOfLegendEaten") || !get("instant_skipBorrowedTime", false) || get("instant_useAsdon", false) || CommunityService.CoilWire.isDone(),
+  completed: () =>
+    get("pizzaOfLegendEaten") ||
+    !get("instant_skipBorrowedTime", false) ||
+    get("instant_useAsdon", false) ||
+    CommunityService.CoilWire.isDone(),
   tasks: [
     {
       name: "Install Trainset",
@@ -149,36 +155,41 @@ export const earlyLevelingQuest: Quest = {
     {
       name: "Scavenge",
       completed: () => get("_daycareGymScavenges") > 0 || !get("daycareOpen"),
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       do: (): void => {
-      if(have($item`familiar scrapbook`)) {
-        equip($item`familiar scrapbook`);
-      }
-      cliExecute("daycare scavenge free");
-    },
+        cliExecute("daycare scavenge free");
+      },
       limit: { tries: 1 },
     },
     {
       name: "Configure Trainset",
       after: ["Install Trainset"],
-      completed: () =>
-        get("_folgerInitialConfig", false),
+      completed: () => get("_folgerInitialConfig", false),
       do: (): void => {
+        const offset = get("trainsetPosition") % 8;
+        const newStations: TrainSet.Station[] = [];
         const statStation: Station = {
           Muscle: Station.BRAWN_SILO,
           Mysticality: Station.BRAIN_SILO,
           Moxie: Station.GROIN_SILO,
         }[myPrimestat().toString()];
-        use($item`model train set`);
-        setConfiguration([
+        const stations = [
           Station.COAL_HOPPER, // double mainstat gain
           statStation, // main stats
           Station.VIEWING_PLATFORM, // all stats
-          Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
-          Station.WATER_BRIDGE, // +ML
+          Station.GAIN_MEAT, // meat
           Station.TOWER_FIZZY, // mp regen
-          Station.TOWER_FROZEN, // hot resist (useful)
-          Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
-        ]);
+          Station.BRAIN_SILO, // myst stats
+          Station.WATER_BRIDGE, // +ML
+          Station.CANDY_FACTORY, // candies
+        ] as Cycle;
+        for (let i = 0; i < 8; i++) {
+          const newPos = (i + offset) % 8;
+          newStations[newPos] = stations[i];
+        }
+        setConfiguration(newStations as Cycle);
         cliExecute("set _folgerInitialConfig = true");
       },
       limit: { tries: 1 },
@@ -269,8 +280,7 @@ export const earlyLevelingQuest: Quest = {
     {
       name: "ReConfigure Trainset",
       after: ["Map Novelty Tropical Skeleton"],
-      completed: () =>
-        get("_folgerSecondConfig", false),
+      completed: () => get("_folgerSecondConfig", false),
       do: (): void => {
         const offset = get("trainsetPosition") % 8;
         const newStations: TrainSet.Station[] = [];
@@ -357,7 +367,10 @@ export const earlyLevelingQuest: Quest = {
         ...baseOutfit,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
       }),
-      post: () => { sellMiscellaneousItems(); boomBoxProfit();},
+      post: () => {
+        sellMiscellaneousItems();
+        boomBoxProfit();
+      },
       limit: { tries: 1 },
     },
     {
@@ -392,8 +405,8 @@ export const earlyLevelingQuest: Quest = {
         familiar: $familiar`Patriotic Eagle`,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
       }),
-      post: () => { sellMiscellaneousItems(),
-        pledgeCheck = true;
+      post: () => {
+        sellMiscellaneousItems(), (pledgeCheck = true);
         cliExecute("set _pledgeCheck = true");
         boomBoxProfit();
       },
@@ -403,13 +416,16 @@ export const earlyLevelingQuest: Quest = {
       name: "Bastille",
       after: ["Bakery Pledge"],
       ready: () => myLevel() < 5,
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       completed: () => get("_bastilleGames") > 0 || !have($item`Bastille Battalion control rig`),
       do: (): void => {
-      if(have($item`familiar scrapbook`)) {
-        equip($item`familiar scrapbook`);
-      }
-      cliExecute("bastille.ash mainstat brutalist");
-    },
+        if (have($item`familiar scrapbook`)) {
+          equip($item`familiar scrapbook`);
+        }
+        cliExecute("bastille.ash mainstat brutalist");
+      },
       limit: { tries: 1 },
     },
     {
@@ -417,8 +433,8 @@ export const earlyLevelingQuest: Quest = {
       after: ["Bakery Pledge"],
       completed: () => !have($item`whet stone`),
       do: (): void => {
-      use($item`whet stone`);
-    },
+        use($item`whet stone`);
+      },
       limit: { tries: 1 },
     },
     {
@@ -449,6 +465,9 @@ export const earlyLevelingQuest: Quest = {
       ready: () => have($effect`Ready to Eat`), // only eat this after we red rocket
       completed: () =>
         get("pizzaOfLegendEaten") || !have($item`Pizza of Legend`) || myAdventures() > 60,
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       do: (): void => {
         if (have($item`familiar scrapbook`)) {
           equip($item`familiar scrapbook`);
@@ -486,6 +505,9 @@ export const earlyLevelingQuest: Quest = {
     {
       name: "Eat Calzone",
       after: ["Eat Pizza"],
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       completed: () =>
         get("calzoneOfLegendEaten") || !have($item`Calzone of Legend`) || myAdventures() > 60,
       do: (): void => {

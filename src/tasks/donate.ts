@@ -69,7 +69,7 @@ function printResourceUsage(tResource: trackedResource): void {
   } else print(`${name}: ${resourceValue}/${n ?? "?"} ${localResourceValue}`);
 }
 
-function logResourceUsage(): void {
+export function logResourceUsage(): void {
   // Track resources used
   // Banishes
   print("");
