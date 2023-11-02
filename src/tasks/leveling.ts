@@ -322,6 +322,20 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Scorched Earth",
+      ready: () => checkValue($item`Napalm In The Morning™ candle`, 1),
+      completed: () => !have($item`Napalm In The Morning™ candle`) || have($effect`Scorched Earth`),
+      do: () => use($item`Napalm In The Morning™ candle`),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Bird Blessing",
+      ready: () => myClass() !== $class`Disco Bandit`,
+      completed: () => !have($skill`Seek out a Bird`) || have($effect`Blessing of the Bird`),
+      do: () => useSkill($skill`Seek out a Bird`),
+      limit: { tries: 1 },
+    },
+    {
       name: "Soul Food",
       ready: () => mySoulsauce() >= 5,
       completed: () => mySoulsauce() < 5 || myMp() > myMaxmp() - 15 || !have($skill`Soul Food`),
