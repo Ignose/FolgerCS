@@ -901,7 +901,10 @@ export const LevelingQuest: Quest = {
         }
       },
       completed: () => !have($item`inflammable leaf`, 11) || get("_leafMonstersFought", 0) >= 5,
-      do: () => visitUrl("choice.php?pwd&whichchoice=1510&leaves=11"),
+      do: (): void => {
+        visitUrl("campground.php?preaction=leaves");
+        visitUrl("choice.php?pwd&whichchoice=1510&leaves=11");
+      },
       combat: new CombatStrategy().macro(
         Macro.tryItem($item`blue rocket`)
           .tryItem($item`red rocket`)
