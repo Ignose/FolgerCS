@@ -49,7 +49,6 @@ import {
   get,
   getKramcoWandererChance,
   have,
-  haveInCampground,
   set,
   SongBoom,
   sumNumbers,
@@ -416,6 +415,7 @@ export function camelFightsLeft(): number {
   const noveltySkeleton = have($item`cherry`) || CommunityService.CoilWire.isDone() ? 0 : 1;
   // Red skeleton is not guaranteed since we can't guarantee we run out of yellow ray by then
 
+  // eslint-disable-next-line libram/verify-constants
   const leafyBoys = have($item`rake`)
     ? Math.min(
         (sumNumbers([
@@ -682,6 +682,8 @@ function checkPrice(thing: Thing): number {
           );
       case "Cargo":
         return 15000;
+      case "ClipArt":
+        return mallPrice($item`box of Familiar Jacks`);
       /*case "inflammable leaf":
         if(get("camelSpit") >= 100) return 0;
         return mallPrice($item`lit leaf lasso`) * 11 / 69;*/

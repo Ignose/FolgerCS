@@ -136,37 +136,38 @@ export const FamiliarWeightQuest: Quest = {
           );
         if (
           have($skill`Summon Clip Art`) &&
-          ($familiars`Mini-Trainbot, Exotic Parrot`.some((fam) => have(fam)) ||
-            $familiars`Comma Chameleon, Homemade Robot`.every((fam) => have(fam)))
+          $familiars`Comma Chameleon, Homemade Robot`.every((fam) => have(fam))
         ) {
           if (!have($item`box of Familiar Jacks`)) create($item`box of Familiar Jacks`, 1);
-          if ($familiars`Comma Chameleon, Homemade Robot`.every((fam) => have(fam))) {
-            useFamiliar($familiar`Homemade Robot`);
-            use($item`box of Familiar Jacks`, 1);
-            useFamiliar($familiar`Comma Chameleon`);
-            visitUrl(
-              `inv_equip.php?which=2&action=equip&whichitem=${toInt(
-                $item`homemade robot gear`
-              )}&pwd`
-            );
-            visitUrl("charpane.php");
-          } else {
-            if (have($familiar`Mini-Trainbot`)) useFamiliar($familiar`Mini-Trainbot`);
-            else useFamiliar($familiar`Exotic Parrot`);
-            use($item`box of Familiar Jacks`, 1);
-          }
-          if (
-            have($item`Eight Days a Week Pill Keeper`) &&
-            checkValue("Pillkeeper", Math.min(3, CommunityService.FamiliarWeight.actualCost()))
-          )
-            tryAcquiringEffect($effect`Fidoxene`);
+          useFamiliar($familiar`Homemade Robot`);
+          use($item`box of Familiar Jacks`, 1);
+          useFamiliar($familiar`Comma Chameleon`);
+          visitUrl(
+            `inv_equip.php?which=2&action=equip&whichitem=${toInt($item`homemade robot gear`)}&pwd`
+          );
+          visitUrl("charpane.php");
+        }
 
-          cliExecute("maximize familiar weight");
+        if (
+          !have($familiar`Comma Chameleon`) &&
+          have($familiar`Mini-Trainbot`) &&
+          checkValue("ClipArt", 2)
+        ) {
+          useFamiliar($familiar`Mini-Trainbot`);
+          use($item`box of Familiar Jacks`, 1);
+        }
 
-          if (!get("_madTeaParty")) {
-            if (!have($item`sombrero-mounted sparkler`)) buy($item`sombrero-mounted sparkler`);
-            tryAcquiringEffect($effect`You Can Really Taste the Dormouse`);
-          }
+        if (
+          have($item`Eight Days a Week Pill Keeper`) &&
+          checkValue("Pillkeeper", Math.min(2, CommunityService.FamiliarWeight.actualCost()))
+        )
+          tryAcquiringEffect($effect`Fidoxene`);
+
+        cliExecute("maximize familiar weight");
+
+        if (!get("_madTeaParty")) {
+          if (!have($item`sombrero-mounted sparkler`)) buy($item`sombrero-mounted sparkler`);
+          tryAcquiringEffect($effect`You Can Really Taste the Dormouse`);
         }
       },
       do: (): void => {

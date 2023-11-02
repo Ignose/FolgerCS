@@ -64,7 +64,6 @@ import {
   AutumnAton,
   clamp,
   CombatLoversLocket,
-  CommunityService,
   ensureEffect,
   get,
   getBanishedMonsters,
@@ -85,7 +84,6 @@ import {
   camelFightsLeft,
   checkLocketAvailable,
   checkPull,
-  checkTurnSave,
   checkValue,
   chooseLibram,
   fuelUp,
@@ -887,6 +885,8 @@ export const LevelingQuest: Quest = {
           checkTurnSave("WeaponDamage", $effect`Spit Upon`) +
             CommunityService.SpellDamage.turnsSavedBy($effect`Spit Upon`)
         ),*/
+      // eslint-disable-next-line libram/verify-constants
+      ready: () => have($item`inflammable leaf`, 11),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
@@ -900,7 +900,7 @@ export const LevelingQuest: Quest = {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
       },
-      completed: () => !have($item`inflammable leaf`, 11) || get("_leafMonstersFought", 0) >= 5,
+      completed: () => get("_leafMonstersFought", 0) >= 5,
       do: (): void => {
         visitUrl("campground.php?preaction=leaves");
         visitUrl("choice.php?pwd&whichchoice=1510&leaves=11");
