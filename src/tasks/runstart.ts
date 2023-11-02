@@ -102,6 +102,16 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Toot",
+      prepare: () => visitUrl("tutorial.php?action=toot"),
+      completed: () => have($item`rake`) || get("_noBurningLeaves", false),
+      do: (): void => {
+        visitUrl("campground.php?preaction=leaves");
+        if (!have($item`rake`)) cliExecute("set _noBurningLeaves = true");
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Skeleton Store",
       completed: () => get("questM23Meatsmith") !== "unstarted",
       do: (): void => {

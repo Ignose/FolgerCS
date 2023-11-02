@@ -416,7 +416,7 @@ export function camelFightsLeft(): number {
   const noveltySkeleton = have($item`cherry`) || CommunityService.CoilWire.isDone() ? 0 : 1;
   // Red skeleton is not guaranteed since we can't guarantee we run out of yellow ray by then
 
-  const leafyBoys = haveInCampground($item`A Guide to Burning Leaves`)
+  const leafyBoys = have($item`rake`)
     ? Math.min(
         (sumNumbers([
           shadowRift,
