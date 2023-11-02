@@ -881,12 +881,12 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Free Fight Leafy Boys",
-      ready: () =>
+      /*ready: () =>
         checkValue(
           "inflammable leaf",
           checkTurnSave("WeaponDamage", $effect`Spit Upon`) +
             CommunityService.SpellDamage.turnsSavedBy($effect`Spit Upon`)
-        ),
+        ),*/
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {

@@ -102,7 +102,7 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Toot",
+      name: "Get Rake",
       prepare: () => visitUrl("tutorial.php?action=toot"),
       completed: () => have($item`rake`) || get("_noBurningLeaves", false),
       do: (): void => {
