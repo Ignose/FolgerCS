@@ -415,21 +415,31 @@ export function camelFightsLeft(): number {
   const noveltySkeleton = have($item`cherry`) || CommunityService.CoilWire.isDone() ? 0 : 1;
   // Red skeleton is not guaranteed since we can't guarantee we run out of yellow ray by then
 
-  /*const leafyBoys = have($item`leafy thingy`) ? sumNumbers([shadowRift,
-    snojo,
-    NEP,
-    witchess,
-    DMT,
-    LOV,
-    olivers,
-    tentacle,
-    sausageGoblin,
-    XRay,
-    shatteringPunch,
-    mobHit,
-    locketedWitchess,
-    backups,
-    noveltySkeleton]) * 1 / 11 : 0; */
+  // eslint-disable-next-line libram/verify-constants
+  const leafyBoys = have($item`rake`)
+    ? Math.min(
+        (sumNumbers([
+          shadowRift,
+          snojo,
+          NEP,
+          witchess,
+          DMT,
+          LOV,
+          olivers,
+          tentacle,
+          sausageGoblin,
+          XRay,
+          shatteringPunch,
+          mobHit,
+          locketedWitchess,
+          backups,
+          noveltySkeleton,
+        ]) *
+          2.5) /
+          11,
+        5 - toInt(get("_leafMonstersFought"))
+      )
+    : 0;
 
   return sumNumbers([
     shadowRift,
@@ -447,7 +457,7 @@ export function camelFightsLeft(): number {
     locketedWitchess,
     backups,
     noveltySkeleton,
-    //leafyBoys,
+    leafyBoys,
   ]);
 }
 
@@ -672,6 +682,8 @@ function checkPrice(thing: Thing): number {
           );
       case "Cargo":
         return 15000;
+      case "ClipArt":
+        return mallPrice($item`box of Familiar Jacks`);
       /*case "inflammable leaf":
         if(get("camelSpit") >= 100) return 0;
         return mallPrice($item`lit leaf lasso`) * 11 / 69;*/

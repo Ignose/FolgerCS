@@ -64,7 +64,6 @@ import {
   AutumnAton,
   clamp,
   CombatLoversLocket,
-  CommunityService,
   ensureEffect,
   get,
   getBanishedMonsters,
@@ -85,7 +84,6 @@ import {
   camelFightsLeft,
   checkLocketAvailable,
   checkPull,
-  checkTurnSave,
   checkValue,
   chooseLibram,
   fuelUp,
@@ -126,8 +124,6 @@ import { drive } from "libram/dist/resources/2017/AsdonMartin";
 const useCinch = !get("instant_saveCinch", false);
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
 const freeFightMonsters: Monster[] = $monsters`Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle`;
-
-let leafyBoysFought = 0;
 
 const mainStatStr = myPrimestat().toString();
 const muscleList: Effect[] = [
@@ -323,6 +319,20 @@ export const LevelingQuest: Quest = {
       // eslint-disable-next-line libram/verify-constants
       completed: () => !have($item`LED candle`) || get("ledCandleMode", "") === "reading",
       do: () => cliExecute("jillcandle reading"),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Scorched Earth",
+      ready: () => checkValue($item`Napalm In The Morning™ candle`, 1),
+      completed: () => !have($item`Napalm In The Morning™ candle`) || have($effect`Scorched Earth`),
+      do: () => use($item`Napalm In The Morning™ candle`),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Bird Blessing",
+      ready: () => myClass() !== $class`Disco Bandit`,
+      completed: () => !have($skill`Seek out a Bird`) || have($effect`Blessing of the Bird`),
+      do: () => useSkill($skill`Seek out a Bird`),
       limit: { tries: 1 },
     },
     {
@@ -881,9 +891,16 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 1 },
     },
-    /*{
+    {
       name: "Free Fight Leafy Boys",
-      ready: () => checkValue("inflammable leaf", checkTurnSave("WeaponDamage", $effect`Spit Upon`) + CommunityService.SpellDamage.turnsSavedBy($effect`Spit Upon`)),
+      /*ready: () =>
+        checkValue(
+          "inflammable leaf",
+          checkTurnSave("WeaponDamage", $effect`Spit Upon`) +
+            CommunityService.SpellDamage.turnsSavedBy($effect`Spit Upon`)
+        ),*/
+      // eslint-disable-next-line libram/verify-constants
+      ready: () => have($item`inflammable leaf`, 11),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
@@ -897,24 +914,22 @@ export const LevelingQuest: Quest = {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
       },
-      completed: () =>
-        !have($item`inflammable leaf`, 11) ||
-        get("_leafyBoysFought", 0) >= 5,
-      do: () => burnLeaves(11),
+      completed: () => get("_leafMonstersFought", 0) >= 5,
+      do: (): void => {
+        visitUrl("campground.php?preaction=leaves");
+        visitUrl("choice.php?pwd&whichchoice=1510&leaves=11");
+      },
       combat: new CombatStrategy().macro(
-          Macro.tryItem($item`blue rocket`)
-            .tryItem($item`red rocket`)
-            .default()
-        ),
+        Macro.tryItem($item`blue rocket`)
+          .tryItem($item`red rocket`)
+          .default()
+      ),
       post: (): void => {
         sellMiscellaneousItems();
         boomBoxProfit();
-        leafyBoysFought = toInt(get("_leafyBoysFought"));
-        leafyBoysFought++;
-        cliExecute(`set _leafyBoysFought = ${leafyBoysFought}`)
       },
       limit: { tries: 1 },
-    },*/
+    },
     {
       name: "Restore MP with Glowing Blue",
       prepare: (): void => {

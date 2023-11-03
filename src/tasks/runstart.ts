@@ -102,6 +102,18 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Get Rake",
+      prepare: () => visitUrl("tutorial.php?action=toot"),
+      // eslint-disable-next-line libram/verify-constants
+      completed: () => have($item`rake`) || get("_noBurningLeaves", false),
+      do: (): void => {
+        visitUrl("campground.php?preaction=leaves");
+        // eslint-disable-next-line libram/verify-constants
+        if (!have($item`rake`)) cliExecute("set _noBurningLeaves = true");
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Skeleton Store",
       completed: () => get("questM23Meatsmith") !== "unstarted",
       do: (): void => {
@@ -379,10 +391,10 @@ export const RunStartQuest: Quest = {
     {
       name: "Scavenge",
       completed: () => get("_daycareGymScavenges") > 0 || !get("daycareOpen"),
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
       do: (): void => {
-        if (have($item`familiar scrapbook`)) {
-          equip($item`familiar scrapbook`);
-        }
         cliExecute("daycare scavenge free");
       },
       limit: { tries: 1 },
