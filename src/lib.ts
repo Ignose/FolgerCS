@@ -435,7 +435,7 @@ export function camelFightsLeft(): number {
           backups,
           noveltySkeleton,
         ]) *
-          1) /
+          2.5) /
           11,
         5 - toInt(get("_leafMonstersFought"))
       )
