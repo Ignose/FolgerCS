@@ -893,13 +893,6 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Free Fight Leafy Boys",
-      /*ready: () =>
-        checkValue(
-          "inflammable leaf",
-          checkTurnSave("WeaponDamage", $effect`Spit Upon`) +
-            CommunityService.SpellDamage.turnsSavedBy($effect`Spit Upon`)
-        ),*/
-      // eslint-disable-next-line libram/verify-constants
       ready: () => have($item`inflammable leaf`, 11),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -961,29 +954,6 @@ export const LevelingQuest: Quest = {
         1324: 5,
       },
       limit: { tries: 2 },
-    },
-    {
-      name: "Restore MP with Glowing Blue (continued)",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        restoreMp(50);
-      },
-      // We need to spend at least 1adv to get the mp regen from Glowing Blue
-      // This is only an issue if our powerleveling zone is the NEP, since the previous fight would be free
-      completed: () =>
-        powerlevelingLocation() !== $location`The Neverending Party` ||
-        haveEffect($effect`Glowing Blue`) !== 10 ||
-        myMp() >= 500,
-      do: $location`The Dire Warren`,
-      outfit: () => baseOutfit(false),
-      combat: new CombatStrategy().macro(Macro.attack().repeat()),
-      post: (): void => {
-        sendAutumnaton();
-        sellMiscellaneousItems();
-        boomBoxProfit();
-      },
-      limit: { tries: 1 },
     },
     {
       name: "Get Rufus Quest",
