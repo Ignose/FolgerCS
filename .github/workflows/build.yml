@@ -2,12 +2,12 @@ name: Build FolgerCS
 
 on:
   push:
-    branches: [testing]
+    branches: [main]
     paths:
       - "src/**"
       - "package.json"
   pull_request:
-    branches: [testing]
+    branches: [main]
     paths:
       - "src/**"
       - "package.json"
@@ -56,14 +56,14 @@ jobs:
           git config --global user.name "Build Script"
           git config --global user.email "<>"
 
-      - name: Synchronize & push into test branch
+      - name: Synchronize & push into release branch
         run: |
           git fetch --all
-          echo "Switching into test"
+          echo "Switching into release"
           git stash && git stash clear
-          git switch test
+          git switch release
 
-          # Push build into the test branch
+          # Push build into the release branch
           shopt -s extglob
           rm -rf !(BUILD)
           mv BUILD/scripts scripts
@@ -74,4 +74,4 @@ jobs:
           git add dependencies.txt
           git add README.md
           git commit -m "Automated build"
-          git push -f origin test
+          git push -f origin release
