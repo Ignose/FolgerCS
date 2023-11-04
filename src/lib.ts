@@ -416,31 +416,7 @@ export function camelFightsLeft(): number {
   const noveltySkeleton = have($item`cherry`) || CommunityService.CoilWire.isDone() ? 0 : 1;
   // Red skeleton is not guaranteed since we can't guarantee we run out of yellow ray by then
 
-  // eslint-disable-next-line libram/verify-constants
-  const leafyBoys = haveInCampground($item`A Guide to Burning Leaves`)
-    ? Math.min(
-        (sumNumbers([
-          shadowRift,
-          snojo,
-          NEP,
-          witchess,
-          DMT,
-          LOV,
-          olivers,
-          tentacle,
-          sausageGoblin,
-          XRay,
-          shatteringPunch,
-          mobHit,
-          locketedWitchess,
-          backups,
-          noveltySkeleton,
-        ]) *
-          2.5) /
-          11,
-        5 - toInt(get("_leafMonstersFought"))
-      )
-    : 0;
+  //const leafyBoys = haveInCampground($item`A Guide to Burning Leaves`) ? 5 : 0;
 
   return sumNumbers([
     shadowRift,
@@ -458,7 +434,7 @@ export function camelFightsLeft(): number {
     locketedWitchess,
     backups,
     noveltySkeleton,
-    leafyBoys,
+    //leafyBoys,
   ]);
 }
 

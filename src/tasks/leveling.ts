@@ -891,7 +891,7 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 1 },
     },
-    {
+    /*{
       name: "Free Fight Leafy Boys",
       ready: () => have($item`inflammable leaf`, 11),
       prepare: (): void => {
@@ -919,7 +919,7 @@ export const LevelingQuest: Quest = {
         boomBoxProfit();
       },
       limit: { tries: 1 },
-    },
+    },*/ //Retiring this until I can make it work correctly.
     {
       name: "Restore MP with Glowing Blue",
       prepare: (): void => {
@@ -1415,7 +1415,9 @@ export const LevelingQuest: Quest = {
       choices: { 1310: () => (have($item`God Lobster's Ring`) ? 2 : 3) }, // Get xp on last fight
       outfit: () => ({
         ...baseOutfit(),
-        famequip: $items`God Lobster's Ring, God Lobster's Scepter`,
+        famequip: have($item`tiny rake`)
+          ? $item`tiny rake`
+          : $items`God Lobster's Ring, God Lobster's Scepter`,
         familiar: $familiar`God Lobster`,
       }),
       limit: { tries: 3 },
