@@ -49,6 +49,7 @@ import {
   get,
   getKramcoWandererChance,
   have,
+  haveInCampground,
   set,
   SongBoom,
   sumNumbers,
@@ -416,7 +417,7 @@ export function camelFightsLeft(): number {
   // Red skeleton is not guaranteed since we can't guarantee we run out of yellow ray by then
 
   // eslint-disable-next-line libram/verify-constants
-  const leafyBoys = have($item`rake`)
+  const leafyBoys = haveInCampground($item`A Guide to Burning Leaves`)
     ? Math.min(
         (sumNumbers([
           shadowRift,

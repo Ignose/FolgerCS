@@ -893,13 +893,6 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Free Fight Leafy Boys",
-      /*ready: () =>
-        checkValue(
-          "inflammable leaf",
-          checkTurnSave("WeaponDamage", $effect`Spit Upon`) +
-            CommunityService.SpellDamage.turnsSavedBy($effect`Spit Upon`)
-        ),*/
-      // eslint-disable-next-line libram/verify-constants
       ready: () => have($item`inflammable leaf`, 11),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -915,10 +908,7 @@ export const LevelingQuest: Quest = {
         }
       },
       completed: () => get("_leafMonstersFought", 0) >= 5,
-      do: (): void => {
-        visitUrl("campground.php?preaction=leaves");
-        visitUrl("choice.php?pwd&whichchoice=1510&leaves=11");
-      },
+      do: () => cliExecute("leaves 11"),
       combat: new CombatStrategy().macro(
         Macro.tryItem($item`blue rocket`)
           .tryItem($item`red rocket`)

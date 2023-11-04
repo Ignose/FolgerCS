@@ -103,13 +103,9 @@ export const RunStartQuest: Quest = {
     },
     {
       name: "Get Rake",
-      prepare: () => visitUrl("tutorial.php?action=toot"),
-      // eslint-disable-next-line libram/verify-constants
-      completed: () => have($item`rake`) || get("_noBurningLeaves", false),
+      completed: () => have($item`rake`) || !haveInCampground($item`A Guide to Burning Leaves`),
       do: (): void => {
-        visitUrl("campground.php?preaction=leaves");
-        // eslint-disable-next-line libram/verify-constants
-        if (!have($item`rake`)) cliExecute("set _noBurningLeaves = true");
+        cliExecute("leaves");
       },
       limit: { tries: 1 },
     },
