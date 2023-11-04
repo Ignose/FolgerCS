@@ -891,7 +891,7 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 1 },
     },
-    /*{
+    {
       name: "Free Fight Leafy Boys",
       ready: () => have($item`inflammable leaf`, 11),
       prepare: (): void => {
@@ -907,8 +907,11 @@ export const LevelingQuest: Quest = {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
       },
-      completed: () => get("_leafMonstersFought", 0) >= 5,
-      do: () => cliExecute("leaves 11"),
+      completed: () => get("_leafMonstersFought", 0) < 5 || !have($item`inflammable leaf`, 11),
+      do: (): void => {
+        cliExecute("leaves 11");
+        visitUrl("main.php");
+      },
       combat: new CombatStrategy().macro(
         Macro.tryItem($item`blue rocket`)
           .tryItem($item`red rocket`)
@@ -918,8 +921,8 @@ export const LevelingQuest: Quest = {
         sellMiscellaneousItems();
         boomBoxProfit();
       },
-      limit: { tries: 1 },
-    },*/ //Retiring this until I can make it work correctly.
+      limit: { tries: 5 },
+    },
     {
       name: "Restore MP with Glowing Blue",
       prepare: (): void => {
