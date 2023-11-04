@@ -907,7 +907,7 @@ export const LevelingQuest: Quest = {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
       },
-      completed: () => get("_leafMonstersFought", 0) < 5 || !have($item`inflammable leaf`, 11),
+      completed: () => get("_leafMonstersFought", 0) < 5,
       do: (): void => {
         cliExecute("leaves 11");
         visitUrl("main.php");
