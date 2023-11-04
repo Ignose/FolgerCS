@@ -9420,7 +9420,7 @@ function camelFightsLeft() {
   var noveltySkeleton = lib_have(template_string_$item(_templateObject67 || (_templateObject67 = lib_taggedTemplateLiteral(["cherry"])))) || CommunityService.CoilWire.isDone() ? 0 : 1;
   // Red skeleton is not guaranteed since we can't guarantee we run out of yellow ray by then
 
-  var leafyBoys = haveInCampground(template_string_$item(_templateObject68 || (_templateObject68 = lib_taggedTemplateLiteral(["A Guide to Burning Leaves"])))) ? 5 : 0;
+  var leafyBoys = haveInCampground(template_string_$item(_templateObject68 || (_templateObject68 = lib_taggedTemplateLiteral(["A Guide to Burning Leaves"])))) ? 5 - (0,external_kolmafia_namespaceObject.toInt)(property_get("_leafMonstersFought", 0)) : 0;
   return utils_sumNumbers([shadowRift, snojo, NEP, witchess, DMT, LOV, olivers, tentacle, sausageGoblin, XRay, shatteringPunch, mobHit, locketedWitchess, backups, noveltySkeleton, leafyBoys]);
 }
 function computeCombatFrequency() {
