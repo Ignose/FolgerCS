@@ -9421,7 +9421,7 @@ function camelFightsLeft() {
   // Red skeleton is not guaranteed since we can't guarantee we run out of yellow ray by then
 
   // eslint-disable-next-line libram/verify-constants
-  var leafyBoys = lib_have(template_string_$item(_templateObject68 || (_templateObject68 = lib_taggedTemplateLiteral(["rake"])))) ? Math.min(utils_sumNumbers([shadowRift, snojo, NEP, witchess, DMT, LOV, olivers, tentacle, sausageGoblin, XRay, shatteringPunch, mobHit, locketedWitchess, backups, noveltySkeleton]) * 2.5 / 11, 5 - (0,external_kolmafia_namespaceObject.toInt)(property_get("_leafMonstersFought"))) : 0;
+  var leafyBoys = haveInCampground(template_string_$item(_templateObject68 || (_templateObject68 = lib_taggedTemplateLiteral(["A Guide to Burning Leaves"])))) ? Math.min(utils_sumNumbers([shadowRift, snojo, NEP, witchess, DMT, LOV, olivers, tentacle, sausageGoblin, XRay, shatteringPunch, mobHit, locketedWitchess, backups, noveltySkeleton]) * 2.5 / 11, 5 - (0,external_kolmafia_namespaceObject.toInt)(property_get("_leafMonstersFought"))) : 0;
   return utils_sumNumbers([shadowRift, snojo, NEP, witchess, DMT, LOV, olivers, tentacle, sausageGoblin, XRay, shatteringPunch, mobHit, locketedWitchess, backups, noveltySkeleton, leafyBoys]);
 }
 function computeCombatFrequency() {
@@ -15294,13 +15294,6 @@ var LevelingQuest = {
     }
   }, {
     name: "Free Fight Leafy Boys",
-    /*ready: () =>
-      checkValue(
-        "inflammable leaf",
-        checkTurnSave("WeaponDamage", $effect`Spit Upon`) +
-          CommunityService.SpellDamage.turnsSavedBy($effect`Spit Upon`)
-      ),*/
-    // eslint-disable-next-line libram/verify-constants
     ready: () => lib_have(template_string_$item(_templateObject278 || (_templateObject278 = leveling_taggedTemplateLiteral(["inflammable leaf"]))), 11),
     prepare: () => {
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
@@ -15316,10 +15309,7 @@ var LevelingQuest = {
       }
     },
     completed: () => property_get("_leafMonstersFought", 0) >= 5,
-    do: () => {
-      (0,external_kolmafia_namespaceObject.visitUrl)("campground.php?preaction=leaves");
-      (0,external_kolmafia_namespaceObject.visitUrl)("choice.php?pwd&whichchoice=1510&leaves=11");
-    },
+    do: () => (0,external_kolmafia_namespaceObject.cliExecute)("leaves 11"),
     combat: new CombatStrategy().macro(combat_Macro.tryItem(template_string_$item(_templateObject285 || (_templateObject285 = leveling_taggedTemplateLiteral(["blue rocket"])))).tryItem(template_string_$item(_templateObject286 || (_templateObject286 = leveling_taggedTemplateLiteral(["red rocket"])))).default()),
     post: () => {
       leveling_sellMiscellaneousItems();
@@ -16264,13 +16254,9 @@ var RunStartQuest = {
     }
   }, {
     name: "Get Rake",
-    prepare: () => (0,external_kolmafia_namespaceObject.visitUrl)("tutorial.php?action=toot"),
-    // eslint-disable-next-line libram/verify-constants
-    completed: () => lib_have(template_string_$item(runstart_templateObject9 || (runstart_templateObject9 = runstart_taggedTemplateLiteral(["rake"])))) || property_get("_noBurningLeaves", false),
+    completed: () => lib_have(template_string_$item(runstart_templateObject9 || (runstart_templateObject9 = runstart_taggedTemplateLiteral(["rake"])))) || !haveInCampground(template_string_$item(runstart_templateObject10 || (runstart_templateObject10 = runstart_taggedTemplateLiteral(["A Guide to Burning Leaves"])))),
     do: () => {
-      (0,external_kolmafia_namespaceObject.visitUrl)("campground.php?preaction=leaves");
-      // eslint-disable-next-line libram/verify-constants
-      if (!lib_have(template_string_$item(runstart_templateObject10 || (runstart_templateObject10 = runstart_taggedTemplateLiteral(["rake"]))))) (0,external_kolmafia_namespaceObject.cliExecute)("set _noBurningLeaves = true");
+      (0,external_kolmafia_namespaceObject.cliExecute)("leaves");
     },
     limit: {
       tries: 1
@@ -18935,7 +18921,7 @@ var args = Args.create("FolgerCS", "An automated mid-shiny SCCS script.", {
 });
 var swapSkillTestOrder = CommunityService.SpellDamage.prediction >= 15;
 function main_main(command) {
-  sinceKolmafiaRevision(27667);
+  sinceKolmafiaRevision(27675);
   Args.fill(args, command);
   if (args.help) {
     Args.showHelp(args);
