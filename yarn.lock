@@ -2264,10 +2264,10 @@ kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-kolmafia@^5.27675.0:
-  version "5.27675.0"
-  resolved "https://registry.yarnpkg.com/kolmafia/-/kolmafia-5.27675.0.tgz#7efea114c04eeba7ffe450e756faaa5fc9b31c0b"
-  integrity sha512-y5yw8yfniHF/iWRzVGFFJI9Wmn6PwblXWVBZEDyn0Ua8fp9FPyn65S7/+LyNPAPjOmCf6303yperZD0Dr/5ycQ==
+kolmafia@^5.27681.0:
+  version "5.27681.0"
+  resolved "https://registry.yarnpkg.com/kolmafia/-/kolmafia-5.27681.0.tgz#472df6bf4eef6be1256a19fba793ff0a26bd505e"
+  integrity sha512-jiFM4SuC5w64S1uFDkBtwDa2FLJ7KTx7Oh+q4Ye+GQ9DgS4v0uVse/coA5V1lY5+CO3vUuO2Uvh8xfo5NV9/bg==
 
 levn@^0.4.1:
   version "0.4.1"
@@ -2277,10 +2277,10 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-libram@^0.8.15:
-  version "0.8.15"
-  resolved "https://registry.yarnpkg.com/libram/-/libram-0.8.15.tgz#b5880ae27e363320a9f9dc2dd24bd514e49b89d6"
-  integrity sha512-Rxp3WvKZ0PtcgPw1Ms4inuei8e6m6Q+JsW7RhCxOKoKdPXle+rns6o1EFXW0Ymf3bCCLJogUSfkvSv0/pPiH1w==
+libram@^0.8.16:
+  version "0.8.16"
+  resolved "https://registry.yarnpkg.com/libram/-/libram-0.8.16.tgz#5af31ec829256715e8e115f7b0589be006c6aa12"
+  integrity sha512-Z4o0rDS+B5egKdxXuT1VyMEWvKwkMjuGt2VSmpXpZvsHAxqu17vThtB9fjdHuMbI4Y/NsldVp2o29aBBnYGrfQ==
   dependencies:
     html-entities "^2.4.0"
 

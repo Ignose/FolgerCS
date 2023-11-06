@@ -120,6 +120,7 @@ import {
   rufusTarget,
 } from "libram/dist/resources/2023/ClosedCircuitPayphone";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
+import { burnSpecialLeaves } from "libram/dist/resources/2023/BurningLeaves";
 
 const useCinch = !get("instant_saveCinch", false);
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
@@ -850,73 +851,14 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Map Pocket Wishes",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
-          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase blue rocket!");
-          buy($item`blue rocket`, 1);
-        }
-        unbreakableUmbrella();
-        docBag();
-        restoreMp(50);
-        if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
-          if (myMeat() >= 250) buy($item`red rocket`, 1);
-        }
-      },
-      completed: () =>
-        !have($skill`Map the Monsters`) ||
-        !have($skill`Just the Facts`) ||
-        get("_monstersMapped") >= 3 ||
-        have($item`pocket wish`, 1) ||
-        get("instant_saveGenie", false) ||
-        myClass() !== $class`Seal Clubber` ||
-        ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
-          (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
-      do: () => mapMonster($location`The Haunted Kitchen`, $monster`paper towelgeist`),
-      combat: new CombatStrategy().macro(
-        Macro.if_(
-          $monster`paper towelgeist`,
-          Macro.tryItem($item`blue rocket`)
-            .tryItem($item`red rocket`)
-            .trySkill($skill`Chest X-Ray`)
-            .trySkill($skill`Gingerbread Mob Hit`)
-            .trySkill($skill`Shattering Punch`)
-            .default()
-        ).abort()
-      ),
-      post: () => {
-        sellMiscellaneousItems();
-        boomBoxProfit();
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Free Fight Leafy Boys",
       ready: () => have($item`inflammable leaf`, 11),
       prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
-          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase blue rocket!");
-          buy($item`blue rocket`, 1);
-        }
-        unbreakableUmbrella();
-        docBag();
         restoreMp(50);
-        if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
-          if (myMeat() >= 250) buy($item`red rocket`, 1);
-        }
       },
-      completed: () => get("_leafMonstersFought", 0) < 5,
-      do: (): void => {
-        cliExecute("leaves 11");
-        visitUrl("main.php");
-      },
-      combat: new CombatStrategy().macro(
-        Macro.tryItem($item`blue rocket`)
-          .tryItem($item`red rocket`)
-          .default()
-      ),
+      completed: () => get("_leafMonstersFought", 0) < 5 || !have($item`inflammable leaf`, 11),
+      do: () => burnSpecialLeaves($monster`flaming leaflet`),
+      combat: new CombatStrategy().macro(Macro.default()),
       post: (): void => {
         sellMiscellaneousItems();
         boomBoxProfit();
@@ -1032,9 +974,6 @@ export const LevelingQuest: Quest = {
         (!have(reagentBoosterIngredient) && !have(reagentBoosterItem)) ||
         have(reagentBoosterEffect),
       do: (): void => {
-        print(
-          `Completed condition: ${!have(reagentBoosterIngredient) && !have(reagentBoosterItem)}`
-        );
         if (!have(reagentBoosterItem)) {
           if (get("reagentSummons") === 0) useSkill($skill`Advanced Saucecrafting`, 1);
           create(reagentBoosterItem, 1);
@@ -1403,6 +1342,49 @@ export const LevelingQuest: Quest = {
         sellMiscellaneousItems();
         boomBoxProfit();
       },
+    },
+    {
+      name: "Map Pocket Wishes",
+      after: ["Oliver's Place (Map)"],
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
+          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase blue rocket!");
+          buy($item`blue rocket`, 1);
+        }
+        unbreakableUmbrella();
+        docBag();
+        restoreMp(50);
+        if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
+          if (myMeat() >= 250) buy($item`red rocket`, 1);
+        }
+      },
+      completed: () =>
+        !have($skill`Map the Monsters`) ||
+        !have($skill`Just the Facts`) ||
+        get("_monstersMapped") >= 3 ||
+        have($item`pocket wish`, 1) ||
+        get("instant_saveGenie", false) ||
+        myClass() !== $class`Seal Clubber` ||
+        ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
+          (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
+      do: () => mapMonster($location`The Haunted Kitchen`, $monster`paper towelgeist`),
+      combat: new CombatStrategy().macro(
+        Macro.if_(
+          $monster`paper towelgeist`,
+          Macro.tryItem($item`blue rocket`)
+            .tryItem($item`red rocket`)
+            .trySkill($skill`Chest X-Ray`)
+            .trySkill($skill`Gingerbread Mob Hit`)
+            .trySkill($skill`Shattering Punch`)
+            .default()
+        ).abort()
+      ),
+      post: () => {
+        sellMiscellaneousItems();
+        boomBoxProfit();
+      },
+      limit: { tries: 1 },
     },
     {
       name: "God Lobster",

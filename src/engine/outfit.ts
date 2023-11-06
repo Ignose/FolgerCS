@@ -109,12 +109,12 @@ export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
     .map((i) => toInt(i));
   const defaultFam = have($familiar`Cookbookbat`) ? $familiar`Cookbookbat` : $familiar.none;
   const familiars = [
+    melodramedary,
     shorterOrderCook,
     garbageFire,
     nanorhino,
     optimisticCandle,
     rockinRobin,
-    melodramedary,
     sombrero,
   ]
     .map((fn) => fn(allowAttackingFamiliars))
@@ -158,7 +158,9 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
     famequip:
       have($item`dromedary drinking helmet`) && chooseFamiliar() === $familiar`Melodramedary`
         ? $item`dromedary drinking helmet`
-        : have($item`tiny rake`) && chooseFamiliar() === $familiar`Melodramedary` && get("_leafMonstersFought", 0) < 5
+        : have($item`tiny rake`) &&
+          chooseFamiliar() === $familiar`Melodramedary` &&
+          get("_leafMonstersFought", 0) < 5
         ? $item`tiny rake`
         : undefined,
     modifier: `0.25 ${statToMaximizerString(

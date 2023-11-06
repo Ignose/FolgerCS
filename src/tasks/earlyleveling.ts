@@ -58,7 +58,6 @@ import { boomBoxProfit } from "../lib";
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
-let pledgeCheck = false;
 
 let _bestShadowRift: Location | null = null;
 export function bestShadowRift(): Location {
@@ -214,8 +213,7 @@ export const earlyLevelingQuest: Quest = {
       do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
       combat: get("_daycareGymScavenges")
         ? new CombatStrategy().macro(
-            Macro.trySkill($skill`Bowl a Curveball`)
-              .trySkill($skill`Snokebomb`)
+            Macro.trySkill($skill`Snokebomb`)
               .trySkill($skill`Reflex Hammer`)
               .trySkill($skill`Chest X-Ray`)
               .trySkill($skill`Gingerbread Mob Hit`)
@@ -251,12 +249,7 @@ export const earlyLevelingQuest: Quest = {
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Feel Nostalgic`)
           .tryItem($item`red rocket`)
-          .if_(
-            $monster`novelty tropical skeleton`,
-            (useParkaSpit ? Macro.trySkill($skill`Spit jurassic acid`) : new Macro()).tryItem(
-              $item`yellow rocket`
-            )
-          )
+          .trySkill($skill`Spit jurassic acid`)
           .abort()
       ),
       outfit: () => ({
@@ -383,7 +376,6 @@ export const earlyLevelingQuest: Quest = {
       completed: () =>
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
-        pledgeCheck ||
         get("_pledgeCheck", false),
       do: $location`Madness Bakery`,
       combat: new CombatStrategy().macro(
@@ -403,11 +395,11 @@ export const earlyLevelingQuest: Quest = {
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
       }),
       post: () => {
-        sellMiscellaneousItems(), (pledgeCheck = true);
+        sellMiscellaneousItems();
         cliExecute("set _pledgeCheck = true");
         boomBoxProfit();
       },
-      limit: { tries: 1 },
+      limit: { tries: 2 },
     },
     {
       name: "Bastille",
