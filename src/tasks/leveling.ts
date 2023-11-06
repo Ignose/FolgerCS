@@ -121,6 +121,7 @@ import {
 } from "libram/dist/resources/2023/ClosedCircuitPayphone";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
 import { burnSpecialLeaves } from "libram/dist/resources/2023/BurningLeaves";
+import { cheatCard, getRemainingCheats } from "libram/dist/resources/2015/DeckOfEveryCard";
 
 const useCinch = !get("instant_saveCinch", false);
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
@@ -559,12 +560,12 @@ export const LevelingQuest: Quest = {
       name: "Grab Green Mana",
       ready: () => have($item`Deck of Every Card`),
       completed: () =>
-        get("_deckCardsDrawn") >= 10 ||
+        getRemainingCheats() <= 2 ||
         get("instant_saveDeck", false) ||
         have($effect`Giant Growth`) ||
         !have($skill`Giant Growth`),
       do: (): void => {
-        cliExecute("cheat green mana");
+        cheatCard("Forest");
       },
       limit: { tries: 1 },
     },
