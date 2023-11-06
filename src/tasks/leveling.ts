@@ -856,7 +856,7 @@ export const LevelingQuest: Quest = {
       prepare: (): void => {
         restoreMp(50);
       },
-      completed: () => get("_leafMonstersFought", 0) < 5 || !have($item`inflammable leaf`, 11),
+      completed: () => get("_leafMonstersFought", 0) >= 5 || !have($item`inflammable leaf`, 11),
       do: () => burnSpecialLeaves($monster`flaming leaflet`),
       combat: new CombatStrategy().macro(Macro.default()),
       post: (): void => {
