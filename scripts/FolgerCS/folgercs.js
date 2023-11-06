@@ -15325,7 +15325,7 @@ var LevelingQuest = {
     prepare: () => {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
-    completed: () => property_get("_leafMonstersFought", 0) < 5 || !lib_have(template_string_$item(_templateObject259 || (_templateObject259 = leveling_taggedTemplateLiteral(["inflammable leaf"]))), 11),
+    completed: () => property_get("_leafMonstersFought", 0) >= 5 || !lib_have(template_string_$item(_templateObject259 || (_templateObject259 = leveling_taggedTemplateLiteral(["inflammable leaf"]))), 11),
     do: () => burnSpecialLeaves($monster(_templateObject260 || (_templateObject260 = leveling_taggedTemplateLiteral(["flaming leaflet"])))),
     combat: new CombatStrategy().macro(combat_Macro["default"]()),
     post: () => {
