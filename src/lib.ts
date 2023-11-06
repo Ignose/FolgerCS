@@ -663,9 +663,10 @@ function checkPrice(thing: Thing): number {
         return 15000;
       case "ClipArt":
         return mallPrice($item`box of Familiar Jacks`);
-      /*case "inflammable leaf":
-        if(get("camelSpit") >= 100) return 0;
-        return mallPrice($item`lit leaf lasso`) * 11 / 69;*/
+      case "Spleen":
+        return have($item`miniature crystal ball`)
+          ? get("valueOfAdventure", 4000) * 2 * get("garbo_embezzlerMultiplier", 2.5)
+          : get("valueOfAdventure", 4000) * 1.5 * get("garbo_embezzlerMultiplier", 2.5);
       default:
         return 0;
     }

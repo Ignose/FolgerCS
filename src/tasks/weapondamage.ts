@@ -199,6 +199,17 @@ export const WeaponDamageQuest: Quest = {
         }
 
         if (
+          get("instant_synthExperiment", false) &&
+          CommunityService.WeaponDamage.actualCost() > 2 &&
+          get("tomeSummons") <= 1 &&
+          have($skill`Summon Sugar Sheets`)
+        ) {
+          if (!have($item`sugar sheet`) && !have($item`sugar shank`))
+            useSkill($skill`Summon Sugar Sheets`, 1);
+          if (!have($item`sugar shank`)) create($item`sugar shank`);
+        }
+
+        if (
           CommunityService.WeaponDamage.turnsSavedBy($effect`Weapon of Mass Destruction`) >= 2 &&
           !get("_madTeaParty")
         ) {

@@ -189,6 +189,10 @@ const otherResources: Resource[] = [
     "instant_skipBorrowedTime",
     "Do not use borrowed time. Level to 5 using trainset, and eat pizzas to get coil adventures. Make sure you know what you're doing before using this."
   ),
+  new Resource(
+    "instant_synthExperiment",
+    "Use Tome of Sugar Summoning x2 to save 10 turns on item test?"
+  ),
 ];
 
 const allResources = [

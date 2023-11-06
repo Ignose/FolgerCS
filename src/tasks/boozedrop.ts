@@ -18,6 +18,7 @@ import {
   print,
   retrieveItem,
   runChoice,
+  sweetSynthesis,
   use,
   useFamiliar,
   useSkill,
@@ -301,6 +302,18 @@ export const BoozeDropQuest: Quest = {
           checkValue("Deck Cheat", checkTurnSave("BoozeDrop", $effect`Fortune of the Wheel`))
         )
           cliExecute("cheat fortune");
+
+        if (
+          get("instant_synthExperiment", false) &&
+          checkValue("Spleen", checkTurnSave("BoozeDrop", $effect`Synthesis: Collection`)) &&
+          ((have($item`sugar shank`) && get("tomeSummons") <= 2) || get("tomeSummons") <= 1) &&
+          have($skill`Summon Sugar Sheets`)
+        ) {
+          if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
+          if (!have($item`sugar shank`)) create($item`sugar shank`);
+          if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
+          sweetSynthesis($item`sugar shank`, $item`sugar sheet`);
+        }
 
         if (checkValue($item`pocket wish`, checkTurnSave("BoozeDrop", $effect`Infernal Thirst`)))
           wishFor($effect`Infernal Thirst`);
