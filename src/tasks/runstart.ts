@@ -207,6 +207,9 @@ export const RunStartQuest: Quest = {
         if (have($item`Newbiesport™ tent`)) use($item`Newbiesport™ tent`);
       },
       do: (): void => {
+        if (myMeat() >= 2000) {
+          restoreMp(50);
+        }
         if (get("chateauAvailable")) {
           visitUrl("place.php?whichplace=chateau&action=chateau_restbox");
         } else if (get("getawayCampsiteUnlocked")) {
