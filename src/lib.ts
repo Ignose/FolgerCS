@@ -673,6 +673,19 @@ function checkPrice(thing: Thing): number {
   return 0;
 }
 
+export function saveLeafyBoys(): boolean {
+  if (
+    get("_leafMonstersFought") < 3 &&
+    (get("camelSpit") < 15 || get("camelSpit") >= 100 || have($effect`Spit Upon`)) &&
+    (have($item`short stack of pancakes`) || !have($familiar`Shorter-Order Cook`)) &&
+    (have($item`robin's egg`) || !have($familiar`Rockin' Robin`)) &&
+    (have($item`glob of melted wax`) || !have($familiar`Optimistic Candle`)) &&
+    (have($item`burning newspaper`) || !have($familiar`Garbage Fire`))
+  )
+    return true;
+  return false;
+}
+
 export function checkTurnSave(test: string, ef: Effect): number {
   switch (test) {
     case "BoozeDrop":
