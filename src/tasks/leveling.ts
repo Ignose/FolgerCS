@@ -1138,7 +1138,7 @@ export const LevelingQuest: Quest = {
                 `!mpbelow ${mpCost($skill`Saucestorm`)} && hasskill ${toInt($skill`Saucestorm`)}`,
                 Macro.skill($skill`Saucestorm`)
               )
-              .default()
+              .repeat()
           )
           .if_($monster`LOV Equivocator`, Macro.default())
       ),

@@ -270,6 +270,13 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Feeling Lost",
+      ready: () => CommunityService.WeaponDamage.isDone(),
+      completed: () => have($effect`Feeling Lost`) || !have($skill`Feel Lost`),
+      do: () => useSkill($skill`Feel Lost`),
+      limit: { tries: 1 },
+    },
+    {
       name: "Driving Observantly",
       completed: () => have($effect`Driving Observantly`) || !get("instant_useAsdon", false),
       do: (): void => {
@@ -338,7 +345,11 @@ export const BoozeDropQuest: Quest = {
         if (checkValue($item`pocket wish`, checkTurnSave("BoozeDrop", $effect`Infernal Thirst`)))
           wishFor($effect`Infernal Thirst`);
 
-        if (checkValue("August Scepter", checkTurnSave("BoozeDrop", $effect`Incredibly Well Lit`)))
+        if (
+          checkValue("August Scepter", checkTurnSave("BoozeDrop", $effect`Incredibly Well Lit`)) ||
+          (CommunityService.WeaponDamage.isDone() &&
+            checkTurnSave("BoozeDrop", $effect`Incredibly Well Lit`) > 1)
+        )
           tryAcquiringEffect($effect`Incredibly Well Lit`);
       },
       completed: () => CommunityService.BoozeDrop.isDone(),
