@@ -16446,6 +16446,9 @@ var RunStartQuest = {
       if (lib_have(template_string_$item(runstart_templateObject31 || (runstart_templateObject31 = runstart_taggedTemplateLiteral(["Newbiesport\u2122 tent"]))))) (0,external_kolmafia_namespaceObject.use)(template_string_$item(runstart_templateObject32 || (runstart_templateObject32 = runstart_taggedTemplateLiteral(["Newbiesport\u2122 tent"]))));
     },
     do: () => {
+      if ((0,external_kolmafia_namespaceObject.myMeat)() >= 2000) {
+        (0,external_kolmafia_namespaceObject.restoreMp)(50);
+      }
       if (property_get("chateauAvailable")) {
         (0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=chateau&action=chateau_restbox");
       } else if (property_get("getawayCampsiteUnlocked")) {
