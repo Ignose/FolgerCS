@@ -357,7 +357,7 @@ export const earlyLevelingQuest: Quest = {
         ...baseOutfit,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
       }),
-      post: () => {
+      post: (): void => {
         sellMiscellaneousItems();
         boomBoxProfit();
       },
@@ -394,7 +394,7 @@ export const earlyLevelingQuest: Quest = {
         familiar: $familiar`Patriotic Eagle`,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
       }),
-      post: () => {
+      post: (): void => {
         sellMiscellaneousItems();
         cliExecute("set _pledgeCheck = true");
         boomBoxProfit();

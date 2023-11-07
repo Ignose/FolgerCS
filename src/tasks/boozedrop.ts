@@ -225,10 +225,30 @@ export const BoozeDropQuest: Quest = {
         get("availableMrStore2002Credits", 0) <= get("instant_saveCatalogCredits", 0) ||
         forbiddenEffects.includes($effect`Spitting Rhymes`),
       do: (): void => {
-        if (!have($item`Loathing Idol Microphone`)) {
+        if (
+          !have($item`Loathing Idol Microphone`) ||
+          $item`Loathing Idol Microphone (75% charged)`
+        ) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
         }
-        withChoice(1505, 3, () => use($item`Loathing Idol Microphone`));
+        withChoice(1505, 3, () =>
+          use($item`Loathing Idol Microphone` || $item`Loathing Idol Microphone (75% charged)`)
+        );
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Red-soled high heels",
+      ready: () => checkValue("2002", 3),
+      completed: () =>
+        have($item`red-soled high heels`) ||
+        !have($item`2002 Mr. Store Catalog`) ||
+        get("availableMrStore2002Credits", 0) <= get("instant_saveCatalogCredits", 0),
+      do: (): void => {
+        if (!have($item`Letter from Carrie Bradshaw`)) {
+          buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
+        }
+        withChoice(1506, 3, () => use($item`Letter from Carrie Bradshaw`));
       },
       limit: { tries: 1 },
     },

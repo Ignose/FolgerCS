@@ -845,7 +845,7 @@ export const LevelingQuest: Quest = {
         ...baseOutfit,
         familiar: $familiar`Trick-or-Treating Tot`,
       }),
-      post: () => {
+      post: (): void => {
         sellMiscellaneousItems();
         boomBoxProfit();
       },
@@ -1104,7 +1104,7 @@ export const LevelingQuest: Quest = {
         ...baseOutfit,
         familiar: $familiar`Patriotic Eagle`,
       }),
-      post: () => {
+      post: (): void => {
         sellMiscellaneousItems(), cliExecute("set _pledgeCheck = true");
       },
       limit: { tries: 1 },
@@ -1381,7 +1381,7 @@ export const LevelingQuest: Quest = {
             .default()
         ).abort()
       ),
-      post: () => {
+      post: (): void => {
         sellMiscellaneousItems();
         boomBoxProfit();
       },

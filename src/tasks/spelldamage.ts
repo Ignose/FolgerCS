@@ -16,7 +16,6 @@ import {
   restoreHp,
   restoreMp,
   retrieveItem,
-  takeStorage,
   useSkill,
   visitUrl,
 } from "kolmafia";
@@ -38,14 +37,7 @@ import {
   Witchess,
 } from "libram";
 import { Quest } from "../engine/task";
-import {
-  checkPull,
-  checkValue,
-  logTestSetup,
-  shrugAT,
-  startingClan,
-  tryAcquiringEffect,
-} from "../lib";
+import { checkValue, logTestSetup, shrugAT, startingClan, tryAcquiringEffect } from "../lib";
 import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { forbiddenEffects } from "../resources";
