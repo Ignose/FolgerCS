@@ -309,7 +309,7 @@ export const BoozeDropQuest: Quest = {
           checkValue(
             $item`battery (lantern)`,
             checkTurnSave("BoozeDrop", $effect`Lantern-Charged`) +
-              (!swapSkillTestOrder ? checkTurnSave("SpellDamage", $effect`Lantern-Charged`) : 0)
+              (swapSkillTestOrder ? checkTurnSave("SpellDamage", $effect`Lantern-Charged`) : 0)
           )
         ) {
           if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);

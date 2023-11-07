@@ -120,7 +120,6 @@ import {
   rufusTarget,
 } from "libram/dist/resources/2023/ClosedCircuitPayphone";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
-import { burnSpecialLeaves } from "libram/dist/resources/2023/BurningLeaves";
 import { cheatCard, getRemainingCheats } from "libram/dist/resources/2015/DeckOfEveryCard";
 
 const useCinch = !get("instant_saveCinch", false);
@@ -853,12 +852,11 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Free Fight Leafy Boys",
-      ready: () => have($item`inflammable leaf`, 11),
-      prepare: (): void => {
-        restoreMp(50);
-      },
       completed: () => get("_leafMonstersFought", 0) >= 5 || !have($item`inflammable leaf`, 11),
-      do: () => burnSpecialLeaves($monster`flaming leaflet`),
+      do: (): void => {
+        visitUrl("campground.php?preaction=leaves");
+        visitUrl("choice.php?pwd&whichchoice=1510&option=1&leaves=11");
+      },
       combat: new CombatStrategy().macro(Macro.default()),
       post: (): void => {
         sellMiscellaneousItems();
