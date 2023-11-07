@@ -50,6 +50,15 @@ export const NoncombatQuest: Quest = {
       limit: { tries: 3 },
     },
     {
+      name: "Invisible Avatar",
+      completed: () =>
+        have($effect`Invisible Avatar`) ||
+        !have($item`Powerful Glove`) ||
+        get("instant_savePowerfulGlove", false),
+      do: () => useSkill($skill`CHEAT CODE: Invisible Avatar`),
+      limit: { tries: 1 },
+    },
+    {
       name: "Buy Porkpie-mounted Popper",
       completed: () =>
         have($item`porkpie-mounted popper`) ||
