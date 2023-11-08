@@ -179,7 +179,7 @@ const otherResources: Resource[] = [
   ),
   new Resource(
     "instant_experimentPulls",
-    "Automatically use pulls for Stick Knife, Soda, Diaper and/or Trousers?"
+    "Automatically use pulls for Stick Knife, Soda, Diaper and/or Trousers? Default: Yes"
   ),
   new Resource(
     "instant_camelExperiment",
@@ -188,14 +188,6 @@ const otherResources: Resource[] = [
   new Resource(
     "instant_skipBorrowedTime",
     "Do not use borrowed time. Level to 5 using trainset, and eat pizzas to get coil adventures. Make sure you know what you're doing before using this."
-  ),
-  new Resource(
-    "instant_synthExperiment",
-    "Use Tome of Sugar Summoning x2 to save 10 turns on item test?"
-  ),
-  new Resource(
-    "instant_BoozeLast",
-    "Do item test last, losing some battery benefit in exchange for feel lost?"
   ),
 ];
 
