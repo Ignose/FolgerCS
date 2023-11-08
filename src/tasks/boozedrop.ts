@@ -56,6 +56,19 @@ import Macro from "../combat";
 import { forbiddenEffects } from "../resources";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
 
+function wishOrSpleen(): boolean {
+  if (
+    (checkTurnSave("BoozeDrop", $effect`Infernal Thirst`) -
+      checkTurnSave("BoozeDrop", $effect`Synthesis: Collection`)) *
+      get("valueOfAdventure", 4000) -
+      50000 +
+      get("valueOfAdventure", 4000) * 2 * get("garbo_embezzlerMultiplier", 2.5) >
+    0
+  )
+    return true;
+  return false;
+}
+
 export const BoozeDropQuest: Quest = {
   name: "Booze Drop",
   completed: () => CommunityService.BoozeDrop.isDone(),
@@ -324,7 +337,7 @@ export const BoozeDropQuest: Quest = {
         }
 
         if (
-          get("instant_synthExperiment", false) &&
+          !wishOrSpleen() &&
           checkValue("Spleen", checkTurnSave("BoozeDrop", $effect`Synthesis: Collection`)) &&
           ((have($item`sugar shank`) && get("tomeSummons") <= 2) || get("tomeSummons") <= 1) &&
           have($skill`Summon Sugar Sheets`)
