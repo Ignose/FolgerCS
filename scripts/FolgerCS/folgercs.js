@@ -16267,7 +16267,7 @@ var BEST_INITIATIVE = byClass({
   "Accordion Thief": 2,
   // Booze Drop: 30
   Pastamancer: 2,
-  // Familiar exp: 2
+  // Weapon Damage Percent: 2
   Sauceror: 1,
   // Exp: 3
   default: 0
