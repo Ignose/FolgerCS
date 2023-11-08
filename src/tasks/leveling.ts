@@ -487,7 +487,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Pull Buddy Bjorn",
-      ready: () => get("instant_experimentPulls", false),
+      ready: () => get("instant_experimentPulls", true),
       completed: () => checkPull($item`Buddy Bjorn`),
       do: (): void => {
         takeStorage($item`Buddy Bjorn`, 1);
@@ -496,7 +496,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Pull Stick-Knife",
-      ready: () => get("instant_experimentPulls", false),
+      ready: () => get("instant_experimentPulls", true),
       completed: () => checkPull($item`Stick-Knife of Loathing`),
       do: (): void => {
         takeStorage($item`Stick-Knife of Loathing`, 1);
@@ -505,7 +505,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Pull Repaid Diaper",
-      ready: () => get("instant_experimentPulls", false),
+      ready: () => get("instant_experimentPulls", true),
       completed: () =>
         checkPull($item`Great Wolf's beastly trousers`) || checkPull($item`repaid diaper`),
       do: (): void => {
@@ -515,7 +515,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Pull Beastly Trousers",
-      ready: () => get("instant_experimentPulls", false),
+      ready: () => get("instant_experimentPulls", true),
       completed: () =>
         checkPull($item`Great Wolf's beastly trousers`) || have($item`astral trousers`),
       do: (): void => {
@@ -525,7 +525,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Pull Staff of Simering Hatred",
-      ready: () => get("instant_experimentPulls", false),
+      ready: () => get("instant_experimentPulls", true),
       completed: () => checkPull($item`Staff of Simmering Hatred`),
       do: (): void => {
         takeStorage($item`Staff of Simmering Hatred`, 1);
@@ -534,7 +534,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Pull Tobiko Marble Soda",
-      ready: () => get("instant_experimentPulls", false),
+      ready: () => get("instant_experimentPulls", true),
       completed: () => checkPull($item`tobiko marble soda`),
       do: (): void => {
         takeStorage($item`tobiko marble soda`, 1);
