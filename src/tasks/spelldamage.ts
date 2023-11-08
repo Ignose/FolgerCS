@@ -37,7 +37,14 @@ import {
   Witchess,
 } from "libram";
 import { Quest } from "../engine/task";
-import { checkValue, logTestSetup, shrugAT, startingClan, tryAcquiringEffect } from "../lib";
+import {
+  checkTurnSave,
+  checkValue,
+  logTestSetup,
+  shrugAT,
+  startingClan,
+  tryAcquiringEffect,
+} from "../lib";
 import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { forbiddenEffects } from "../resources";
@@ -187,7 +194,6 @@ export const SpellDamageQuest: Quest = {
         )
           retrieveItem($item`tobiko marble soda`);
         const usefulEffects: Effect[] = [
-          $effect`AAA-Charged`,
           $effect`Arched Eyebrow of the Archmage`,
           $effect`Carol of the Hells`,
           $effect`Cowrruption`,
@@ -213,6 +219,9 @@ export const SpellDamageQuest: Quest = {
           tryAcquiringEffect($effect`Ode to Booze`);
           drink(wines.filter((booze) => have(booze))[0], 1);
         }
+
+        if (checkValue($item`battery (AAA)`, checkTurnSave("SpellDamage", $effect`AAA-Charged`)))
+          tryAcquiringEffect($effect`AAA-Charged`, true);
 
         if (!get("_madTeaParty") && !Witchess.have()) {
           if (!have($item`mariachi hat`)) retrieveItem(1, $item`chewing gum on a string`);
