@@ -50,8 +50,6 @@ export const args = Args.create("FolgerCS", "An automated mid-shiny SCCS script.
   recap: Args.flag({ help: "Recap of today's run.", setting: "" }),
 });
 
-export const swapSkillTestOrder = get("instant_BoozeLast", false) ? false : true;
-
 export function main(command?: string): void {
   sinceKolmafiaRevision(27675);
 
@@ -89,7 +87,7 @@ export function main(command?: string): void {
 
   const swapMainStatTest = have($item`Deck of Every Card`) && myPrimestat === $stat`Muscle`;
 
-  const nonComSwapOrder = CommunityService.FamiliarWeight.prediction >= 14 && swapSkillTestOrder;
+  const nonComSwapOrder = CommunityService.FamiliarWeight.prediction >= 14;
 
   const tasks: Task[] = getTasks([
     RunStartQuest,
@@ -103,9 +101,9 @@ export function main(command?: string): void {
     HotResQuest,
     nonComSwapOrder ? FamiliarWeightQuest : NoncombatQuest,
     nonComSwapOrder ? NoncombatQuest : FamiliarWeightQuest,
-    swapSkillTestOrder ? BoozeDropQuest : WeaponDamageQuest,
-    swapSkillTestOrder ? WeaponDamageQuest : SpellDamageQuest,
-    swapSkillTestOrder ? SpellDamageQuest : BoozeDropQuest,
+    BoozeDropQuest,
+    WeaponDamageQuest,
+    SpellDamageQuest,
     DonateQuest,
   ]);
   const engine = new Engine(tasks);
