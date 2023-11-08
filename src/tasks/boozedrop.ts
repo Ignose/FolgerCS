@@ -55,7 +55,6 @@ import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { forbiddenEffects } from "../resources";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
-import { swapSkillTestOrder } from "../main";
 
 export const BoozeDropQuest: Quest = {
   name: "Booze Drop",
@@ -271,8 +270,20 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Feeling Lost",
-      ready: () => CommunityService.WeaponDamage.isDone(),
+      ready: () => CommunityService.SpellDamage.isDone(),
       completed: () => have($effect`Feeling Lost`) || !have($skill`Feel Lost`),
+      do: () => useSkill($skill`Feel Lost`),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Alternative Feeling Lost",
+      completed: () =>
+        have($effect`Feeling Lost`) ||
+        !have($skill`Feel Lost`) ||
+        get("camelSpit") >= 100 ||
+        have($familiar`Machine Elf`) ||
+        have($skill`Meteor Lore`) ||
+        have($familiar`Ghost of Crimbo Carols`),
       do: () => useSkill($skill`Feel Lost`),
       limit: { tries: 1 },
     },
@@ -313,10 +324,31 @@ export const BoozeDropQuest: Quest = {
         }
 
         if (
+          get("instant_synthExperiment", false) &&
+          checkValue("Spleen", checkTurnSave("BoozeDrop", $effect`Synthesis: Collection`)) &&
+          ((have($item`sugar shank`) && get("tomeSummons") <= 2) || get("tomeSummons") <= 1) &&
+          have($skill`Summon Sugar Sheets`)
+        ) {
+          if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
+          if (!have($item`sugar shank`)) create($item`sugar shank`);
+          if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
+          sweetSynthesis($item`sugar shank`, $item`sugar sheet`);
+        }
+
+        if (
+          checkValue("August Scepter", checkTurnSave("BoozeDrop", $effect`Incredibly Well Lit`)) ||
+          (CommunityService.WeaponDamage.isDone() &&
+            checkTurnSave("BoozeDrop", $effect`Incredibly Well Lit`) > 1)
+        )
+          tryAcquiringEffect($effect`Incredibly Well Lit`);
+
+        if (
           checkValue(
             $item`battery (lantern)`,
             checkTurnSave("BoozeDrop", $effect`Lantern-Charged`) +
-              (swapSkillTestOrder ? checkTurnSave("SpellDamage", $effect`Lantern-Charged`) : 0)
+              (!CommunityService.SpellDamage.isDone()
+                ? checkTurnSave("SpellDamage", $effect`Lantern-Charged`)
+                : 0)
           )
         ) {
           if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);
@@ -330,27 +362,8 @@ export const BoozeDropQuest: Quest = {
         )
           cliExecute("cheat fortune");
 
-        if (
-          get("instant_synthExperiment", false) &&
-          checkValue("Spleen", checkTurnSave("BoozeDrop", $effect`Synthesis: Collection`)) &&
-          ((have($item`sugar shank`) && get("tomeSummons") <= 2) || get("tomeSummons") <= 1) &&
-          have($skill`Summon Sugar Sheets`)
-        ) {
-          if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
-          if (!have($item`sugar shank`)) create($item`sugar shank`);
-          if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
-          sweetSynthesis($item`sugar shank`, $item`sugar sheet`);
-        }
-
         if (checkValue($item`pocket wish`, checkTurnSave("BoozeDrop", $effect`Infernal Thirst`)))
           wishFor($effect`Infernal Thirst`);
-
-        if (
-          checkValue("August Scepter", checkTurnSave("BoozeDrop", $effect`Incredibly Well Lit`)) ||
-          (CommunityService.WeaponDamage.isDone() &&
-            checkTurnSave("BoozeDrop", $effect`Incredibly Well Lit`) > 1)
-        )
-          tryAcquiringEffect($effect`Incredibly Well Lit`);
       },
       completed: () => CommunityService.BoozeDrop.isDone(),
       do: (): void => {

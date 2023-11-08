@@ -50,7 +50,7 @@ export const args = Args.create("FolgerCS", "An automated mid-shiny SCCS script.
   recap: Args.flag({ help: "Recap of today's run.", setting: "" }),
 });
 
-export const swapSkillTestOrder = CommunityService.SpellDamage.prediction >= 15;
+export const swapSkillTestOrder = get("instant_BoozeLast", false) ? false : true;
 
 export function main(command?: string): void {
   sinceKolmafiaRevision(27675);

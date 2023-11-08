@@ -685,7 +685,8 @@ export function saveLeafyBoys(): boolean {
       camelFightsLeft() < 11) &&
     (have($item`robin's egg`) || !have($familiar`Rockin' Robin`)) &&
     (have($item`glob of melted wax`) || !have($familiar`Optimistic Candle`)) &&
-    (have($item`burning newspaper`) || !have($familiar`Garbage Fire`))
+    (have($item`burning newspaper`) || !have($familiar`Garbage Fire`)) &&
+    !have($familiar`Machine Elf`)
   )
     return true;
   return false;

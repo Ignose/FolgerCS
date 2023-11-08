@@ -193,6 +193,10 @@ const otherResources: Resource[] = [
     "instant_synthExperiment",
     "Use Tome of Sugar Summoning x2 to save 10 turns on item test?"
   ),
+  new Resource(
+    "instant_BoozeLast",
+    "Do item test last, losing some battery benefit in exchange for feel lost?"
+  ),
 ];
 
 const allResources = [
