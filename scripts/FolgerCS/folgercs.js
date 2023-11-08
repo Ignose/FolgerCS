@@ -4655,8 +4655,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
   args: () => (/* binding */ args),
-  main: () => (/* binding */ main_main),
-  swapSkillTestOrder: () => (/* binding */ swapSkillTestOrder)
+  main: () => (/* binding */ main_main)
 });
 
 ;// CONCATENATED MODULE: external "kolmafia"
@@ -19007,7 +19006,6 @@ var args = Args.create("FolgerCS", "An automated mid-shiny SCCS script.", {
     setting: ""
   })
 });
-var swapSkillTestOrder = property_get("instant_BoozeLast", false) ? false : true;
 function main_main(command) {
   sinceKolmafiaRevision(27675);
   Args.fill(args, command);
@@ -19039,8 +19037,8 @@ function main_main(command) {
   (0,external_kolmafia_namespaceObject.visitUrl)("main.php");
   (0,external_kolmafia_namespaceObject.cliExecute)("refresh all");
   var swapMainStatTest = lib_have(template_string_$item(main_templateObject || (main_templateObject = main_taggedTemplateLiteral(["Deck of Every Card"])))) && external_kolmafia_namespaceObject.myPrimestat === template_string_$stat(main_templateObject2 || (main_templateObject2 = main_taggedTemplateLiteral(["Muscle"])));
-  var nonComSwapOrder = CommunityService.FamiliarWeight.prediction >= 14 && swapSkillTestOrder;
-  var tasks = getTasks([RunStartQuest, earlyLevelingQuest, CoilWireQuest, LevelingQuest, swapMainStatTest ? MoxieQuest : MuscleQuest, swapMainStatTest ? MysticalityQuest : HPQuest, swapMainStatTest ? MuscleQuest : MysticalityQuest, swapMainStatTest ? HPQuest : MoxieQuest, HotResQuest, nonComSwapOrder ? FamiliarWeightQuest : NoncombatQuest, nonComSwapOrder ? NoncombatQuest : FamiliarWeightQuest, swapSkillTestOrder ? BoozeDropQuest : WeaponDamageQuest, swapSkillTestOrder ? WeaponDamageQuest : SpellDamageQuest, swapSkillTestOrder ? SpellDamageQuest : BoozeDropQuest, DonateQuest]);
+  var nonComSwapOrder = CommunityService.FamiliarWeight.prediction >= 14;
+  var tasks = getTasks([RunStartQuest, earlyLevelingQuest, CoilWireQuest, LevelingQuest, swapMainStatTest ? MoxieQuest : MuscleQuest, swapMainStatTest ? MysticalityQuest : HPQuest, swapMainStatTest ? MuscleQuest : MysticalityQuest, swapMainStatTest ? HPQuest : MoxieQuest, HotResQuest, nonComSwapOrder ? FamiliarWeightQuest : NoncombatQuest, nonComSwapOrder ? NoncombatQuest : FamiliarWeightQuest, BoozeDropQuest, WeaponDamageQuest, SpellDamageQuest, DonateQuest]);
   var engine = new engine_Engine(tasks);
   try {
     (0,external_kolmafia_namespaceObject.setAutoAttack)(0);
