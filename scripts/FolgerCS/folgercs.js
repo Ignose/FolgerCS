@@ -14991,7 +14991,7 @@ var LevelingQuest = {
     }
   }, {
     name: "Pull Buddy Bjorn",
-    ready: () => property_get("instant_experimentPulls", false),
+    ready: () => property_get("instant_experimentPulls", true),
     completed: () => checkPull(template_string_$item(_templateObject152 || (_templateObject152 = leveling_taggedTemplateLiteral(["Buddy Bjorn"])))),
     do: () => {
       (0,external_kolmafia_namespaceObject.takeStorage)(template_string_$item(_templateObject153 || (_templateObject153 = leveling_taggedTemplateLiteral(["Buddy Bjorn"]))), 1);
@@ -15001,7 +15001,7 @@ var LevelingQuest = {
     }
   }, {
     name: "Pull Stick-Knife",
-    ready: () => property_get("instant_experimentPulls", false),
+    ready: () => property_get("instant_experimentPulls", true),
     completed: () => checkPull(template_string_$item(_templateObject154 || (_templateObject154 = leveling_taggedTemplateLiteral(["Stick-Knife of Loathing"])))),
     do: () => {
       (0,external_kolmafia_namespaceObject.takeStorage)(template_string_$item(_templateObject155 || (_templateObject155 = leveling_taggedTemplateLiteral(["Stick-Knife of Loathing"]))), 1);
@@ -15011,7 +15011,7 @@ var LevelingQuest = {
     }
   }, {
     name: "Pull Repaid Diaper",
-    ready: () => property_get("instant_experimentPulls", false),
+    ready: () => property_get("instant_experimentPulls", true),
     completed: () => checkPull(template_string_$item(_templateObject156 || (_templateObject156 = leveling_taggedTemplateLiteral(["Great Wolf's beastly trousers"])))) || checkPull(template_string_$item(_templateObject157 || (_templateObject157 = leveling_taggedTemplateLiteral(["repaid diaper"])))),
     do: () => {
       (0,external_kolmafia_namespaceObject.takeStorage)(template_string_$item(_templateObject158 || (_templateObject158 = leveling_taggedTemplateLiteral(["repaid diaper"]))), 1);
@@ -15021,7 +15021,7 @@ var LevelingQuest = {
     }
   }, {
     name: "Pull Beastly Trousers",
-    ready: () => property_get("instant_experimentPulls", false),
+    ready: () => property_get("instant_experimentPulls", true),
     completed: () => checkPull(template_string_$item(_templateObject159 || (_templateObject159 = leveling_taggedTemplateLiteral(["Great Wolf's beastly trousers"])))) || lib_have(template_string_$item(_templateObject160 || (_templateObject160 = leveling_taggedTemplateLiteral(["astral trousers"])))),
     do: () => {
       (0,external_kolmafia_namespaceObject.takeStorage)(template_string_$item(_templateObject161 || (_templateObject161 = leveling_taggedTemplateLiteral(["Great Wolf's beastly trousers"]))), 1);
@@ -15031,7 +15031,7 @@ var LevelingQuest = {
     }
   }, {
     name: "Pull Staff of Simering Hatred",
-    ready: () => property_get("instant_experimentPulls", false),
+    ready: () => property_get("instant_experimentPulls", true),
     completed: () => checkPull(template_string_$item(_templateObject162 || (_templateObject162 = leveling_taggedTemplateLiteral(["Staff of Simmering Hatred"])))),
     do: () => {
       (0,external_kolmafia_namespaceObject.takeStorage)(template_string_$item(_templateObject163 || (_templateObject163 = leveling_taggedTemplateLiteral(["Staff of Simmering Hatred"]))), 1);
@@ -15041,7 +15041,7 @@ var LevelingQuest = {
     }
   }, {
     name: "Pull Tobiko Marble Soda",
-    ready: () => property_get("instant_experimentPulls", false),
+    ready: () => property_get("instant_experimentPulls", true),
     completed: () => checkPull(template_string_$item(_templateObject164 || (_templateObject164 = leveling_taggedTemplateLiteral(["tobiko marble soda"])))),
     do: () => {
       (0,external_kolmafia_namespaceObject.takeStorage)(template_string_$item(_templateObject165 || (_templateObject165 = leveling_taggedTemplateLiteral(["tobiko marble soda"]))), 1);
