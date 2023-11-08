@@ -1054,6 +1054,7 @@ export const LevelingQuest: Quest = {
           buy($item`yellow rocket`, 1);
         }
         unbreakableUmbrella();
+        docBag();
       },
       completed: () =>
         CombatLoversLocket.monstersReminisced().includes($monster`red skeleton`) ||
@@ -1064,6 +1065,9 @@ export const LevelingQuest: Quest = {
       combat: new CombatStrategy().macro(
         Macro.if_("!haseffect Everything Looks Yellow", Macro.tryItem($item`yellow rocket`))
           .trySkill($skill`Feel Envy`)
+          .trySkill($skill`Chest X-Ray`)
+          .trySkill($skill`Shattering Punch`)
+          .trySkill($skill`Gingerbread Mob Hit`)
           .default()
       ),
       outfit: () => baseOutfit(false),
@@ -1107,7 +1111,7 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sellMiscellaneousItems(), cliExecute("set _pledgeCheck = true");
       },
-      limit: { tries: 1 },
+      limit: { tries: 2 },
     },
     {
       name: "LOV Tunnel",
