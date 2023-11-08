@@ -9057,14 +9057,7 @@ var StrictMacro = /*#__PURE__*/function (_Macro) {
   return StrictMacro;
 }(Macro);
 ;// CONCATENATED MODULE: ./src/combat.ts
-var combat_templateObject, combat_templateObject2, combat_templateObject3, combat_templateObject4, combat_templateObject5, combat_templateObject6, combat_templateObject7, combat_templateObject8, combat_templateObject9, combat_templateObject10, combat_templateObject11, combat_templateObject12, combat_templateObject13, combat_templateObject14, combat_templateObject15, combat_templateObject16, combat_templateObject17, combat_templateObject18, combat_templateObject19, combat_templateObject20, combat_templateObject21, combat_templateObject22, combat_templateObject23;
-function src_combat_toConsumableArray(arr) { return src_combat_arrayWithoutHoles(arr) || src_combat_iterableToArray(arr) || src_combat_unsupportedIterableToArray(arr) || src_combat_nonIterableSpread(); }
-function src_combat_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function src_combat_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return src_combat_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return src_combat_arrayLikeToArray(o, minLen); }
-function src_combat_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function src_combat_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return src_combat_arrayLikeToArray(arr); }
-function src_combat_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function combat_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+var combat_templateObject, combat_templateObject2, combat_templateObject3, combat_templateObject4, combat_templateObject5, combat_templateObject6, combat_templateObject7, combat_templateObject8, combat_templateObject9, combat_templateObject10, combat_templateObject11, combat_templateObject12, combat_templateObject13, combat_templateObject14, combat_templateObject15, combat_templateObject16, combat_templateObject17, combat_templateObject18, combat_templateObject19, combat_templateObject20, combat_templateObject21, combat_templateObject22, combat_templateObject23, combat_templateObject24, combat_templateObject25;
 function src_combat_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function src_combat_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, src_combat_toPropertyKey(descriptor.key), descriptor); } }
 function src_combat_createClass(Constructor, protoProps, staticProps) { if (protoProps) src_combat_defineProperties(Constructor.prototype, protoProps); if (staticProps) src_combat_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -9077,11 +9070,14 @@ function src_combat_possibleConstructorReturn(self, call) { if (call && (typeof 
 function src_combat_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function src_combat_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function src_combat_getPrototypeOf(o) { src_combat_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return src_combat_getPrototypeOf(o); }
+function combat_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 
 
 //export const mainStat = myClass().primestat;
 var mainStat = (0,external_kolmafia_namespaceObject.myPrimestat)(); //Update to select mainstat based on class derived from Libram
+
+var damageSkill = mainStat === template_string_$stat(combat_templateObject || (combat_templateObject = combat_taggedTemplateLiteral(["Muscle"]))) ? template_string_$skill(combat_templateObject2 || (combat_templateObject2 = combat_taggedTemplateLiteral(["Lunging Thrust-Smack"]))) : template_string_$skill(combat_templateObject3 || (combat_templateObject3 = combat_taggedTemplateLiteral(["Saucegeyser"])));
 var combat_Macro = /*#__PURE__*/function (_StrictMacro) {
   src_combat_inherits(Macro, _StrictMacro);
   var _super = src_combat_createSuper(Macro);
@@ -9092,18 +9088,14 @@ var combat_Macro = /*#__PURE__*/function (_StrictMacro) {
   src_combat_createClass(Macro, [{
     key: "kill",
     value: function kill() {
-      var _Macro$while_;
       var useCinch = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-      var macroHead = this.trySkill(template_string_$skill(combat_templateObject || (combat_templateObject = combat_taggedTemplateLiteral(["Curse of Weaksauce"])))).trySkill(template_string_$skill(combat_templateObject2 || (combat_templateObject2 = combat_taggedTemplateLiteral(["Micrometeorite"])))).trySkill(template_string_$skill(combat_templateObject3 || (combat_templateObject3 = combat_taggedTemplateLiteral(["Sing Along"])))).if_("!mpbelow ".concat((0,external_kolmafia_namespaceObject.mpCost)(template_string_$skill(combat_templateObject4 || (combat_templateObject4 = combat_taggedTemplateLiteral(["Stuffed Mortar Shell"]))))), Macro.trySkill(template_string_$skill(combat_templateObject5 || (combat_templateObject5 = combat_taggedTemplateLiteral(["Stuffed Mortar Shell"])))));
-      var whileCondition = sk => {
-        return ["!mpbelow ".concat(sk, " && hasskill ").concat((0,external_kolmafia_namespaceObject.toInt)(sk)), Macro.skill(sk)];
-      };
-      return (useCinch ? macroHead.trySkill(template_string_$skill(combat_templateObject6 || (combat_templateObject6 = combat_taggedTemplateLiteral(["Cincho: Confetti Extravaganza"])))) : macroHead).externalIf(mainStat === template_string_$stat(combat_templateObject7 || (combat_templateObject7 = combat_taggedTemplateLiteral(["Muscle"]))), Macro.while_.apply(Macro, src_combat_toConsumableArray(whileCondition(template_string_$skill(combat_templateObject8 || (combat_templateObject8 = combat_taggedTemplateLiteral(["Lunging Thrust-Smack"])))))), (_Macro$while_ = Macro.while_.apply(Macro, src_combat_toConsumableArray(whileCondition(template_string_$skill(combat_templateObject9 || (combat_templateObject9 = combat_taggedTemplateLiteral(["Saucegeyser"]))))))).while_.apply(_Macro$while_, src_combat_toConsumableArray(whileCondition(template_string_$skill(combat_templateObject10 || (combat_templateObject10 = combat_taggedTemplateLiteral(["Saucestorm"]))))))).attack().repeat();
+      var macroHead = this.trySkill(template_string_$skill(combat_templateObject4 || (combat_templateObject4 = combat_taggedTemplateLiteral(["Curse of Weaksauce"])))).trySkill(template_string_$skill(combat_templateObject5 || (combat_templateObject5 = combat_taggedTemplateLiteral(["Micrometeorite"])))).trySkill(template_string_$skill(combat_templateObject6 || (combat_templateObject6 = combat_taggedTemplateLiteral(["Sing Along"])))).if_("!mpbelow ".concat((0,external_kolmafia_namespaceObject.mpCost)(template_string_$skill(combat_templateObject7 || (combat_templateObject7 = combat_taggedTemplateLiteral(["Stuffed Mortar Shell"]))))), Macro.trySkill(template_string_$skill(combat_templateObject8 || (combat_templateObject8 = combat_taggedTemplateLiteral(["Stuffed Mortar Shell"])))));
+      return (useCinch ? macroHead.trySkill(template_string_$skill(combat_templateObject9 || (combat_templateObject9 = combat_taggedTemplateLiteral(["Cincho: Confetti Extravaganza"])))) : macroHead).while_("!mpbelow ".concat(damageSkill, " && hasskill ").concat((0,external_kolmafia_namespaceObject.toInt)(damageSkill)), Macro.skill(damageSkill)).while_("!mpbelow ".concat((0,external_kolmafia_namespaceObject.mpCost)(template_string_$skill(combat_templateObject10 || (combat_templateObject10 = combat_taggedTemplateLiteral(["Saucestorm"])))), " && hasskill ").concat((0,external_kolmafia_namespaceObject.toInt)(template_string_$skill(combat_templateObject11 || (combat_templateObject11 = combat_taggedTemplateLiteral(["Saucestorm"]))))), Macro.skill(template_string_$skill(combat_templateObject12 || (combat_templateObject12 = combat_taggedTemplateLiteral(["Saucestorm"]))))).attack().repeat();
     }
   }, {
     key: "banish",
     value: function banish() {
-      return Macro.trySkill(template_string_$skill(combat_templateObject11 || (combat_templateObject11 = combat_taggedTemplateLiteral(["Feel Hatred"])))).trySkill(template_string_$skill(combat_templateObject12 || (combat_templateObject12 = combat_taggedTemplateLiteral(["Reflex Hammer"])))).trySkill(template_string_$skill(combat_templateObject13 || (combat_templateObject13 = combat_taggedTemplateLiteral(["Throw Latte on Opponent"])))).trySkill(template_string_$skill(combat_templateObject14 || (combat_templateObject14 = combat_taggedTemplateLiteral(["KGB tranquilizer dart"])))).trySkill(template_string_$skill(combat_templateObject15 || (combat_templateObject15 = combat_taggedTemplateLiteral(["Snokebomb"]))));
+      return Macro.trySkill(template_string_$skill(combat_templateObject13 || (combat_templateObject13 = combat_taggedTemplateLiteral(["Feel Hatred"])))).trySkill(template_string_$skill(combat_templateObject14 || (combat_templateObject14 = combat_taggedTemplateLiteral(["Reflex Hammer"])))).trySkill(template_string_$skill(combat_templateObject15 || (combat_templateObject15 = combat_taggedTemplateLiteral(["Throw Latte on Opponent"])))).trySkill(template_string_$skill(combat_templateObject16 || (combat_templateObject16 = combat_taggedTemplateLiteral(["KGB tranquilizer dart"])))).trySkill(template_string_$skill(combat_templateObject17 || (combat_templateObject17 = combat_taggedTemplateLiteral(["Snokebomb"]))));
     }
   }, {
     key: "default",
@@ -9136,20 +9128,20 @@ function main() {
 }
 function haveFreeKill() {
   // TODO: Support for Parka YR
-  var haveXRay = lib_have(template_string_$item(combat_templateObject16 || (combat_templateObject16 = combat_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"])))) && property_get("_chestXRayUsed") < 3;
-  var haveShatteringPunch = lib_have(template_string_$skill(combat_templateObject17 || (combat_templateObject17 = combat_taggedTemplateLiteral(["Shattering Punch"])))) && property_get("_shatteringPunchUsed") < 3;
-  var haveMobHit = lib_have(template_string_$skill(combat_templateObject18 || (combat_templateObject18 = combat_taggedTemplateLiteral(["Gingerbread Mob Hit"])))) && !property_get("_gingerbreadMobHitUsed");
+  var haveXRay = lib_have(template_string_$item(combat_templateObject18 || (combat_templateObject18 = combat_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"])))) && property_get("_chestXRayUsed") < 3;
+  var haveShatteringPunch = lib_have(template_string_$skill(combat_templateObject19 || (combat_templateObject19 = combat_taggedTemplateLiteral(["Shattering Punch"])))) && property_get("_shatteringPunchUsed") < 3;
+  var haveMobHit = lib_have(template_string_$skill(combat_templateObject20 || (combat_templateObject20 = combat_taggedTemplateLiteral(["Gingerbread Mob Hit"])))) && !property_get("_gingerbreadMobHitUsed");
   return haveXRay || haveShatteringPunch || haveMobHit;
 }
 function haveMotherSlimeBanish() {
-  var haveSnokeBomb = lib_have(template_string_$skill(combat_templateObject19 || (combat_templateObject19 = combat_taggedTemplateLiteral(["Snokebomb"])))) && property_get("_snokebombUsed") < 3;
-  var haveKGBTranquilizer = lib_have(template_string_$item(combat_templateObject20 || (combat_templateObject20 = combat_taggedTemplateLiteral(["Kremlin's Greatest Briefcase"])))) && property_get("_kgbTranquilizerDartUses") < 3;
+  var haveSnokeBomb = lib_have(template_string_$skill(combat_templateObject21 || (combat_templateObject21 = combat_taggedTemplateLiteral(["Snokebomb"])))) && property_get("_snokebombUsed") < 3;
+  var haveKGBTranquilizer = lib_have(template_string_$item(combat_templateObject22 || (combat_templateObject22 = combat_taggedTemplateLiteral(["Kremlin's Greatest Briefcase"])))) && property_get("_kgbTranquilizerDartUses") < 3;
   return haveSnokeBomb || haveKGBTranquilizer;
 }
 function haveFreeBanish() {
-  var haveFeelHatred = lib_have(template_string_$skill(combat_templateObject21 || (combat_templateObject21 = combat_taggedTemplateLiteral(["Feel Hatred"])))) && property_get("_feelHatredUsed") < 3;
-  var haveReflexHammer = lib_have(template_string_$item(combat_templateObject22 || (combat_templateObject22 = combat_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"])))) && property_get("_reflexHammerUsed") < 3;
-  var haveThrowLatte = lib_have(template_string_$item(combat_templateObject23 || (combat_templateObject23 = combat_taggedTemplateLiteral(["latte lovers member's mug"])))) && !property_get("_latteBanishUsed");
+  var haveFeelHatred = lib_have(template_string_$skill(combat_templateObject23 || (combat_templateObject23 = combat_taggedTemplateLiteral(["Feel Hatred"])))) && property_get("_feelHatredUsed") < 3;
+  var haveReflexHammer = lib_have(template_string_$item(combat_templateObject24 || (combat_templateObject24 = combat_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"])))) && property_get("_reflexHammerUsed") < 3;
+  var haveThrowLatte = lib_have(template_string_$item(combat_templateObject25 || (combat_templateObject25 = combat_taggedTemplateLiteral(["latte lovers member's mug"])))) && !property_get("_latteBanishUsed");
   return haveFeelHatred || haveReflexHammer || haveThrowLatte || haveMotherSlimeBanish();
 }
 ;// CONCATENATED MODULE: ./src/lib.ts
@@ -14903,7 +14895,7 @@ var LevelingQuest = {
       ensureEffect(mainStatGainEffect);
     },
     limit: {
-      tries: 1
+      tries: 5
     }
   }, {
     name: "Hot in Herre",
