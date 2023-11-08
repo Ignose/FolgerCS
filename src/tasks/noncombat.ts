@@ -1,6 +1,16 @@
 import { Quest } from "../engine/task";
-import { buy, cliExecute, Effect, print, runChoice, useSkill, visitUrl } from "kolmafia";
-import { $effect, $familiar, $item, $skill, CommunityService, get, have, uneffect } from "libram";
+import { buy, cliExecute, Effect, equip, print, runChoice, useSkill, visitUrl } from "kolmafia";
+import {
+  $effect,
+  $familiar,
+  $item,
+  $skill,
+  $slot,
+  CommunityService,
+  get,
+  have,
+  uneffect,
+} from "libram";
 import {
   checkTurnSave,
   checkValue,
@@ -55,7 +65,10 @@ export const NoncombatQuest: Quest = {
         have($effect`Invisible Avatar`) ||
         !have($item`Powerful Glove`) ||
         get("instant_savePowerfulGlove", false),
-      do: () => useSkill($skill`CHEAT CODE: Invisible Avatar`),
+      do: (): void => {
+        equip($slot`acc3`, $item`Powerful Glove`);
+        useSkill($skill`CHEAT CODE: Invisible Avatar`);
+      },
       limit: { tries: 1 },
     },
     {
