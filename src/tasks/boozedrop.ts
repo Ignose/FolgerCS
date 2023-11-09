@@ -14,8 +14,11 @@ import {
   itemAmount,
   myClass,
   myInebriety,
+  myMaxhp,
   myMeat,
   print,
+  restoreHp,
+  restoreMp,
   retrieveItem,
   runChoice,
   sweetSynthesis,
@@ -27,12 +30,14 @@ import {
 import {
   $coinmaster,
   $effect,
+  $effects,
   $familiar,
   $item,
   $location,
   $monster,
   $skill,
   $slot,
+  clamp,
   CombatLoversLocket,
   CommunityService,
   DaylightShavings,
@@ -47,12 +52,13 @@ import {
   checkValue,
   fuelUp,
   logTestSetup,
+  shouldFeelLost,
   tryAcquiringEffect,
   wishFor,
 } from "../lib";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { CombatStrategy } from "grimoire-kolmafia";
-import Macro from "../combat";
+import Macro, { haveFreeBanish } from "../combat";
 import { forbiddenEffects } from "../resources";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
 
@@ -127,8 +133,41 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Item Buff if Feeling Lost",
+      ready: () => shouldFeelLost(),
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        restoreMp(50);
+      },
+      completed: () =>
+        (!have($familiar`Ghost of Crimbo Carols`) &&
+          !have($item`cosmic bowling ball`) &&
+          !have($item`vampyric cloake`)) ||
+        !haveFreeBanish() ||
+        $effects`Cosmic Ball in the Air, Do You Crush What I Crush?, Bat-Adjacent Form`.some((ef) =>
+          have(ef)
+        ),
+      do: $location`The Dire Warren`,
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`Bowl Straight Up`)
+          .trySkill($skill`Become a Bat`)
+          .trySkill($skill`Use the Force`)
+          .banish()
+          .abort()
+      ),
+      outfit: {
+        offhand: $item`latte lovers member's mug`,
+        acc1: $item`Kremlin's Greatest Briefcase`,
+        acc2: $item`Lil' Doctor™ bag`,
+        familiar: $familiar`Ghost of Crimbo Carols`,
+        famequip: $item.none,
+      },
+      limit: { tries: 5 },
+    },
+    {
       name: "Fax Ungulith",
-      completed: () => have($item`corrupted marrow`) || have($effect`Cowrruption`),
+      completed: () =>
+        have($item`corrupted marrow`) || have($effect`Cowrruption`) || shouldFeelLost(),
       do: (): void => {
         const monsterCow =
           myClass().toString() === "Seal Clubber" &&
@@ -283,20 +322,8 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Feeling Lost",
-      ready: () => CommunityService.SpellDamage.isDone(),
-      completed: () => have($effect`Feeling Lost`) || !have($skill`Feel Lost`),
-      do: () => useSkill($skill`Feel Lost`),
-      limit: { tries: 1 },
-    },
-    {
-      name: "Alternative Feeling Lost",
-      completed: () =>
-        have($effect`Feeling Lost`) ||
-        !have($skill`Feel Lost`) ||
-        get("camelSpit") >= 100 ||
-        have($familiar`Machine Elf`) ||
-        have($skill`Meteor Lore`) ||
-        have($familiar`Ghost of Crimbo Carols`),
+      ready: () => shouldFeelLost(),
+      completed: () => have($effect`Feeling Lost`),
       do: () => useSkill($skill`Feel Lost`),
       limit: { tries: 1 },
     },
