@@ -49,7 +49,6 @@ import {
   $monster,
   $skill,
   $slot,
-  byClass,
   clamp,
   CommunityService,
   get,
@@ -62,7 +61,7 @@ import {
 } from "libram";
 import { canConfigure, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
 import { Quest } from "../engine/task";
-import { getGarden, statToMaximizerString, tryAcquiringEffect } from "../lib";
+import { getGarden, goVote, statToMaximizerString, tryAcquiringEffect } from "../lib";
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { baseOutfit, chooseFamiliar, unbreakableUmbrella } from "../engine/outfit";
@@ -72,16 +71,6 @@ const bestSIT =
   mallPrice($item`flapper fly`) + mallPrice($item`filled mosquito`)
     ? 1
     : 2;
-
-const BEST_INITIATIVE = byClass({
-  "Seal Clubber": 2, // Familiar exp: 2
-  "Turtle Tamer": 0, // Weapon Damage Percent: 100
-  "Disco Bandit": 0, // Maximum MP Percent: 30
-  "Accordion Thief": 2, // Booze Drop: 30
-  Pastamancer: 2, // Weapon Damage Percent: 2
-  Sauceror: 1, // Exp: 3
-  default: 0,
-});
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
 export const RunStartQuest: Quest = {
@@ -375,10 +364,7 @@ export const RunStartQuest: Quest = {
       completed: () => have($item`"I Voted!" sticker`) || !get("voteAlways"),
       do: (): void => {
         visitUrl("place.php?whichplace=town_right&action=townright_vote");
-        visitUrl(
-          `choice.php?option=1&whichchoice=1331&g=2&local%5B%5D=${BEST_INITIATIVE}&local%5B%5D=${BEST_INITIATIVE}`
-        );
-        visitUrl("place.php?whichplace=town_right&action=townright_vote");
+        goVote();
       },
     },
     {
