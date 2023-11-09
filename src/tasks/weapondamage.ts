@@ -1,13 +1,17 @@
 import { CombatStrategy } from "grimoire-kolmafia";
 import {
   buy,
+  cliExecute,
   create,
   Effect,
+  faxbot,
+  myClass,
   myMaxhp,
   print,
   restoreHp,
   restoreMp,
   retrieveItem,
+  use,
   useSkill,
   visitUrl,
 } from "kolmafia";
@@ -17,9 +21,11 @@ import {
   $familiar,
   $item,
   $location,
+  $monster,
   $skill,
   clamp,
   Clan,
+  CombatLoversLocket,
   CommunityService,
   get,
   have,
@@ -28,9 +34,11 @@ import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { Quest } from "../engine/task";
 import {
+  checkLocketAvailable,
   checkTurnSave,
   checkValue,
   logTestSetup,
+  shouldFeelLost,
   startingClan,
   tryAcquiringEffect,
   wishFor,
@@ -52,11 +60,13 @@ export const WeaponDamageQuest: Quest = {
     },
     {
       name: "Stand-Alone Carol Ghost Buff",
+      ready: () => !shouldFeelLost(),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
       },
       completed: () =>
+        have($effect`Feeling Lost`) ||
         !have($familiar`Ghost of Crimbo Carols`) ||
         (have($skill`Meteor Lore`) && get("camelSpit") < 100) ||
         !haveFreeBanish() ||
@@ -112,7 +122,54 @@ export const WeaponDamageQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Fax Ungulith",
+      ready: () => shouldFeelLost(),
+      completed: () => have($item`corrupted marrow`) || have($effect`Cowrruption`),
+      do: (): void => {
+        const monsterCow =
+          myClass().toString() === "Seal Clubber" &&
+          CombatLoversLocket.unlockedLocketMonsters().includes($monster`furious cow`)
+            ? $monster`furious cow`
+            : $monster`ungulith`;
+        if (checkLocketAvailable() >= 2) {
+          CombatLoversLocket.reminisce(monsterCow);
+        } else {
+          cliExecute("chat");
+          if (have($item`photocopied monster`) && get("photocopyMonster") !== monsterCow) {
+            cliExecute("fax send");
+          }
+          if (
+            (have($item`photocopied monster`) || faxbot(monsterCow)) &&
+            get("photocopyMonster") === monsterCow
+          ) {
+            use($item`photocopied monster`);
+          }
+        }
+      },
+      outfit: () => ({
+        weapon: $item`Fourth of May Cosplay Saber`,
+        familiar:
+          get("camelSpit") >= 100
+            ? $familiar`Melodramedary`
+            : $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
+                (ef) => have(ef)
+              )
+            ? $familiar`Ghost of Crimbo Carols`
+            : chooseFamiliar(false),
+        avoid: sugarItemsAboutToBreak(),
+      }),
+      choices: { 1387: 3 },
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`Meteor Shower`)
+          .trySkill($skill`%fn, spit on me!`)
+          .trySkill($skill`Use the Force`)
+          .default()
+      ),
+      limit: { tries: 5 },
+    },
+    {
       name: "Meteor Shower",
+      ready: () => !shouldFeelLost(),
       completed: () =>
         have($effect`Meteor Showered`) ||
         !have($item`Fourth of May Cosplay Saber`) ||

@@ -703,6 +703,12 @@ export function saveLeafyBoys(): boolean {
   return false;
 }
 
+export function shouldFeelLost(): boolean {
+  if (have($familiar`Machine Elf`)) return false;
+  if (!have($skill`Feel Lost`)) return false;
+  return true;
+}
+
 export function checkTurnSave(test: string, ef: Effect): number {
   switch (test) {
     case "BoozeDrop":

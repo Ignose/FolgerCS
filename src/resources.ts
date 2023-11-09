@@ -35,7 +35,6 @@ const consumptionResources: Resource[] = [
   ),
   new Resource("instant_savePerfectFreeze", "Do not craft and drink a perfect drink"),
   new Resource("instant_saveBeesKnees", "Do not buy and drink Bee's Knees"),
-  new Resource("instant_saveSockdollager", "Do not buy and drink a sockdollager"),
   new Resource("instant_saveSacramentoWine", "Do not drink a Sacramento Wine for the item test"),
   new Resource("instant_skipSynthExp", "Do not use synth for the Xp% buff"),
   new Resource(
