@@ -66,11 +66,9 @@ jobs:
           shopt -s extglob
           rm -rf !(BUILD)
           mv BUILD/scripts scripts
-          mv BUILD/dependencies.txt dependencies.txt
           mv BUILD/README.md README.md
           rm -rf BUILD
           git add scripts
-          git add dependencies.txt
           git add README.md
           git commit -m "Automated build"
           git push -f origin release
