@@ -47,7 +47,6 @@ jobs:
           yarn build
           mkdir BUILD
           cp -r KoLmafia/scripts BUILD/scripts
-          cp -r KoLmafia/dependencies.txt BUILD/dependencies.txt
           cp -r README.md BUILD/README.md
 
       # Synchronise & push BUILD directory to release branch
