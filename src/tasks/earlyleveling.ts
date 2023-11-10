@@ -251,6 +251,8 @@ export const earlyLevelingQuest: Quest = {
       ),
       outfit: () => ({
         ...baseOutfit(false),
+        familiar: have($familiar`Melodramedary`) ? $familiar`Melodramedary` : undefined,
+        acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
         modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
       }),
       post: (): void => {

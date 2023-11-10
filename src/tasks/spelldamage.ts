@@ -52,8 +52,8 @@ import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { args } from "../args";
 
 let triedDeepDark = false;
-// eslint-disable-next-line no-octal
-const barrels = [10, 11, 12, 20, 21, 22];
+
+const barrels: string[] = [`00`, `01`, `02`, `10`, `11`, `12`, `20`, `21`, `22`];
 
 export const SpellDamageQuest: Quest = {
   name: "Spell Damage",
