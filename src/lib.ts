@@ -30,6 +30,7 @@ import {
   Stat,
   storageAmount,
   sweetSynthesis,
+  toEffect,
   toInt,
   toItem,
   toSkill,
@@ -62,8 +63,8 @@ import {
   Witchess,
 } from "libram";
 import { printModtrace } from "libram/dist/modifier";
-import { forbiddenEffects } from "./resources";
 import { mainStat } from "./combat";
+import { args } from "./args";
 
 export const startingClan = getClanName();
 
@@ -101,6 +102,26 @@ export const testModifiers = new Map([
     print(`Release Version: ${releaseSHA}`);
   }
 }*/
+
+export const forbiddenEffects: Effect[] = [];
+
+if (args.bodyspradium) forbiddenEffects.push($effect`Boxing Day Glow`);
+if (args.witchess) forbiddenEffects.push($effect`Puzzle Champ`);
+if (args.savesnack) forbiddenEffects.push($effect`Wasabi With You`, $effect`Pisces in the Skyces`);
+if (args.savebarrel) forbiddenEffects.push($effect`Warlock, Warstock, and Warbarrel`);
+if (args.saveterminal) forbiddenEffects.push($effect`items.enh`, $effect`substats.enh`);
+if (args.savecopdollar) forbiddenEffects.push($effect`Gummed Shoes`);
+if (args.saveglove) forbiddenEffects.push($effect`Triple-Sized`, $effect`Invisible Avatar`);
+if (args.savelimitedat) forbiddenEffects.push($effect`Chorale of Companionship`);
+const manuallyExcludedBuffs = args.explicitlyexcludedefs
+  .split(",")
+  .filter((s) => s.length > 0)
+  .map((s) => toEffect(s));
+if (manuallyExcludedBuffs !== undefined) {
+  manuallyExcludedBuffs.forEach((ef) => {
+    forbiddenEffects.push(ef);
+  });
+}
 
 export function fuelUp(): void {
   buy(1, $item`all-purpose flower`);
@@ -416,12 +437,12 @@ export function camelFightsLeft(): number {
     !Witchess.have() &&
     CombatLoversLocket.availableLocketMonsters().includes($monster`Witchess King`) &&
     !CombatLoversLocket.monstersReminisced().includes($monster`Witchess King`) &&
-    !get("instant_saveLocketWitchessKing", false)
+    !args.witchessking
       ? 1
       : 0;
   const backups =
     Witchess.have() || have($item`Kramco Sausage-o-Matic™`)
-      ? Math.max(11 - get("instant_saveBackups", 0) - get("_backUpUses"), 0)
+      ? Math.max(11 - args.savebackups - get("_backUpUses"), 0)
       : 0; // No guarantee that we hit a tentacle, so we ignore that here
   // Currently does not consider gregs (require free banish + free fight source)
 
@@ -466,24 +487,18 @@ export function computeCombatFrequency(): number {
   const umbrella = have($item`unbreakable umbrella`) ? -10 : 0;
   const offhand = umbrella;
 
-  const pantogram =
-    have($item`portable pantogram`) && !get("instant_savePantogram", false) ? -5 : 0;
+  const pantogram = have($item`portable pantogram`) && !args.savepantogramming ? -5 : 0;
   const pants = pantogram;
 
-  const kgb =
-    have($item`Kremlin's Greatest Briefcase`) && !get("instant_saveKGBClicks", false) ? -5 : 0;
-  const codpiece =
-    have($item`Clan VIP Lounge key`) && !get("instant_saveFloundry", false) ? -10 : 0;
-  const atlas = get("hasMaydayContract") && !get("instant_saveMayday", false) ? -5 : 0;
-  const accessories = sumNumbers([kgb, codpiece, atlas]);
+  const kgb = have($item`Kremlin's Greatest Briefcase`) && !args.savekgb ? -5 : 0;
+  const atlas = get("hasMaydayContract") && !args.savemayday ? -5 : 0;
+  const accessories = sumNumbers([kgb, atlas]);
 
   const rose = -20;
   const smoothMovements = have($skill`Smooth Movement`) ? -5 : 0;
   const sonata = have($skill`The Sonata of Sneakiness`) ? -5 : 0;
   const favoriteBird =
-    have($item`Bird-a-Day calendar`) &&
-    get("yourFavoriteBirdMods").includes("Combat Frequency") &&
-    !get("instant_saveFavoriteBird", false)
+    have($item`Bird-a-Day calendar`) && get("yourFavoriteBirdMods").includes("Combat Frequency")
       ? toInt(
           get("yourFavoriteBirdMods")
             .split(", ")
@@ -493,9 +508,8 @@ export function computeCombatFrequency(): number {
         )
       : 0;
   const shadowWaters = have($item`closed-circuit pay phone`) ? -10 : 0;
-  const powerfulGlove =
-    have($item`Powerful Glove`) && !forbiddenEffects.includes($effect`Invisible Avatar`) ? -10 : 0;
-  const shoeGum = get("hasDetectiveSchool") && !get("instant_saveCopDollars", false) ? -5 : 0;
+  const powerfulGlove = have($item`Powerful Glove`) && !args.saveglove ? -10 : 0;
+  const shoeGum = get("hasDetectiveSchool") && !args.savecopdollar ? -5 : 0;
   const silentRunning = -5;
   const feelingLonely = have($skill`Feel Lonely`) ? -5 : 0;
   const effects = sumNumbers([
@@ -634,9 +648,7 @@ export const generalStoreXpEffect: Effect = {
 
 export function checkLocketAvailable(): number {
   const locketAvailable =
-    (get("instant_saveLocketRedSkeleton", false) ? 1 : 0) +
-    (get("instant_saveLocketWitchessKing", false) ? 1 : 0) +
-    (get("instant_saveLocketFactoryWorker", false) ? 1 : 0);
+    (args.redskeleton ? 1 : 0) + (args.witchessking ? 1 : 0) + (args.factoryworker ? 1 : 0);
 
   return locketAvailable;
 }
@@ -805,7 +817,7 @@ export function checkPull(item: Item): boolean {
     have(item) ||
     get("_roninStoragePulls").split(",").includes(toInt(item).toString()) ||
     storageAmount(item) === 0 ||
-    5 - get("_roninStoragePulls").split(",").length <= get("instant_savePulls", 0)
+    5 - get("_roninStoragePulls").split(",").length <= args.savepulls
   )
     return true;
   return false;

@@ -1,4 +1,4 @@
-import { Effect, Familiar, print, printHtml, toEffect, toInt, totalFreeRests } from "kolmafia";
+/*import { Effect, Familiar, print, printHtml, toEffect, toInt, totalFreeRests } from "kolmafia";
 import { $effect, $effects, get, set } from "libram";
 
 class Resource {
@@ -262,4 +262,4 @@ export function checkResources(): void {
     "Type 'set instant_explicitlyExcludedFamiliars=<fam_id1>,...,<fam_idn>' to exclude using specific familiars during leveling"
   );
   print("Type 'ash remove_property(\"<prefname>\")' to delete a preference");
-}
+}*/

@@ -17,6 +17,7 @@ import { Quest } from "../engine/task";
 import { checkTurnSave, checkValue, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import Macro from "../combat";
+import { args } from "../args";
 
 export const HotResQuest: Quest = {
   name: "Hot Res",
@@ -57,7 +58,7 @@ export const HotResQuest: Quest = {
       completed: () =>
         CombatLoversLocket.monstersReminisced().includes($monster`factory worker (female)`) ||
         !CombatLoversLocket.availableLocketMonsters().includes($monster`factory worker (female)`) ||
-        get("instant_saveLocketFactoryWorker", false) ||
+        args.factoryworker ||
         checkValue("Locket", Math.min(14, CommunityService.HotRes.prediction - 1)),
       do: () => CombatLoversLocket.reminisce($monster`factory worker (female)`),
       outfit: () => ({
@@ -98,8 +99,7 @@ export const HotResQuest: Quest = {
       completed: () =>
         !have($skill`Visit your Favorite Bird`) ||
         get("_favoriteBirdVisited") ||
-        !get("yourFavoriteBirdMods").includes("Hot Resistance") ||
-        get("instant_saveFavoriteBird", false),
+        !get("yourFavoriteBirdMods").includes("Hot Resistance"),
       do: () => useSkill($skill`Visit your Favorite Bird`),
       limit: { tries: 1 },
     },
@@ -111,7 +111,7 @@ export const HotResQuest: Quest = {
         if (
           get("_kgbClicksUsed") < 22 &&
           have($item`Kremlin's Greatest Briefcase`) &&
-          !get("instant_saveKGBClicks", false)
+          !args.savekgb
         )
           cliExecute("briefcase e hot");
 
@@ -146,7 +146,7 @@ export const HotResQuest: Quest = {
       },
       completed: () => CommunityService.HotRes.isDone(),
       do: (): void => {
-        const maxTurns = get("instant_hotTestTurnLimit", 35);
+        const maxTurns = args.hotlimit;
         const testTurns = CommunityService.HotRes.actualCost();
         if (testTurns > maxTurns) {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");

@@ -27,12 +27,13 @@ import {
 import { Quest } from "../engine/task";
 import {
   checkValue,
+  forbiddenEffects,
   logTestSetup,
   reagentBalancerEffect,
   reagentBalancerItem,
   tryAcquiringEffect,
 } from "../lib";
-import { forbiddenEffects } from "../resources";
+import { args } from "../args";
 
 function useBalancerForTest(testStat: Stat): void {
   if (testStat === myPrimestat()) {
@@ -71,7 +72,7 @@ export const HPQuest: Quest = {
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
       },
       do: (): void => {
-        const maxTurns = get("instant_hpTestTurnLimit", 1);
+        const maxTurns = args.hplimit;
         const testTurns = CommunityService.HP.actualCost();
         if (testTurns > maxTurns) {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");
@@ -132,7 +133,7 @@ export const MuscleQuest: Quest = {
           CommunityService.Muscle.turnsSavedBy($effect`Purity of Spirit`) >= 7 &&
           have($skill`Summon Clip Art`) &&
           get("tomeSummons") === 0 &&
-          get("instant_skipBorrowedTime", false)
+          args.skipbt
         ) {
           create($item`cold-filtered water`, 1);
           use($item`cold-filtered water`, 1);
@@ -146,7 +147,7 @@ export const MuscleQuest: Quest = {
           tryAcquiringEffect($effect`Hulkien`);
       },
       do: (): void => {
-        const maxTurns = get("instant_musTestTurnLimit", 2);
+        const maxTurns = args.musclelimit;
         const testTurns = CommunityService.Muscle.actualCost();
         if (testTurns > maxTurns) {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");
@@ -212,7 +213,7 @@ export const MysticalityQuest: Quest = {
           CommunityService.Mysticality.turnsSavedBy($effect`Purity of Spirit`) >= 7 &&
           have($skill`Summon Clip Art`) &&
           get("tomeSummons") === 0 &&
-          get("instant_skipBorrowedTime", false)
+          args.skipbt
         ) {
           create($item`cold-filtered water`, 1);
           use($item`cold-filtered water`, 1);
@@ -226,7 +227,7 @@ export const MysticalityQuest: Quest = {
           tryAcquiringEffect($effect`Hulkien`);
       },
       do: (): void => {
-        const maxTurns = get("instant_mystTestTurnLimit", 1);
+        const maxTurns = args.myslimit;
         const testTurns = CommunityService.Mysticality.actualCost();
         if (testTurns > maxTurns) {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");
@@ -258,11 +259,7 @@ export const MoxieQuest: Quest = {
     {
       // This is also useful for the BoozeDrop test, but we can grab the +10%mox here first
       name: "High Heels",
-      completed: () =>
-        have($item`red-soled high heels`) ||
-        !have($item`2002 Mr. Store Catalog`) ||
-        get("availableMrStore2002Credits", 0) <= get("instant_saveCatalogCredits", 0) ||
-        get("instant_skipHighHeels", false),
+      completed: () => have($item`red-soled high heels`) || !have($item`2002 Mr. Store Catalog`),
       do: (): void => {
         if (!have($item`Letter from Carrie Bradshaw`)) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
@@ -274,10 +271,8 @@ export const MoxieQuest: Quest = {
     {
       name: "Loathing Idol Microphone",
       completed: () =>
-        have($effect`Spitting Rhymes`) ||
+        have($effect`Poppy Performance`) ||
         !have($item`2002 Mr. Store Catalog`) ||
-        (get("availableMrStore2002Credits", 0) <= get("instant_saveCatalogCredits", 0) &&
-          !have($item`Loathing Idol Microphone`)) ||
         forbiddenEffects.includes($effect`Poppy Performance`) ||
         checkValue("2002", Math.min(2, CommunityService.Moxie.prediction)),
       do: (): void => {
@@ -332,7 +327,7 @@ export const MoxieQuest: Quest = {
           CommunityService.Moxie.turnsSavedBy($effect`Purity of Spirit`) >= 7 &&
           have($skill`Summon Clip Art`) &&
           get("tomeSummons") === 0 &&
-          get("instant_skipBorrowedTime", false)
+          args.skipbt
         ) {
           create($item`cold-filtered water`, 1);
           use($item`cold-filtered water`, 1);
@@ -346,7 +341,7 @@ export const MoxieQuest: Quest = {
           tryAcquiringEffect($effect`Hulkien`);
       },
       do: (): void => {
-        const maxTurns = get("instant_moxTestTurnLimit", 5);
+        const maxTurns = args.moxielimit;
         const testTurns = CommunityService.Moxie.actualCost();
         if (testTurns > maxTurns) {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");

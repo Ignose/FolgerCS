@@ -37,13 +37,14 @@ import {
   checkLocketAvailable,
   checkTurnSave,
   checkValue,
+  forbiddenEffects,
   logTestSetup,
   shouldFeelLost,
   startingClan,
   tryAcquiringEffect,
   wishFor,
 } from "../lib";
-import { forbiddenEffects } from "../resources";
+import { args } from "../args";
 
 export const WeaponDamageQuest: Quest = {
   name: "Weapon Damage",
@@ -89,13 +90,13 @@ export const WeaponDamageQuest: Quest = {
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
-        Clan.join(get("instant_motherSlimeClan", ""));
+        Clan.join(get(args.motherclan));
       },
       completed: () =>
         !have($familiar`Machine Elf`) ||
         !haveMotherSlimeBanish() ||
         have($effect`Inner Elf`) ||
-        get("instant_motherSlimeClan", "").length === 0,
+        args.motherclan.length === 0,
       do: $location`The Slime Tube`,
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`KGB tranquilizer dart`)
@@ -230,15 +231,14 @@ export const WeaponDamageQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
-        if (get("instant_experimentPulls", false))
-          if (
-            get("yourFavoriteBirdMods").includes("Weapon Damage Percent") &&
-            checkValue(
-              "Favorite Bird",
-              Math.min(4, Math.max(0, CommunityService.WeaponDamage.actualCost()))
-            )
+        if (
+          get("yourFavoriteBirdMods").includes("Weapon Damage Percent") &&
+          checkValue(
+            "Favorite Bird",
+            Math.min(4, Math.max(0, CommunityService.WeaponDamage.actualCost()))
           )
-            useSkill($skill`Visit your Favorite Bird`);
+        )
+          useSkill($skill`Visit your Favorite Bird`);
 
         $effects`Spit Upon, Pyramid Power, Outer Wolf™`.forEach((ef) => {
           if (
@@ -256,7 +256,7 @@ export const WeaponDamageQuest: Quest = {
         }
 
         if (
-          get("instant_synthExperiment", false) &&
+          args.experimentalsynth &&
           CommunityService.WeaponDamage.actualCost() > 2 &&
           get("tomeSummons") <= 1 &&
           have($skill`Summon Sugar Sheets`)
@@ -276,7 +276,7 @@ export const WeaponDamageQuest: Quest = {
       },
       completed: () => CommunityService.WeaponDamage.isDone(),
       do: (): void => {
-        const maxTurns = get("instant_wpnTestTurnLimit", 35);
+        const maxTurns = args.weaponlimit;
         const testTurns = CommunityService.WeaponDamage.actualCost();
         if (testTurns > maxTurns) {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");

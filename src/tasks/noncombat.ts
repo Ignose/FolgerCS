@@ -22,6 +22,7 @@ import {
 import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
+import { args } from "../args";
 
 export const NoncombatQuest: Quest = {
   name: "Noncombat",
@@ -46,14 +47,14 @@ export const NoncombatQuest: Quest = {
       completed: () =>
         !have($skill`Visit your Favorite Bird`) ||
         get("_favoriteBirdVisited") ||
-        !get("yourFavoriteBirdMods").includes("Combat Frequency") ||
-        get("instant_saveFavoriteBird", false),
+        !get("yourFavoriteBirdMods").includes("Combat Frequency"),
       do: () => useSkill($skill`Visit your Favorite Bird`),
       limit: { tries: 1 },
     },
     {
       name: "Driving Stealthily",
-      completed: () => have($effect`Driving Stealthily`) || !get("instant_useAsdon", false),
+      ready: () => args.asdon,
+      completed: () => have($effect`Driving Stealthily`),
       do: (): void => {
         fuelUp(), drive($effect`Driving Stealthily`);
       },
@@ -62,9 +63,7 @@ export const NoncombatQuest: Quest = {
     {
       name: "Invisible Avatar",
       completed: () =>
-        have($effect`Invisible Avatar`) ||
-        !have($item`Powerful Glove`) ||
-        get("instant_savePowerfulGlove", false),
+        have($effect`Invisible Avatar`) || !have($item`Powerful Glove`) || args.saveglove,
       do: (): void => {
         equip($slot`acc3`, $item`Powerful Glove`);
         useSkill($skill`CHEAT CODE: Invisible Avatar`);
@@ -89,7 +88,7 @@ export const NoncombatQuest: Quest = {
         if (
           get("_kgbClicksUsed") < 22 &&
           have($item`Kremlin's Greatest Briefcase`) &&
-          !get("instant_saveKGBClicks", false)
+          !args.savekgb
         )
           cliExecute("briefcase e -combat");
         const usefulEffects: Effect[] = [
@@ -116,7 +115,7 @@ export const NoncombatQuest: Quest = {
           wishFor($effect`Disquiet Riot`);
       },
       do: (): void => {
-        const maxTurns = get("instant_comTestTurnLimit", 12);
+        const maxTurns = args.noncomlimit;
         const testTurns = CommunityService.Noncombat.actualCost();
         if (testTurns > maxTurns) {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");

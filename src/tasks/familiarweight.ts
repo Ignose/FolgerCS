@@ -37,6 +37,7 @@ import {
   chooseHeaviestFamiliar,
   sugarItemsAboutToBreak,
 } from "../engine/outfit";
+import { args } from "../args";
 
 export const FamiliarWeightQuest: Quest = {
   name: "Familiar Weight",
@@ -47,7 +48,7 @@ export const FamiliarWeightQuest: Quest = {
       completed: () =>
         !have($item`hewn moon-rune spoon`) ||
         get("moonTuned") ||
-        get("instant_saveMoonTune", false) ||
+        args.savemoontune ||
         mySign() === "Platypus",
       do: (): void => {
         cliExecute("spoon platypus");
@@ -55,7 +56,7 @@ export const FamiliarWeightQuest: Quest = {
     },
     {
       name: "Late Eat Deep Dish",
-      ready: () => get("instant_lateDeepDish", false),
+      ready: () => args.latedeepdish,
       completed: () => get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`),
       do: (): void => {
         if (have($item`familiar scrapbook`)) {
@@ -71,7 +72,7 @@ export const FamiliarWeightQuest: Quest = {
         !have($skill`Chorale of Companionship`) ||
         have($effect`Chorale of Companionship`) ||
         myClass() !== $class`Accordion Thief` ||
-        get("instant_saveLimitedAT", false),
+        args.savelimitedat,
       do: (): void => {
         shrugAT();
         cliExecute("cast 1 Chorale of Companionship");
@@ -171,7 +172,7 @@ export const FamiliarWeightQuest: Quest = {
         }
       },
       do: (): void => {
-        const maxTurns = get("instant_famTestTurnLimit", 50);
+        const maxTurns = args.familiarlimit;
         const testTurns = CommunityService.FamiliarWeight.actualCost();
         if (testTurns > maxTurns) {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");

@@ -34,7 +34,8 @@
     "garbo-lib": "^0.0.1",
     "grimoire-kolmafia": "^0.3.18",
     "kolmafia": "^5.27681.0",
-    "libram": "^0.8.16"
+    "libram": "^0.8.16",
+    "mafia-shared-relay": "0.0.7"
   },
   "author": "Pantocyclus/Seraphiii",
   "license": "MIT",

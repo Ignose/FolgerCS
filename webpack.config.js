@@ -6,20 +6,16 @@ const path = require("path");
 const webpack = require("webpack"); // does this have a purpose? or can it just get deleted?
 const packageData = require("./package.json");
 /* eslint-enable @typescript-eslint/no-var-requires */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { merge } = require("webpack-merge");
 
-module.exports = {
-  entry: {
-    // Define files webpack will emit, does not need to correspond 1:1 with every typescript file
-    // You need an emitted file for each entrypoint into your code, e.g. the main script and the ccs or ccs consult script it calls
-    folgercs: "./src/main.ts",
-  },
+const shared = {
   // Turns on tree-shaking and minification in the default Terser minifier
   // https://webpack.js.org/plugins/terser-webpack-plugin/
   mode: "production",
   devtool: false,
   output: {
-    path: path.resolve(__dirname, "KoLmafia", "scripts", packageData.name),
-    filename: "folgercs.js",
+    filename: "[name].js",
     libraryTarget: "commonjs",
   },
   resolve: {
@@ -51,3 +47,33 @@ module.exports = {
     // "canadv.ash": "commonjs canadv.ash",
   },
 };
+
+const entry = merge(
+  {
+    entry: {
+      // Define files webpack will emit, does not need to correspond 1:1 with every typescript file
+      // You need an emitted file for each entrypoint into your code, e.g. the main script and the ccs or ccs consult script it calls
+      folgerCS: "./src/main.ts",
+    },
+    output: {
+      path: path.resolve(__dirname, "KoLmafia", "scripts", packageData.name),
+    },
+  },
+  shared
+);
+
+const relay = merge(
+  {
+    entry: {
+      // Define files webpack will emit, does not need to correspond 1:1 with every typescript file
+      // You need an emitted file for each entrypoint into your code, e.g. the main script and the ccs or ccs consult script it calls
+      relay_folgerCS: "./src/relay.ts",
+    },
+    output: {
+      path: path.resolve(__dirname, "KoLmafia", "relay"),
+    },
+  },
+  shared
+);
+
+module.exports = [entry, relay];

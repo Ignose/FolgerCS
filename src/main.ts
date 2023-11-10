@@ -33,22 +33,9 @@ import { WeaponDamageQuest } from "./tasks/weapondamage";
 import { DonateQuest, logResourceUsage } from "./tasks/donate";
 import { SpellDamageQuest } from "./tasks/spelldamage";
 import { checkRequirements } from "./sim";
-import { checkResources } from "./resources";
+import { args } from "./args";
 
 const timeProperty = "fullday_elapsedTime";
-
-export const args = Args.create("FolgerCS", "An automated mid-shiny SCCS script.", {
-  confirm: Args.boolean({
-    help: "If the user must confirm execution of each task.",
-    default: false,
-  }),
-  sim: Args.flag({ help: "Check if you have the requirements to run this script.", setting: "" }),
-  savedresources: Args.flag({
-    help: "Check which resources you have current set to be saved.",
-    setting: "",
-  }),
-  recap: Args.flag({ help: "Recap of today's run.", setting: "" }),
-});
 
 export function main(command?: string): void {
   sinceKolmafiaRevision(27675);
@@ -60,10 +47,6 @@ export function main(command?: string): void {
   }
   if (args.sim) {
     checkRequirements();
-    return;
-  }
-  if (args.savedresources) {
-    checkResources();
     return;
   }
 

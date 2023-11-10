@@ -55,6 +55,7 @@ import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { chooseRift } from "libram/dist/resources/2023/ClosedCircuitPayphone";
 import { boomBoxProfit } from "../lib";
+import { args } from "../args";
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
@@ -135,10 +136,7 @@ function sellMiscellaneousItems(): void {
 export const earlyLevelingQuest: Quest = {
   name: "Early Leveling",
   completed: () =>
-    get("pizzaOfLegendEaten") ||
-    !get("instant_skipBorrowedTime", false) ||
-    get("instant_useAsdon", false) ||
-    CommunityService.CoilWire.isDone(),
+    get("pizzaOfLegendEaten") || !args.skipbt || args.asdon || CommunityService.CoilWire.isDone(),
   tasks: [
     {
       name: "Install Trainset",
@@ -208,8 +206,7 @@ export const earlyLevelingQuest: Quest = {
       },
       completed: () =>
         CombatLoversLocket.monstersReminisced().includes($monster`red skeleton`) ||
-        !CombatLoversLocket.availableLocketMonsters().includes($monster`red skeleton`) ||
-        get("instant_saveLocketRedSkeleton", false),
+        !CombatLoversLocket.availableLocketMonsters().includes($monster`red skeleton`),
       do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
       combat: get("_daycareGymScavenges")
         ? new CombatStrategy().macro(
@@ -257,7 +254,7 @@ export const earlyLevelingQuest: Quest = {
         modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
       }),
       post: (): void => {
-        if (have($item`MayDay™ supply package`) && !get("instant_saveMayday", false))
+        if (have($item`MayDay™ supply package`) && args.savemayday)
           use($item`MayDay™ supply package`, 1);
         if (have($item`space blanket`)) autosell($item`space blanket`, 1);
         use($item`red box`, 1);
@@ -337,7 +334,6 @@ export const earlyLevelingQuest: Quest = {
         !have($skill`Just the Facts`) ||
         get("_monstersMapped") >= 3 ||
         have($item`pocket wish`, 1) ||
-        get("instant_saveGenie", false) ||
         myClass() !== $class`Seal Clubber` ||
         ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
           (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
@@ -435,7 +431,7 @@ export const earlyLevelingQuest: Quest = {
         get("_roninStoragePulls")
           .split(",")
           .includes(toInt($item`Pizza of Legend`).toString()) ||
-        get("instant_skipPizzaOfLegend", false),
+        args.pizza,
       do: (): void => {
         if (storageAmount($item`Pizza of Legend`) === 0) {
           print("Uh oh! You do not seem to have a Pizza of Legend in Hagnk's", "red");
@@ -474,7 +470,7 @@ export const earlyLevelingQuest: Quest = {
         get("_roninStoragePulls")
           .split(",")
           .includes(toInt($item`Calzone of Legend`).toString()) ||
-        get("instant_skipCalzoneOfLegend", false),
+        args.calzone,
       do: (): void => {
         if (storageAmount($item`Calzone of Legend`) === 0) {
           print("Uh oh! You do not seem to have a Calzone of Legend in Hagnk's", "red");

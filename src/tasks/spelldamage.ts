@@ -40,6 +40,7 @@ import { Quest } from "../engine/task";
 import {
   checkTurnSave,
   checkValue,
+  forbiddenEffects,
   logTestSetup,
   shouldFeelLost,
   shrugAT,
@@ -48,11 +49,11 @@ import {
 } from "../lib";
 import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
-import { forbiddenEffects } from "../resources";
+import { args } from "../args";
 
 let triedDeepDark = false;
 // eslint-disable-next-line no-octal
-const barrels = [0o0, 0o1, 0o2, 10, 11, 12, 20, 21, 22];
+const barrels = [10, 11, 12, 20, 21, 22];
 
 export const SpellDamageQuest: Quest = {
   name: "Spell Damage",
@@ -116,13 +117,13 @@ export const SpellDamageQuest: Quest = {
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
-        Clan.join(get("instant_motherSlimeClan", ""));
+        Clan.join(args.motherclan);
       },
       completed: () =>
         !have($familiar`Machine Elf`) ||
         !haveMotherSlimeBanish() ||
         have($effect`Inner Elf`) ||
-        get("instant_motherSlimeClan", "").length === 0,
+        get(args.motherclan).length === 0,
       do: $location`The Slime Tube`,
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`KGB tranquilizer dart`)
@@ -275,7 +276,7 @@ export const SpellDamageQuest: Quest = {
       },
       completed: () => CommunityService.SpellDamage.isDone(),
       do: (): void => {
-        const maxTurns = get("instant_spellTestTurnLimit", 55);
+        const maxTurns = args.spelldmglimit;
         const testTurns = CommunityService.SpellDamage.actualCost();
         if (testTurns > maxTurns) {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");

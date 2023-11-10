@@ -33,14 +33,12 @@ import {
   storageAmount,
   takeStorage,
   toInt,
-  totalFreeRests,
   use,
   useFamiliar,
   useSkill,
   visitUrl,
 } from "kolmafia";
 import {
-  $coinmaster,
   $effect,
   $familiar,
   $item,
@@ -65,6 +63,7 @@ import { getGarden, goVote, statToMaximizerString, tryAcquiringEffect } from "..
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { baseOutfit, chooseFamiliar, unbreakableUmbrella } from "../engine/outfit";
+import { args } from "../args";
 
 const bestSIT =
   mallPrice($item`hollow rock`) + mallPrice($item`lump of loyal latite`) >
@@ -132,8 +131,7 @@ export const RunStartQuest: Quest = {
         use($item`pork elf goodies sack`);
         autosell($item`hamethyst`, itemAmount($item`hamethyst`));
         autosell($item`baconstone`, itemAmount($item`baconstone`));
-        if (!get("instant_savePorquoise", false))
-          autosell($item`porquoise`, itemAmount($item`porquoise`));
+        if (!args.savepurqoise) autosell($item`porquoise`, itemAmount($item`porquoise`));
       },
       limit: { tries: 1 },
     },
@@ -151,7 +149,7 @@ export const RunStartQuest: Quest = {
     },
     {
       name: "Get Floundry item",
-      completed: () => get("_floundryItemCreated") || get("instant_saveFloundry", false),
+      completed: () => get("_floundryItemCreated") || args.savefloundry,
       do: (): void => {
         retrieveItem($item`carpe`);
       },
@@ -166,32 +164,15 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Use Meat Butler",
-      completed: () =>
-        !have($item`2002 Mr. Store Catalog`) ||
-        get("availableMrStore2002Credits") <= get("instant_saveCatalogCredits", 0) ||
-        get("instant_skipMeatButler", false) ||
-        haveInCampground($item`Meat Butler`),
-      do: (): void => {
-        if (!have($item`Meat Butler`)) buy($coinmaster`Mr. Store 2002`, 1, $item`Meat Butler`);
-        use($item`Meat Butler`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "KGB",
       completed: () =>
-        get("_kgbClicksUsed") > 0 ||
-        !have($item`Kremlin's Greatest Briefcase`) ||
-        get("instant_saveKGBClicks", false),
+        get("_kgbClicksUsed") > 0 || !have($item`Kremlin's Greatest Briefcase`) || args.savekgb,
       do: () => cliExecute("briefcase e ml"),
       limit: { tries: 1 },
     },
     {
       name: "Restore mp",
-      completed: () =>
-        get("timesRested") >= totalFreeRests() - get("instant_saveFreeRests", 0) ||
-        myMp() >= Math.min(200, myMaxmp()),
+      completed: () => get("timesRested") >= args.saverests || myMp() >= Math.min(200, myMaxmp()),
       prepare: (): void => {
         if (have($item`Newbiesport™ tent`)) use($item`Newbiesport™ tent`);
       },
@@ -217,7 +198,7 @@ export const RunStartQuest: Quest = {
           create($item`borrowed time`, 1);
         else takeStorage($item`borrowed time`, 1);
       },
-      completed: () => get("_borrowedTimeUsed") || get("instant_skipBorrowedTime", false),
+      completed: () => get("_borrowedTimeUsed") || args.skipbt,
       do: (): void => {
         if (storageAmount($item`borrowed time`) === 0 && !have($item`borrowed time`)) {
           print("Uh oh! You do not seem to have a borrowed time in Hagnk's", "red");
@@ -235,17 +216,14 @@ export const RunStartQuest: Quest = {
       ready: () => Object.keys(reverseNumberology()).includes("69"),
       completed: () =>
         get("_universeCalculated") >=
-        (get("skillLevel144") > 3 ? 3 : get("skillLevel144")) - get("instant_saveNumberology", 0),
+        (get("skillLevel144") > 3 ? 3 : get("skillLevel144")) - args.savenumberology,
       do: () => cliExecute("numberology 69"),
       limit: { tries: 3 },
     },
     {
       name: "Get Camel Hat",
-      completed: () =>
-        have($item`dromedary drinking helmet`) ||
-        get("instant_saveClipArt", false) ||
-        !have($familiar`Melodramedary`) ||
-        !get("instant_camelExperiment", false),
+      ready: () => args.camelhat,
+      completed: () => have($item`dromedary drinking helmet`) || !have($familiar`Melodramedary`),
       do: (): void => {
         if (!have($item`box of Familiar Jacks`)) create($item`box of Familiar Jacks`, 1);
 
@@ -257,10 +235,7 @@ export const RunStartQuest: Quest = {
     {
       name: "Summon Sugar Sheets",
       completed: () =>
-        !have($skill`Summon Sugar Sheets`) ||
-        get("instant_saveSugar", false) ||
-        get("tomeSummons") >= 3 ||
-        (have($skill`Summon Clip Art`) && !get("instant_saveClipArt", false)),
+        !have($skill`Summon Sugar Sheets`) || args.savesugar || get("tomeSummons") >= 3,
       do: (): void => {
         const sheetsToMake = 3 - get("tomeSummons");
         restoreMp(2 * sheetsToMake);
@@ -319,9 +294,7 @@ export const RunStartQuest: Quest = {
     {
       name: "Pantogramming",
       completed: () =>
-        Pantogram.havePants() ||
-        !have($item`portable pantogram`) ||
-        get("instant_savePantogram", false),
+        Pantogram.havePants() || !have($item`portable pantogram`) || args.savepantogramming,
       do: (): void => {
         Pantogram.makePants(
           myPrimestat().toString(),
@@ -338,7 +311,7 @@ export const RunStartQuest: Quest = {
       completed: () =>
         get("_mummeryMods").includes(`Experience (${myPrimestat().toString()})`) ||
         !have($item`mumming trunk`) ||
-        get("instant_saveMummingTrunk", false),
+        args.savemumming,
       do: (): void => {
         const statString = statToMaximizerString(myPrimestat());
         cliExecute(`mummery ${statString}`);
@@ -439,7 +412,7 @@ export const RunStartQuest: Quest = {
       completed: () =>
         [$item.none, $item`packet of mushroom spores`].includes(getGarden()) ||
         getCampground()[getGarden().name] === 0 ||
-        get("instant_saveGarden", false),
+        args.savegarden,
       do: () => cliExecute("garden pick"),
       limit: { tries: 1 },
     },
@@ -458,8 +431,8 @@ export const RunStartQuest: Quest = {
     },
     {
       name: "Set Asdon Workshed",
-      completed: () =>
-        getWorkshed() === $item`Asdon Martin keyfob` || !get("instant_useAsdon", false),
+      ready: () => args.asdon,
+      completed: () => getWorkshed() === $item`Asdon Martin keyfob`,
       do: () => use($item`Asdon Martin keyfob`),
     },
     {
@@ -474,8 +447,8 @@ export const RunStartQuest: Quest = {
       completed: () =>
         !have($item`model train set`) ||
         (getWorkshed() === $item`model train set` && !canConfigure()) ||
-        get("instant_skipBorrowedTime", false) ||
-        get("instant_useAsdon", false),
+        args.skipbt ||
+        args.asdon,
       do: (): void => {
         const statStation: Station = {
           Muscle: Station.BRAWN_SILO,
@@ -527,7 +500,7 @@ export const RunStartQuest: Quest = {
         !have($skill`Map the Monsters`) ||
         get("_monstersMapped") >= 3 ||
         have($item`cherry`) ||
-        get("instant_skipBorrowedTime", false) ||
+        args.skipbt ||
         (() => {
           // if we have another skeleton in the ice house, we don't need to map a novelty skeleton
           const banishes = get("banishedMonsters").split(":");
@@ -551,7 +524,7 @@ export const RunStartQuest: Quest = {
         modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
       }),
       post: (): void => {
-        if (have($item`MayDay™ supply package`) && !get("instant_saveMayday", false))
+        if (have($item`MayDay™ supply package`) && !args.savemayday)
           use($item`MayDay™ supply package`, 1);
         if (have($item`space blanket`)) autosell($item`space blanket`, 1);
       },
@@ -570,7 +543,7 @@ export const RunStartQuest: Quest = {
         if (get("_snokebombUsed") === 0) restoreMp(50);
         if (haveEquipped($item`miniature crystal ball`)) equip($slot`familiar`, $item.none);
       },
-      completed: () => get("instant_skipBorrowedTime", false) || have($item`cherry`),
+      completed: () => args.skipbt || have($item`cherry`),
       do: $location`The Skeleton Store`,
       combat: new CombatStrategy().macro(() =>
         Macro.if_(
@@ -604,7 +577,7 @@ export const RunStartQuest: Quest = {
         };
       },
       post: (): void => {
-        if (have($item`MayDay™ supply package`) && !get("instant_saveMayday", false))
+        if (have($item`MayDay™ supply package`) && !args.savemayday)
           use($item`MayDay™ supply package`, 1);
         if (have($item`space blanket`)) autosell($item`space blanket`, 1);
       },
@@ -624,7 +597,7 @@ export const RunStartQuest: Quest = {
     {
       name: "Get Distilled Fortified Wine",
       ready: () => have($item`11-leaf clover`) || have($effect`Lucky!`),
-      completed: () => myInebriety() >= 1 || get("instant_skipDistilledFortifiedWine", false),
+      completed: () => myInebriety() >= 1 || args.fortifiedwine,
       do: (): void => {
         if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
         if (!have($item`distilled fortified wine`)) adv1($location`The Sleazy Back Alley`, -1);
@@ -643,9 +616,7 @@ export const RunStartQuest: Quest = {
       },
       ready: () => getKramcoWandererChance() >= 1.0,
       completed: () =>
-        getKramcoWandererChance() < 1.0 ||
-        !have($item`Kramco Sausage-o-Matic™`) ||
-        get("instant_skipBorrowedTime", false),
+        getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`) || args.skipbt,
       do: $location`Noob Cave`,
       outfit: () => ({
         ...baseOutfit(),

@@ -50,6 +50,7 @@ import {
   checkLocketAvailable,
   checkTurnSave,
   checkValue,
+  forbiddenEffects,
   fuelUp,
   logTestSetup,
   shouldFeelLost,
@@ -59,8 +60,8 @@ import {
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { CombatStrategy } from "grimoire-kolmafia";
 import Macro, { haveFreeBanish } from "../combat";
-import { forbiddenEffects } from "../resources";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
+import { args } from "../args";
 
 function wishOrSpleen(): boolean {
   if (
@@ -96,9 +97,7 @@ export const BoozeDropQuest: Quest = {
     {
       name: "Acquire Clover",
       completed: () =>
-        have($item`11-leaf clover`) ||
-        get("_cloversPurchased") >= 2 ||
-        get("instant_skipCyclopsEyedrops", false),
+        have($item`11-leaf clover`) || get("_cloversPurchased") >= 2 || args.savecyclops,
       do: (): void => {
         buy(1, $item`chewing gum on a string`);
         use(1, $item`chewing gum on a string`);
@@ -118,9 +117,7 @@ export const BoozeDropQuest: Quest = {
     {
       name: "Acquire Government",
       completed: () =>
-        !have($item`government cheese`) ||
-        get("lastAnticheeseDay") > 0 ||
-        get("instant_skipGovernment", false),
+        !have($item`government cheese`) || get("lastAnticheeseDay") > 0 || args.savegovernment,
       do: (): void => {
         if (myMeat() >= 15000) retrieveItem($item`Desert Bus pass`);
         if (!have($item`Desert Bus pass`) && !have($item`bitchin' meatcar`)) {
@@ -221,7 +218,7 @@ export const BoozeDropQuest: Quest = {
         have($effect`Sacré Mental`) ||
         !have($item`Sacramento wine`) ||
         myInebriety() >= inebrietyLimit() ||
-        get("instant_saveSacramentoWine", false),
+        args.sacramentowine,
       do: (): void => {
         if (myInebriety() < inebrietyLimit()) {
           tryAcquiringEffect($effect`Ode to Booze`);
@@ -232,35 +229,11 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Drink Cabernet Sauvignon",
-      ready: () =>
-        checkValue("August Scepter", Math.min(2.6, CommunityService.BoozeDrop.prediction - 1)),
-      completed: () =>
-        have($effect`Cabernet Hunter`) ||
-        (!have($item`bottle of Cabernet Sauvignon`) &&
-          // eslint-disable-next-line libram/verify-constants
-          (!have($skill`Aug. 31st: Cabernet Sauvignon Day!`) ||
-            get("instant_saveAugustScepter", false))) ||
-        myInebriety() + 3 > inebrietyLimit() ||
-        get("instant_skipCabernetSauvignon", false),
-      do: (): void => {
-        if (!have($item`bottle of Cabernet Sauvignon`))
-          // eslint-disable-next-line libram/verify-constants
-          useSkill($skill`Aug. 31st: Cabernet Sauvignon Day!`);
-        if (myInebriety() + 3 <= inebrietyLimit()) {
-          tryAcquiringEffect($effect`Ode to Booze`);
-          drink($item`bottle of Cabernet Sauvignon`);
-          uneffect($effect`Ode to Booze`);
-        }
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Pumpkin Juice",
       completed: () =>
         have($effect`Juiced and Jacked`) ||
         (!have($item`pumpkin`) && !have($item`pumpkin juice`)) ||
-        get("instant_savePumpkins", false),
+        args.savepumpkin,
       do: (): void => {
         if (!have($item`pumpkin juice`)) create($item`pumpkin juice`, 1);
         use($item`pumpkin juice`, 1);
@@ -273,17 +246,26 @@ export const BoozeDropQuest: Quest = {
       completed: () =>
         have($effect`Spitting Rhymes`) ||
         !have($item`2002 Mr. Store Catalog`) ||
-        get("availableMrStore2002Credits", 0) <= get("instant_saveCatalogCredits", 0) ||
         forbiddenEffects.includes($effect`Spitting Rhymes`),
       do: (): void => {
         if (
-          !have($item`Loathing Idol Microphone`) ||
-          $item`Loathing Idol Microphone (75% charged)`
+          !have($item`Loathing Idol Microphone`) &&
+          !have($item`Loathing Idol Microphone (75% charged)`) &&
+          !have($item`Loathing Idol Microphone (50% charged)`) &&
+          !have($item`Loathing Idol Microphone (25% charged)`)
         ) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
         }
         withChoice(1505, 3, () =>
-          use($item`Loathing Idol Microphone` || $item`Loathing Idol Microphone (75% charged)`)
+          use(
+            have($item`Loathing Idol Microphone`)
+              ? $item`Loathing Idol Microphone`
+              : have($item`Loathing Idol Microphone (75% charged)`)
+              ? $item`Loathing Idol Microphone (75% charged)`
+              : have($item`Loathing Idol Microphone (50% charged)`)
+              ? $item`Loathing Idol Microphone (50% charged)`
+              : $item`Loathing Idol Microphone (25% charged)`
+          )
         );
       },
       limit: { tries: 1 },
@@ -291,10 +273,7 @@ export const BoozeDropQuest: Quest = {
     {
       name: "Red-soled high heels",
       ready: () => checkValue("2002", 3),
-      completed: () =>
-        have($item`red-soled high heels`) ||
-        !have($item`2002 Mr. Store Catalog`) ||
-        get("availableMrStore2002Credits", 0) <= get("instant_saveCatalogCredits", 0),
+      completed: () => have($item`red-soled high heels`) || !have($item`2002 Mr. Store Catalog`),
       do: (): void => {
         if (!have($item`Letter from Carrie Bradshaw`)) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
@@ -308,8 +287,7 @@ export const BoozeDropQuest: Quest = {
       completed: () =>
         !have($skill`Visit your Favorite Bird`) ||
         get("_favoriteBirdVisited") ||
-        !get("yourFavoriteBirdMods").includes("Item Drops") ||
-        get("instant_saveFavoriteBird", false),
+        !get("yourFavoriteBirdMods").includes("Item Drops"),
       do: () => useSkill($skill`Visit your Favorite Bird`),
       limit: { tries: 1 },
     },
@@ -329,7 +307,8 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Driving Observantly",
-      completed: () => have($effect`Driving Observantly`) || !get("instant_useAsdon", false),
+      ready: () => args.asdon,
+      completed: () => have($effect`Driving Observantly`),
       do: (): void => {
         fuelUp(), drive($effect`Driving Observantly`);
       },
@@ -407,16 +386,13 @@ export const BoozeDropQuest: Quest = {
       },
       completed: () => CommunityService.BoozeDrop.isDone(),
       do: (): void => {
-        const maxTurns = get("instant_boozeTestTurnLimit", 30);
+        const maxTurns = args.boozelimit;
         const testTurns = CommunityService.BoozeDrop.actualCost();
         if (testTurns > maxTurns) {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");
           print("Either there was a bug, or you are under-prepared for this test", "red");
           print("Manually complete the test if you think this is fine.", "red");
-          print(
-            "You may also increase the turn limit by typing 'set instant_boozeTestTurnLimit=<new limit>'",
-            "red"
-          );
+          print("You may also increase the turn limit in the relay", "red");
         }
         CommunityService.BoozeDrop.run(() => logTestSetup(CommunityService.BoozeDrop), maxTurns);
       },

@@ -13,6 +13,7 @@ import {
   maxBy,
 } from "libram";
 import { camelFightsLeft, statToMaximizerString } from "../lib";
+import { args } from "../args";
 
 export function garbageShirt(): void {
   if (
@@ -104,9 +105,7 @@ function melodramedary(): Familiar {
 }
 
 export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
-  const ignoredFamiliars = get("instant_explicitlyExcludedFamiliars", "")
-    .split(",")
-    .map((i) => toInt(i));
+  const ignoredFamiliars = args.explicitlyexcludedfams.split(",").map((i) => toInt(i));
   const defaultFam = have($familiar`Cookbookbat`) ? $familiar`Cookbookbat` : $familiar.none;
   const familiars = [
     melodramedary,
@@ -151,7 +150,7 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
     acc2:
       have($item`Cincho de Mayo`) &&
       get("_cinchUsed", 0) < 95 &&
-      100 - get("_cinchUsed", 0) > get("instant_saveCinch", 0)
+      100 - get("_cinchUsed", 0) > args.savecinch
         ? $item`Cincho de Mayo`
         : undefined,
     familiar: chooseFamiliar(allowAttackingFamiliars),
