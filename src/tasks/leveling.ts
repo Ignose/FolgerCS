@@ -122,7 +122,7 @@ import { drive } from "libram/dist/resources/2017/AsdonMartin";
 import { cheatCard, getRemainingCheats } from "libram/dist/resources/2015/DeckOfEveryCard";
 import { args } from "../args";
 
-const useCinch = args.savecinch >= 100 - get("_cinchUsed");
+const useCinch = args.savecinch < 100 - get("_cinchUsed");
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
 const freeFightMonsters: Monster[] = $monsters`Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle`;
 const godLobsterChoice = have($item`God Lobster's Ring`) ? 2 : 3;
@@ -1472,6 +1472,7 @@ export const LevelingQuest: Quest = {
       completed: () =>
         myBasestat(myPrimestat()) >= targetBaseMyst - targetBaseMystGap && // I don't know if this will cause issues.
         (powerlevelingLocation() !== $location`The Neverending Party` ||
+          overlevelled() ||
           get("_neverendingPartyFreeTurns") >= 10),
       do: powerlevelingLocation(),
       prepare: (): void => {
@@ -1504,6 +1505,7 @@ export const LevelingQuest: Quest = {
       combat: new CombatStrategy().macro(
         Macro.tryItem($item`red rocket`)
           .trySkill($skill`Feel Pride`)
+          .trySkill($skill`Cincho: Confetti Extravaganza`)
           .trySkill($skill`Bowl Sideways`)
           .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
           .default(useCinch)
