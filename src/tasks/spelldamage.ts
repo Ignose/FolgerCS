@@ -123,7 +123,7 @@ export const SpellDamageQuest: Quest = {
         !have($familiar`Machine Elf`) ||
         !haveMotherSlimeBanish() ||
         have($effect`Inner Elf`) ||
-        get(args.motherclan).length === 0,
+        args.motherclan.length === 0,
       do: $location`The Slime Tube`,
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`KGB tranquilizer dart`)

@@ -90,7 +90,7 @@ export const WeaponDamageQuest: Quest = {
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
-        Clan.join(get(args.motherclan));
+        Clan.join(args.motherclan);
       },
       completed: () =>
         !have($familiar`Machine Elf`) ||
