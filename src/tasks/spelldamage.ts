@@ -42,7 +42,6 @@ import {
   checkValue,
   forbiddenEffects,
   logTestSetup,
-  shouldFeelLost,
   shrugAT,
   startingClan,
   tryAcquiringEffect,
@@ -52,8 +51,6 @@ import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { args } from "../args";
 
 let triedDeepDark = false;
-
-const barrels: string[] = [`00`, `01`, `02`, `10`, `11`, `12`, `20`, `21`, `22`];
 
 export const SpellDamageQuest: Quest = {
   name: "Spell Damage",
@@ -89,7 +86,6 @@ export const SpellDamageQuest: Quest = {
     },
     {
       name: "Stand-Alone Carol Ghost Buff",
-      ready: () => !shouldFeelLost(),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
@@ -142,7 +138,6 @@ export const SpellDamageQuest: Quest = {
     },
     {
       name: "Meteor Shower",
-      ready: () => !shouldFeelLost(),
       completed: () =>
         have($effect`Meteor Showered`) ||
         !have($item`Fourth of May Cosplay Saber`) ||
@@ -169,41 +164,6 @@ export const SpellDamageQuest: Quest = {
       }),
       choices: { 1387: 3 },
       limit: { tries: 1 },
-    },
-    {
-      name: "Meteor Shower Feeling Lost",
-      ready: () => shouldFeelLost(),
-      completed: () =>
-        have($effect`Meteor Showered`) ||
-        !have($item`Fourth of May Cosplay Saber`) ||
-        !have($skill`Meteor Lore`) ||
-        get("_saberForceUses") >= 5,
-      do: (): void => {
-        for (const barrel of barrels) {
-          visitUrl("barrel.php");
-          visitUrl(`choice.php?whichchoice=1099&pwd&option=1&slot=${barrel}`);
-        }
-      },
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Meteor Shower`)
-          .trySkill($skill`%fn, spit on me!`)
-          .trySkill($skill`Use the Force`)
-          .abort()
-      ),
-      outfit: () => ({
-        weapon: $item`Fourth of May Cosplay Saber`,
-        familiar:
-          get("camelSpit") >= 100
-            ? $familiar`Melodramedary`
-            : $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
-                (ef) => have(ef)
-              )
-            ? $familiar`Ghost of Crimbo Carols`
-            : chooseFamiliar(false),
-        avoid: sugarItemsAboutToBreak(),
-      }),
-      choices: { 1387: 3 },
-      limit: { tries: 10 },
     },
     {
       name: "Deep Dark Visions",
