@@ -18008,7 +18008,7 @@ var WeaponDamageQuest = {
     prepare: () => {
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
-      Clan.join(property_get(args_args.motherclan));
+      Clan.join(args_args.motherclan);
     },
     completed: () => !lib_have(template_string_$familiar(weapondamage_templateObject14 || (weapondamage_templateObject14 = weapondamage_taggedTemplateLiteral(["Machine Elf"])))) || !haveMotherSlimeBanish() || lib_have(template_string_$effect(weapondamage_templateObject15 || (weapondamage_templateObject15 = weapondamage_taggedTemplateLiteral(["Inner Elf"])))) || args_args.motherclan.length === 0,
     do: $location(weapondamage_templateObject16 || (weapondamage_templateObject16 = weapondamage_taggedTemplateLiteral(["The Slime Tube"]))),
@@ -18308,7 +18308,7 @@ var SpellDamageQuest = {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
       Clan.join(args_args.motherclan);
     },
-    completed: () => !lib_have(template_string_$familiar(spelldamage_templateObject17 || (spelldamage_templateObject17 = spelldamage_taggedTemplateLiteral(["Machine Elf"])))) || !haveMotherSlimeBanish() || lib_have(template_string_$effect(spelldamage_templateObject18 || (spelldamage_templateObject18 = spelldamage_taggedTemplateLiteral(["Inner Elf"])))) || property_get(args_args.motherclan).length === 0,
+    completed: () => !lib_have(template_string_$familiar(spelldamage_templateObject17 || (spelldamage_templateObject17 = spelldamage_taggedTemplateLiteral(["Machine Elf"])))) || !haveMotherSlimeBanish() || lib_have(template_string_$effect(spelldamage_templateObject18 || (spelldamage_templateObject18 = spelldamage_taggedTemplateLiteral(["Inner Elf"])))) || args_args.motherclan.length === 0,
     do: $location(spelldamage_templateObject19 || (spelldamage_templateObject19 = spelldamage_taggedTemplateLiteral(["The Slime Tube"]))),
     combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(spelldamage_templateObject20 || (spelldamage_templateObject20 = spelldamage_taggedTemplateLiteral(["KGB tranquilizer dart"])))).trySkill(template_string_$skill(spelldamage_templateObject21 || (spelldamage_templateObject21 = spelldamage_taggedTemplateLiteral(["Snokebomb"])))).abort()),
     choices: {
