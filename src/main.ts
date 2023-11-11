@@ -12,11 +12,12 @@ import {
 } from "kolmafia";
 import {
   compareTestCompletion,
+  computeCombatFrequency,
   convertMilliseconds,
   logTestCompletion,
   simpleDateDiff,
 } from "./lib";
-import { $item, $stat, CommunityService, get, have, set, sinceKolmafiaRevision } from "libram";
+import { $item, $stat, get, have, set, sinceKolmafiaRevision } from "libram";
 import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
 import { Task } from "./engine/task";
@@ -70,7 +71,7 @@ export function main(command?: string): void {
 
   const swapMainStatTest = have($item`Deck of Every Card`) && myPrimestat === $stat`Muscle`;
 
-  const nonComSwapOrder = CommunityService.FamiliarWeight.prediction >= 14;
+  const swapFamAndNCTests = computeCombatFrequency() <= -95;
 
   const tasks: Task[] = getTasks([
     RunStartQuest,
@@ -82,11 +83,11 @@ export function main(command?: string): void {
     swapMainStatTest ? MuscleQuest : MysticalityQuest,
     swapMainStatTest ? HPQuest : MoxieQuest,
     HotResQuest,
-    nonComSwapOrder ? FamiliarWeightQuest : NoncombatQuest,
-    nonComSwapOrder ? NoncombatQuest : FamiliarWeightQuest,
-    BoozeDropQuest,
     WeaponDamageQuest,
     SpellDamageQuest,
+    swapFamAndNCTests ? FamiliarWeightQuest : NoncombatQuest,
+    swapFamAndNCTests ? NoncombatQuest : FamiliarWeightQuest,
+    BoozeDropQuest,
     DonateQuest,
   ]);
   const engine = new Engine(tasks);

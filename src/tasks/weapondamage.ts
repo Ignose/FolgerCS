@@ -39,7 +39,6 @@ import {
   checkValue,
   forbiddenEffects,
   logTestSetup,
-  shouldFeelLost,
   startingClan,
   tryAcquiringEffect,
   wishFor,
@@ -61,7 +60,6 @@ export const WeaponDamageQuest: Quest = {
     },
     {
       name: "Stand-Alone Carol Ghost Buff",
-      ready: () => !shouldFeelLost(),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
@@ -123,8 +121,7 @@ export const WeaponDamageQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Fax Ungulith",
-      ready: () => shouldFeelLost(),
+      name: "Ungulith Shower",
       completed: () => have($item`corrupted marrow`) || have($effect`Cowrruption`),
       do: (): void => {
         const monsterCow =
@@ -164,39 +161,10 @@ export const WeaponDamageQuest: Quest = {
         Macro.trySkill($skill`Meteor Shower`)
           .trySkill($skill`%fn, spit on me!`)
           .trySkill($skill`Use the Force`)
+          .trySkill($skill`Feel Envy`)
           .default()
       ),
       limit: { tries: 5 },
-    },
-    {
-      name: "Meteor Shower",
-      ready: () => !shouldFeelLost(),
-      completed: () =>
-        have($effect`Meteor Showered`) ||
-        !have($item`Fourth of May Cosplay Saber`) ||
-        !have($skill`Meteor Lore`) ||
-        get("_saberForceUses") >= 5,
-      do: $location`The Dire Warren`,
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Meteor Shower`)
-          .trySkill($skill`%fn, spit on me!`)
-          .trySkill($skill`Use the Force`)
-          .abort()
-      ),
-      outfit: () => ({
-        weapon: $item`Fourth of May Cosplay Saber`,
-        familiar:
-          get("camelSpit") >= 100
-            ? $familiar`Melodramedary`
-            : $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
-                (ef) => have(ef)
-              )
-            ? $familiar`Ghost of Crimbo Carols`
-            : chooseFamiliar(false),
-        avoid: sugarItemsAboutToBreak(),
-      }),
-      choices: { 1387: 3 },
-      limit: { tries: 1 },
     },
     {
       name: "Test",

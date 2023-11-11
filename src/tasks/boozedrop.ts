@@ -8,11 +8,9 @@ import {
   drink,
   Effect,
   equip,
-  faxbot,
   hermit,
   inebrietyLimit,
   itemAmount,
-  myClass,
   myInebriety,
   myMaxhp,
   myMeat,
@@ -34,30 +32,24 @@ import {
   $familiar,
   $item,
   $location,
-  $monster,
   $skill,
   $slot,
   clamp,
-  CombatLoversLocket,
   CommunityService,
-  DaylightShavings,
   get,
   have,
   uneffect,
   withChoice,
 } from "libram";
 import {
-  checkLocketAvailable,
   checkTurnSave,
   checkValue,
   forbiddenEffects,
   fuelUp,
   logTestSetup,
-  shouldFeelLost,
   tryAcquiringEffect,
   wishFor,
 } from "../lib";
-import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { CombatStrategy } from "grimoire-kolmafia";
 import Macro, { haveFreeBanish } from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
@@ -130,25 +122,19 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Item Buff if Feeling Lost",
-      ready: () => shouldFeelLost(),
+      name: "Item Buff",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
       },
       completed: () =>
-        (!have($familiar`Ghost of Crimbo Carols`) &&
-          !have($item`cosmic bowling ball`) &&
-          !have($item`vampyric cloake`)) ||
+        (!have($item`cosmic bowling ball`) && !have($item`vampyric cloake`)) ||
         !haveFreeBanish() ||
-        $effects`Cosmic Ball in the Air, Do You Crush What I Crush?, Bat-Adjacent Form`.some((ef) =>
-          have(ef)
-        ),
+        $effects`Cosmic Ball in the Air, Bat-Adjacent Form`.some((ef) => have(ef)),
       do: $location`The Dire Warren`,
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Bowl Straight Up`)
           .trySkill($skill`Become a Bat`)
-          .trySkill($skill`Use the Force`)
           .banish()
           .abort()
       ),
@@ -156,60 +142,7 @@ export const BoozeDropQuest: Quest = {
         offhand: $item`latte lovers member's mug`,
         acc1: $item`Kremlin's Greatest Briefcase`,
         acc2: $item`Lil' Doctor™ bag`,
-        familiar: $familiar`Ghost of Crimbo Carols`,
-        famequip: $item.none,
       },
-      limit: { tries: 5 },
-    },
-    {
-      name: "Fax Ungulith",
-      completed: () =>
-        have($item`corrupted marrow`) || have($effect`Cowrruption`) || shouldFeelLost(),
-      do: (): void => {
-        const monsterCow =
-          myClass().toString() === "Seal Clubber" &&
-          CombatLoversLocket.unlockedLocketMonsters().includes($monster`furious cow`)
-            ? $monster`furious cow`
-            : $monster`ungulith`;
-        if (checkLocketAvailable() >= 2) {
-          CombatLoversLocket.reminisce(monsterCow);
-        } else {
-          cliExecute("chat");
-          if (have($item`photocopied monster`) && get("photocopyMonster") !== monsterCow) {
-            cliExecute("fax send");
-          }
-          if (
-            (have($item`photocopied monster`) || faxbot(monsterCow)) &&
-            get("photocopyMonster") === monsterCow
-          ) {
-            use($item`photocopied monster`);
-          }
-        }
-      },
-      outfit: () => ({
-        hat:
-          DaylightShavings.nextBuff() === $effect`Musician's Musician's Moustache` &&
-          !DaylightShavings.hasBuff() &&
-          have($item`Daylight Shavings Helmet`)
-            ? $item`Daylight Shavings Helmet`
-            : undefined,
-        back: $item`vampyric cloake`,
-        weapon: $item`Fourth of May Cosplay Saber`,
-        offhand: have($skill`Double-Fisted Skull Smashing`)
-          ? $item`industrial fire extinguisher`
-          : undefined,
-        familiar: chooseFamiliar(false),
-        modifier: "myst",
-        avoid: sugarItemsAboutToBreak(),
-      }),
-      choices: { 1387: 3 },
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Bowl Straight Up`)
-          .trySkill($skill`Become a Bat`)
-          .trySkill($skill`Fire Extinguisher: Polar Vortex`)
-          .trySkill($skill`Use the Force`)
-          .default()
-      ),
       limit: { tries: 5 },
     },
     {
@@ -300,8 +233,7 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Feeling Lost",
-      ready: () => shouldFeelLost(),
-      completed: () => have($effect`Feeling Lost`),
+      completed: () => have($effect`Feeling Lost`) || !have($skill`Feel Lost`),
       do: () => useSkill($skill`Feel Lost`),
       limit: { tries: 1 },
     },
@@ -354,21 +286,11 @@ export const BoozeDropQuest: Quest = {
           sweetSynthesis($item`sugar shank`, $item`sugar sheet`);
         }
 
-        if (
-          checkValue("August Scepter", checkTurnSave("BoozeDrop", $effect`Incredibly Well Lit`)) ||
-          (CommunityService.WeaponDamage.isDone() &&
-            checkTurnSave("BoozeDrop", $effect`Incredibly Well Lit`) > 1)
-        )
+        if (checkTurnSave("BoozeDrop", $effect`Incredibly Well Lit`) > 1)
           tryAcquiringEffect($effect`Incredibly Well Lit`);
 
         if (
-          checkValue(
-            $item`battery (lantern)`,
-            checkTurnSave("BoozeDrop", $effect`Lantern-Charged`) +
-              (!CommunityService.SpellDamage.isDone()
-                ? checkTurnSave("SpellDamage", $effect`Lantern-Charged`)
-                : 0)
-          )
+          checkValue($item`battery (lantern)`, checkTurnSave("BoozeDrop", $effect`Lantern-Charged`))
         ) {
           if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);
           use($item`battery (lantern)`, 1);
