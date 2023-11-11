@@ -17450,7 +17450,7 @@ var HotResQuest = {
   completed: () => CommunityService.HotRes.isDone(),
   tasks: [{
     name: "Grab Foam Suit",
-    completed: () => have(template_string_$effect(hotres_templateObject || (hotres_templateObject = hotres_taggedTemplateLiteral(["Fireproof Foam Suit"])))) || !have(template_string_$item(hotres_templateObject2 || (hotres_templateObject2 = hotres_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))) || property_get("_saberForceUses") >= 5 || !have(template_string_$item(hotres_templateObject3 || (hotres_templateObject3 = hotres_taggedTemplateLiteral(["industrial fire extinguisher"])))) || !have(template_string_$skill(hotres_templateObject4 || (hotres_templateObject4 = hotres_taggedTemplateLiteral(["Double-Fisted Skull Smashing"])))),
+    completed: () => have(template_string_$effect(hotres_templateObject || (hotres_templateObject = hotres_taggedTemplateLiteral(["Fireproof Foam Suit"])))) || !have(template_string_$item(hotres_templateObject2 || (hotres_templateObject2 = hotres_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))) || property_get("_saberForceUses") >= 5 || !have(template_string_$item(hotres_templateObject3 || (hotres_templateObject3 = hotres_taggedTemplateLiteral(["industrial fire extinguisher"])))) || !have(template_string_$skill(hotres_templateObject4 || (hotres_templateObject4 = hotres_taggedTemplateLiteral(["Double-Fisted Skull Smashing"])))) || !args.factoryworker,
     do: $location(hotres_templateObject5 || (hotres_templateObject5 = hotres_taggedTemplateLiteral(["The Dire Warren"]))),
     outfit: {
       back: template_string_$item(hotres_templateObject6 || (hotres_templateObject6 = hotres_taggedTemplateLiteral(["vampyric cloake"]))),
