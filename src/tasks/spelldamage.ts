@@ -179,14 +179,9 @@ export const SpellDamageQuest: Quest = {
         !have($skill`Meteor Lore`) ||
         get("_saberForceUses") >= 5,
       do: (): void => {
-        if (get("_leafMonstersFought", 0) < 5 && have($item`inflammable leaf`, 11)) {
-          visitUrl("campground.php?preaction=leaves");
-          visitUrl("choice.php?pwd&whichchoice=1510&option=1&leaves=11");
-        } else {
-          for (const barrel of barrels) {
-            visitUrl("barrel.php");
-            visitUrl(`choice.php?whichchoice=1099&pwd&option=1&slot=${barrel}`);
-          }
+        for (const barrel of barrels) {
+          visitUrl("barrel.php");
+          visitUrl(`choice.php?whichchoice=1099&pwd&option=1&slot=${barrel}`);
         }
       },
       combat: new CombatStrategy().macro(

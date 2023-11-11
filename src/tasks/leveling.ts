@@ -838,7 +838,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Free Fight Leafy Boys",
       completed: () =>
-        get("_leafMonstersFought", 0) >= 4 || !have($item`inflammable leaf`, 11) || saveLeafyBoys(),
+        get("_leafMonstersFought", 0) >= 5 || !have($item`inflammable leaf`, 11) || saveLeafyBoys(),
       do: (): void => {
         visitUrl("campground.php?preaction=leaves");
         visitUrl("choice.php?pwd&whichchoice=1510&option=1&leaves=11");
