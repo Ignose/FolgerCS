@@ -475,8 +475,8 @@ export function camelFightsLeft(): number {
 }
 
 export function computeCombatFrequency(): number {
-  const vipHat = have($item`Clan VIP Lounge key`) ? -5 : 0;
-  const hat = vipHat;
+  //const vipHat = have($item`Clan VIP Lounge key`) ? -5 : 0;
+  //const hat = vipHat;
 
   const protopack = have($item`protonic accelerator pack`) ? -5 : 0;
   const back = protopack;
@@ -491,7 +491,7 @@ export function computeCombatFrequency(): number {
   const pants = pantogram;
 
   const kgb = have($item`Kremlin's Greatest Briefcase`) && !args.savekgb ? -5 : 0;
-  const atlas = get("hasMaydayContract") && !args.savemayday ? -5 : 0;
+  const atlas = have($item`atlas of local maps`) ? -5 : 0;
   const accessories = sumNumbers([kgb, atlas]);
 
   const rose = -20;
@@ -530,21 +530,11 @@ export function computeCombatFrequency(): number {
   const darkHorse = get("horseryAvailable") ? -5 : 0;
   const others = darkHorse;
 
-  const total = sumNumbers([
-    hat,
-    shirt,
-    back,
-    offhand,
-    pants,
-    accessories,
-    effects,
-    familiar,
-    others,
-  ]);
+  const total = sumNumbers([shirt, back, offhand, pants, accessories, effects, familiar, others]);
 
   print("Determining if we should run NC before fam test...");
   print(
-    `Hat ${hat}, Shirt ${shirt}, Back ${back}, Offhand ${offhand}, Pants ${pants}, Accessories ${accessories}, Effects ${effects}, Others ${others}`
+    `Shirt ${shirt}, Back ${back}, Offhand ${offhand}, Pants ${pants}, Accessories ${accessories}, Effects ${effects}, Others ${others}`
   );
   if (total <= -95) {
     print(`Total ${total} <= -95`, "green");
