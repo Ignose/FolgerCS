@@ -12439,18 +12439,19 @@ function camelFightsLeft() {
   return sumNumbers([shadowRift, snojo, NEP, witchess, DMT, LOV, olivers, tentacle, sausageGoblin, XRay, shatteringPunch, mobHit, locketedWitchess, backups, noveltySkeleton, leafyBoys]);
 }
 function computeCombatFrequency() {
-  var vipHat = have(template_string_$item(_templateObject86 || (_templateObject86 = lib_taggedTemplateLiteral(["Clan VIP Lounge key"])))) ? -5 : 0;
-  var hat = vipHat;
-  var protopack = have(template_string_$item(_templateObject87 || (_templateObject87 = lib_taggedTemplateLiteral(["protonic accelerator pack"])))) ? -5 : 0;
+  //const vipHat = have($item`Clan VIP Lounge key`) ? -5 : 0;
+  //const hat = vipHat;
+
+  var protopack = have(template_string_$item(_templateObject86 || (_templateObject86 = lib_taggedTemplateLiteral(["protonic accelerator pack"])))) ? -5 : 0;
   var back = protopack;
-  var parka = have(template_string_$item(_templateObject88 || (_templateObject88 = lib_taggedTemplateLiteral(["Jurassic Parka"])))) ? -5 : 0;
+  var parka = have(template_string_$item(_templateObject87 || (_templateObject87 = lib_taggedTemplateLiteral(["Jurassic Parka"])))) ? -5 : 0;
   var shirt = parka;
-  var umbrella = have(template_string_$item(_templateObject89 || (_templateObject89 = lib_taggedTemplateLiteral(["unbreakable umbrella"])))) ? -10 : 0;
+  var umbrella = have(template_string_$item(_templateObject88 || (_templateObject88 = lib_taggedTemplateLiteral(["unbreakable umbrella"])))) ? -10 : 0;
   var offhand = umbrella;
-  var pantogram = have(template_string_$item(_templateObject90 || (_templateObject90 = lib_taggedTemplateLiteral(["portable pantogram"])))) && !args.savepantogramming ? -5 : 0;
+  var pantogram = have(template_string_$item(_templateObject89 || (_templateObject89 = lib_taggedTemplateLiteral(["portable pantogram"])))) && !args.savepantogramming ? -5 : 0;
   var pants = pantogram;
-  var kgb = have(template_string_$item(_templateObject91 || (_templateObject91 = lib_taggedTemplateLiteral(["Kremlin's Greatest Briefcase"])))) && !args.savekgb ? -5 : 0;
-  var atlas = property_get("hasMaydayContract") && !args.savemayday ? -5 : 0;
+  var kgb = have(template_string_$item(_templateObject90 || (_templateObject90 = lib_taggedTemplateLiteral(["Kremlin's Greatest Briefcase"])))) && !args.savekgb ? -5 : 0;
+  var atlas = have(template_string_$item(_templateObject91 || (_templateObject91 = lib_taggedTemplateLiteral(["atlas of local maps"])))) ? -5 : 0;
   var accessories = sumNumbers([kgb, atlas]);
   var rose = -20;
   var smoothMovements = have(template_string_$skill(_templateObject92 || (_templateObject92 = lib_taggedTemplateLiteral(["Smooth Movement"])))) ? -5 : 0;
@@ -12466,9 +12467,9 @@ function computeCombatFrequency() {
   var familiar = disgeist;
   var darkHorse = property_get("horseryAvailable") ? -5 : 0;
   var others = darkHorse;
-  var total = sumNumbers([hat, shirt, back, offhand, pants, accessories, effects, familiar, others]);
+  var total = sumNumbers([shirt, back, offhand, pants, accessories, effects, familiar, others]);
   (0,external_kolmafia_namespaceObject.print)("Determining if we should run NC before fam test...");
-  (0,external_kolmafia_namespaceObject.print)("Hat ".concat(hat, ", Shirt ").concat(shirt, ", Back ").concat(back, ", Offhand ").concat(offhand, ", Pants ").concat(pants, ", Accessories ").concat(accessories, ", Effects ").concat(effects, ", Others ").concat(others));
+  (0,external_kolmafia_namespaceObject.print)("Shirt ".concat(shirt, ", Back ").concat(back, ", Offhand ").concat(offhand, ", Pants ").concat(pants, ", Accessories ").concat(accessories, ", Effects ").concat(effects, ", Others ").concat(others));
   if (total <= -95) {
     (0,external_kolmafia_namespaceObject.print)("Total ".concat(total, " <= -95"), "green");
   } else {
@@ -19217,7 +19218,7 @@ function main_main(command) {
   (0,external_kolmafia_namespaceObject.visitUrl)("main.php");
   (0,external_kolmafia_namespaceObject.cliExecute)("refresh all");
   var swapMainStatTest = have(template_string_$item(main_templateObject || (main_templateObject = main_taggedTemplateLiteral(["Deck of Every Card"])))) && external_kolmafia_namespaceObject.myPrimestat === template_string_$stat(main_templateObject2 || (main_templateObject2 = main_taggedTemplateLiteral(["Muscle"])));
-  var swapFamAndNCTests = computeCombatFrequency() <= -95;
+  var swapFamAndNCTests = computeCombatFrequency() <= -85;
   var tasks = getTasks([RunStartQuest, earlyLevelingQuest, CoilWireQuest, LevelingQuest, swapMainStatTest ? MoxieQuest : MuscleQuest, swapMainStatTest ? MysticalityQuest : HPQuest, swapMainStatTest ? MuscleQuest : MysticalityQuest, swapMainStatTest ? HPQuest : MoxieQuest, HotResQuest, WeaponDamageQuest, SpellDamageQuest, swapFamAndNCTests ? FamiliarWeightQuest : NoncombatQuest, swapFamAndNCTests ? NoncombatQuest : FamiliarWeightQuest, BoozeDropQuest, DonateQuest]);
   var engine = new engine_Engine(tasks);
   try {
