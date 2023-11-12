@@ -128,7 +128,7 @@ export const BoozeDropQuest: Quest = {
         restoreMp(50);
       },
       completed: () =>
-        (!have($item`cosmic bowling ball`) && !have($item`vampyric cloake`)) ||
+        !have($item`cosmic bowling ball`) ||
         !haveFreeBanish() ||
         $effects`Cosmic Ball in the Air, Bat-Adjacent Form`.some((ef) => have(ef)),
       do: $location`The Dire Warren`,
@@ -139,6 +139,7 @@ export const BoozeDropQuest: Quest = {
           .abort()
       ),
       outfit: {
+        back: $item`vampyric cloake`,
         offhand: $item`latte lovers member's mug`,
         acc1: $item`Kremlin's Greatest Briefcase`,
         acc2: $item`Lil' Doctor™ bag`,
