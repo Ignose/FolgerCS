@@ -6590,7 +6590,7 @@ var args = Args.create("FolgerCS", "Written by Seraphiii, branched from InstantS
     default: 10
   })
 });
-;// CONCATENATED MODULE: ./relay/relay.ts
+;// CONCATENATED MODULE: ./src/relay.ts
 function relay_slicedToArray(arr, i) { return relay_arrayWithHoles(arr) || relay_iterableToArrayLimit(arr, i) || relay_unsupportedIterableToArray(arr, i) || relay_nonIterableRest(); }
 function relay_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function relay_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return relay_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return relay_arrayLikeToArray(o, minLen); }
