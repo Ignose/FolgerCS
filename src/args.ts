@@ -241,7 +241,7 @@ export const args = Args.create(
     }),
     spelldmglimit: Args.number({
       help: `Set default spell damage test limit`,
-      default: 40,
+      default: 42,
     }),
     moxielimit: Args.number({
       help: `Set default moxie test limit`,
