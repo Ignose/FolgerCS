@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
+    "rootDir": "relay",
     "noEmit": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -15,6 +15,6 @@
     "strict": true,
     "target": "es2018"
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "include": [ "relay/relay.ts"],
   "isolatedModules": true /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
 }

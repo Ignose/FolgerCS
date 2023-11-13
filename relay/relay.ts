@@ -7,7 +7,7 @@ import {
   handleApiRequest,
   RelayPage,
 } from "mafia-shared-relay";
-import { args } from "./args";
+import { args } from "../src/args";
 
 function convertArgsToHtml(): RelayPage[] {
   const metadata = Args.getMetadata(args);
