@@ -229,7 +229,7 @@ export const args = Args.create(
     }),
     familiarlimit: Args.number({
       help: `Set default booze test limit`,
-      default: 40,
+      default: 41,
     }),
     hotlimit: Args.number({
       help: `Set default booze test limit`,
