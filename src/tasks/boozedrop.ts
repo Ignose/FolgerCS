@@ -123,10 +123,6 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Item Buff",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-      },
       completed: () =>
         !have($item`cosmic bowling ball`) ||
         !haveFreeBanish() ||
