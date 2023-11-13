@@ -590,8 +590,11 @@ export const LevelingQuest: Quest = {
     {
       name: "Use Ten-Percent Bonus",
       prepare: (): void => {
-        if (get("getawayCampsiteUnlocked"))
+        if (get("getawayCampsiteUnlocked")){
           visitUrl("place.php?whichplace=campaway&action=campaway_sky");
+          if(!have($effect`That's just Cloud-Talk, Man`)
+            print("No cloud talk today :(");
+        }
         cliExecute(`maximize ${myPrimestat()} experience percent`);
       },
       completed: () => !have($item`a ten-percent bonus`),
