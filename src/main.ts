@@ -71,8 +71,6 @@ export function main(command?: string): void {
 
   const swapMainStatTest = have($item`Deck of Every Card`) && myPrimestat === $stat`Muscle`;
 
-  const swapFamAndNCTests = computeCombatFrequency() <= -85;
-
   const tasks: Task[] = getTasks([
     RunStartQuest,
     earlyLevelingQuest,
@@ -85,8 +83,8 @@ export function main(command?: string): void {
     HotResQuest,
     WeaponDamageQuest,
     SpellDamageQuest,
-    swapFamAndNCTests ? FamiliarWeightQuest : NoncombatQuest,
-    swapFamAndNCTests ? NoncombatQuest : FamiliarWeightQuest,
+    FamiliarWeightQuest,
+    NoncombatQuest,
     BoozeDropQuest,
     DonateQuest,
   ]);
