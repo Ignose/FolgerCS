@@ -261,7 +261,7 @@ export const args = Args.create(
     }),
     weaponlimit: Args.number({
       help: `Set default weapon damage test limit`,
-      default: 12,
+      default: 10,
     }),
   }
 );
