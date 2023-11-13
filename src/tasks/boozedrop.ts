@@ -155,6 +155,8 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Pumpkin Juice",
+      ready: () =>
+        checkValue($item`pumpkin`, checkTurnSave("BoozeDrop", $effect`Juiced and Jacked`)),
       completed: () =>
         have($effect`Juiced and Jacked`) ||
         (!have($item`pumpkin`) && !have($item`pumpkin juice`)) ||
