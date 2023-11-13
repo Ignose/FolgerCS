@@ -67,7 +67,7 @@ const relay = merge(
     entry: {
       // Define files webpack will emit, does not need to correspond 1:1 with every typescript file
       // You need an emitted file for each entrypoint into your code, e.g. the main script and the ccs or ccs consult script it calls
-      relay_folgerCS: "./src/relay.ts",
+      relay_folgerCS: "./relay/relay.ts",
     },
     output: {
       path: path.resolve(__dirname, "KoLmafia", "relay"),
