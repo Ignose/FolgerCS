@@ -78,10 +78,7 @@ export const HPQuest: Quest = {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");
           print("Either there was a bug, or you are under-prepared for this test", "red");
           print("Manually complete the test if you think this is fine.", "red");
-          print(
-            "You may also increase the turn limit by typing 'set instant_hpTestTurnLimit=<new limit>'",
-            "red"
-          );
+          print("You may also increase the turn limit by checking the relay", "red");
         }
         CommunityService.HP.run(() => logTestSetup(CommunityService.HP), maxTurns);
       },
