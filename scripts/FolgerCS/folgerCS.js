@@ -12142,7 +12142,7 @@ var args_args = Args.create("FolgerCS", "Written by Seraphiii, branched from Ins
   }),
   weaponlimit: Args.number({
     help: "Set default weapon damage test limit",
-    default: 12
+    default: 10
   })
 });
 ;// CONCATENATED MODULE: ./src/lib.ts
