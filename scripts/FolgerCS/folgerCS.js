@@ -12110,7 +12110,7 @@ var args_args = Args.create("FolgerCS", "Written by Seraphiii, branched from Ins
   }),
   familiarlimit: Args.number({
     help: "Set default booze test limit",
-    default: 40
+    default: 41
   }),
   hotlimit: Args.number({
     help: "Set default booze test limit",
