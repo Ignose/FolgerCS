@@ -77,4 +77,4 @@ jobs:
           git add dependencies.txt
           git add README.md
           git commit -m "Automated build"
-          git push origin release
+          git push -f origin release
