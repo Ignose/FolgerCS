@@ -1,4 +1,4 @@
-(import { Quest } from "../engine/task";
+import { Quest } from "../engine/task";
 import {
   adv1,
   autosell,
