@@ -1,4 +1,4 @@
-import { Quest } from "../engine/task";
+(import { Quest } from "../engine/task";
 import {
   adv1,
   autosell,
@@ -130,7 +130,7 @@ export const BoozeDropQuest: Quest = {
       completed: () =>
         !have($item`cosmic bowling ball`) ||
         !haveFreeBanish() ||
-        $effects`Cosmic Ball in the Air`.some((ef) => have(ef)),
+        have($effect`Cosmic Ball in the Air`),
       do: $location`The Dire Warren`,
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Bowl Straight Up`)
@@ -144,7 +144,7 @@ export const BoozeDropQuest: Quest = {
         acc1: $item`Kremlin's Greatest Briefcase`,
         acc2: $item`Lil' Doctor™ bag`,
       },
-      limit: { tries: 5 },
+      limit: { tries: 1 },
     },
     {
       name: "Drink Sacramento Wine",
