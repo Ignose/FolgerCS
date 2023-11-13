@@ -12,7 +12,6 @@ import {
 } from "kolmafia";
 import {
   compareTestCompletion,
-  computeCombatFrequency,
   convertMilliseconds,
   logTestCompletion,
   simpleDateDiff,

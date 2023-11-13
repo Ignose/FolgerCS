@@ -473,77 +473,6 @@ export function camelFightsLeft(): number {
   ]);
 }
 
-export function computeCombatFrequency(): number {
-  //const vipHat = have($item`Clan VIP Lounge key`) ? -5 : 0;
-  //const hat = vipHat;
-
-  const protopack = have($item`protonic accelerator pack`) ? -5 : 0;
-  const back = protopack;
-
-  const parka = have($item`Jurassic Parka`) ? -5 : 0;
-  const shirt = parka;
-
-  const umbrella = have($item`unbreakable umbrella`) ? -10 : 0;
-  const offhand = umbrella;
-
-  const pantogram = have($item`portable pantogram`) && !args.savepantogramming ? -5 : 0;
-  const pants = pantogram;
-
-  const kgb = have($item`Kremlin's Greatest Briefcase`) && !args.savekgb ? -5 : 0;
-  const atlas = have($item`atlas of local maps`) ? -5 : 0;
-  const accessories = sumNumbers([kgb, atlas]);
-
-  const rose = -20;
-  const smoothMovements = have($skill`Smooth Movement`) ? -5 : 0;
-  const sonata = have($skill`The Sonata of Sneakiness`) ? -5 : 0;
-  const favoriteBird =
-    have($item`Bird-a-Day calendar`) && get("yourFavoriteBirdMods").includes("Combat Frequency")
-      ? toInt(
-          get("yourFavoriteBirdMods")
-            .split(", ")
-            .filter((s) => s.includes("Combat Frequency"))
-            .join("")
-            .split(": ")[1]
-        )
-      : 0;
-  const shadowWaters = have($item`closed-circuit pay phone`) ? -10 : 0;
-  const powerfulGlove = have($item`Powerful Glove`) && !args.saveglove ? -10 : 0;
-  const shoeGum = get("hasDetectiveSchool") && !args.savecopdollar ? -5 : 0;
-  const silentRunning = -5;
-  const feelingLonely = have($skill`Feel Lonely`) ? -5 : 0;
-  const effects = sumNumbers([
-    rose,
-    smoothMovements,
-    sonata,
-    favoriteBird,
-    shadowWaters,
-    powerfulGlove,
-    shoeGum,
-    silentRunning,
-    feelingLonely,
-  ]);
-
-  const disgeist = have($familiar`Disgeist`) ? -5 : 0;
-  const familiar = disgeist;
-
-  const darkHorse = get("horseryAvailable") ? -5 : 0;
-  const others = darkHorse;
-
-  const total = sumNumbers([shirt, back, offhand, pants, accessories, effects, familiar, others]);
-
-  print("Determining if we should run NC before fam test...");
-  print(
-    `Shirt ${shirt}, Back ${back}, Offhand ${offhand}, Pants ${pants}, Accessories ${accessories}, Effects ${effects}, Others ${others}`
-  );
-  if (total <= -95) {
-    print(`Total ${total} <= -95`, "green");
-  } else {
-    print(`Total ${total} > -95`, "red");
-  }
-
-  return total;
-}
-
 export function refillLatte(): void {
   if (
     !have($item`latte lovers member's mug`) ||
@@ -839,11 +768,6 @@ export function goVote(): void {
 
   const init = maxBy(voteLocalPriorityArr, "value").urlString;
 
-  //Dear Panto,
-  //For the purposes of this script it *makes sense* to rotate through monsters like Garbo would, but it is less than optimal.
-  //Optimal would be always pick terrible mutant. It offers a small benefit to some people (+wDmg%). However, this could warp the voters space.
-  //If you would prefer to exclude this code, let me know and I will revert. If you would prefer another solution, let me know.
-  //For now, I have chosen optimal. Terrible mutant when we can, likely profit when we can't, outfit stuff last.
   const voterValueTable = [
     {
       monster: $monster`terrible mutant`,

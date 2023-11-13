@@ -1077,7 +1077,6 @@ export const LevelingQuest: Quest = {
       completed: () =>
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
-        get("_pledgeCheck", false) ||
         ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
           (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
       do: $location`Madness Bakery`,
@@ -1095,7 +1094,8 @@ export const LevelingQuest: Quest = {
         familiar: $familiar`Patriotic Eagle`,
       }),
       post: (): void => {
-        sellMiscellaneousItems(), cliExecute("set _pledgeCheck = true");
+        sellMiscellaneousItems();
+        boomBoxProfit();
       },
       limit: { tries: 2 },
     },
@@ -1145,6 +1145,7 @@ export const LevelingQuest: Quest = {
           use($item`LOV Extraterrestrial Chocolate`, 1);
         sendAutumnaton();
         sellMiscellaneousItems();
+        boomBoxProfit();
       },
     },
     {
