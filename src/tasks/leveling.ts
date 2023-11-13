@@ -1046,7 +1046,8 @@ export const LevelingQuest: Quest = {
         CombatLoversLocket.monstersReminisced().includes($monster`red skeleton`) ||
         !CombatLoversLocket.availableLocketMonsters().includes($monster`red skeleton`) ||
         args.redskeleton ||
-        checkValue("Locket", 4),
+        checkValue("Locket", 4) ||
+        have($item`red eye`),
       do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
       combat: new CombatStrategy().macro(
         Macro.if_("!haseffect Everything Looks Yellow", Macro.tryItem($item`yellow rocket`))
