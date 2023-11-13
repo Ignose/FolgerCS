@@ -6369,10 +6369,6 @@ var args = Args.create("FolgerCS", "Written by Seraphiii, branched from InstantS
     help: "Do not use synth for the Xp% buff",
     default: true
   }),
-  bodyspradium: Args.flag({
-    help: "Do not chew the body spradium if we have it",
-    default: true
-  }),
   deepdish: Args.flag({
     help: "Skip Deep Dish of Legend",
     default: false
@@ -6559,7 +6555,7 @@ var args = Args.create("FolgerCS", "Written by Seraphiii, branched from InstantS
   }),
   familiarlimit: Args.number({
     help: "Set default booze test limit",
-    default: 40
+    default: 42
   }),
   hotlimit: Args.number({
     help: "Set default booze test limit",
@@ -6571,7 +6567,7 @@ var args = Args.create("FolgerCS", "Written by Seraphiii, branched from InstantS
   }),
   spelldmglimit: Args.number({
     help: "Set default spell damage test limit",
-    default: 40
+    default: 42
   }),
   moxielimit: Args.number({
     help: "Set default moxie test limit",
@@ -6591,7 +6587,7 @@ var args = Args.create("FolgerCS", "Written by Seraphiii, branched from InstantS
   }),
   weaponlimit: Args.number({
     help: "Set default weapon damage test limit",
-    default: 12
+    default: 10
   })
 });
 ;// CONCATENATED MODULE: ./src/relay.ts
