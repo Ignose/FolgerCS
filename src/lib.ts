@@ -105,7 +105,6 @@ export const testModifiers = new Map([
 
 export const forbiddenEffects: Effect[] = [];
 
-if (args.bodyspradium) forbiddenEffects.push($effect`Boxing Day Glow`);
 if (args.witchess) forbiddenEffects.push($effect`Puzzle Champ`);
 if (args.savesnack) forbiddenEffects.push($effect`Wasabi With You`, $effect`Pisces in the Skyces`);
 if (args.savebarrel) forbiddenEffects.push($effect`Warlock, Warstock, and Warbarrel`);

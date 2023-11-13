@@ -43,10 +43,6 @@ export const args = Args.create(
       help: `Do not use synth for the Xp% buff`,
       default: true,
     }),
-    bodyspradium: Args.flag({
-      help: `Do not chew the body spradium if we have it`,
-      default: true,
-    }),
     deepdish: Args.flag({
       help: `Skip Deep Dish of Legend`,
       default: false,
