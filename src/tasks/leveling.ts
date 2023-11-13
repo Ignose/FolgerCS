@@ -401,10 +401,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Crimbo Candy",
-      completed: () =>
-        get("_candySummons", 0) > 0 ||
-        !have($skill`Summon Crimbo Candy`) ||
-        !have($skill`Sweet Synthesis`),
+      completed: () => get("_candySummons", 0) > 0 || !have($skill`Summon Crimbo Candy`),
       do: () => useSkill($skill`Summon Crimbo Candy`),
       limit: { tries: 1 },
     },
