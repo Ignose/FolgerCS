@@ -16937,7 +16937,7 @@ var RunStartQuest = {
   }, {
     name: "Get Distilled Fortified Wine",
     ready: () => have(template_string_$item(runstart_templateObject120 || (runstart_templateObject120 = runstart_taggedTemplateLiteral(["11-leaf clover"])))) || have(template_string_$effect(runstart_templateObject121 || (runstart_templateObject121 = runstart_taggedTemplateLiteral(["Lucky!"])))),
-    completed: () => (0,external_kolmafia_namespaceObject.myInebriety)() >= 1 || args.fortifiedwine,
+    completed: () => (0,external_kolmafia_namespaceObject.myInebriety)() >= 1 || args.fortifiedwine || property_get("_borrowedTimeUsed") && (0,external_kolmafia_namespaceObject.myAdventures)() >= 60 || args.skipbt,
     do: () => {
       if (!have(template_string_$effect(runstart_templateObject122 || (runstart_templateObject122 = runstart_taggedTemplateLiteral(["Lucky!"]))))) (0,external_kolmafia_namespaceObject.use)(template_string_$item(runstart_templateObject123 || (runstart_templateObject123 = runstart_taggedTemplateLiteral(["11-leaf clover"]))));
       if (!have(template_string_$item(runstart_templateObject124 || (runstart_templateObject124 = runstart_taggedTemplateLiteral(["distilled fortified wine"]))))) (0,external_kolmafia_namespaceObject.adv1)($location(runstart_templateObject125 || (runstart_templateObject125 = runstart_taggedTemplateLiteral(["The Sleazy Back Alley"]))), -1);
