@@ -97,7 +97,6 @@ import {
   reagentBoosterIngredient,
   reagentBoosterItem,
   refillLatte,
-  saveLeafyBoys,
   statToMaximizerString,
   synthExpBuff,
   targetBaseMyst,
@@ -839,8 +838,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Free Fight Leafy Boys",
-      completed: () =>
-        get("_leafMonstersFought", 0) >= 5 || !have($item`inflammable leaf`, 11) || saveLeafyBoys(),
+      completed: () => get("_leafMonstersFought", 0) >= 5 || !have($item`inflammable leaf`, 11),
       do: (): void => {
         visitUrl("campground.php?preaction=leaves");
         visitUrl("choice.php?pwd&whichchoice=1510&option=1&leaves=11");
