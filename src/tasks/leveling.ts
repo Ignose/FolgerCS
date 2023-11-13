@@ -592,7 +592,7 @@ export const LevelingQuest: Quest = {
       prepare: (): void => {
         if (get("getawayCampsiteUnlocked")){
           visitUrl("place.php?whichplace=campaway&action=campaway_sky");
-          if(!have($effect`That's just Cloud-Talk, Man`)
+          if(!have($effect`That's just Cloud-Talk, Man`))
             print("No cloud talk today :(");
         }
         cliExecute(`maximize ${myPrimestat()} experience percent`);
