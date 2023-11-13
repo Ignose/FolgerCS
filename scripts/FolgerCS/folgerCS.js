@@ -13042,7 +13042,7 @@ var HPQuest = {
         (0,external_kolmafia_namespaceObject.print)("Expected to take ".concat(testTurns, ", which is more than ").concat(maxTurns, "."), "red");
         (0,external_kolmafia_namespaceObject.print)("Either there was a bug, or you are under-prepared for this test", "red");
         (0,external_kolmafia_namespaceObject.print)("Manually complete the test if you think this is fine.", "red");
-        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit by typing 'set instant_hpTestTurnLimit=<new limit>'", "red");
+        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit by checking the relay", "red");
       }
       CommunityService.HP.run(() => logTestSetup(CommunityService.HP), maxTurns);
     },
