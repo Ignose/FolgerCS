@@ -49,6 +49,7 @@ import { CombatStrategy } from "grimoire-kolmafia";
 import Macro, { haveFreeBanish } from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
 import { args } from "../args";
+import { baseOutfit, chooseFamiliar } from "../engine/outfit";
 
 function wishOrSpleen(): boolean {
   if (
@@ -123,7 +124,7 @@ export const BoozeDropQuest: Quest = {
         !haveFreeBanish() ||
         have($effect`Cosmic Ball in the Air`) ||
         have($effect`Bat-Adjacent Form`),
-      do: $location`The Dire Warren`,
+      do: $location`Noob Cave`,
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Bowl Straight Up`)
           .trySkill($skill`Become a Bat`)
@@ -135,6 +136,7 @@ export const BoozeDropQuest: Quest = {
         offhand: $item`latte lovers member's mug`,
         acc1: $item`Kremlin's Greatest Briefcase`,
         acc2: $item`Lil' Doctor™ bag`,
+        familiar: chooseFamiliar(false),
       },
       limit: { tries: 1 },
     },
