@@ -17187,6 +17187,7 @@ function boozedrop_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strin
 
 
 
+
 function wishOrSpleen() {
   if ((checkTurnSave("BoozeDrop", template_string_$effect(boozedrop_templateObject || (boozedrop_templateObject = boozedrop_taggedTemplateLiteral(["Infernal Thirst"])))) - checkTurnSave("BoozeDrop", template_string_$effect(boozedrop_templateObject2 || (boozedrop_templateObject2 = boozedrop_taggedTemplateLiteral(["Synthesis: Collection"]))))) * property_get("valueOfAdventure", 4000) - 50000 + property_get("valueOfAdventure", 4000) * 2 * property_get("garbo_embezzlerMultiplier", 2.5) > 0) return true;
   return false;
@@ -17248,13 +17249,14 @@ var BoozeDropQuest = {
   }, {
     name: "Item Buff",
     completed: () => !have(template_string_$item(boozedrop_templateObject22 || (boozedrop_templateObject22 = boozedrop_taggedTemplateLiteral(["cosmic bowling ball"])))) || !haveFreeBanish() || have(template_string_$effect(boozedrop_templateObject23 || (boozedrop_templateObject23 = boozedrop_taggedTemplateLiteral(["Cosmic Ball in the Air"])))) || have(template_string_$effect(boozedrop_templateObject24 || (boozedrop_templateObject24 = boozedrop_taggedTemplateLiteral(["Bat-Adjacent Form"])))),
-    do: $location(boozedrop_templateObject25 || (boozedrop_templateObject25 = boozedrop_taggedTemplateLiteral(["The Dire Warren"]))),
+    do: $location(boozedrop_templateObject25 || (boozedrop_templateObject25 = boozedrop_taggedTemplateLiteral(["Noob Cave"]))),
     combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(boozedrop_templateObject26 || (boozedrop_templateObject26 = boozedrop_taggedTemplateLiteral(["Bowl Straight Up"])))).trySkill(template_string_$skill(boozedrop_templateObject27 || (boozedrop_templateObject27 = boozedrop_taggedTemplateLiteral(["Become a Bat"])))).banish().abort()),
     outfit: {
       back: template_string_$item(boozedrop_templateObject28 || (boozedrop_templateObject28 = boozedrop_taggedTemplateLiteral(["vampyric cloake"]))),
       offhand: template_string_$item(boozedrop_templateObject29 || (boozedrop_templateObject29 = boozedrop_taggedTemplateLiteral(["latte lovers member's mug"]))),
       acc1: template_string_$item(boozedrop_templateObject30 || (boozedrop_templateObject30 = boozedrop_taggedTemplateLiteral(["Kremlin's Greatest Briefcase"]))),
-      acc2: template_string_$item(boozedrop_templateObject31 || (boozedrop_templateObject31 = boozedrop_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"])))
+      acc2: template_string_$item(boozedrop_templateObject31 || (boozedrop_templateObject31 = boozedrop_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"]))),
+      familiar: chooseFamiliar(false)
     },
     limit: {
       tries: 1
