@@ -121,7 +121,8 @@ export const BoozeDropQuest: Quest = {
       completed: () =>
         !have($item`cosmic bowling ball`) ||
         !haveFreeBanish() ||
-        have($effect`Cosmic Ball in the Air`),
+        have($effect`Cosmic Ball in the Air`) ||
+        have($effect`Bat-Adjacent Form`),
       do: $location`The Dire Warren`,
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Bowl Straight Up`)
