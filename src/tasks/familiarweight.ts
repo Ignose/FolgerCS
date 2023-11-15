@@ -177,10 +177,7 @@ export const FamiliarWeightQuest: Quest = {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");
           print("Either there was a bug, or you are under-prepared for this test", "red");
           print("Manually complete the test if you think this is fine.", "red");
-          print(
-            "You may also increase the turn limit by typing 'set instant_famTestTurnLimit=<new limit>'",
-            "red"
-          );
+          print("You may also increase the turn limit in the relay", "red");
         }
         CommunityService.FamiliarWeight.run(
           () => logTestSetup(CommunityService.FamiliarWeight),

@@ -151,10 +151,7 @@ export const MuscleQuest: Quest = {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");
           print("Either there was a bug, or you are under-prepared for this test", "red");
           print("Manually complete the test if you think this is fine.", "red");
-          print(
-            "You may also increase the turn limit by typing 'set instant_musTestTurnLimit=<new limit>'",
-            "red"
-          );
+          print("You may also increase the turn limit in the relay", "red");
         }
         if (have($effect`Giant Growth`)) cliExecute("set _folgerGiantFirst = true");
         CommunityService.Muscle.run(() => logTestSetup(CommunityService.Muscle), maxTurns);
@@ -232,10 +229,7 @@ export const MysticalityQuest: Quest = {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");
           print("Either there was a bug, or you are under-prepared for this test", "red");
           print("Manually complete the test if you think this is fine.", "red");
-          print(
-            "You may also increase the turn limit by typing 'set instant_mystTestTurnLimit=<new limit>'",
-            "red"
-          );
+          print("You may also increase the turn limit in the relay", "red");
         }
         if (have($effect`Giant Growth`)) cliExecute("set _folgerGiantFirst = true");
         CommunityService.Mysticality.run(
@@ -347,10 +341,7 @@ export const MoxieQuest: Quest = {
           print(`Expected to take ${testTurns}, which is more than ${maxTurns}.`, "red");
           print("Either there was a bug, or you are under-prepared for this test", "red");
           print("Manually complete the test if you think this is fine.", "red");
-          print(
-            "You may also increase the turn limit by typing 'set instant_moxTestTurnLimit=<new limit>'",
-            "red"
-          );
+          print("You may also increase the turn limit in the relay", "red");
         }
         if (have($effect`Giant Growth`)) cliExecute("set _folgerGiantFirst = true");
         CommunityService.Moxie.run(() => logTestSetup(CommunityService.Moxie), maxTurns);
