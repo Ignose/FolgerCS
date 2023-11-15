@@ -835,6 +835,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Free Fight Leafy Boys",
+      ready: () => !have($effect`Shadow Affinity`),
       completed: () => get("_leafMonstersFought", 0) >= 5 || !have($item`inflammable leaf`, 11),
       do: (): void => {
         visitUrl("campground.php?preaction=leaves");

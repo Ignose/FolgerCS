@@ -49,7 +49,7 @@ import { CombatStrategy } from "grimoire-kolmafia";
 import Macro, { haveFreeBanish } from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
 import { args } from "../args";
-import { baseOutfit, chooseFamiliar } from "../engine/outfit";
+import { chooseFamiliar } from "../engine/outfit";
 
 function wishOrSpleen(): boolean {
   if (
