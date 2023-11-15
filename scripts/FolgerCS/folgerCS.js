@@ -13047,7 +13047,7 @@ var MuscleQuest = {
         (0,external_kolmafia_namespaceObject.print)("Expected to take ".concat(testTurns, ", which is more than ").concat(maxTurns, "."), "red");
         (0,external_kolmafia_namespaceObject.print)("Either there was a bug, or you are under-prepared for this test", "red");
         (0,external_kolmafia_namespaceObject.print)("Manually complete the test if you think this is fine.", "red");
-        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit by typing 'set instant_musTestTurnLimit=<new limit>'", "red");
+        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit in the relay", "red");
       }
       if (have(template_string_$effect(stat_templateObject39 || (stat_templateObject39 = stat_taggedTemplateLiteral(["Giant Growth"]))))) (0,external_kolmafia_namespaceObject.cliExecute)("set _folgerGiantFirst = true");
       CommunityService.Muscle.run(() => logTestSetup(CommunityService.Muscle), maxTurns);
@@ -13096,7 +13096,7 @@ var MysticalityQuest = {
         (0,external_kolmafia_namespaceObject.print)("Expected to take ".concat(testTurns, ", which is more than ").concat(maxTurns, "."), "red");
         (0,external_kolmafia_namespaceObject.print)("Either there was a bug, or you are under-prepared for this test", "red");
         (0,external_kolmafia_namespaceObject.print)("Manually complete the test if you think this is fine.", "red");
-        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit by typing 'set instant_mystTestTurnLimit=<new limit>'", "red");
+        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit in the relay", "red");
       }
       if (have(template_string_$effect(stat_templateObject67 || (stat_templateObject67 = stat_taggedTemplateLiteral(["Giant Growth"]))))) (0,external_kolmafia_namespaceObject.cliExecute)("set _folgerGiantFirst = true");
       CommunityService.Mysticality.run(() => logTestSetup(CommunityService.Mysticality), maxTurns);
@@ -13168,7 +13168,7 @@ var MoxieQuest = {
         (0,external_kolmafia_namespaceObject.print)("Expected to take ".concat(testTurns, ", which is more than ").concat(maxTurns, "."), "red");
         (0,external_kolmafia_namespaceObject.print)("Either there was a bug, or you are under-prepared for this test", "red");
         (0,external_kolmafia_namespaceObject.print)("Manually complete the test if you think this is fine.", "red");
-        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit by typing 'set instant_moxTestTurnLimit=<new limit>'", "red");
+        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit in the relay", "red");
       }
       if (have(template_string_$effect(stat_templateObject111 || (stat_templateObject111 = stat_taggedTemplateLiteral(["Giant Growth"]))))) (0,external_kolmafia_namespaceObject.cliExecute)("set _folgerGiantFirst = true");
       CommunityService.Moxie.run(() => logTestSetup(CommunityService.Moxie), maxTurns);
@@ -17079,7 +17079,7 @@ var FamiliarWeightQuest = {
         (0,external_kolmafia_namespaceObject.print)("Expected to take ".concat(testTurns, ", which is more than ").concat(maxTurns, "."), "red");
         (0,external_kolmafia_namespaceObject.print)("Either there was a bug, or you are under-prepared for this test", "red");
         (0,external_kolmafia_namespaceObject.print)("Manually complete the test if you think this is fine.", "red");
-        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit by typing 'set instant_famTestTurnLimit=<new limit>'", "red");
+        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit in the relay", "red");
       }
       CommunityService.FamiliarWeight.run(() => logTestSetup(CommunityService.FamiliarWeight), maxTurns);
     },
@@ -17175,7 +17175,7 @@ var NoncombatQuest = {
         (0,external_kolmafia_namespaceObject.print)("Expected to take ".concat(testTurns, ", which is more than ").concat(maxTurns, "."), "red");
         (0,external_kolmafia_namespaceObject.print)("Either there was a bug, or you are under-prepared for this test", "red");
         (0,external_kolmafia_namespaceObject.print)("Manually complete the test if you think this is fine.", "red");
-        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit by typing 'set instant_comTestTurnLimit=<new limit>'", "red");
+        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit in the relay", "red");
       }
       CommunityService.Noncombat.run(() => logTestSetup(CommunityService.Noncombat), maxTurns);
     },
@@ -17504,7 +17504,7 @@ var HotResQuest = {
         (0,external_kolmafia_namespaceObject.print)("Expected to take ".concat(testTurns, ", which is more than ").concat(maxTurns, "."), "red");
         (0,external_kolmafia_namespaceObject.print)("Either there was a bug, or you are under-prepared for this test", "red");
         (0,external_kolmafia_namespaceObject.print)("Manually complete the test if you think this is fine.", "red");
-        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit by typing 'set instant_hotTestTurnLimit=<new limit>'", "red");
+        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit in the relay", "red");
       }
       CommunityService.HotRes.run(() => logTestSetup(CommunityService.HotRes), maxTurns);
     },
@@ -18020,7 +18020,7 @@ var WeaponDamageQuest = {
         (0,external_kolmafia_namespaceObject.print)("Expected to take ".concat(testTurns, ", which is more than ").concat(maxTurns, "."), "red");
         (0,external_kolmafia_namespaceObject.print)("Either there was a bug, or you are under-prepared for this test", "red");
         (0,external_kolmafia_namespaceObject.print)("Manually complete the test if you think this is fine.", "red");
-        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit by typing 'set instant_wpnTestTurnLimit=<new limit>'", "red");
+        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit in the relay", "red");
       }
       CommunityService.WeaponDamage.run(() => logTestSetup(CommunityService.WeaponDamage), maxTurns);
     },
@@ -18288,7 +18288,7 @@ var SpellDamageQuest = {
         (0,external_kolmafia_namespaceObject.print)("Expected to take ".concat(testTurns, ", which is more than ").concat(maxTurns, "."), "red");
         (0,external_kolmafia_namespaceObject.print)("Either there was a bug, or you are under-prepared for this test", "red");
         (0,external_kolmafia_namespaceObject.print)("Manually complete the test if you think this is fine.", "red");
-        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit by typing 'set instant_spellTestTurnLimit=<new limit>'", "red");
+        (0,external_kolmafia_namespaceObject.print)("You may also increase the turn limit in the relay", "red");
       }
       CommunityService.SpellDamage.run(() => logTestSetup(CommunityService.SpellDamage), maxTurns);
     },
