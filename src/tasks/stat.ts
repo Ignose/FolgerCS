@@ -134,6 +134,7 @@ export const MuscleQuest: Quest = {
         ) {
           create($item`cold-filtered water`, 1);
           use($item`cold-filtered water`, 1);
+          print("We used a cold-filtered water, which is bad!");
         }
 
         if (
@@ -214,6 +215,7 @@ export const MysticalityQuest: Quest = {
         ) {
           create($item`cold-filtered water`, 1);
           use($item`cold-filtered water`, 1);
+          print("We used a cold-filtered water, which is bad!");
         }
 
         if (
@@ -328,6 +330,7 @@ export const MoxieQuest: Quest = {
         ) {
           create($item`cold-filtered water`, 1);
           use($item`cold-filtered water`, 1);
+          print("We used a cold-filtered water, which is bad!");
         }
 
         if (
