@@ -16639,7 +16639,7 @@ var RunStartQuest = {
     }
   }, {
     name: "Fold Sugar Sheets",
-    completed: () => !have(template_string_$item(runstart_templateObject42 || (runstart_templateObject42 = runstart_taggedTemplateLiteral(["sugar sheet"])))),
+    completed: () => !have(template_string_$item(runstart_templateObject42 || (runstart_templateObject42 = runstart_taggedTemplateLiteral(["sugar sheet"])))) || args.experimentalsynth,
     do: () => {
       var nextMissingSugarItem = template_string_$items(runstart_templateObject43 || (runstart_templateObject43 = runstart_taggedTemplateLiteral(["sugar shorts, sugar chapeau, sugar shank"]))).find(it => !have(it)) || template_string_$item(runstart_templateObject44 || (runstart_templateObject44 = runstart_taggedTemplateLiteral(["none"])));
       (0,external_kolmafia_namespaceObject.create)(nextMissingSugarItem);
