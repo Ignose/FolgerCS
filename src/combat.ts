@@ -42,6 +42,20 @@ export default class Macro extends StrictMacro {
     return new Macro().banish();
   }
 
+  itemDrop(): Macro {
+    return Macro.trySkill($skill`Bowl Straight Up`)
+      .trySkill($skill`Become a Bat`)
+      .trySkill($skill`Feel Hatred`)
+      .trySkill($skill`Reflex Hammer`)
+      .trySkill($skill`Throw Latte on Opponent`)
+      .trySkill($skill`KGB tranquilizer dart`)
+      .trySkill($skill`Snokebomb`);
+  }
+
+  static itemDrop(): Macro {
+    return new Macro().itemDrop();
+  }
+
   default(useCinch = false): Macro {
     return this.kill(useCinch);
   }

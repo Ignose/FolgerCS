@@ -162,9 +162,9 @@ export const WeaponDamageQuest: Quest = {
           .trySkill($skill`%fn, spit on me!`)
           .trySkill($skill`Use the Force`)
           .trySkill($skill`Feel Envy`)
-          .default()
+          .abort()
       ),
-      limit: { tries: 5 },
+      limit: { tries: 1 },
     },
     {
       name: "Test",

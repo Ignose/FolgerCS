@@ -124,13 +124,8 @@ export const BoozeDropQuest: Quest = {
         !haveFreeBanish() ||
         have($effect`Cosmic Ball in the Air`) ||
         have($effect`Bat-Adjacent Form`),
-      do: $location`Noob Cave`,
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Bowl Straight Up`)
-          .trySkill($skill`Become a Bat`)
-          .banish()
-          .abort()
-      ),
+      do: $location`The Dire Warren`,
+      combat: new CombatStrategy().macro(Macro.itemDrop().abort()),
       outfit: {
         back: $item`vampyric cloake`,
         offhand: $item`latte lovers member's mug`,
