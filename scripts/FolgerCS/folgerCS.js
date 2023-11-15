@@ -13036,6 +13036,7 @@ var MuscleQuest = {
       if (CommunityService.Muscle.turnsSavedBy(template_string_$effect(stat_templateObject31 || (stat_templateObject31 = stat_taggedTemplateLiteral(["Purity of Spirit"])))) >= 7 && have(template_string_$skill(stat_templateObject32 || (stat_templateObject32 = stat_taggedTemplateLiteral(["Summon Clip Art"])))) && property_get("tomeSummons") === 0 && args.skipbt) {
         (0,external_kolmafia_namespaceObject.create)(template_string_$item(stat_templateObject33 || (stat_templateObject33 = stat_taggedTemplateLiteral(["cold-filtered water"]))), 1);
         (0,external_kolmafia_namespaceObject.use)(template_string_$item(stat_templateObject34 || (stat_templateObject34 = stat_taggedTemplateLiteral(["cold-filtered water"]))), 1);
+        (0,external_kolmafia_namespaceObject.print)("We used a cold-filtered water, which is bad!");
       }
       if (CommunityService.Muscle.turnsSavedBy(template_string_$effect(stat_templateObject35 || (stat_templateObject35 = stat_taggedTemplateLiteral(["Hulkien"])))) >= 7 && have(template_string_$item(stat_templateObject36 || (stat_templateObject36 = stat_taggedTemplateLiteral(["Eight Days a Week Pill Keeper"])))) && checkValue("Pillkeeper", CommunityService.Moxie.turnsSavedBy(template_string_$effect(stat_templateObject37 || (stat_templateObject37 = stat_taggedTemplateLiteral(["Hulkien"])))))) tryAcquiringEffect(template_string_$effect(stat_templateObject38 || (stat_templateObject38 = stat_taggedTemplateLiteral(["Hulkien"]))));
     },
@@ -13084,6 +13085,7 @@ var MysticalityQuest = {
       if (CommunityService.Mysticality.turnsSavedBy(template_string_$effect(stat_templateObject59 || (stat_templateObject59 = stat_taggedTemplateLiteral(["Purity of Spirit"])))) >= 7 && have(template_string_$skill(stat_templateObject60 || (stat_templateObject60 = stat_taggedTemplateLiteral(["Summon Clip Art"])))) && property_get("tomeSummons") === 0 && args.skipbt) {
         (0,external_kolmafia_namespaceObject.create)(template_string_$item(stat_templateObject61 || (stat_templateObject61 = stat_taggedTemplateLiteral(["cold-filtered water"]))), 1);
         (0,external_kolmafia_namespaceObject.use)(template_string_$item(stat_templateObject62 || (stat_templateObject62 = stat_taggedTemplateLiteral(["cold-filtered water"]))), 1);
+        (0,external_kolmafia_namespaceObject.print)("We used a cold-filtered water, which is bad!");
       }
       if (CommunityService.Mysticality.turnsSavedBy(template_string_$effect(stat_templateObject63 || (stat_templateObject63 = stat_taggedTemplateLiteral(["Hulkien"])))) >= 7 && have(template_string_$item(stat_templateObject64 || (stat_templateObject64 = stat_taggedTemplateLiteral(["Eight Days a Week Pill Keeper"])))) && checkValue("Pillkeeper", CommunityService.Moxie.turnsSavedBy(template_string_$effect(stat_templateObject65 || (stat_templateObject65 = stat_taggedTemplateLiteral(["Hulkien"])))))) tryAcquiringEffect(template_string_$effect(stat_templateObject66 || (stat_templateObject66 = stat_taggedTemplateLiteral(["Hulkien"]))));
     },
@@ -13155,6 +13157,7 @@ var MoxieQuest = {
       if (CommunityService.Moxie.turnsSavedBy(template_string_$effect(stat_templateObject103 || (stat_templateObject103 = stat_taggedTemplateLiteral(["Purity of Spirit"])))) >= 7 && have(template_string_$skill(stat_templateObject104 || (stat_templateObject104 = stat_taggedTemplateLiteral(["Summon Clip Art"])))) && property_get("tomeSummons") === 0 && args.skipbt) {
         (0,external_kolmafia_namespaceObject.create)(template_string_$item(stat_templateObject105 || (stat_templateObject105 = stat_taggedTemplateLiteral(["cold-filtered water"]))), 1);
         (0,external_kolmafia_namespaceObject.use)(template_string_$item(stat_templateObject106 || (stat_templateObject106 = stat_taggedTemplateLiteral(["cold-filtered water"]))), 1);
+        (0,external_kolmafia_namespaceObject.print)("We used a cold-filtered water, which is bad!");
       }
       if (CommunityService.Moxie.turnsSavedBy(template_string_$effect(stat_templateObject107 || (stat_templateObject107 = stat_taggedTemplateLiteral(["Hulkien"])))) >= 7 && have(template_string_$item(stat_templateObject108 || (stat_templateObject108 = stat_taggedTemplateLiteral(["Eight Days a Week Pill Keeper"])))) && checkValue("Pillkeeper", CommunityService.Moxie.turnsSavedBy(template_string_$effect(stat_templateObject109 || (stat_templateObject109 = stat_taggedTemplateLiteral(["Hulkien"])))))) tryAcquiringEffect(template_string_$effect(stat_templateObject110 || (stat_templateObject110 = stat_taggedTemplateLiteral(["Hulkien"]))));
     },
