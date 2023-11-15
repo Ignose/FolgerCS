@@ -246,7 +246,7 @@ export const RunStartQuest: Quest = {
     },
     {
       name: "Fold Sugar Sheets",
-      completed: () => !have($item`sugar sheet`),
+      completed: () => !have($item`sugar sheet`) || args.experimentalsynth,
       do: (): void => {
         const nextMissingSugarItem =
           $items`sugar shorts, sugar chapeau, sugar shank`.find((it) => !have(it)) || $item`none`;
@@ -598,9 +598,11 @@ export const RunStartQuest: Quest = {
     {
       name: "Get Distilled Fortified Wine",
       ready: () => have($item`11-leaf clover`) || have($effect`Lucky!`),
-      completed: () => myInebriety() >= 1 || args.fortifiedwine || 
-      (get("_borrowedTimeUsed") && myAdventures() >= 60) ||
-      args.skipbt,
+      completed: () =>
+        myInebriety() >= 1 ||
+        args.fortifiedwine ||
+        (get("_borrowedTimeUsed") && myAdventures() >= 60) ||
+        args.skipbt,
       do: (): void => {
         if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
         if (!have($item`distilled fortified wine`)) adv1($location`The Sleazy Back Alley`, -1);
