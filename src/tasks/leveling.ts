@@ -477,6 +477,15 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Pull Some Jacks",
+      ready: () => args.dopulls,
+      completed: () => have($item`Tome of Clip Art`) || !have($familiar`Comma Chameleon`),
+      do: (): void => {
+        takeStorage($item`box of Familiar Jacks`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Pull Buddy Bjorn",
       ready: () => args.dopulls,
       completed: () => checkPull($item`Buddy Bjorn`),
