@@ -15206,7 +15206,7 @@ var LevelingQuest = {
   }, {
     name: "Pull Some Jacks",
     ready: () => args.dopulls,
-    completed: () => have(template_string_$item(_templateObject152 || (_templateObject152 = leveling_taggedTemplateLiteral(["Tome of Clip Art"])))) || !have(template_string_$familiar(_templateObject153 || (_templateObject153 = leveling_taggedTemplateLiteral(["Comma Chameleon"])))),
+    completed: () => have(template_string_$skill(_templateObject152 || (_templateObject152 = leveling_taggedTemplateLiteral(["Summon Clip Art"])))) || !have(template_string_$familiar(_templateObject153 || (_templateObject153 = leveling_taggedTemplateLiteral(["Comma Chameleon"])))),
     do: () => {
       (0,external_kolmafia_namespaceObject.takeStorage)(template_string_$item(_templateObject154 || (_templateObject154 = leveling_taggedTemplateLiteral(["box of Familiar Jacks"]))), 1);
     },
