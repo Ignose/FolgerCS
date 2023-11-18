@@ -479,7 +479,11 @@ export const LevelingQuest: Quest = {
     {
       name: "Pull Some Jacks",
       ready: () => args.dopulls,
-      completed: () => have($skill`Summon Clip Art`) || !have($familiar`Comma Chameleon`),
+      completed: () =>
+        have($skill`Summon Clip Art`) ||
+        !have($familiar`Comma Chameleon`) ||
+        have($item`box of Familiar Jacks`) ||
+        checkPull($item`box of Familiar Jacks`),
       do: (): void => {
         takeStorage($item`box of Familiar Jacks`, 1);
       },
