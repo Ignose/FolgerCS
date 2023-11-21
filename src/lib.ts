@@ -18,6 +18,7 @@ import {
   mpCost,
   myBasestat,
   myBuffedstat,
+  myClass,
   myLevel,
   myMaxhp,
   myMp,
@@ -40,6 +41,7 @@ import {
   visitUrl,
 } from "kolmafia";
 import {
+  $class,
   $effect,
   $familiar,
   $item,
@@ -102,6 +104,23 @@ export const testModifiers = new Map([
     print(`Release Version: ${releaseSHA}`);
   }
 }*/
+
+const famJacksValue = have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;
+const greatWolfs = myClass() !== $class`Pastamancer` ? 3 : 2;
+const stickKnife = myPrimestat() === $stat`muscle` ? 6 : 0;
+const staff = have($skill`Spirit of Rigatoni`) ? 4 : 0;
+const tobikoSoda = have($skill`Summon Alice's Army Cards`) ? 0 : 3;
+
+export const pullValue = new Map([
+  [$item`box of Familiar Jacks`, famJacksValue],
+  [$item`Stick-Knife of Loathing`, stickKnife],
+  [$item`Staff of Simmering Hatred`, staff],
+  [$item`Buddy Bjorn`, 6.8],
+  [$item`meteorite necklace`, 12],
+  [$item`Great Wolf's beastly trousers`, greatWolfs],
+  [$item`repaid diaper`, 3],
+  [$item`tobiko marble soda`, tobikoSoda],
+]);
 
 export const forbiddenEffects: Effect[] = [];
 
@@ -714,6 +733,22 @@ export function checkPull(item: Item): boolean {
   )
     return true;
   return false;
+}
+
+export function findMaxPull(): Item | null {
+  let maxItem: Item | null = null;
+  let maxValue = -1;
+
+  for (const [item, value] of pullValue) {
+    if (checkPull(item)) {
+      if (value > maxValue) {
+        maxValue = value;
+        maxItem = item;
+      }
+    }
+  }
+
+  return maxItem;
 }
 
 export function goVote(): void {

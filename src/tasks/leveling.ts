@@ -84,6 +84,7 @@ import {
   checkPull,
   checkValue,
   chooseLibram,
+  findMaxPull,
   forbiddenEffects,
   fuelUp,
   generalStoreXpEffect,
@@ -475,6 +476,17 @@ export const LevelingQuest: Quest = {
         takeStorage($item`Pizza of Legend`, 1);
       },
       limit: { tries: 1 },
+    },
+    {
+      name: "Pull Some Jacks",
+      ready: () => args.dopullstest,
+      completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
+      do: (): void => {
+        const maxPullItem = findMaxPull();
+        if (maxPullItem) takeStorage(maxPullItem, 1);
+        else print("Hmmm, seems like we don't have anything to pull.");
+      },
+      limit: { tries: 3 },
     },
     {
       name: "Pull Some Jacks",
