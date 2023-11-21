@@ -6529,6 +6529,10 @@ var args = Args.create("FolgerCS", "Written by Seraphiii, branched from InstantS
     help: "Automatically use excess pulls for good stuff?",
     default: true
   }),
+  dopullstest: Args.flag({
+    help: "Automatically optimize and use excess pulls for good stuff?",
+    default: false
+  }),
   camelhat: Args.flag({
     help: "Use a box of familiar jacks to ensure camel is charged faster?",
     default: false
