@@ -12423,12 +12423,14 @@ function chooseLibram() {
   }
   return availableTomes[0];
 }
-function burnLibram(saveMp) {
+
+/*export function burnLibram(saveMp: number): void {
   if (availableTomes.length === 0) return;
-  while ((0,external_kolmafia_namespaceObject.myMp)() >= (0,external_kolmafia_namespaceObject.mpCost)(chooseLibram()) + saveMp) {
-    (0,external_kolmafia_namespaceObject.useSkill)(chooseLibram());
+  while (myMp() >= mpCost(chooseLibram()) + saveMp) {
+    useSkill(chooseLibram());
   }
-}
+}*/
+
 function camelFightsLeft() {
   // Only consider those free fights where we can use the camel
   var shadowRift = have(template_string_$item(_templateObject87 || (_templateObject87 = lib_taggedTemplateLiteral(["closed-circuit pay phone"])))) ? have(template_string_$effect(_templateObject88 || (_templateObject88 = lib_taggedTemplateLiteral(["Shadow Affinity"])))) ? (0,external_kolmafia_namespaceObject.haveEffect)(template_string_$effect(_templateObject89 || (_templateObject89 = lib_taggedTemplateLiteral(["Shadow Affinity"])))) : property_get("_shadowAffinityToday") ? 11 : 0 : 0;
@@ -16326,7 +16328,7 @@ var LevelingQuest = {
       if (have(template_string_$item(_templateObject478 || (_templateObject478 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))))) (0,external_kolmafia_namespaceObject.chew)(template_string_$item(_templateObject479 || (_templateObject479 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))), 1);
       leveling_sendAutumnaton();
       leveling_sellMiscellaneousItems();
-      burnLibram(500);
+      //burnLibram(500);
       refillLatte();
       boomBoxProfit();
     },
