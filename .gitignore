@@ -1,4 +1,6 @@
 node_modules
 .DS_Store
 KoLmafia
-folgerCS.js
+/scripts/
+/relay/
+KoLmafia/scripts/folgerCS/folgerCS.js
