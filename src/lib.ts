@@ -37,7 +37,7 @@ import {
   toSkill,
   toStat,
   use,
-  useSkill,
+  //useSkill,
   visitUrl,
 } from "kolmafia";
 import {
@@ -424,12 +424,12 @@ export function chooseLibram(): Skill {
   return availableTomes[0];
 }
 
-export function burnLibram(saveMp: number): void {
+/*export function burnLibram(saveMp: number): void {
   if (availableTomes.length === 0) return;
   while (myMp() >= mpCost(chooseLibram()) + saveMp) {
     useSkill(chooseLibram());
   }
-}
+}*/
 
 export function camelFightsLeft(): number {
   // Only consider those free fights where we can use the camel

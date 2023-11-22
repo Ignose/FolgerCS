@@ -79,7 +79,7 @@ import {
 import { CombatStrategy, OutfitSpec } from "grimoire-kolmafia";
 import {
   boomBoxProfit,
-  burnLibram,
+  //burnLibram,
   camelFightsLeft,
   checkPull,
   checkValue,
@@ -1805,7 +1805,7 @@ export const LevelingQuest: Quest = {
         if (have($item`SMOOCH coffee cup`)) chew($item`SMOOCH coffee cup`, 1);
         sendAutumnaton();
         sellMiscellaneousItems();
-        burnLibram(500);
+        //burnLibram(500);
         refillLatte();
         boomBoxProfit();
       },
