@@ -299,6 +299,11 @@ function sellMiscellaneousItems(): void {
     $item`dorky glasses`,
     $item`ponytail clip`,
     $item`paint palette`,
+    $item`fat stacks of cash`,
+    $item`bowl of cottage cheese`,
+    $item`Arrow (+1)`,
+    $item`red red wine`,
+    $item`Red X Shield`,
     ...baseBoozes,
   ];
   items.forEach((it) => {
