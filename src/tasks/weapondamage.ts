@@ -29,6 +29,7 @@ import {
   CommunityService,
   get,
   have,
+  SongBoom,
 } from "libram";
 import Macro, { haveFreeBanish, haveMotherSlimeBanish } from "../combat";
 import { chooseFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
@@ -56,6 +57,13 @@ export const WeaponDamageQuest: Quest = {
         have($effect`Pronounced Potency`) ||
         !have($item`scrumptious reagent`),
       do: () => create($item`potion of potency`, 1),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Boombox Punchin'",
+      completed: () =>
+        SongBoom.song() === "These Fists Were Made for Punchin'" || !have($item`SongBoom™ BoomBox`),
+      do: () => SongBoom.setSong("These Fists Were Made for Punchin'"),
       limit: { tries: 1 },
     },
     {
