@@ -6646,7 +6646,7 @@ function convertArgsToHtml() {
   pages.filter(p => p.components.length > 0).forEach(p => {
     var html = {
       type: "html",
-      data: "<h1 style=\"text-align: center;\">FolgerCS ".concat(p.page, "</div>")
+      data: "<h1 style=\"text-align: center;\">FolgerCS v0.3.0 ".concat(p.page, "</div>")
     };
     p.components.splice(0, 0, html);
   });
