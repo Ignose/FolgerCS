@@ -48,7 +48,7 @@ function convertArgsToHtml(): RelayPage[] {
     .forEach((p) => {
       const html: ComponentHtml = {
         type: "html",
-        data: `<h1 style="text-align: center;">FolgerCS ${p.page}</div>`,
+        data: `<h1 style="text-align: center;">FolgerCS v0.3.0 ${p.page}</div>`,
       };
       p.components.splice(0, 0, html);
     });
