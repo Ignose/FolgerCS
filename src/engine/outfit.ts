@@ -17,6 +17,7 @@ import {
   $skill,
   $slot,
   DaylightShavings,
+  examine,
   get,
   have,
   maxBy,
@@ -150,17 +151,22 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
   // Only try equipping/nag LOV Epaulettes if we are done with the LOV tunnel
   const lovTunnelCompleted = get("_loveTunnelUsed") || !get("loveTunnelAvailable");
 
+  // eslint-disable-next-line libram/verify-constants
+  const candySword = $item`candy cane sword cane`;
+
+  function useCandyCaneSword(): boolean {
+    if (!have(candySword)) return false;
+    examine(candySword);
+    if (numericModifier(candySword, "weapon damage") < 115) return true;
+    return false;
+  }
+
   return {
-    weapon:
-      // eslint-disable-next-line libram/verify-constants
-      have($item`candy cane sword cane`) &&
-      // eslint-disable-next-line libram/verify-constants
-      numericModifier($item`candy cane sword cane`, "weapon damage") < 115
-        ? // eslint-disable-next-line libram/verify-constants
-          $item`candy can sword cane`
-        : have($item`June cleaver`)
-        ? $item`June cleaver`
-        : undefined,
+    weapon: useCandyCaneSword()
+      ? candySword
+      : have($item`June cleaver`)
+      ? $item`June cleaver`
+      : undefined,
     hat: avoidDaylightShavingsHelm() ? undefined : $item`Daylight Shavings Helmet`,
     offhand: $item`unbreakable umbrella`,
     back: lovTunnelCompleted ? $item`LOV Epaulettes` : undefined,
