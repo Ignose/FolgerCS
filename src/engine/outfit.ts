@@ -1,5 +1,14 @@
 import { OutfitSpec } from "grimoire-kolmafia";
-import { cliExecute, equip, equippedItem, Familiar, Item, myPrimestat, toInt } from "kolmafia";
+import {
+  cliExecute,
+  equip,
+  equippedItem,
+  Familiar,
+  Item,
+  myPrimestat,
+  numericModifier,
+  toInt,
+} from "kolmafia";
 import {
   $effect,
   $familiar,
@@ -142,13 +151,16 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
   const lovTunnelCompleted = get("_loveTunnelUsed") || !get("loveTunnelAvailable");
 
   return {
-    // eslint-disable-next-line libram/verify-constants
-    weapon: have($item`candy cane sword cane`)
-      ? // eslint-disable-next-line libram/verify-constants
-        $item`candy can sword cane`
-      : have($item`June cleaver`)
-      ? $item`June cleaver`
-      : undefined,
+    weapon:
+      // eslint-disable-next-line libram/verify-constants
+      have($item`candy cane sword cane`) &&
+      // eslint-disable-next-line libram/verify-constants
+      numericModifier($item`candy cane sword cane`, "weapon damage") < 115
+        ? // eslint-disable-next-line libram/verify-constants
+          $item`candy can sword cane`
+        : have($item`June cleaver`)
+        ? $item`June cleaver`
+        : undefined,
     hat: avoidDaylightShavingsHelm() ? undefined : $item`Daylight Shavings Helmet`,
     offhand: $item`unbreakable umbrella`,
     back: lovTunnelCompleted ? $item`LOV Epaulettes` : undefined,
