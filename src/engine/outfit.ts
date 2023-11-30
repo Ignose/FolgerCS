@@ -142,7 +142,13 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
   const lovTunnelCompleted = get("_loveTunnelUsed") || !get("loveTunnelAvailable");
 
   return {
-    weapon: have($item`June cleaver`) ? $item`June cleaver` : undefined,
+    // eslint-disable-next-line libram/verify-constants
+    weapon: have($item`candy cane sword cane`)
+      ? // eslint-disable-next-line libram/verify-constants
+        $item`candy can sword cane`
+      : have($item`June cleaver`)
+      ? $item`June cleaver`
+      : undefined,
     hat: avoidDaylightShavingsHelm() ? undefined : $item`Daylight Shavings Helmet`,
     offhand: $item`unbreakable umbrella`,
     back: lovTunnelCompleted ? $item`LOV Epaulettes` : undefined,

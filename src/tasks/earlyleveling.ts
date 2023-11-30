@@ -186,7 +186,7 @@ export const earlyLevelingQuest: Quest = {
         setConfiguration(newStations as Cycle);
         cliExecute("set _folgerInitialConfig = true");
       },
-      limit: { tries: 1 },
+      limit: { tries: 2 },
     },
     {
       name: "Red Skeleton, Tropical Skeleton, Two For One",
@@ -295,7 +295,7 @@ export const earlyLevelingQuest: Quest = {
         setConfiguration(newStations as Cycle);
         cliExecute("set _folgerSecondConfig = true");
       },
-      limit: { tries: 1 },
+      limit: { tries: 2 },
     },
     {
       name: "Kramco",
@@ -374,6 +374,7 @@ export const earlyLevelingQuest: Quest = {
       completed: () =>
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
+        get("_citizenZone") === "Madness Bakery" ||
         get("_pledgeCheck", false),
       do: $location`Madness Bakery`,
       combat: new CombatStrategy().macro(

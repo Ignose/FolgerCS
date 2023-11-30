@@ -407,12 +407,15 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Wardrobe-o-matic",
+      // eslint-disable-next-line libram/verify-constants
       ready: () => myLevel() >= 15 && have($item`wardrobe-o-matic`),
-      completed: () => have($item`futuristic shirt`) || args.wardrobe,
+      completed: () => get("_wardrobeUsed", false),
       do: (): void => {
+        // eslint-disable-next-line libram/verify-constants
         use($item`wardrobe-o-matic`);
+        cliExecute("set _wardrobeUsed = true");
       },
-      limit: { tries: 3 },
+      limit: { tries: 1 },
     },
     {
       name: "Crimbo Candy",
@@ -1113,6 +1116,7 @@ export const LevelingQuest: Quest = {
       completed: () =>
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
+        get("_citizenZone") === "Madness Bakery" ||
         ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
           (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
       do: $location`Madness Bakery`,
