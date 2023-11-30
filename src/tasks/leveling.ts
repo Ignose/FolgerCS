@@ -406,6 +406,15 @@ export const LevelingQuest: Quest = {
       limit: { tries: 3 },
     },
     {
+      name: "Wardrobe-o-matic",
+      ready: () => myLevel() >= 15 && have($item`wardrobe-o-matic`),
+      completed: () => have($item`futuristic shirt`) || args.wardrobe,
+      do: (): void => {
+        use($item`wardrobe-o-matic`);
+      },
+      limit: { tries: 3 },
+    },
+    {
       name: "Crimbo Candy",
       completed: () => get("_candySummons", 0) > 0 || !have($skill`Summon Crimbo Candy`),
       do: () => useSkill($skill`Summon Crimbo Candy`),

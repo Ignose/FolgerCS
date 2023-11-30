@@ -223,6 +223,10 @@ export const args = Args.create(
       help: `Effects that we should not acquire throughout the run.`,
       default: "",
     }),
+    wardrobe: Args.flag({
+      help: `Should we skip using the Wardrobe-O-Matic at level 15 automatically?`,
+      default: false,
+    }),
     explicitlyexcludedfams: Args.string({
       help: `Familiars that we should not use throughout the run.`,
       default: "",
