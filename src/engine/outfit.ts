@@ -147,19 +147,19 @@ export function avoidDaylightShavingsHelm(): boolean {
   );
 }
 
+// eslint-disable-next-line libram/verify-constants
+const candySword = $item`candy cane sword cane`;
+
+function useCandyCaneSword(): boolean {
+  if (!have(candySword)) return false;
+  examine(candySword);
+  if (numericModifier(candySword, "weapon damage") < 115) return true;
+  return false;
+}
+
 export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
   // Only try equipping/nag LOV Epaulettes if we are done with the LOV tunnel
   const lovTunnelCompleted = get("_loveTunnelUsed") || !get("loveTunnelAvailable");
-
-  // eslint-disable-next-line libram/verify-constants
-  const candySword = $item`candy cane sword cane`;
-
-  function useCandyCaneSword(): boolean {
-    if (!have(candySword)) return false;
-    examine(candySword);
-    if (numericModifier(candySword, "weapon damage") < 115) return true;
-    return false;
-  }
 
   return {
     weapon: useCandyCaneSword()
