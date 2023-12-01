@@ -816,7 +816,8 @@ export const LevelingQuest: Quest = {
       completed: () =>
         (!have($item`magical sausage`) && !have($item`magical sausage casing`)) ||
         myMeat() <= 3000 ||
-        get("_sausagesMade") >= 3,
+        get("_sausagesMade") >= 3 ||
+        myMp() >= 75,
       do: (): void => {
         if (have($item`magical sausage casing`)) create($item`magical sausage`, 1);
         eat($item`magical sausage`, itemAmount($item`magical sausage`));
@@ -904,7 +905,11 @@ export const LevelingQuest: Quest = {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
       },
-      completed: () => have($effect`Everything Looks Blue`),
+      completed: () =>
+        have($effect`Everything Looks Blue`) ||
+        myMp() >= 75 ||
+        have($item`magical sausage`) ||
+        have($item`magical sausage casing`),
       do: powerlevelingLocation(), // if your powerleveling location is the NEP you don't immediately get the MP regen
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Curse of Weaksauce`)
@@ -934,7 +939,9 @@ export const LevelingQuest: Quest = {
       completed: () =>
         powerlevelingLocation() !== $location`The Neverending Party` ||
         haveEffect($effect`Glowing Blue`) !== 10 ||
-        myMp() >= 500,
+        myMp() >= 75 ||
+        have($item`magical sausage`) ||
+        have($item`magical sausage casing`),
       do: $location`The Dire Warren`,
       outfit: () => baseOutfit(false),
       combat: new CombatStrategy().macro(Macro.attack().repeat()),
