@@ -12,6 +12,7 @@ import {
 } from "kolmafia";
 import {
   compareTestCompletion,
+  computeCombatFrequency,
   convertMilliseconds,
   logTestCompletion,
   simpleDateDiff,
@@ -69,6 +70,7 @@ export function main(command?: string): void {
   cliExecute("refresh all");
 
   const swapMainStatTest = have($item`Deck of Every Card`) && myPrimestat === $stat`Muscle`;
+  const swapNCandFamTest = computeCombatFrequency() === -100;
 
   const tasks: Task[] = getTasks([
     RunStartQuest,
@@ -82,8 +84,8 @@ export function main(command?: string): void {
     HotResQuest,
     WeaponDamageQuest,
     SpellDamageQuest,
-    FamiliarWeightQuest,
-    NoncombatQuest,
+    swapNCandFamTest ? NoncombatQuest : FamiliarWeightQuest,
+    swapNCandFamTest ? FamiliarWeightQuest : NoncombatQuest,
     BoozeDropQuest,
     DonateQuest,
   ]);
