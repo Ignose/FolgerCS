@@ -13583,19 +13583,19 @@ function chooseHeaviestFamiliar() {
 function avoidDaylightShavingsHelm() {
   return nextBuff() === template_string_$effect(engine_outfit_templateObject35 || (engine_outfit_templateObject35 = engine_outfit_taggedTemplateLiteral(["Musician's Musician's Moustache"]))) || hasBuff() || !have(template_string_$item(engine_outfit_templateObject36 || (engine_outfit_templateObject36 = engine_outfit_taggedTemplateLiteral(["Daylight Shavings Helmet"]))));
 }
+
+// eslint-disable-next-line libram/verify-constants
+var candySword = template_string_$item(engine_outfit_templateObject37 || (engine_outfit_templateObject37 = engine_outfit_taggedTemplateLiteral(["candy cane sword cane"])));
+function useCandyCaneSword() {
+  if (!have(candySword)) return false;
+  examine(candySword);
+  if ((0,external_kolmafia_namespaceObject.numericModifier)(candySword, "weapon damage") < 115) return true;
+  return false;
+}
 function baseOutfit() {
   var allowAttackingFamiliars = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
   // Only try equipping/nag LOV Epaulettes if we are done with the LOV tunnel
   var lovTunnelCompleted = property_get("_loveTunnelUsed") || !property_get("loveTunnelAvailable");
-
-  // eslint-disable-next-line libram/verify-constants
-  var candySword = template_string_$item(engine_outfit_templateObject37 || (engine_outfit_templateObject37 = engine_outfit_taggedTemplateLiteral(["candy cane sword cane"])));
-  function useCandyCaneSword() {
-    if (!have(candySword)) return false;
-    examine(candySword);
-    if ((0,external_kolmafia_namespaceObject.numericModifier)(candySword, "weapon damage") < 115) return true;
-    return false;
-  }
   return {
     weapon: useCandyCaneSword() ? candySword : have(template_string_$item(engine_outfit_templateObject38 || (engine_outfit_templateObject38 = engine_outfit_taggedTemplateLiteral(["June cleaver"])))) ? template_string_$item(engine_outfit_templateObject39 || (engine_outfit_templateObject39 = engine_outfit_taggedTemplateLiteral(["June cleaver"]))) : undefined,
     hat: avoidDaylightShavingsHelm() ? undefined : template_string_$item(engine_outfit_templateObject40 || (engine_outfit_templateObject40 = engine_outfit_taggedTemplateLiteral(["Daylight Shavings Helmet"]))),
