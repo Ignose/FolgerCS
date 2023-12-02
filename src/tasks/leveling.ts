@@ -127,6 +127,15 @@ const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vo
 const freeFightMonsters: Monster[] = $monsters`Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle`;
 const godLobsterChoice = have($item`God Lobster's Ring`) ? 2 : 3;
 
+function restoreMPEfficiently(): string {
+  if (have($item`magical sausage`)) return "Sausage";
+  if (!get("_latteDrinkUsed", false) && have($item`latte lovers member's mug`)) return "Gulp";
+  if (have($item`magical sausage casing`) && myMeat() >= 3000) return "Make Sausage";
+  if (have($item`latte lovers member's mug`) && get("_latteRefillsUsed") < 3) return "Refill Latte";
+  if (!have($effect`Everything Looks Blue`)) return "Blue Rocket";
+  return "No restore available";
+}
+
 const mainStatStr = myPrimestat().toString();
 const muscleList: Effect[] = [
   $effect`Seal Clubbing Frenzy`,
@@ -812,20 +821,6 @@ export const LevelingQuest: Quest = {
       limit: { tries: 6 },
     },
     {
-      name: "Eat Magical Sausages",
-      completed: () =>
-        (!have($item`magical sausage`) && !have($item`magical sausage casing`)) ||
-        myMeat() <= 3000 ||
-        get("_sausagesMade") >= 3 ||
-        myMp() >= 75,
-      do: (): void => {
-        if (have($item`magical sausage casing`)) create($item`magical sausage`, 1);
-        eat($item`magical sausage`, itemAmount($item`magical sausage`));
-      },
-      post: () => autosell($item`meat stack`, itemAmount($item`meat stack`)),
-      limit: { tries: 23 },
-    },
-    {
       name: "BoomBox Meat",
       ready: () => have($item`Punching Potion`),
       completed: () =>
@@ -892,7 +887,26 @@ export const LevelingQuest: Quest = {
       limit: { tries: 5 },
     },
     {
+      name: "Eat Magical Sausages",
+      ready: () =>
+        restoreMPEfficiently() === "Sausage" || restoreMPEfficiently() === "Make Sausage",
+      completed: () =>
+        get("_sausagesMade") >= 23 ||
+        myMp() >= 75 ||
+        (restoreMPEfficiently() !== "Sausage" && restoreMPEfficiently() !== "Make Sausage"),
+      do: (): void => {
+        if (restoreMPEfficiently() === "Sausage") eat($item`magical sausage`, 1);
+        else {
+          create($item`magical sausage`, 1);
+          eat($item`magical sausage`, 1);
+        }
+      },
+      post: () => autosell($item`meat stack`, itemAmount($item`meat stack`)),
+      limit: { tries: 23 },
+    },
+    {
       name: "Restore MP with Glowing Blue",
+      ready: () => restoreMPEfficiently() === "Blue Rocket",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
@@ -929,6 +943,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Restore MP with Glowing Blue (continued)",
+      ready: () => restoreMPEfficiently() === "Blue Rocket",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         unbreakableUmbrella();
@@ -975,15 +990,23 @@ export const LevelingQuest: Quest = {
       do: bestShadowRift(),
       combat: new CombatStrategy().macro(
         Macro.tryItem($item`red rocket`)
+          .trySkill($skill`Gulp Latte`)
           .trySkill($skill`Giant Growth`)
           .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
           .default()
       ),
-      outfit: baseOutfit,
+      outfit: () => ({
+        ...baseOutfit,
+        offhand:
+          restoreMPEfficiently() === "Gulp Latte" && myMp() < 75
+            ? $item`latte lovers member's mug`
+            : undefined,
+      }),
       post: (): void => {
         if (have(rufusTarget() as Item)) {
           withChoice(1498, 1, () => use($item`closed-circuit pay phone`));
         }
+        if (restoreMPEfficiently() === "Refill Latte" && myMp() < 75) refillLatte();
         sendAutumnaton();
         sellMiscellaneousItems();
         boomBoxProfit();
@@ -1051,15 +1074,21 @@ export const LevelingQuest: Quest = {
           Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`)
         )
           .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
+          .trySkill($skill`Gulp Latte`)
           .default()
       ),
       outfit: () => ({
         ...baseOutfit,
         familiar: !have($effect`Citizen of a Zone`) ? $familiar`Patriotic Eagle` : chooseFamiliar(),
+        offhand:
+          restoreMPEfficiently() === "Gulp Latte" && myMp() < 75
+            ? $item`latte lovers member's mug`
+            : undefined,
       }),
       limit: { tries: 10 },
       post: (): void => {
         if (get("_snojoFreeFights") >= 10) cliExecute("hottub");
+        if (restoreMPEfficiently() === "Refill Latte" && myMp() < 75) refillLatte();
         sendAutumnaton();
         sellMiscellaneousItems();
       },
@@ -1102,8 +1131,15 @@ export const LevelingQuest: Quest = {
           .trySkill($skill`Gingerbread Mob Hit`)
           .default()
       ),
-      outfit: () => baseOutfit(false),
+      outfit: () => ({
+        ...baseOutfit,
+        offhand:
+          restoreMPEfficiently() === "Gulp Latte" && myMp() < 75
+            ? $item`latte lovers member's mug`
+            : undefined,
+      }),
       post: (): void => {
+        if (restoreMPEfficiently() === "Refill Latte" && myMp() < 75) refillLatte();
         use($item`red box`, 1);
         sendAutumnaton();
         sellMiscellaneousItems();
@@ -1544,7 +1580,13 @@ export const LevelingQuest: Quest = {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
       },
-      outfit: baseOutfit,
+      outfit: () => ({
+        ...baseOutfit,
+        offhand:
+          restoreMPEfficiently() === "Gulp Latte" && myMp() < 75
+            ? $item`latte lovers member's mug`
+            : undefined,
+      }),
       limit: { tries: 60 },
       choices: {
         1094: 5,
@@ -1554,6 +1596,7 @@ export const LevelingQuest: Quest = {
       },
       combat: new CombatStrategy().macro(
         Macro.tryItem($item`red rocket`)
+          .trySkill($skill`Gulp Latte`)
           .trySkill($skill`Feel Pride`)
           .trySkill($skill`Cincho: Confetti Extravaganza`)
           .trySkill($skill`Bowl Sideways`)
@@ -1562,6 +1605,7 @@ export const LevelingQuest: Quest = {
       ),
       post: (): void => {
         if (have($item`SMOOCH coffee cup`)) chew($item`SMOOCH coffee cup`, 1);
+        if (restoreMPEfficiently() === "Refill Latte" && myMp() < 75) refillLatte();
         sendAutumnaton();
         sellMiscellaneousItems();
         boomBoxProfit();
