@@ -995,13 +995,7 @@ export const LevelingQuest: Quest = {
           .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
           .default()
       ),
-      outfit: () => ({
-        ...baseOutfit,
-        offhand:
-          restoreMPEfficiently() === "Gulp Latte" && myMp() < 75
-            ? $item`latte lovers member's mug`
-            : undefined,
-      }),
+      outfit: baseOutfit,
       post: (): void => {
         if (have(rufusTarget() as Item)) {
           withChoice(1498, 1, () => use($item`closed-circuit pay phone`));
@@ -1080,10 +1074,6 @@ export const LevelingQuest: Quest = {
       outfit: () => ({
         ...baseOutfit,
         familiar: !have($effect`Citizen of a Zone`) ? $familiar`Patriotic Eagle` : chooseFamiliar(),
-        offhand:
-          restoreMPEfficiently() === "Gulp Latte" && myMp() < 75
-            ? $item`latte lovers member's mug`
-            : undefined,
       }),
       limit: { tries: 10 },
       post: (): void => {
@@ -1131,13 +1121,7 @@ export const LevelingQuest: Quest = {
           .trySkill($skill`Gingerbread Mob Hit`)
           .default()
       ),
-      outfit: () => ({
-        ...baseOutfit,
-        offhand:
-          restoreMPEfficiently() === "Gulp Latte" && myMp() < 75
-            ? $item`latte lovers member's mug`
-            : undefined,
-      }),
+      outfit: baseOutfit,
       post: (): void => {
         if (restoreMPEfficiently() === "Refill Latte" && myMp() < 75) refillLatte();
         use($item`red box`, 1);
@@ -1580,13 +1564,7 @@ export const LevelingQuest: Quest = {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
       },
-      outfit: () => ({
-        ...baseOutfit,
-        offhand:
-          restoreMPEfficiently() === "Gulp Latte" && myMp() < 75
-            ? $item`latte lovers member's mug`
-            : undefined,
-      }),
+      outfit: baseOutfit,
       limit: { tries: 60 },
       choices: {
         1094: 5,

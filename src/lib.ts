@@ -339,10 +339,7 @@ export function computeCombatFrequency(): number {
 
   const kgb =
     have($item`Kremlin's Greatest Briefcase`) && !get("instant_saveKGBClicks", false) ? -5 : 0;
-  const codpiece =
-    have($item`Clan VIP Lounge key`) && !get("instant_saveFloundry", false) ? -10 : 0;
-  const atlas = get("hasMaydayContract") && !get("instant_saveMayday", false) ? -5 : 0;
-  const accessories = sumNumbers([kgb, codpiece, atlas]);
+  const accessories = sumNumbers([kgb]);
 
   const rose = -20;
   const smoothMovements = have($skill`Smooth Movement`) ? -5 : 0;
@@ -399,7 +396,7 @@ export function computeCombatFrequency(): number {
   print(
     `Hat ${hat}, Shirt ${shirt}, Back ${back}, Offhand ${offhand}, Pants ${pants}, Accessories ${accessories}, Effects ${effects}, Others ${others}`
   );
-  if (total <= -95) {
+  if (total < -100) {
     print(`Total ${total} <= -95`, "green");
   } else {
     print(`Total ${total} > -95`, "red");
