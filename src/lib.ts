@@ -122,9 +122,7 @@ export function computeWeaponDamage(): number {
   const punchy = have($item`SongBoom™ BoomBox`) ? 64 : 0;
   const frenzy = have($skill`Blood Frenzy`) ? 50 : 0;
   const scowl = have($skill`Scowl of the Auk`) ? 10 : 0;
-  const bird =
-    numericModifier($skill`Visit your Favorite Bird`, "Weapon Damage") +
-    numericModifier($skill`Visit your Favorite Bird`, "Weapon Damage Percent");
+  const bird = get("yourFavoriteBirdMods").includes("Weapon Damage Percent") ? 100 : 0;
   const seeing = !args.redskeleton ? 125 : 0;
   const cowrupt = 200; //Ungulith/seeing red. Can't be skipped.
   const imported = have($skill`Map the Monsters`) && get("ownsSpeakeasy") ? 50 : 0;
