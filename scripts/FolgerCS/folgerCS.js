@@ -12251,12 +12251,23 @@ function computeWeaponDamage() {
   var wDmgNumber = sumNumbers([equips, effects]) * swagger;
   return wDmgNumber;
 }
+function computeWdmgPoints(wdmg) {
+  var threshold = 3000;
+  var increment = 25;
+  var currentPoints = computeWeaponDamage();
+  var totalDamage = currentPoints + wdmg;
+  if (currentPoints >= threshold) return 0;
+  if (currentPoints < threshold) {
+    return Math.floor((totalDamage - currentPoints) / increment);
+  }
+  return 0;
+}
 var famJacksValue = have(template_string_$familiar(lib_templateObject41 || (lib_templateObject41 = lib_taggedTemplateLiteral(["Comma Chameleon"])))) && !have(template_string_$skill(lib_templateObject42 || (lib_templateObject42 = lib_taggedTemplateLiteral(["Summon Clip Art"])))) ? 21 : 0;
-var greatWolfs = clamp(3, 2, (3000 - computeWeaponDamage() + 50) / 25 + 2);
-var stickKnife = (0,external_kolmafia_namespaceObject.myPrimestat)() === template_string_$stat(lib_templateObject43 || (lib_templateObject43 = lib_taggedTemplateLiteral(["muscle"]))) ? clamp(6, 4, (3000 - computeWeaponDamage() + 50) / 25 + 4) : 0;
+var greatWolfs = computeWdmgPoints(50) + 2;
+var stickKnife = (0,external_kolmafia_namespaceObject.myPrimestat)() === template_string_$stat(lib_templateObject43 || (lib_templateObject43 = lib_taggedTemplateLiteral(["muscle"]))) ? computeWdmgPoints(130) + 4 : 0;
 var staff = have(template_string_$skill(lib_templateObject44 || (lib_templateObject44 = lib_taggedTemplateLiteral(["Spirit of Rigatoni"])))) ? 4 : 0;
 var tobikoSoda = have(template_string_$skill(lib_templateObject45 || (lib_templateObject45 = lib_taggedTemplateLiteral(["Summon Alice's Army Cards"])))) ? 0 : 3;
-var meteorite = clamp(12, 4, (3000 - computeWeaponDamage() + 200) / 25 + 4);
+var meteorite = computeWdmgPoints(200) + 4;
 var pullValue = new Map([[template_string_$item(lib_templateObject46 || (lib_templateObject46 = lib_taggedTemplateLiteral(["box of Familiar Jacks"]))), famJacksValue], [template_string_$item(lib_templateObject47 || (lib_templateObject47 = lib_taggedTemplateLiteral(["Stick-Knife of Loathing"]))), stickKnife], [template_string_$item(lib_templateObject48 || (lib_templateObject48 = lib_taggedTemplateLiteral(["Staff of Simmering Hatred"]))), staff], [template_string_$item(lib_templateObject49 || (lib_templateObject49 = lib_taggedTemplateLiteral(["Buddy Bjorn"]))), 6.8], [template_string_$item(lib_templateObject50 || (lib_templateObject50 = lib_taggedTemplateLiteral(["meteorite necklace"]))), meteorite], [template_string_$item(lib_templateObject51 || (lib_templateObject51 = lib_taggedTemplateLiteral(["Great Wolf's beastly trousers"]))), greatWolfs], [template_string_$item(lib_templateObject52 || (lib_templateObject52 = lib_taggedTemplateLiteral(["repaid diaper"]))), 3], [template_string_$item(lib_templateObject53 || (lib_templateObject53 = lib_taggedTemplateLiteral(["tobiko marble soda"]))), tobikoSoda]]);
 function checkPull(item) {
   if (property_get("_roninStoragePulls").split(",").length >= 5 || have(item) || property_get("_roninStoragePulls").split(",").includes((0,external_kolmafia_namespaceObject.toInt)(item).toString()) || (0,external_kolmafia_namespaceObject.storageAmount)(item) === 0 || 5 - property_get("_roninStoragePulls").split(",").length <= args.savepulls) return true;
