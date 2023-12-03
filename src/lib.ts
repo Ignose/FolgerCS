@@ -23,7 +23,6 @@ import {
   myMaxhp,
   myMp,
   myPrimestat,
-  numericModifier,
   print,
   restoreMp,
   retrieveItem,
@@ -53,7 +52,6 @@ import {
   $slot,
   $stat,
   canRememberSong,
-  clamp,
   CombatLoversLocket,
   CommunityService,
   get,
@@ -201,13 +199,26 @@ export function computeWeaponDamage(): number {
   return wDmgNumber;
 }
 
+function computeWdmgPoints(wdmg: number): number {
+  const threshold = 3000;
+  const increment = 25;
+  const currentPoints = computeWeaponDamage();
+  const totalDamage = currentPoints + wdmg;
+
+  if (currentPoints >= threshold) return 0;
+
+  if (currentPoints < threshold) {
+    return Math.floor((totalDamage - currentPoints) / increment);
+  }
+  return 0;
+}
+
 const famJacksValue = have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;
-const greatWolfs = clamp(3, 2, (3000 - computeWeaponDamage() + 50) / 25 + 2);
-const stickKnife =
-  myPrimestat() === $stat`muscle` ? clamp(6, 4, (3000 - computeWeaponDamage() + 50) / 25 + 4) : 0;
+const greatWolfs = computeWdmgPoints(50) + 2;
+const stickKnife = myPrimestat() === $stat`muscle` ? computeWdmgPoints(130) + 4 : 0;
 const staff = have($skill`Spirit of Rigatoni`) ? 4 : 0;
 const tobikoSoda = have($skill`Summon Alice's Army Cards`) ? 0 : 3;
-const meteorite = clamp(12, 4, (3000 - computeWeaponDamage() + 200) / 25 + 4);
+const meteorite = computeWdmgPoints(200) + 4;
 
 export const pullValue = new Map([
   [$item`box of Familiar Jacks`, famJacksValue],
