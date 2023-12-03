@@ -23,6 +23,7 @@ import {
   myMaxhp,
   myMp,
   myPrimestat,
+  numericModifier,
   print,
   restoreMp,
   retrieveItem,
@@ -52,6 +53,7 @@ import {
   $slot,
   $stat,
   canRememberSong,
+  clamp,
   CombatLoversLocket,
   CommunityService,
   get,
@@ -105,22 +107,148 @@ export const testModifiers = new Map([
   }
 }*/
 
+export function computeWeaponDamage(): number {
+  const meteor = have($skill`Meteor Shower`) && have($item`Fourth of May Cosplay Saber`) ? 200 : 0;
+  const claws = have($skill`Claws of the Walrus`) ? 7 : 0;
+  const wrath = have($skill`Wrath of the Wolverine`) ? 5 : 0;
+  const seething =
+    myClass() === $class`Seal Clubber` && have($skill`Seething of the Snow Leopard`) ? 10 : 0;
+  const jackass = have($skill`Jackasses' Symphony of Destruction`) ? 12 : 0;
+  const rage = have($skill`Rage of the Reindeer`) ? 10 : 0;
+  const tenacity = have($skill`Tenacity of the Snapper`) ? 8 : 0;
+  const belligerence = have($item`Clan VIP Lounge key`) ? 50 : 0;
+  const bulls = have($skill`Carol of the Bulls`) ? 100 : 0;
+  const snapper = have($skill`Blessing of the War Snapper`) ? 5 : 0;
+  const punchy = have($item`SongBoom™ BoomBox`) ? 64 : 0;
+  const frenzy = have($skill`Blood Frenzy`) ? 50 : 0;
+  const scowl = have($skill`Scowl of the Auk`) ? 10 : 0;
+  const bird =
+    numericModifier($skill`Visit your Favorite Bird`, "Weapon Damage") +
+    numericModifier($skill`Visit your Favorite Bird`, "Weapon Damage Percent");
+  const seeing = !args.redskeleton ? 125 : 0;
+  const cowrupt = 200; //Ungulith/seeing red. Can't be skipped.
+  const imported = have($skill`Map the Monsters`) && get("ownsSpeakeasy") ? 50 : 0;
+  const beach = have($item`Beach Comb`) ? 25 : 0;
+  const camel = (get("camelSpit") / 3.33) * camelFightsLeft() >= 100 ? 100 : 0;
+  const lov = get("loveTunnelAvailable") ? 50 : 0;
+  const vote = myClass() === $class`Pastamancer` && get("voteAlways") ? 200 : 0;
+  const effects = sumNumbers([
+    meteor,
+    claws,
+    wrath,
+    seething,
+    jackass,
+    rage,
+    tenacity,
+    belligerence,
+    bulls,
+    snapper,
+    punchy,
+    frenzy,
+    scowl,
+    bird,
+    seeing,
+    cowrupt,
+    imported,
+    beach,
+    camel,
+    lov,
+    vote,
+  ]);
+
+  const hat = have($item`Crown of Thrones`) ? 10 : have($item`seal-skull helmet`) ? 1 : 0;
+  const shirt = 0;
+  // eslint-disable-next-line libram/verify-constants
+  const mainhand = have($item`candy cane sword cane`)
+    ? 165
+    : have($item`Stick-Knife of Loathing`)
+    ? 130
+    : have($item`ebony epee`)
+    ? 115
+    : 65;
+  // eslint-disable-next-line libram/verify-constants
+  const offhand =
+    // eslint-disable-next-line libram/verify-constants
+    have($item`candy cane sword cane`) && have($item`Stick-Knife of Loathing`)
+      ? 130
+      : have($item`Stick-Knife of Loathing`) && have($item`ebony epee`)
+      ? 115
+      : 50;
+  const pants = have($item`astral trousers`) || have($item`Great Wolf's beastly trousers`) ? 50 : 0;
+
+  const brogues = have($item`Brutal brogues`) ? 50 : 0;
+  const glove = have($item`Powerful Glove`) ? 25 : 0;
+  const kgb = have($item`Kremlin's Greatest Briefcase`) ? 25 : 0;
+  const meteorite = have($item`meteorite necklace`) ? 200 : 0;
+  const accessory = sumNumbers([brogues, glove, kgb, meteorite]);
+
+  const familiar =
+    have($familiar`Disembodied Hand`) &&
+    // eslint-disable-next-line libram/verify-constants
+    have($item`candy cane sword cane`) &&
+    have($item`Stick-Knife of Loathing`) &&
+    have($item`ebony epee`)
+      ? 115
+      : have($familiar`Disembodied Hand`)
+      ? 65
+      : have($familiar`Left-Hand Man`)
+      ? 50
+      : 0;
+
+  const equips = sumNumbers([hat, shirt, mainhand, offhand, pants, accessory, familiar]);
+
+  const swagger = have($skill`Bow-Legged Swagger`) ? 2 : 1;
+  const wDmgNumber = sumNumbers([equips, effects]) * swagger;
+
+  return wDmgNumber;
+}
+
 const famJacksValue = have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;
-const greatWolfs = myClass() !== $class`Pastamancer` ? 3 : 2;
-const stickKnife = myPrimestat() === $stat`muscle` ? 6 : 0;
+const greatWolfs = clamp(3, 2, (3000 - computeWeaponDamage() + 50) / 25 + 2);
+const stickKnife =
+  myPrimestat() === $stat`muscle` ? clamp(6, 4, (3000 - computeWeaponDamage() + 50) / 25 + 4) : 0;
 const staff = have($skill`Spirit of Rigatoni`) ? 4 : 0;
 const tobikoSoda = have($skill`Summon Alice's Army Cards`) ? 0 : 3;
+const meteorite = clamp(12, 4, (3000 - computeWeaponDamage() + 200) / 25 + 4);
 
 export const pullValue = new Map([
   [$item`box of Familiar Jacks`, famJacksValue],
   [$item`Stick-Knife of Loathing`, stickKnife],
   [$item`Staff of Simmering Hatred`, staff],
   [$item`Buddy Bjorn`, 6.8],
-  [$item`meteorite necklace`, 12],
+  [$item`meteorite necklace`, meteorite],
   [$item`Great Wolf's beastly trousers`, greatWolfs],
   [$item`repaid diaper`, 3],
   [$item`tobiko marble soda`, tobikoSoda],
 ]);
+
+export function checkPull(item: Item): boolean {
+  if (
+    get("_roninStoragePulls").split(",").length >= 5 ||
+    have(item) ||
+    get("_roninStoragePulls").split(",").includes(toInt(item).toString()) ||
+    storageAmount(item) === 0 ||
+    5 - get("_roninStoragePulls").split(",").length <= args.savepulls
+  )
+    return true;
+  return false;
+}
+
+export function findMaxPull(): Item | null {
+  let maxItem: Item | null = null;
+  let maxValue = -1;
+
+  for (const [item, value] of pullValue) {
+    if (checkPull(item)) {
+      if (value > maxValue) {
+        maxValue = value;
+        maxItem = item;
+      }
+    }
+  }
+
+  return maxItem;
+}
 
 export const forbiddenEffects: Effect[] = [];
 
@@ -807,34 +935,6 @@ export function compareTestCompletion(): void {
 export function boomBoxProfit(): void {
   if (have($item`Punching Potion`) && SongBoom.song() !== "Total Eclipse of Your Meat")
     SongBoom.setSong("Total Eclipse of Your Meat");
-}
-
-export function checkPull(item: Item): boolean {
-  if (
-    get("_roninStoragePulls").split(",").length >= 5 ||
-    have(item) ||
-    get("_roninStoragePulls").split(",").includes(toInt(item).toString()) ||
-    storageAmount(item) === 0 ||
-    5 - get("_roninStoragePulls").split(",").length <= args.savepulls
-  )
-    return true;
-  return false;
-}
-
-export function findMaxPull(): Item | null {
-  let maxItem: Item | null = null;
-  let maxValue = -1;
-
-  for (const [item, value] of pullValue) {
-    if (checkPull(item)) {
-      if (value > maxValue) {
-        maxValue = value;
-        maxItem = item;
-      }
-    }
-  }
-
-  return maxItem;
 }
 
 export function goVote(): void {
