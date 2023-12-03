@@ -17,7 +17,7 @@ import {
   logTestCompletion,
   simpleDateDiff,
 } from "./lib";
-import { $item, $stat, get, have, set, sinceKolmafiaRevision } from "libram";
+import { $familiar, $item, $skill, $stat, get, have, set, sinceKolmafiaRevision } from "libram";
 import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
 import { Task } from "./engine/task";
@@ -70,7 +70,10 @@ export function main(command?: string): void {
   cliExecute("refresh all");
 
   const swapMainStatTest = have($item`Deck of Every Card`) && myPrimestat === $stat`Muscle`;
-  const swapNCandFamTest = computeCombatFrequency() === -100;
+  const swapNCandFamTest =
+    computeCombatFrequency() === -100 &&
+    have($familiar`Comma Chameleon`) &&
+    (have($skill`Summon Clip Art`) || have($item`box of Familiar Jacks`));
 
   const tasks: Task[] = getTasks([
     RunStartQuest,

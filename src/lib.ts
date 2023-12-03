@@ -339,7 +339,8 @@ export function computeCombatFrequency(): number {
 
   const kgb =
     have($item`Kremlin's Greatest Briefcase`) && !get("instant_saveKGBClicks", false) ? -5 : 0;
-  const accessories = sumNumbers([kgb]);
+  const atlas = have($item`atlas of local maps`) ? -5 : 0;
+  const accessories = sumNumbers([kgb, atlas]);
 
   const rose = -20;
   const smoothMovements = have($skill`Smooth Movement`) ? -5 : 0;

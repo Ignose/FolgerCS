@@ -5,6 +5,8 @@ import {
   equippedItem,
   Familiar,
   Item,
+  myMaxmp,
+  myMp,
   myPrimestat,
   numericModifier,
   toInt,
@@ -24,6 +26,7 @@ import {
 } from "libram";
 import { camelFightsLeft, statToMaximizerString } from "../lib";
 import { args } from "../args";
+import { restoreMPEfficiently } from "../tasks/leveling";
 
 export function garbageShirt(): void {
   if (
@@ -168,7 +171,10 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
       ? $item`June cleaver`
       : undefined,
     hat: avoidDaylightShavingsHelm() ? undefined : $item`Daylight Shavings Helmet`,
-    offhand: $item`unbreakable umbrella`,
+    offhand:
+      myMaxmp() > 200 && myMp() < 75 && restoreMPEfficiently() === "Gulp"
+        ? $item`latte lovers member's mug`
+        : $item`unbreakable umbrella`,
     back: lovTunnelCompleted ? $item`LOV Epaulettes` : undefined,
     acc1: have($item`codpiece`) ? $item`codpiece` : undefined,
     acc2:

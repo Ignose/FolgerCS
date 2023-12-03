@@ -4,3 +4,4 @@ KoLmafia
 /scripts/
 /relay/
 KoLmafia/scripts/folgerCS/folgerCS.js
+node_modules

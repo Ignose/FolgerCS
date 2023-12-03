@@ -127,7 +127,7 @@ const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vo
 const freeFightMonsters: Monster[] = $monsters`Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle`;
 const godLobsterChoice = have($item`God Lobster's Ring`) ? 2 : 3;
 
-function restoreMPEfficiently(): string {
+export function restoreMPEfficiently(): string {
   if (have($item`magical sausage`)) return "Sausage";
   if (!get("_latteDrinkUsed", false) && have($item`latte lovers member's mug`)) return "Gulp";
   if (have($item`magical sausage casing`) && myMeat() >= 3000) return "Make Sausage";
