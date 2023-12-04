@@ -153,7 +153,7 @@ export function sellMiscellaneousItems(): void {
 }
 
 export function computeHotRes(): number {
-  const cloake = have($item`vampyric cloake`) ? 2 : 0;
+  const cloake = have($item`vampyric cloake`) ? 5 : 0;
   const foam =
     have($item`Fourth of May Cosplay Saber`) &&
     have($item`industrial fire extinguisher`) &&
@@ -178,7 +178,8 @@ export function computeHotRes(): number {
     have($familiar`Exotic Parrot`) && famWt >= 15 ? 2 : have($familiar`Exotic Parrot`) ? 1 : 0;
 
   const extingo = have($item`industrial fire extinguisher`) ? 3 : 0;
-  const parka = have($item`Jurassic Parka`) ? 1 : 0;
+  const shield = have($skill`Meteor Shower`) ? 3 : 0;
+  const parka = have($item`Jurassic Parka`) ? 3 : 0;
   const sweatpants = have($item`designer sweatpants`) ? 1 : 0;
   const paw = have($item`cursed monkey's paw`) ? 2 : 0;
   const crimbo = have($skill`Crimbo Training: Coal Taster`) ? 1 : 0;
@@ -190,6 +191,7 @@ export function computeHotRes(): number {
     60 -
       sumNumbers([
         cloake,
+        shield,
         foam,
         factory,
         horse,
@@ -460,6 +462,7 @@ export function computeBoozeDrop(): number {
   const madloot = have($skill`Mad Looting Skillz`) ? 20 : 0;
   const guzzlin = have($skill`Always Never Not Guzzling`) ? 25 : 0;
   const crimbo = have($skill`Crimbo Training: Bartender`) ? 15 : 0;
+  const lighthouse = have($item`august scepter`) ? 50 : 0;
 
   const all = sumNumbers([
     loded,
@@ -487,6 +490,7 @@ export function computeBoozeDrop(): number {
     madloot,
     guzzlin,
     crimbo,
+    lighthouse,
   ]);
 
   const addWish = all <= 780 ? 200 : 0;

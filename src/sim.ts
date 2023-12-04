@@ -627,7 +627,9 @@ export function checkRequirements(): void {
 }
 
 export function checkTests(): void {
-  print(`Note: The below does not consider pulls, and assumes stat and HP tests take 1 turn each.`);
+  print(
+    `Note: The below does not consider pulls or seeded items, and assumes stat and HP tests take 1 turn each.`
+  );
   const hotResTestTurns = computeHotRes();
   print(`Hot Res Test expected to take ${hotResTestTurns} turns.`);
 
@@ -636,7 +638,7 @@ export function checkTests(): void {
   print(`Weapon Damage Test expected to take ${wDmgTestTurns} turns.`);
 
   const sDmgTestTurns = computeSpellDamage();
-  print(`Weapon Damage Test expected to take ${sDmgTestTurns} turns.`);
+  print(`Spell Damage Test expected to take ${sDmgTestTurns} turns.`);
 
   const ncTest = computeCombatFrequency();
   const ncTestTurns = Math.max(1, Math.floor((100 + ncTest) / 5));
