@@ -12347,7 +12347,7 @@ function computeFamiliarWeight() {
   var brogues = have(template_string_$item(_templateObject134 || (_templateObject134 = lib_taggedTemplateLiteral(["Bastille Battalion control rig"])))) ? 8 : 0;
   var comma = have(template_string_$familiar(_templateObject135 || (_templateObject135 = lib_taggedTemplateLiteral(["Comma Chameleon"])))) && have(template_string_$skill(_templateObject136 || (_templateObject136 = lib_taggedTemplateLiteral(["Summon Clip Art"])))) ? 100 : 0;
   var concierge = have(template_string_$skill(_templateObject137 || (_templateObject137 = lib_taggedTemplateLiteral(["Crimbo Training: Concierge"])))) ? 1 : 0;
-  return Math.max(1, 60 - sumNumbers([moonSpoon, deepDish, newsPaper, meteor, belligerence, bond, comb, empathy, heart, leash, puzzle, robot, shorty, dsh, scrapbook, saber, brogues, concierge, comma]) / 5);
+  return Math.max(1, Math.floor(60 - sumNumbers([moonSpoon, deepDish, newsPaper, meteor, belligerence, bond, comb, empathy, heart, leash, puzzle, robot, shorty, dsh, scrapbook, saber, brogues, concierge, comma]) / 5));
 }
 function computeBoozeDrop() {
   var loded = have(template_string_$item(_templateObject138 || (_templateObject138 = lib_taggedTemplateLiteral(["closed-circuit pay phone"])))) ? 100 : 0;
@@ -12603,13 +12603,6 @@ function computeCombatFrequency() {
   var darkHorse = property_get("horseryAvailable") ? -5 : 0;
   var others = darkHorse;
   var total = sumNumbers([hat, shirt, back, offhand, pants, accessories, effects, familiar, others]);
-  (0,external_kolmafia_namespaceObject.print)("Determining if we should run NC before fam test...");
-  (0,external_kolmafia_namespaceObject.print)("Hat ".concat(hat, ", Shirt ").concat(shirt, ", Back ").concat(back, ", Offhand ").concat(offhand, ", Pants ").concat(pants, ", Accessories ").concat(accessories, ", Effects ").concat(effects, ", Others ").concat(others));
-  if (total < -100) {
-    (0,external_kolmafia_namespaceObject.print)("Total ".concat(total, " <= -95"), "green");
-  } else {
-    (0,external_kolmafia_namespaceObject.print)("Total ".concat(total, " > -95"), "red");
-  }
   return total;
 }
 function overlevelled() {
