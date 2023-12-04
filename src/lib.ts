@@ -1,4 +1,5 @@
 import {
+  autosell,
   availableAmount,
   buy,
   cliExecute,
@@ -104,6 +105,51 @@ export const testModifiers = new Map([
     print(`Release Version: ${releaseSHA}`);
   }
 }*/
+
+const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
+
+export function sellMiscellaneousItems(): void {
+  const items: Item[] = [
+    $item`cardboard ore`,
+    $item`hot buttered roll`,
+    $item`toast`,
+    $item`meat paste`,
+    $item`meat stack`,
+    $item`jar of swamp honey`,
+    $item`turtle voicebox`,
+    $item`grody jug`,
+    $item`gas can`,
+    $item`Middle of the Road™ brand whiskey`,
+    $item`neverending wallet chain`,
+    $item`pentagram bandana`,
+    $item`denim jacket`,
+    $item`ratty knitted cap`,
+    $item`jam band bootleg`,
+    $item`Purple Beast energy drink`,
+    $item`cosmetic football`,
+    $item`shoe ad T-shirt`,
+    $item`pump-up high-tops`,
+    $item`noticeable pumps`,
+    $item`surprisingly capacious handbag`,
+    $item`electronics kit`,
+    $item`PB&J with the crusts cut off`,
+    $item`dorky glasses`,
+    $item`ponytail clip`,
+    $item`paint palette`,
+    $item`fat stacks of cash`,
+    $item`bowl of cottage cheese`,
+    $item`Arrow (+1)`,
+    $item`red red wine`,
+    $item`Red X Shield`,
+    $item`hot nuggets`,
+    $item`red rum`,
+    $item`red book`,
+    ...baseBoozes,
+  ];
+  items.forEach((it) => {
+    if (itemAmount(it) > 1) autosell(it, itemAmount(it) - 1);
+  });
+}
 
 export function computeWeaponDamage(): number {
   const meteor = have($skill`Meteor Shower`) && have($item`Fourth of May Cosplay Saber`) ? 200 : 0;

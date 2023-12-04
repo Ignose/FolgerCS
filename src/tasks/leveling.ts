@@ -98,6 +98,7 @@ import {
   reagentBoosterIngredient,
   reagentBoosterItem,
   refillLatte,
+  sellMiscellaneousItems,
   statToMaximizerString,
   synthExpBuff,
   targetBaseMyst,
@@ -278,46 +279,6 @@ export function bestShadowRift(): Location {
 function sendAutumnaton(): void {
   if (AutumnAton.availableLocations().includes(bestShadowRift()) && have($item`autumn-aton`))
     AutumnAton.sendTo(bestShadowRift());
-}
-
-function sellMiscellaneousItems(): void {
-  const items: Item[] = [
-    $item`cardboard ore`,
-    $item`hot buttered roll`,
-    $item`toast`,
-    $item`meat paste`,
-    $item`meat stack`,
-    $item`jar of swamp honey`,
-    $item`turtle voicebox`,
-    $item`grody jug`,
-    $item`gas can`,
-    $item`Middle of the Road™ brand whiskey`,
-    $item`neverending wallet chain`,
-    $item`pentagram bandana`,
-    $item`denim jacket`,
-    $item`ratty knitted cap`,
-    $item`jam band bootleg`,
-    $item`Purple Beast energy drink`,
-    $item`cosmetic football`,
-    $item`shoe ad T-shirt`,
-    $item`pump-up high-tops`,
-    $item`noticeable pumps`,
-    $item`surprisingly capacious handbag`,
-    $item`electronics kit`,
-    $item`PB&J with the crusts cut off`,
-    $item`dorky glasses`,
-    $item`ponytail clip`,
-    $item`paint palette`,
-    $item`fat stacks of cash`,
-    $item`bowl of cottage cheese`,
-    $item`Arrow (+1)`,
-    $item`red red wine`,
-    $item`Red X Shield`,
-    ...baseBoozes,
-  ];
-  items.forEach((it) => {
-    if (itemAmount(it) > 1) autosell(it, itemAmount(it) - 1);
-  });
 }
 
 export const LevelingQuest: Quest = {
@@ -504,7 +465,7 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Pull Some Jacks",
+      name: "Pull Some Everything",
       ready: () => args.dopullstest,
       completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
       do: (): void => {
@@ -778,12 +739,14 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Use General Store Statboost",
+      prepare: () => sellMiscellaneousItems(),
       completed: () => have(generalStoreXpEffect),
       do: () => ensureEffect(generalStoreXpEffect),
     },
     {
       name: "Buy Oversized Sparkler",
       ready: () => have($effect`Everything Looks Blue`) && get("hasRange") && myMeat() >= 1000,
+      prepare: () => sellMiscellaneousItems(),
       completed: () => have($item`oversized sparkler`),
       do: () => buy($item`oversized sparkler`, 1),
       limit: { tries: 1 },
@@ -918,6 +881,7 @@ export const LevelingQuest: Quest = {
         if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
+        sellMiscellaneousItems();
       },
       completed: () =>
         have($effect`Everything Looks Blue`) ||
@@ -948,6 +912,7 @@ export const LevelingQuest: Quest = {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         unbreakableUmbrella();
         restoreMp(50);
+        sellMiscellaneousItems();
       },
       // We need to spend at least 1adv to get the mp regen from Glowing Blue
       // This is only an issue if our powerleveling zone is the NEP, since the previous fight would be free
@@ -1009,6 +974,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Get Range",
+      prepare: () => sellMiscellaneousItems(),
       completed: () => get("hasRange"),
       do: (): void => {
         if (!have($item`Dramatic™ range`)) {
@@ -1085,6 +1051,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Get Totem and Saucepan",
+      prepare: () => sellMiscellaneousItems(),
       completed: () => have($item`turtle totem`) && have($item`saucepan`),
       do: (): void => {
         buy(1, $item`chewing gum on a string`);
@@ -1143,7 +1110,7 @@ export const LevelingQuest: Quest = {
       completed: () =>
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
-        get("_citizenZone") === "Madness Bakery" ||
+        get("_citizenZone").includes("Madness Bakery") ||
         ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
           (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
       do: $location`Madness Bakery`,

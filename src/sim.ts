@@ -11,6 +11,7 @@ import {
   permedSkills,
 } from "libram";
 import { have as haveTrainSet } from "libram/dist/resources/2022/TrainSet";
+import { computeWeaponDamage } from "./lib";
 
 class Hardcoded {
   have: boolean;
@@ -616,4 +617,11 @@ export function checkRequirements(): void {
       print(`You have everything! You are the shiniest star. This script should work great.`);
     }
   }
+}
+
+export function checkTests(): void {
+  const wDmgTest = computeWeaponDamage();
+  const wDmgTestTurns = Math.max(1, Math.floor((3000 - wDmgTest) / 25));
+
+  print(`Weapon Damage Test expected to take ${wDmgTestTurns} turns.`);
 }

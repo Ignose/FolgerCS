@@ -8,8 +8,6 @@ import {
   getMonsters,
   getWorkshed,
   haveEquipped,
-  Item,
-  itemAmount,
   itemDrops,
   Location,
   mallPrice,
@@ -33,7 +31,6 @@ import {
   $effect,
   $familiar,
   $item,
-  $items,
   $location,
   $monster,
   $skill,
@@ -54,11 +51,10 @@ import { Cycle, setConfiguration, Station } from "libram/dist/resources/2022/Tra
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { chooseRift } from "libram/dist/resources/2023/ClosedCircuitPayphone";
-import { boomBoxProfit } from "../lib";
+import { boomBoxProfit, sellMiscellaneousItems } from "../lib";
 import { args } from "../args";
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
-const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
 
 let _bestShadowRift: Location | null = null;
 export function bestShadowRift(): Location {
@@ -96,41 +92,6 @@ export function bestShadowRift(): Location {
 function sendAutumnaton(): void {
   if (AutumnAton.availableLocations().includes(bestShadowRift()) && have($item`autumn-aton`))
     AutumnAton.sendTo(bestShadowRift());
-}
-
-function sellMiscellaneousItems(): void {
-  const items: Item[] = [
-    $item`cardboard ore`,
-    $item`hot buttered roll`,
-    $item`toast`,
-    $item`meat paste`,
-    $item`meat stack`,
-    $item`jar of swamp honey`,
-    $item`turtle voicebox`,
-    $item`grody jug`,
-    $item`gas can`,
-    $item`Middle of the Road™ brand whiskey`,
-    $item`neverending wallet chain`,
-    $item`pentagram bandana`,
-    $item`denim jacket`,
-    $item`ratty knitted cap`,
-    $item`jam band bootleg`,
-    $item`Purple Beast energy drink`,
-    $item`cosmetic football`,
-    $item`shoe ad T-shirt`,
-    $item`pump-up high-tops`,
-    $item`noticeable pumps`,
-    $item`surprisingly capacious handbag`,
-    $item`electronics kit`,
-    $item`PB&J with the crusts cut off`,
-    $item`dorky glasses`,
-    $item`ponytail clip`,
-    $item`paint palette`,
-    ...baseBoozes,
-  ];
-  items.forEach((it) => {
-    if (itemAmount(it) > 1) autosell(it, itemAmount(it) - 1);
-  });
 }
 
 export const earlyLevelingQuest: Quest = {
@@ -374,7 +335,7 @@ export const earlyLevelingQuest: Quest = {
       completed: () =>
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
-        get("_citizenZone") === "Madness Bakery" ||
+        get("_citizenZone").includes("Madness Bakery") ||
         get("_pledgeCheck", false),
       do: $location`Madness Bakery`,
       combat: new CombatStrategy().macro(
