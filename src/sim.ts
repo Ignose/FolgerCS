@@ -646,5 +646,5 @@ export function checkTests(): void {
   print(`Familiar Weight Test expected to take ${famTestTurns} turns.`);
 
   const boozeTestTurns = computeBoozeDrop();
-  print(`Familiar Weight Test expected to take ${boozeTestTurns} turns.`);
+  print(`Booze Drop Test expected to take ${boozeTestTurns} turns.`);
 }
