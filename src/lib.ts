@@ -403,29 +403,31 @@ export function computeFamiliarWeight(): number {
 
   return Math.max(
     1,
-    60 -
-      sumNumbers([
-        moonSpoon,
-        deepDish,
-        newsPaper,
-        meteor,
-        belligerence,
-        bond,
-        comb,
-        empathy,
-        heart,
-        leash,
-        puzzle,
-        robot,
-        shorty,
-        dsh,
-        scrapbook,
-        saber,
-        brogues,
-        concierge,
-        comma,
-      ]) /
-        5
+    Math.floor(
+      60 -
+        sumNumbers([
+          moonSpoon,
+          deepDish,
+          newsPaper,
+          meteor,
+          belligerence,
+          bond,
+          comb,
+          empathy,
+          heart,
+          leash,
+          puzzle,
+          robot,
+          shorty,
+          dsh,
+          scrapbook,
+          saber,
+          brogues,
+          concierge,
+          comma,
+        ]) /
+          5
+    )
   );
 }
 
@@ -808,16 +810,6 @@ export function computeCombatFrequency(): number {
     familiar,
     others,
   ]);
-
-  print("Determining if we should run NC before fam test...");
-  print(
-    `Hat ${hat}, Shirt ${shirt}, Back ${back}, Offhand ${offhand}, Pants ${pants}, Accessories ${accessories}, Effects ${effects}, Others ${others}`
-  );
-  if (total < -100) {
-    print(`Total ${total} <= -95`, "green");
-  } else {
-    print(`Total ${total} > -95`, "red");
-  }
 
   return total;
 }
