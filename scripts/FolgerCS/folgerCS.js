@@ -19459,7 +19459,7 @@ function checkTests() {
   var famTestTurns = computeFamiliarWeight();
   (0,external_kolmafia_namespaceObject.print)("Familiar Weight Test expected to take ".concat(famTestTurns, " turns."));
   var boozeTestTurns = computeBoozeDrop();
-  (0,external_kolmafia_namespaceObject.print)("Familiar Weight Test expected to take ".concat(boozeTestTurns, " turns."));
+  (0,external_kolmafia_namespaceObject.print)("Booze Drop Test expected to take ".concat(boozeTestTurns, " turns."));
 }
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3, main_templateObject4, main_templateObject5;
