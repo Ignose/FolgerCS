@@ -15,7 +15,6 @@ import {
   hermit,
   Item,
   itemAmount,
-  mallPrice,
   myAdventures,
   myInebriety,
   myMaxhp,
@@ -60,17 +59,11 @@ import {
 } from "libram";
 import { canConfigure, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
 import { Quest } from "../engine/task";
-import { getGarden, goVote, statToMaximizerString, tryAcquiringEffect } from "../lib";
+import { bestSIT, getGarden, goVote, statToMaximizerString, tryAcquiringEffect } from "../lib";
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { baseOutfit, chooseFamiliar, unbreakableUmbrella } from "../engine/outfit";
 import { args } from "../args";
-
-const bestSIT =
-  mallPrice($item`hollow rock`) + mallPrice($item`lump of loyal latite`) >
-  mallPrice($item`flapper fly`) + mallPrice($item`filled mosquito`)
-    ? 1
-    : 2;
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
 export const RunStartQuest: Quest = {

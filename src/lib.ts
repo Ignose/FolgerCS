@@ -72,6 +72,12 @@ import { args } from "./args";
 
 export const startingClan = getClanName();
 
+export const bestSIT =
+  mallPrice($item`hollow rock`) + mallPrice($item`lump of loyal latite`) >
+  mallPrice($item`flapper fly`) + mallPrice($item`filled mosquito`)
+    ? 1
+    : 2;
+
 export const testModifiers = new Map([
   [CommunityService.HP, ["Maximum HP", "Maximum HP Percent", "Muscle", "Muscle Percent"]],
   [CommunityService.Muscle, ["Muscle", "Muscle Percent"]],
@@ -186,32 +192,32 @@ export function computeHotRes(): number {
   const asbestos = have($skill`Asbestos Heart`) ? 3 : 0;
   const tolerance = have($skill`Tolerance of the Kitchen`) ? 2 : 0;
 
-  return Math.max(
-    1,
-    60 -
-      sumNumbers([
-        cloake,
-        shield,
-        foam,
-        factory,
-        horse,
-        meteor,
-        bird,
-        amazing,
-        astral,
-        egged,
-        sphere,
-        peaceful,
-        parrot,
-        extingo,
-        parka,
-        sweatpants,
-        paw,
-        crimbo,
-        asbestos,
-        tolerance,
-      ])
-  );
+  const all = sumNumbers([
+    cloake,
+    shield,
+    foam,
+    factory,
+    horse,
+    meteor,
+    bird,
+    amazing,
+    astral,
+    egged,
+    sphere,
+    peaceful,
+    parrot,
+    extingo,
+    parka,
+    sweatpants,
+    paw,
+    crimbo,
+    asbestos,
+    tolerance,
+  ]);
+
+  const addWish = all <= 51 ? 9 : 0;
+
+  return Math.max(1, 60 - (all + addWish));
 }
 
 export function computeWeaponDamage(): number {
@@ -306,29 +312,14 @@ export function computeWeaponDamage(): number {
 
   const equips = sumNumbers([hat, shirt, mainhand, offhand, pants, accessory, familiar]);
 
-  const swagger = have($skill`Bow-Legged Swagger`) ? 2 : 1;
-  const wDmgNumber = sumNumbers([equips, effects]) * swagger;
+  const wDmgNumber = sumNumbers([equips, effects]);
 
-  return wDmgNumber;
-}
-
-function computeWdmgPoints(wdmg: number): number {
-  const threshold = 3000;
-  const increment = 25;
-  const currentPoints = computeWeaponDamage();
-  const totalDamage = currentPoints + wdmg;
-
-  if (currentPoints >= threshold) return 0;
-
-  if (currentPoints < threshold) {
-    return Math.floor((totalDamage - currentPoints) / increment);
-  }
-  return 0;
+  return Math.max(1, Math.floor(60 - wDmgNumber / 25));
 }
 
 export function computeSpellDamage(): number {
   const simmer = have($skill`Simmer`) ? 50 : 0; //Simmering adds 100 spelldamage but we're treating it as 50 because it costs a turn.
-  const cargo = have($item`Cargo Cultist Shorts`) && computeWeaponDamage() >= 3000 ? 4 : 0;
+  const cargo = have($item`Cargo Cultist Shorts`) && computeWeaponDamage() >= 1350 ? 4 : 0;
   const carol = have($familiar`Ghost of Crimbo Carols`) ? 100 : 0;
   const meteor = have($skill`Meteor Shower`) && have($item`Fourth of May Cosplay Saber`) ? 200 : 0;
   const elf = have($familiar`Machine Elf`) ? 100 : 0;
@@ -349,6 +340,11 @@ export function computeSpellDamage(): number {
   const saucier = have($skill`Master Saucier`) ? 10 : 0;
   const subtle = have($skill`Subtle and Quick to Anger`) ? 10 : 0;
   const calzone = !args.calzone ? 50 : 0;
+  const candle =
+    have($item`Our Daily Candles™ order form`) &&
+    (myClass() === $class`Pastamancer` || myClass() === $class`Seal Clubber`)
+      ? 100
+      : 0;
   const all = sumNumbers([
     simmer,
     cargo,
@@ -372,6 +368,7 @@ export function computeSpellDamage(): number {
     saucier,
     subtle,
     calzone,
+    candle,
   ]);
 
   return Math.max(1, Math.floor(60 - all / 50));
@@ -379,7 +376,7 @@ export function computeSpellDamage(): number {
 
 export function computeFamiliarWeight(): number {
   const moonSpoon = have($item`hewn moon-rune spoon`) && !args.savemoontune ? 10 : 0;
-  const deepDish = args.latedeepdish || !args.deepdish ? 5 : 0;
+  const deepDish = args.latedeepdish || !args.deepdish ? 15 : 0;
   const newsPaper = have($familiar`Garbage Fire`) ? 10 : 0;
   const meteor = have($skill`Meteor Shower`) && have($item`Fourth of May Cosplay Saber`) ? 20 : 0;
   const belligerence = have($item`Clan VIP Lounge key`) ? 5 : 0;
@@ -401,7 +398,10 @@ export function computeFamiliarWeight(): number {
   const saber = have($item`Fourth of May Cosplay Saber`) ? 10 : 0;
   const brogues = have($item`Bastille Battalion control rig`) ? 8 : 0;
   const comma = have($familiar`Comma Chameleon`) && have($skill`Summon Clip Art`) ? 100 : 0;
+  const familiar = comma === 0 ? 10 : 0;
+  const stillsuit = comma === 0 && have($item`tiny stillsuit`) ? 5 : 0;
   const concierge = have($skill`Crimbo Training: Concierge`) ? 1 : 0;
+  const SIT = bestSIT === 1 ? 5 : 0;
 
   return Math.max(
     1,
@@ -427,6 +427,9 @@ export function computeFamiliarWeight(): number {
           brogues,
           concierge,
           comma,
+          familiar,
+          stillsuit,
+          SIT,
         ]) /
           5
     )
@@ -499,11 +502,11 @@ export function computeBoozeDrop(): number {
 }
 
 const famJacksValue = have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;
-const greatWolfs = computeWdmgPoints(50) + 2;
-const stickKnife = myPrimestat() === $stat`muscle` ? computeWdmgPoints(130) + 4 : 0;
+const greatWolfs = Math.min(2, computeWeaponDamage()) + 2;
+const stickKnife = myPrimestat() === $stat`muscle` ? Math.min(5, computeWeaponDamage()) + 4 : 0;
 const staff = have($skill`Spirit of Rigatoni`) ? 4 : 0;
 const tobikoSoda = have($skill`Summon Alice's Army Cards`) ? 0 : 3;
-const meteorite = computeWdmgPoints(200) + 4;
+const meteorite = Math.min(8, computeWeaponDamage()) + 4;
 
 export const pullValue = new Map([
   [$item`box of Familiar Jacks`, famJacksValue],
