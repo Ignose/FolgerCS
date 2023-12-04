@@ -9,6 +9,7 @@ import {
   equippedItem,
   getCampground,
   getClanName,
+  getProperty,
   haveEffect,
   haveEquipped,
   holiday,
@@ -151,6 +152,66 @@ export function sellMiscellaneousItems(): void {
   });
 }
 
+export function computeHotRes(): number {
+  const cloake = have($item`vampyric cloake`) ? 2 : 0;
+  const foam =
+    have($item`Fourth of May Cosplay Saber`) &&
+    have($item`industrial fire extinguisher`) &&
+    have($skill`Double-Fisted Skull Smashing`)
+      ? 30
+      : 0;
+  const factory = !args.factoryworker ? 9 : 0;
+  const horse = get("horseryAvailable") ? 1 : 0;
+  const meteor = have($skill`Meteor Shower`) ? 5 : 0;
+  const bird = get("yourFavoriteBirdMods").includes("Hot Resistance") ? 4 : 0;
+  const amazing = 4;
+  const astral = have($skill`Astral Shell`) ? 1 : 0;
+  const egged = have($familiar`Rockin' Robin`) && camelFightsLeft() >= 44 ? 3 : 0;
+  const sphere = have($skill`Elemental Saucesphere`) ? 2 : 0;
+  const peaceful = have($skill`Feel Peaceful`) ? 2 : 0;
+
+  const bond = have($skill`Blood Bond`) ? 5 : 0;
+  const empathy = have($skill`Empathy of the Newt`) ? 5 : 0;
+  const leash = have($skill`Leash of Linguini`) ? 5 : 0;
+  const famWt = sumNumbers([bond, empathy, leash]);
+  const parrot =
+    have($familiar`Exotic Parrot`) && famWt >= 15 ? 2 : have($familiar`Exotic Parrot`) ? 1 : 0;
+
+  const extingo = have($item`industrial fire extinguisher`) ? 3 : 0;
+  const parka = have($item`Jurassic Parka`) ? 1 : 0;
+  const sweatpants = have($item`designer sweatpants`) ? 1 : 0;
+  const paw = have($item`cursed monkey's paw`) ? 2 : 0;
+  const crimbo = have($skill`Crimbo Training: Coal Taster`) ? 1 : 0;
+  const asbestos = have($skill`Asbestos Heart`) ? 3 : 0;
+  const tolerance = have($skill`Tolerance of the Kitchen`) ? 2 : 0;
+
+  return Math.max(
+    1,
+    60 -
+      sumNumbers([
+        cloake,
+        foam,
+        factory,
+        horse,
+        meteor,
+        bird,
+        amazing,
+        astral,
+        egged,
+        sphere,
+        peaceful,
+        parrot,
+        extingo,
+        parka,
+        sweatpants,
+        paw,
+        crimbo,
+        asbestos,
+        tolerance,
+      ])
+  );
+}
+
 export function computeWeaponDamage(): number {
   const meteor = have($skill`Meteor Shower`) && have($item`Fourth of May Cosplay Saber`) ? 200 : 0;
   const claws = have($skill`Claws of the Walrus`) ? 7 : 0;
@@ -174,6 +235,8 @@ export function computeWeaponDamage(): number {
   const camel = (get("camelSpit") / 3.33) * camelFightsLeft() >= 100 ? 100 : 0;
   const lov = get("loveTunnelAvailable") ? 50 : 0;
   const vote = myClass() === $class`Pastamancer` && get("voteAlways") ? 200 : 0;
+  const carol = have($familiar`Ghost of Crimbo Carols`) ? 100 : 0;
+  const elf = have($familiar`Machine Elf`) ? 100 : 0;
   const effects = sumNumbers([
     meteor,
     claws,
@@ -196,6 +259,8 @@ export function computeWeaponDamage(): number {
     camel,
     lov,
     vote,
+    carol,
+    elf,
   ]);
 
   const hat = have($item`Crown of Thrones`) ? 10 : have($item`seal-skull helmet`) ? 1 : 0;
@@ -257,6 +322,174 @@ function computeWdmgPoints(wdmg: number): number {
     return Math.floor((totalDamage - currentPoints) / increment);
   }
   return 0;
+}
+
+export function computeSpellDamage(): number {
+  const simmer = have($skill`Simmer`) ? 50 : 0; //Simmering adds 100 spelldamage but we're treating it as 50 because it costs a turn.
+  const cargo = have($item`Cargo Cultist Shorts`) && computeWeaponDamage() >= 3000 ? 4 : 0;
+  const carol = have($familiar`Ghost of Crimbo Carols`) ? 100 : 0;
+  const meteor = have($skill`Meteor Shower`) && have($item`Fourth of May Cosplay Saber`) ? 200 : 0;
+  const elf = have($familiar`Machine Elf`) ? 100 : 0;
+  const camel = (get("camelSpit") / 3.33) * camelFightsLeft() >= 100 ? 100 : 0;
+  const visions = have($skill`Deep Dark Visions`) ? 50 : 0;
+  const eyebrow = have($skill`Arched Eyebrow of the Archmage`) ? 10 : 0;
+  const hells = have($skill`Carol of the Hells`) ? 100 : 0;
+  const cow = 200; //We can't skip Cowrruption in FolgerCS
+  const imported = have($skill`Map the Monsters`) && get("ownsSpeakeasy") ? 50 : 0;
+  const jackass = have($skill`Jackasses' Symphony of Destruction`) ? 12 : 0;
+  const acueity = have($item`Clan VIP Lounge key`) ? 50 : 0;
+  const sauce = have($skill`Song of Sauce`) ? 100 : 0;
+  const peppermint = have($skill`Spirit of Peppermint`) ? 10 : 0;
+  const lov = get("loveTunnelAvailable") ? 50 : 0;
+  const beach = have($item`Beach Comb`) ? 25 : 0;
+  const glove = have($item`Powerful Glove`) ? 50 : 0;
+  const moonSpoon = have($item`hewn moon-rune spoon`) ? 10 : 0;
+  const saucier = have($skill`Master Saucier`) ? 10 : 0;
+  const subtle = have($skill`Subtle and Quick to Anger`) ? 10 : 0;
+  const calzone = !args.calzone ? 50 : 0;
+  const all = sumNumbers([
+    simmer,
+    cargo,
+    carol,
+    meteor,
+    elf,
+    camel,
+    visions,
+    eyebrow,
+    hells,
+    cow,
+    imported,
+    jackass,
+    acueity,
+    sauce,
+    peppermint,
+    lov,
+    beach,
+    glove,
+    moonSpoon,
+    saucier,
+    subtle,
+    calzone,
+  ]);
+
+  return Math.max(1, Math.floor(60 - all / 50));
+}
+
+export function computeFamiliarWeight(): number {
+  const moonSpoon = have($item`hewn moon-rune spoon`) && !args.savemoontune ? 10 : 0;
+  const deepDish = args.latedeepdish || !args.deepdish ? 5 : 0;
+  const newsPaper = have($familiar`Garbage Fire`) ? 10 : 0;
+  const meteor = have($skill`Meteor Shower`) && have($item`Fourth of May Cosplay Saber`) ? 20 : 0;
+  const belligerence = have($item`Clan VIP Lounge key`) ? 5 : 0;
+  const bond = have($skill`Blood Bond`) ? 5 : 0;
+  const comb = have($item`Beach Comb`) ? 5 : 0;
+  const empathy = have($skill`Empathy of the Newt`) ? 5 : 0;
+  const heart = have($skill`Summon Candy Heart`) ? 5 : 0;
+  const leash = have($skill`Leash of Linguini`) ? 5 : 0;
+  const puzzle = toInt(getProperty("puzzleChampBonus"));
+  const robot =
+    computeCombatFrequency() === -100 &&
+    have($familiar`Comma Chameleon`) &&
+    (have($skill`Summon Clip Art`) || have($item`box of Familiar Jacks`))
+      ? 20
+      : 0;
+  const shorty = camelFightsLeft() >= 44 || camelFightsLeft() < 34 ? 10 : 0;
+  const dsh = have($item`Daylight Shavings Helmet`) ? 5 : 0;
+  const scrapbook = have($item`familiar scrapbook`) && newsPaper === 0 ? 5 : 0;
+  const saber = have($item`Fourth of May Cosplay Saber`) ? 10 : 0;
+  const brogues = have($item`Bastille Battalion control rig`) ? 8 : 0;
+  const comma = have($familiar`Comma Chameleon`) && have($skill`Summon Clip Art`) ? 100 : 0;
+  const concierge = have($skill`Crimbo Training: Concierge`) ? 1 : 0;
+
+  return Math.max(
+    1,
+    60 -
+      sumNumbers([
+        moonSpoon,
+        deepDish,
+        newsPaper,
+        meteor,
+        belligerence,
+        bond,
+        comb,
+        empathy,
+        heart,
+        leash,
+        puzzle,
+        robot,
+        shorty,
+        dsh,
+        scrapbook,
+        saber,
+        brogues,
+        concierge,
+        comma,
+      ]) /
+        5
+  );
+}
+
+export function computeBoozeDrop(): number {
+  const loded = have($item`closed-circuit pay phone`) ? 100 : 0;
+  const eyedrops = !args.savecyclops ? 100 : 0;
+  const bowling = have($item`cosmic bowling ball`) ? 25 : 0;
+  const bat = have($item`vampyric cloake`) ? 50 : 0;
+  const microphone =
+    have($item`2002 Mr. Store Catalog`) && !forbiddenEffects.includes($effect`Spitting Rhymes`)
+      ? 50
+      : 0;
+  const heels = have($item`2002 Mr. Store Catalog`) ? 50 : 0;
+  const bird = get("yourFavoriteBirdMods").includes("Item Drops") ? 40 : 0;
+  const sparkler = 20;
+  const lost = have($skill`Feel Lost`) ? 60 : 0;
+  const crunching = 25;
+  const phat = have($skill`Fat Leon's Phat Loot Lyric`) ? 20 : 0;
+  const grain = 60;
+  const taking = have($skill`The Spirit of Taking`) ? 10 : 0;
+  const ocelot = have($skill`Singer's Faithful Ocelot`) ? 10 : 0;
+  const citizen = have($familiar`Patriotic Eagle`) ? 30 : 0;
+  const synthesis = args.experimentalsynth ? 150 : 0;
+  const costume = have($familiar`Trick-or-Treating Tot`) ? 150 : 0;
+  const tape = have($item`January's Garbage Tote`) ? 15 : 0;
+  const bucket = 25;
+  const cincho = have($item`Cincho de Mayo`) ? 45 : 0;
+  const observe = have($skill`Powers of Observatiogn`) ? 10 : 0;
+  const v2020 = have($skill`20/20 Vision`) ? 10 : 0;
+  const madloot = have($skill`Mad Looting Skillz`) ? 20 : 0;
+  const guzzlin = have($skill`Always Never Not Guzzling`) ? 25 : 0;
+  const crimbo = have($skill`Crimbo Training: Bartender`) ? 15 : 0;
+
+  const all = sumNumbers([
+    loded,
+    eyedrops,
+    bowling,
+    bat,
+    microphone,
+    heels,
+    bird,
+    sparkler,
+    lost,
+    crunching,
+    phat,
+    grain,
+    taking,
+    ocelot,
+    citizen,
+    synthesis,
+    costume,
+    tape,
+    bucket,
+    cincho,
+    observe,
+    v2020,
+    madloot,
+    guzzlin,
+    crimbo,
+  ]);
+
+  const addWish = all <= 780 ? 200 : 0;
+
+  return Math.max(1, Math.floor(60 - (all + addWish) / 15));
 }
 
 const famJacksValue = have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;

@@ -11,7 +11,14 @@ import {
   permedSkills,
 } from "libram";
 import { have as haveTrainSet } from "libram/dist/resources/2022/TrainSet";
-import { computeWeaponDamage } from "./lib";
+import {
+  computeBoozeDrop,
+  computeCombatFrequency,
+  computeFamiliarWeight,
+  computeHotRes,
+  computeSpellDamage,
+  computeWeaponDamage,
+} from "./lib";
 
 class Hardcoded {
   have: boolean;
@@ -620,8 +627,24 @@ export function checkRequirements(): void {
 }
 
 export function checkTests(): void {
+  print(`Note: The below does not consider pulls, and assumes stat and HP tests take 1 turn each.`);
+  const hotResTestTurns = computeHotRes();
+  print(`Hot Res Test expected to take ${hotResTestTurns} turns.`);
+
   const wDmgTest = computeWeaponDamage();
   const wDmgTestTurns = Math.max(1, Math.floor((3000 - wDmgTest) / 25));
-
   print(`Weapon Damage Test expected to take ${wDmgTestTurns} turns.`);
+
+  const sDmgTestTurns = computeSpellDamage();
+  print(`Weapon Damage Test expected to take ${sDmgTestTurns} turns.`);
+
+  const ncTest = computeCombatFrequency();
+  const ncTestTurns = Math.max(1, Math.floor((100 + ncTest) / 5));
+  print(`NonCombat Test expected to take ${ncTestTurns} turns.`);
+
+  const famTestTurns = computeFamiliarWeight();
+  print(`Familiar Weight Test expected to take ${famTestTurns} turns.`);
+
+  const boozeTestTurns = computeBoozeDrop();
+  print(`Familiar Weight Test expected to take ${boozeTestTurns} turns.`);
 }

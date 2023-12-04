@@ -95,7 +95,8 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Get Cyclops Eyedrops",
-      completed: () => have($item`cyclops eyedrops`) || have($effect`One Very Clear Eye`),
+      completed: () =>
+        have($item`cyclops eyedrops`) || have($effect`One Very Clear Eye`) || args.savecyclops,
       do: (): void => {
         if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
         if (!have($item`cyclops eyedrops`)) adv1($location`The Limerick Dungeon`, -1);
