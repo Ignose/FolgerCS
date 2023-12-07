@@ -126,6 +126,7 @@ export const RunStartQuest: Quest = {
         autosell($item`hamethyst`, itemAmount($item`hamethyst`));
         autosell($item`baconstone`, itemAmount($item`baconstone`));
         if (!args.savepurqoise) autosell($item`porquoise`, itemAmount($item`porquoise`));
+        if (args.savepurqoise) autosell($item`porquoise`, itemAmount($item`porquoise`) - 2); //save a maximum of 2 porquise to prevent script crashing
       },
       limit: { tries: 1 },
     },
