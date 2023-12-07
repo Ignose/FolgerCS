@@ -276,26 +276,18 @@ export function computeWeaponDamage(): number {
   // eslint-disable-next-line libram/verify-constants
   const mainhand = have($item`candy cane sword cane`)
     ? 165
-    : have($item`Stick-Knife of Loathing`)
-    ? 130
-    : have($item`ebony epee`)
+    : have($item`SpinMaster™ lathe`)
     ? 115
     : 65;
   // eslint-disable-next-line libram/verify-constants
   const offhand =
     // eslint-disable-next-line libram/verify-constants
-    have($item`candy cane sword cane`) && have($item`Stick-Knife of Loathing`)
-      ? 130
-      : have($item`Stick-Knife of Loathing`) && have($item`ebony epee`)
-      ? 115
-      : 50;
-  const pants = have($item`astral trousers`) || have($item`Great Wolf's beastly trousers`) ? 50 : 0;
+    have($item`SpinMaster™ lathe`) && have($item`candy cane sword cane`) ? 115 : 50;
 
-  const brogues = have($item`Brutal brogues`) ? 50 : 0;
+  const brogues = have($item`Bastille Battalion control rig`) ? 50 : 0;
   const glove = have($item`Powerful Glove`) ? 25 : 0;
   const kgb = have($item`Kremlin's Greatest Briefcase`) ? 25 : 0;
-  const meteorite = have($item`meteorite necklace`) ? 200 : 0;
-  const accessory = sumNumbers([brogues, glove, kgb, meteorite]);
+  const accessory = sumNumbers([brogues, glove, kgb]);
 
   const familiar =
     have($familiar`Disembodied Hand`) &&
@@ -310,7 +302,7 @@ export function computeWeaponDamage(): number {
       ? 50
       : 0;
 
-  const equips = sumNumbers([hat, shirt, mainhand, offhand, pants, accessory, familiar]);
+  const equips = sumNumbers([hat, shirt, mainhand, offhand, accessory, familiar]);
 
   const wDmgNumber = sumNumbers([equips, effects]);
 
@@ -502,11 +494,11 @@ export function computeBoozeDrop(): number {
 }
 
 const famJacksValue = have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;
-const greatWolfs = Math.min(2, computeWeaponDamage()) + 2;
-const stickKnife = myPrimestat() === $stat`muscle` ? Math.min(5, computeWeaponDamage()) + 4 : 0;
+const greatWolfs = Math.min(2, computeWeaponDamage() - 1) + 2;
+const stickKnife = myPrimestat() === $stat`muscle` ? Math.min(5, computeWeaponDamage() - 1) + 4 : 0;
 const staff = have($skill`Spirit of Rigatoni`) ? 4 : 0;
 const tobikoSoda = have($skill`Summon Alice's Army Cards`) ? 0 : 3;
-const meteorite = Math.min(8, computeWeaponDamage()) + 4;
+const meteorite = Math.min(8, computeWeaponDamage() - 1) + 4;
 
 export const pullValue = new Map([
   [$item`box of Familiar Jacks`, famJacksValue],

@@ -640,7 +640,7 @@ export function checkTests(): void {
   print(`Spell Damage Test expected to take ${sDmgTestTurns} turns.`);
 
   const ncTest = computeCombatFrequency();
-  const ncTestTurns = Math.max(1, Math.floor((100 + ncTest) / 5));
+  const ncTestTurns = Math.max(1, Math.floor((100 + ncTest - 20) / 5));
   print(`NonCombat Test expected to take ${ncTestTurns} turns.`);
 
   const famTestTurns = computeFamiliarWeight();

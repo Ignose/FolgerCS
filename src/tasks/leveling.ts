@@ -11,6 +11,7 @@ import {
   equip,
   equippedItem,
   getMonsters,
+  getWorkshed,
   haveEffect,
   inebrietyLimit,
   Item,
@@ -71,6 +72,7 @@ import {
   SongBoom,
   SourceTerminal,
   sum,
+  TrainSet,
   TunnelOfLove,
   uneffect,
   Witchess,
@@ -122,6 +124,12 @@ import {
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
 import { cheatCard, getRemainingCheats } from "libram/dist/resources/2015/DeckOfEveryCard";
 import { args } from "../args";
+import {
+  canConfigure,
+  Cycle,
+  setConfiguration,
+  Station,
+} from "libram/dist/resources/2022/TrainSet";
 
 const useCinch = args.savecinch < 100 - get("_cinchUsed");
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
@@ -846,6 +854,40 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         sellMiscellaneousItems();
         boomBoxProfit();
+      },
+      limit: { tries: 5 },
+    },
+    {
+      name: "ReConfigure Trainset",
+      ready: () => canConfigure(),
+      completed: () =>
+        args.asdon ||
+        !have($item`model train set`) ||
+        (getWorkshed() === $item`model train set` && !canConfigure()),
+      do: (): void => {
+        const offset = get("trainsetPosition") % 8;
+        const newStations: TrainSet.Station[] = [];
+        const statStation: Station = {
+          Muscle: Station.BRAWN_SILO,
+          Mysticality: Station.BRAIN_SILO,
+          Moxie: Station.GROIN_SILO,
+        }[myPrimestat().toString()];
+        const stations = [
+          Station.COAL_HOPPER, // double mainstat gain
+          statStation, // main stats
+          Station.VIEWING_PLATFORM, // all stats
+          Station.GAIN_MEAT, // meat
+          Station.TOWER_FIZZY, // mp regen
+          Station.BRAIN_SILO, // myst stats
+          Station.WATER_BRIDGE, // +ML
+          Station.CANDY_FACTORY, // candies
+        ] as Cycle;
+        for (let i = 0; i < 8; i++) {
+          const newPos = (i + offset) % 8;
+          newStations[newPos] = stations[i];
+        }
+        setConfiguration(newStations as Cycle);
+        cliExecute("set _folgerSecondConfig = true");
       },
       limit: { tries: 5 },
     },

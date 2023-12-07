@@ -287,16 +287,17 @@ export const RunStartQuest: Quest = {
       limit: { tries: 3 },
     },
     {
-      name: "Pantogramming",
+      name: "Pantagramming",
       completed: () =>
         Pantogram.havePants() || !have($item`portable pantogram`) || args.savepantogramming,
       do: (): void => {
+        const makeMeat = have($item`porquoise`) ? "Meat Drop: 60" : "Spell Damage Percent: 20";
         Pantogram.makePants(
-          myPrimestat().toString(),
+          "Mysticality",
           "Hot Resistance: 2",
           "Maximum HP: 40",
           "Combat Rate: -5",
-          "Spell Damage Percent: 20"
+          makeMeat
         );
       },
       limit: { tries: 1 },

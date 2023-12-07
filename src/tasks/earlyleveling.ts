@@ -280,10 +280,6 @@ export const earlyLevelingQuest: Quest = {
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(30);
-        if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
-          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase blue rocket!");
-          buy($item`blue rocket`, 1);
-        }
         unbreakableUmbrella();
         docBag();
         restoreMp(50);
@@ -304,8 +300,7 @@ export const earlyLevelingQuest: Quest = {
       combat: new CombatStrategy().macro(
         Macro.if_(
           $monster`paper towelgeist`,
-          Macro.tryItem($item`blue rocket`)
-            .tryItem($item`red rocket`)
+          Macro.tryItem($item`red rocket`)
             .trySkill($skill`Chest X-Ray`)
             .trySkill($skill`Gingerbread Mob Hit`)
             .trySkill($skill`Shattering Punch`)

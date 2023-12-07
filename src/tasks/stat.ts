@@ -8,6 +8,7 @@ import {
   print,
   Stat,
   use,
+  useSkill,
 } from "kolmafia";
 import {
   $coinmaster,
@@ -203,6 +204,13 @@ export const MysticalityQuest: Quest = {
           $effect`Mystically Oiled`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
+
+        if (
+          CommunityService.Mysticality.turnsSavedBy($effect`Blessing of your favorite Bird`) >= 1 &&
+          have($skill`Visit your Favorite Bird`) &&
+          get("yourFavoriteBirdMods").includes("Mysticality Percent")
+        )
+          useSkill($skill`Visit your Favorite Bird`);
 
         if (
           CommunityService.Mysticality.turnsSavedBy($effect`Purity of Spirit`) >= 7 &&
