@@ -28,6 +28,7 @@ import {
 import { Quest } from "../engine/task";
 import {
   checkValue,
+  computeHotRes,
   forbiddenEffects,
   logTestSetup,
   reagentBalancerEffect,
@@ -321,6 +322,14 @@ export const MoxieQuest: Quest = {
           CommunityService.Moxie.turnsSavedBy($effect`Amazing`) >= 7 &&
           have($item`pocket maze`) &&
           !have($effect`Amazing`)
+        )
+          use($item`pocket maze`);
+
+        if (
+          CommunityService.Moxie.turnsSavedBy($effect`Amazing`) >= 1 &&
+          have($item`pocket maze`) &&
+          !have($effect`Amazing`) &&
+          computeHotRes(false) === 1
         )
           use($item`pocket maze`);
 

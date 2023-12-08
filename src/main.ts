@@ -72,7 +72,7 @@ export function main(command?: string): void {
 
   const swapMainStatTest = have($item`Deck of Every Card`) && myPrimestat === $stat`Muscle`;
   const swapNCandFamTest =
-    computeCombatFrequency() === -100 &&
+    computeCombatFrequency(false) === -100 &&
     have($familiar`Comma Chameleon`) &&
     (have($skill`Summon Clip Art`) || have($item`box of Familiar Jacks`));
 

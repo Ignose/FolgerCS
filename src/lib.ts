@@ -158,7 +158,7 @@ export function sellMiscellaneousItems(): void {
   });
 }
 
-export function computeHotRes(): number {
+export function computeHotRes(sim: boolean): number {
   const cloake = have($item`vampyric cloake`) ? 5 : 0;
   const foam =
     have($item`Fourth of May Cosplay Saber`) &&
@@ -170,7 +170,7 @@ export function computeHotRes(): number {
   const horse = get("horseryAvailable") ? 1 : 0;
   const meteor = have($skill`Meteor Shower`) ? 5 : 0;
   const bird = get("yourFavoriteBirdMods").includes("Hot Resistance") ? 4 : 0;
-  const amazing = 4;
+  const amazing = sim ? 4 : 0;
   const astral = have($skill`Astral Shell`) ? 1 : 0;
   const egged = have($familiar`Rockin' Robin`) && camelFightsLeft() >= 44 ? 3 : 0;
   const sphere = have($skill`Elemental Saucesphere`) ? 2 : 0;
@@ -294,7 +294,7 @@ export function computeWeaponDamage(): number {
     // eslint-disable-next-line libram/verify-constants
     have($item`candy cane sword cane`) &&
     have($item`Stick-Knife of Loathing`) &&
-    have($item`ebony epee`)
+    have($item`SpinMaster™ lathe`)
       ? 115
       : have($familiar`Disembodied Hand`)
       ? 65
@@ -379,7 +379,7 @@ export function computeFamiliarWeight(): number {
   const leash = have($skill`Leash of Linguini`) ? 5 : 0;
   const puzzle = toInt(getProperty("puzzleChampBonus"));
   const robot =
-    computeCombatFrequency() === -100 &&
+    computeCombatFrequency(false) === -100 &&
     have($familiar`Comma Chameleon`) &&
     (have($skill`Summon Clip Art`) || have($item`box of Familiar Jacks`))
       ? 20
@@ -737,7 +737,7 @@ export function wishFor(ef: Effect, useGenie = true): void {
   }
 }
 
-export function computeCombatFrequency(): number {
+export function computeCombatFrequency(sim: boolean): number {
   const vipHat = have($item`Clan VIP Lounge key`) ? -5 : 0;
   const hat = vipHat;
 
@@ -797,6 +797,7 @@ export function computeCombatFrequency(): number {
 
   const darkHorse = get("horseryAvailable") ? -5 : 0;
   const others = darkHorse;
+  const shades = sim ? -20 : 0;
 
   const total = sumNumbers([
     hat,
@@ -808,6 +809,7 @@ export function computeCombatFrequency(): number {
     effects,
     familiar,
     others,
+    shades,
   ]);
 
   return total;

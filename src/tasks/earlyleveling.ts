@@ -97,7 +97,11 @@ function sendAutumnaton(): void {
 export const earlyLevelingQuest: Quest = {
   name: "Early Leveling",
   completed: () =>
-    get("pizzaOfLegendEaten") || !args.skipbt || args.asdon || CommunityService.CoilWire.isDone(),
+    get("pizzaOfLegendEaten") ||
+    !args.skipbt ||
+    args.asdon ||
+    CommunityService.CoilWire.isDone() ||
+    myAdventures() > 60,
   tasks: [
     {
       name: "Install Trainset",
@@ -408,7 +412,10 @@ export const earlyLevelingQuest: Quest = {
       name: "Eat Pizza",
       ready: () => have($effect`Ready to Eat`), // only eat this after we red rocket
       completed: () =>
-        get("pizzaOfLegendEaten") || !have($item`Pizza of Legend`) || myAdventures() > 60,
+        get("pizzaOfLegendEaten") ||
+        !have($item`Pizza of Legend`) ||
+        myAdventures() > 60 ||
+        args.pizza,
       prepare: (): void => {
         cliExecute(`maximize ${myPrimestat()} experience percent`);
       },
@@ -437,10 +444,6 @@ export const earlyLevelingQuest: Quest = {
             "Consider pulling something to make up for the turngen and 300%myst (e.g. a roasted vegetable focaccia),",
             "red"
           );
-          print(
-            "then type 'set _instant_skipCalzoneOfLegend=true' before re-running instantsccs",
-            "red"
-          );
         }
         takeStorage($item`Calzone of Legend`, 1);
       },
@@ -458,7 +461,7 @@ export const earlyLevelingQuest: Quest = {
         if (have($item`familiar scrapbook`)) {
           equip($item`familiar scrapbook`);
         }
-        eat($item`Deep Dish of Legend`, 1);
+        eat($item`Calzone of Legend`, 1);
       },
       limit: { tries: 1 },
     },
