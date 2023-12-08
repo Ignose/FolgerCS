@@ -380,7 +380,7 @@ export function computeFamiliarWeight(): number {
   const empathy = have($skill`Empathy of the Newt`) ? 5 : 0;
   const heart = have($skill`Summon Candy Heart`) ? 5 : 0;
   const leash = have($skill`Leash of Linguini`) ? 5 : 0;
-  const puzzle = toInt(getProperty("puzzleChampBonus"));
+  const puzzle = Witchess.have() ? toInt(getProperty("puzzleChampBonus")) : 0;
   const robot =
     computeCombatFrequency(false) === -100 &&
     have($familiar`Comma Chameleon`) &&
