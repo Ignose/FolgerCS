@@ -12381,7 +12381,7 @@ function computeBoozeDrop() {
   var crimbo = have(template_string_$skill(_templateObject160 || (_templateObject160 = lib_taggedTemplateLiteral(["Crimbo Training: Bartender"])))) ? 15 : 0;
   var lighthouse = have(template_string_$item(_templateObject161 || (_templateObject161 = lib_taggedTemplateLiteral(["august scepter"])))) ? 50 : 0;
   var all = sumNumbers([loded, eyedrops, bowling, bat, microphone, heels, bird, sparkler, lost, crunching, phat, grain, taking, ocelot, citizen, synthesis, costume, tape, bucket, cincho, observe, v2020, madloot, guzzlin, crimbo, lighthouse]);
-  var addWish = all <= 780 ? 200 : 0;
+  var addWish = all - synthesis <= 780 ? 200 : 0;
   return Math.max(1, Math.floor(60 - (all + addWish) / 15));
 }
 var famJacksValue = have(template_string_$familiar(_templateObject162 || (_templateObject162 = lib_taggedTemplateLiteral(["Comma Chameleon"])))) && !have(template_string_$skill(_templateObject163 || (_templateObject163 = lib_taggedTemplateLiteral(["Summon Clip Art"])))) ? 21 : 0;
