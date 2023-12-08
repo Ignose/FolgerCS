@@ -1,11 +1,24 @@
 import { Quest } from "../engine/task";
-import { buy, cliExecute, Effect, equip, print, runChoice, useSkill, visitUrl } from "kolmafia";
+import {
+  buy,
+  cliExecute,
+  Effect,
+  equip,
+  myMaxhp,
+  print,
+  restoreHp,
+  restoreMp,
+  runChoice,
+  useSkill,
+  visitUrl,
+} from "kolmafia";
 import {
   $effect,
   $familiar,
   $item,
   $skill,
   $slot,
+  clamp,
   CommunityService,
   get,
   have,
@@ -23,6 +36,7 @@ import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
 import { args } from "../args";
+import { baseOutfit, unbreakableUmbrella } from "../engine/outfit";
 
 export const NoncombatQuest: Quest = {
   name: "Noncombat",
@@ -69,6 +83,27 @@ export const NoncombatQuest: Quest = {
         useSkill($skill`CHEAT CODE: Invisible Avatar`);
       },
       limit: { tries: 1 },
+    },
+    {
+      name: "God Lobster",
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        unbreakableUmbrella();
+        restoreMp(50);
+      },
+      completed: () =>
+        get("_godLobsterFights") >= 3 ||
+        !have($familiar`God Lobster`) ||
+        !have($item`God Lobster's Ring`),
+      do: () => visitUrl("main.php?fightgodlobster=1"),
+      combat: new CombatStrategy().macro(Macro.default(false)),
+      choices: { 1310: 1 }, // Get xp on last fight
+      outfit: () => ({
+        ...baseOutfit(),
+        famequip: $item`God Lobster's Ring`,
+        familiar: $familiar`God Lobster`,
+      }),
+      limit: { tries: 3 },
     },
     {
       name: "Buy Porkpie-mounted Popper",

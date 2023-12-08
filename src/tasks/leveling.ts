@@ -86,6 +86,7 @@ import {
   checkPull,
   checkValue,
   chooseLibram,
+  computeCombatFrequency,
   findMaxPull,
   forbiddenEffects,
   fuelUp,
@@ -135,6 +136,7 @@ const useCinch = args.savecinch < 100 - get("_cinchUsed");
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
 const freeFightMonsters: Monster[] = $monsters`Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle`;
 const godLobsterChoice = have($item`God Lobster's Ring`) ? 2 : 3;
+const godLobsterSave = computeCombatFrequency(false) === -95;
 
 export function restoreMPEfficiently(): string {
   if (have($item`magical sausage`)) return "Sausage";
@@ -1458,7 +1460,10 @@ export const LevelingQuest: Quest = {
         [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
       },
-      completed: () => get("_godLobsterFights") >= 3 || !have($familiar`God Lobster`),
+      completed: () =>
+        get("_godLobsterFights") >= 3 ||
+        !have($familiar`God Lobster`) ||
+        (get("_godLobsterFights") >= 2 && godLobsterSave),
       do: () => visitUrl("main.php?fightgodlobster=1"),
       combat: new CombatStrategy().macro(Macro.default(useCinch)),
       choices: { 1310: godLobsterChoice }, // Get xp on last fight
