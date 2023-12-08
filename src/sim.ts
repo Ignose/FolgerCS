@@ -633,7 +633,7 @@ export function checkTests(): void {
   const hotResTestTurns = computeHotRes(true);
   print(`Hot Res Test expected to take ${hotResTestTurns} turns.`);
 
-  const wDmgTestTurns = computeWeaponDamage();
+  const wDmgTestTurns = computeWeaponDamage(true);
   print(`Weapon Damage Test expected to take ${wDmgTestTurns} turns.`);
 
   const sDmgTestTurns = computeSpellDamage();

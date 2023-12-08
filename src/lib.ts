@@ -220,7 +220,7 @@ export function computeHotRes(sim: boolean): number {
   return Math.max(1, 60 - (all + addWish));
 }
 
-export function computeWeaponDamage(): number {
+export function computeWeaponDamage(sim: boolean): number {
   const meteor = have($skill`Meteor Shower`) && have($item`Fourth of May Cosplay Saber`) ? 200 : 0;
   const claws = have($skill`Claws of the Walrus`) ? 7 : 0;
   const wrath = have($skill`Wrath of the Wolverine`) ? 5 : 0;
@@ -287,7 +287,9 @@ export function computeWeaponDamage(): number {
   const brogues = have($item`Bastille Battalion control rig`) ? 50 : 0;
   const glove = have($item`Powerful Glove`) ? 25 : 0;
   const kgb = have($item`Kremlin's Greatest Briefcase`) ? 25 : 0;
-  const accessory = sumNumbers([brogues, glove, kgb]);
+  const meteorite =
+    sim && have($item`meteorite necklace`) ? 200 : have($item`meteorite necklace`) ? 200 : 0;
+  const accessory = sumNumbers([brogues, glove, kgb, meteorite]);
 
   const familiar =
     have($familiar`Disembodied Hand`) &&
@@ -302,7 +304,8 @@ export function computeWeaponDamage(): number {
       ? 50
       : 0;
 
-  const equips = sumNumbers([hat, shirt, mainhand, offhand, accessory, familiar]);
+  const goodWeapons = sim ? 65 : 0;
+  const equips = sumNumbers([hat, shirt, mainhand, offhand, accessory, familiar, goodWeapons]);
 
   const wDmgNumber = sumNumbers([equips, effects]);
 
@@ -311,7 +314,7 @@ export function computeWeaponDamage(): number {
 
 export function computeSpellDamage(): number {
   const simmer = have($skill`Simmer`) ? 50 : 0; //Simmering adds 100 spelldamage but we're treating it as 50 because it costs a turn.
-  const cargo = have($item`Cargo Cultist Shorts`) && computeWeaponDamage() >= 1350 ? 4 : 0;
+  const cargo = have($item`Cargo Cultist Shorts`) && computeWeaponDamage(true) >= 1350 ? 4 : 0;
   const carol = have($familiar`Ghost of Crimbo Carols`) ? 100 : 0;
   const meteor = have($skill`Meteor Shower`) && have($item`Fourth of May Cosplay Saber`) ? 200 : 0;
   const elf = have($familiar`Machine Elf`) ? 100 : 0;
@@ -494,11 +497,12 @@ export function computeBoozeDrop(): number {
 }
 
 const famJacksValue = have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;
-const greatWolfs = Math.min(2, computeWeaponDamage() - 1) + 2;
-const stickKnife = myPrimestat() === $stat`muscle` ? Math.min(5, computeWeaponDamage() - 1) + 4 : 0;
+const greatWolfs = Math.min(2, computeWeaponDamage(false) - 1) + 2;
+const stickKnife =
+  myPrimestat() === $stat`muscle` ? Math.min(5, computeWeaponDamage(false) - 1) + 4 : 0;
 const staff = have($skill`Spirit of Rigatoni`) ? 4 : 0;
 const tobikoSoda = have($skill`Summon Alice's Army Cards`) ? 0 : 3;
-const meteorite = Math.min(8, computeWeaponDamage() - 1) + 4;
+const meteorite = Math.min(8, computeWeaponDamage(false) - 1) + 4;
 
 export const pullValue = new Map([
   [$item`box of Familiar Jacks`, famJacksValue],
