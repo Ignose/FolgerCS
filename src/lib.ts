@@ -491,7 +491,7 @@ export function computeBoozeDrop(): number {
     lighthouse,
   ]);
 
-  const addWish = all <= 780 ? 200 : 0;
+  const addWish = all - synthesis <= 780 ? 200 : 0;
 
   return Math.max(1, Math.floor(60 - (all + addWish) / 15));
 }
