@@ -12339,7 +12339,7 @@ function computeFamiliarWeight() {
   var empathy = have(template_string_$skill(_templateObject128 || (_templateObject128 = lib_taggedTemplateLiteral(["Empathy of the Newt"])))) ? 5 : 0;
   var heart = have(template_string_$skill(_templateObject129 || (_templateObject129 = lib_taggedTemplateLiteral(["Summon Candy Heart"])))) ? 5 : 0;
   var leash = have(template_string_$skill(_templateObject130 || (_templateObject130 = lib_taggedTemplateLiteral(["Leash of Linguini"])))) ? 5 : 0;
-  var puzzle = (0,external_kolmafia_namespaceObject.toInt)((0,external_kolmafia_namespaceObject.getProperty)("puzzleChampBonus"));
+  var puzzle = Witchess_have() ? (0,external_kolmafia_namespaceObject.toInt)((0,external_kolmafia_namespaceObject.getProperty)("puzzleChampBonus")) : 0;
   var robot = computeCombatFrequency(false) === -100 && have(template_string_$familiar(_templateObject131 || (_templateObject131 = lib_taggedTemplateLiteral(["Comma Chameleon"])))) && (have(template_string_$skill(_templateObject132 || (_templateObject132 = lib_taggedTemplateLiteral(["Summon Clip Art"])))) || have(template_string_$item(_templateObject133 || (_templateObject133 = lib_taggedTemplateLiteral(["box of Familiar Jacks"]))))) ? 20 : 0;
   var shorty = camelFightsLeft() >= 44 || camelFightsLeft() < 34 ? 10 : 0;
   var dsh = have(template_string_$item(_templateObject134 || (_templateObject134 = lib_taggedTemplateLiteral(["Daylight Shavings Helmet"])))) ? 5 : 0;
