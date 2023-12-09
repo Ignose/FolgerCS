@@ -207,14 +207,14 @@ export const MysticalityQuest: Quest = {
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
         if (
-          CommunityService.Mysticality.turnsSavedBy($effect`Blessing of your favorite Bird`) >= 1 &&
+          CommunityService.Mysticality.actualCost() > 1 &&
           have($skill`Visit your Favorite Bird`) &&
           get("yourFavoriteBirdMods").includes("Mysticality Percent")
         )
           useSkill($skill`Visit your Favorite Bird`);
 
         if (
-          CommunityService.Mysticality.turnsSavedBy($effect`Purity of Spirit`) >= 7 &&
+          CommunityService.Mysticality.actualCost() >= 7 &&
           have($skill`Summon Clip Art`) &&
           get("tomeSummons") === 0 &&
           args.skipbt
@@ -225,7 +225,7 @@ export const MysticalityQuest: Quest = {
         }
 
         if (
-          CommunityService.Mysticality.turnsSavedBy($effect`Hulkien`) >= 7 &&
+          CommunityService.Mysticality.actualCost() >= 7 &&
           have($item`Eight Days a Week Pill Keeper`) &&
           checkValue("Pillkeeper", CommunityService.Moxie.turnsSavedBy($effect`Hulkien`))
         )
@@ -319,22 +319,15 @@ export const MoxieQuest: Quest = {
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
         if (
-          CommunityService.Moxie.turnsSavedBy($effect`Amazing`) >= 7 &&
-          have($item`pocket maze`) &&
-          !have($effect`Amazing`)
-        )
-          use($item`pocket maze`);
-
-        if (
-          CommunityService.Moxie.turnsSavedBy($effect`Amazing`) >= 1 &&
+          CommunityService.Moxie.actualCost() >= 1 &&
           have($item`pocket maze`) &&
           !have($effect`Amazing`) &&
-          computeHotRes(false) === 1
+          computeHotRes(false) <= 1
         )
           use($item`pocket maze`);
 
         if (
-          CommunityService.Moxie.turnsSavedBy($effect`Purity of Spirit`) >= 7 &&
+          CommunityService.Moxie.actualCost() >= 7 &&
           have($skill`Summon Clip Art`) &&
           get("tomeSummons") === 0 &&
           args.skipbt
@@ -345,7 +338,7 @@ export const MoxieQuest: Quest = {
         }
 
         if (
-          CommunityService.Moxie.turnsSavedBy($effect`Hulkien`) >= 7 &&
+          CommunityService.Moxie.actualCost() >= 7 &&
           have($item`Eight Days a Week Pill Keeper`) &&
           checkValue("Pillkeeper", CommunityService.Moxie.turnsSavedBy($effect`Hulkien`))
         )
