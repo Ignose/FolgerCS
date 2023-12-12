@@ -680,7 +680,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Eat Deep Dish",
       completed: () =>
-        get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`) || args.deepdish,
+        get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`) || args.latedeepdish,
       prepare: (): void => {
         cliExecute(`maximize ${myPrimestat()} experience percent`);
       },
