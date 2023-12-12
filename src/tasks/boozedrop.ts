@@ -32,6 +32,7 @@ import {
   $slot,
   CommunityService,
   get,
+  getKramcoWandererChance,
   have,
   uneffect,
   withChoice,
@@ -131,7 +132,10 @@ export const BoozeDropQuest: Quest = {
       combat: new CombatStrategy().macro(Macro.itemDrop().abort()),
       outfit: {
         back: $item`vampyric cloake`,
-        offhand: $item`latte lovers member's mug`,
+        offhand:
+          getKramcoWandererChance() >= 1.0
+            ? $item`Kramco Sausage-o-Matic™`
+            : $item`latte lovers member's mug`,
         acc1: $item`Kremlin's Greatest Briefcase`,
         acc2: $item`Lil' Doctor™ bag`,
         familiar: chooseFamiliar(false),

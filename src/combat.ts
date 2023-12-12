@@ -1,5 +1,5 @@
 import { mpCost, myPrimestat, toInt } from "kolmafia";
-import { $item, $skill, $stat, get, have, StrictMacro } from "libram";
+import { $item, $monster, $skill, $stat, get, have, StrictMacro } from "libram";
 
 //export const mainStat = myClass().primestat;
 export const mainStat = myPrimestat(); //Update to select mainstat based on class derived from Libram
@@ -48,13 +48,24 @@ export default class Macro extends StrictMacro {
   }
 
   itemDrop(): Macro {
-    return Macro.trySkill($skill`Bowl Straight Up`)
-      .trySkill($skill`Become a Bat`)
-      .trySkill($skill`Feel Hatred`)
-      .trySkill($skill`Reflex Hammer`)
-      .trySkill($skill`Throw Latte on Opponent`)
-      .trySkill($skill`KGB tranquilizer dart`)
-      .trySkill($skill`Snokebomb`);
+    return (
+      Macro.if_(
+        $monster`sausage goblin`,
+        Macro.trySkill($skill`Bowl Straight Up`)
+          .trySkill($skill`Become a Bat`)
+          .default(false)
+      ),
+      Macro.if_(
+        $monster`fluffy bunny`,
+        Macro.trySkill($skill`Bowl Straight Up`)
+          .trySkill($skill`Become a Bat`)
+          .trySkill($skill`Feel Hatred`)
+          .trySkill($skill`Reflex Hammer`)
+          .trySkill($skill`Throw Latte on Opponent`)
+          .trySkill($skill`KGB tranquilizer dart`)
+          .trySkill($skill`Snokebomb`)
+      )
+    );
   }
 
   static itemDrop(): Macro {
