@@ -29,6 +29,7 @@ import { Quest } from "../engine/task";
 import {
   checkValue,
   computeHotRes,
+  haveLoathingIdol,
   logTestSetup,
   reagentBalancerEffect,
   reagentBalancerItem,
@@ -274,7 +275,7 @@ export const MoxieQuest: Quest = {
       name: "Loathing Idol Microphone",
       completed: () => have($effect`Poppy Performance`) || !have($item`2002 Mr. Store Catalog`),
       do: (): void => {
-        if (!have($item`Loathing Idol Microphone`)) {
+        if (!haveLoathingIdol) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
         }
         withChoice(1505, 1, () => useLoathingIdol());

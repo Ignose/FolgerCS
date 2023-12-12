@@ -41,6 +41,7 @@ import {
   checkValue,
   forbiddenEffects,
   fuelUp,
+  haveLoathingIdol,
   logTestSetup,
   tryAcquiringEffect,
   useLoathingIdol,
@@ -175,12 +176,7 @@ export const BoozeDropQuest: Quest = {
         !have($item`2002 Mr. Store Catalog`) ||
         forbiddenEffects.includes($effect`Spitting Rhymes`),
       do: (): void => {
-        if (
-          !have($item`Loathing Idol Microphone`) &&
-          !have($item`Loathing Idol Microphone (75% charged)`) &&
-          !have($item`Loathing Idol Microphone (50% charged)`) &&
-          !have($item`Loathing Idol Microphone (25% charged)`)
-        ) {
+        if (!haveLoathingIdol) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
         }
         withChoice(1505, 3, () => useLoathingIdol());

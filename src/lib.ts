@@ -1308,3 +1308,9 @@ export function useLoathingIdol(): void {
       : $item`Loathing Idol Microphone (25% charged)`
   );
 }
+
+export const haveLoathingIdol =
+  have($item`Loathing Idol Microphone`) ||
+  have($item`Loathing Idol Microphone (75% charged)`) ||
+  have($item`Loathing Idol Microphone (50% charged)`) ||
+  have($item`Loathing Idol Microphone (25% charged)`);
