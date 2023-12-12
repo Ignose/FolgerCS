@@ -755,7 +755,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Buy Oversized Sparkler",
-      ready: () => have($effect`Everything Looks Blue`) && get("hasRange") && myMeat() >= 1000,
+      ready: () => get("hasRange") && myMeat() >= 1000,
       prepare: () => sellMiscellaneousItems(),
       completed: () => have($item`oversized sparkler`),
       do: () => buy($item`oversized sparkler`, 1),
@@ -1154,7 +1154,7 @@ export const LevelingQuest: Quest = {
       completed: () =>
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
-        get("_citizenZone").includes("Madness Bakery") ||
+        get("_citizenZone").includes("Madness") ||
         ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
           (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
       do: $location`Madness Bakery`,
@@ -1415,10 +1415,6 @@ export const LevelingQuest: Quest = {
       after: ["Oliver's Place (Map)"],
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
-          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase blue rocket!");
-          buy($item`blue rocket`, 1);
-        }
         unbreakableUmbrella();
         docBag();
         restoreMp(50);

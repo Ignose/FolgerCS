@@ -156,7 +156,7 @@ const candySword = $item`candy cane sword cane`;
 function useCandyCaneSword(): boolean {
   if (!have(candySword)) return false;
   examine(candySword);
-  if (numericModifier(candySword, "weapon damage") < 115) return true;
+  if (numericModifier(candySword, "Weapon Damage") < 115) return true;
   return false;
 }
 
