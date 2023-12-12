@@ -15210,7 +15210,7 @@ var LevelingQuest = {
     }
   }, {
     name: "Eat Deep Dish",
-    completed: () => property_get("deepDishOfLegendEaten") || !have(template_string_$item(leveling_templateObject179 || (leveling_templateObject179 = leveling_taggedTemplateLiteral(["Deep Dish of Legend"])))) || args.deepdish,
+    completed: () => property_get("deepDishOfLegendEaten") || !have(template_string_$item(leveling_templateObject179 || (leveling_templateObject179 = leveling_taggedTemplateLiteral(["Deep Dish of Legend"])))) || args.latedeepdish,
     prepare: () => {
       (0,external_kolmafia_namespaceObject.cliExecute)("maximize ".concat((0,external_kolmafia_namespaceObject.myPrimestat)(), " experience percent"));
     },
