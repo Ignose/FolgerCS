@@ -790,6 +790,7 @@ export function computeCombatFrequency(sim: boolean): number {
   const shoeGum = get("hasDetectiveSchool") && !get("instant_saveCopDollars", false) ? -5 : 0;
   const silentRunning = -5;
   const feelingLonely = have($skill`Feel Lonely`) ? -5 : 0;
+  const stub = !sim && have($item`trampled ticket stub`) ? -5 : 0;
   const effects = sumNumbers([
     rose,
     smoothMovements,
@@ -800,6 +801,7 @@ export function computeCombatFrequency(sim: boolean): number {
     shoeGum,
     silentRunning,
     feelingLonely,
+    stub,
   ]);
 
   const disgeist = have($familiar`Disgeist`) ? -5 : 0;
