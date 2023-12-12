@@ -33,6 +33,7 @@ import {
   reagentBalancerEffect,
   reagentBalancerItem,
   tryAcquiringEffect,
+  useLoathingIdol,
 } from "../lib";
 import { args } from "../args";
 
@@ -276,7 +277,7 @@ export const MoxieQuest: Quest = {
         if (!have($item`Loathing Idol Microphone`)) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
         }
-        withChoice(1505, 1, () => use($item`Loathing Idol Microphone`));
+        withChoice(1505, 1, () => useLoathingIdol());
       },
       limit: { tries: 1 },
     },

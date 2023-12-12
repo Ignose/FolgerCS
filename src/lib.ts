@@ -503,6 +503,8 @@ const stickKnife =
 const staff = have($skill`Spirit of Rigatoni`) ? 4 : 0;
 const tobikoSoda = have($skill`Summon Alice's Army Cards`) ? 0 : 3;
 const meteorite = Math.min(8, computeWeaponDamage(false) - 1) + 4;
+const slippers = Math.min(4, 1 + ((-1 * computeCombatFrequency(false)) / 5) * 3);
+const chlamys = Math.min(3, ((-1 * computeCombatFrequency(false)) / 5) * 3);
 
 export const pullValue = new Map([
   [$item`box of Familiar Jacks`, famJacksValue],
@@ -513,6 +515,8 @@ export const pullValue = new Map([
   [$item`Great Wolf's beastly trousers`, greatWolfs],
   [$item`repaid diaper`, 3],
   [$item`tobiko marble soda`, tobikoSoda],
+  [$item`chalk chlamys`, chlamys],
+  [$item`Fuzzy Slippers of Hatred`, slippers],
 ]);
 
 export function checkPull(item: Item): boolean {
@@ -746,7 +750,8 @@ export function computeCombatFrequency(sim: boolean): number {
   const hat = vipHat;
 
   const protopack = have($item`protonic accelerator pack`) ? -5 : 0;
-  const back = protopack;
+  const chlamys = have($item`chalk chlamys`) && !sim ? -5 : 0;
+  const back = Math.max(protopack, chlamys);
 
   const parka = have($item`Jurassic Parka`) ? -5 : 0;
   const shirt = parka;
@@ -761,7 +766,8 @@ export function computeCombatFrequency(sim: boolean): number {
   const kgb =
     have($item`Kremlin's Greatest Briefcase`) && !get("instant_saveKGBClicks", false) ? -5 : 0;
   const atlas = have($item`atlas of local maps`) ? -5 : 0;
-  const accessories = sumNumbers([kgb, atlas]);
+  const slippers = have($item`Fuzzy Slippers of Hatred`) && !sim ? -5 : 0;
+  const accessories = sumNumbers([kgb, atlas, slippers]);
 
   const rose = -20;
   const smoothMovements = have($skill`Smooth Movement`) ? -5 : 0;
@@ -1289,4 +1295,16 @@ export function goVote(): void {
       : 2;
 
   visitUrl(`choice.php?option=1&whichchoice=1331&g=${monsterVote}&local[]=${init}&local[]=${init}`);
+}
+
+export function useLoathingIdol(): void {
+  use(
+    have($item`Loathing Idol Microphone`)
+      ? $item`Loathing Idol Microphone`
+      : have($item`Loathing Idol Microphone (75% charged)`)
+      ? $item`Loathing Idol Microphone (75% charged)`
+      : have($item`Loathing Idol Microphone (50% charged)`)
+      ? $item`Loathing Idol Microphone (50% charged)`
+      : $item`Loathing Idol Microphone (25% charged)`
+  );
 }

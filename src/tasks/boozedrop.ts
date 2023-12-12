@@ -43,6 +43,7 @@ import {
   fuelUp,
   logTestSetup,
   tryAcquiringEffect,
+  useLoathingIdol,
   wishFor,
 } from "../lib";
 import { CombatStrategy } from "grimoire-kolmafia";
@@ -182,17 +183,7 @@ export const BoozeDropQuest: Quest = {
         ) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
         }
-        withChoice(1505, 3, () =>
-          use(
-            have($item`Loathing Idol Microphone`)
-              ? $item`Loathing Idol Microphone`
-              : have($item`Loathing Idol Microphone (75% charged)`)
-              ? $item`Loathing Idol Microphone (75% charged)`
-              : have($item`Loathing Idol Microphone (50% charged)`)
-              ? $item`Loathing Idol Microphone (50% charged)`
-              : $item`Loathing Idol Microphone (25% charged)`
-          )
-        );
+        withChoice(1505, 3, () => useLoathingIdol());
       },
       limit: { tries: 1 },
     },
