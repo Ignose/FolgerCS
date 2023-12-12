@@ -555,6 +555,15 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Pull Chlamys",
+      ready: () => args.dopulls && computeCombatFrequency(false) > -100,
+      completed: () => checkPull($item`chalk chlamys`),
+      do: (): void => {
+        takeStorage($item`chalk chlamys`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Lathe",
       prepare: () => visitUrl("shop.php?whichshop=lathe"),
       completed: () =>
