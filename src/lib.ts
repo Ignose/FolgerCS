@@ -785,8 +785,7 @@ export function computeCombatFrequency(sim: boolean): number {
         )
       : 0;
   const shadowWaters = have($item`closed-circuit pay phone`) ? -10 : 0;
-  const powerfulGlove =
-    have($item`Powerful Glove`) && !forbiddenEffects.includes($effect`Invisible Avatar`) ? -10 : 0;
+  const powerfulGlove = have($item`Powerful Glove`) && !args.saveglove ? -10 : 0;
   const shoeGum = get("hasDetectiveSchool") && !get("instant_saveCopDollars", false) ? -5 : 0;
   const silentRunning = -5;
   const feelingLonely = have($skill`Feel Lonely`) ? -5 : 0;

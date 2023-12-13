@@ -150,7 +150,6 @@ export function avoidDaylightShavingsHelm(): boolean {
   );
 }
 
-// eslint-disable-next-line libram/verify-constants
 const candySword = $item`candy cane sword cane`;
 
 function useCandyCaneSword(): boolean {
