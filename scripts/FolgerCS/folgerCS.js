@@ -13383,7 +13383,7 @@ var MoxieQuest = {
   tasks: [{
     // This is also useful for the BoozeDrop test, but we can grab the +10%mox here first
     name: "High Heels",
-    completed: () => have(template_string_$item(stat_templateObject69 || (stat_templateObject69 = stat_taggedTemplateLiteral(["red-soled high heels"])))) || !have(template_string_$item(stat_templateObject70 || (stat_templateObject70 = stat_taggedTemplateLiteral(["2002 Mr. Store Catalog"])))),
+    completed: () => have(template_string_$item(stat_templateObject69 || (stat_templateObject69 = stat_taggedTemplateLiteral(["red-soled high heels"])))) || !have(template_string_$item(stat_templateObject70 || (stat_templateObject70 = stat_taggedTemplateLiteral(["2002 Mr. Store Catalog"])))) || CommunityService.Moxie.isDone(),
     do: () => {
       if (!have(template_string_$item(stat_templateObject71 || (stat_templateObject71 = stat_taggedTemplateLiteral(["Letter from Carrie Bradshaw"]))))) {
         (0,external_kolmafia_namespaceObject.buy)($coinmaster(stat_templateObject72 || (stat_templateObject72 = stat_taggedTemplateLiteral(["Mr. Store 2002"]))), 1, template_string_$item(stat_templateObject73 || (stat_templateObject73 = stat_taggedTemplateLiteral(["Letter from Carrie Bradshaw"]))));
@@ -13395,7 +13395,7 @@ var MoxieQuest = {
     }
   }, {
     name: "Loathing Idol Microphone",
-    completed: () => have(template_string_$effect(stat_templateObject75 || (stat_templateObject75 = stat_taggedTemplateLiteral(["Poppy Performance"])))) || !have(template_string_$item(stat_templateObject76 || (stat_templateObject76 = stat_taggedTemplateLiteral(["2002 Mr. Store Catalog"])))),
+    completed: () => have(template_string_$effect(stat_templateObject75 || (stat_templateObject75 = stat_taggedTemplateLiteral(["Poppy Performance"])))) || !have(template_string_$item(stat_templateObject76 || (stat_templateObject76 = stat_taggedTemplateLiteral(["2002 Mr. Store Catalog"])))) || CommunityService.Moxie.isDone(),
     do: () => {
       if (!haveLoathingIdol) {
         (0,external_kolmafia_namespaceObject.buy)($coinmaster(stat_templateObject77 || (stat_templateObject77 = stat_taggedTemplateLiteral(["Mr. Store 2002"]))), 1, template_string_$item(stat_templateObject78 || (stat_templateObject78 = stat_taggedTemplateLiteral(["Loathing Idol Microphone"]))));
