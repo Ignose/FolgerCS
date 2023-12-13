@@ -262,7 +262,10 @@ export const MoxieQuest: Quest = {
     {
       // This is also useful for the BoozeDrop test, but we can grab the +10%mox here first
       name: "High Heels",
-      completed: () => have($item`red-soled high heels`) || !have($item`2002 Mr. Store Catalog`),
+      completed: () =>
+        have($item`red-soled high heels`) ||
+        !have($item`2002 Mr. Store Catalog`) ||
+        CommunityService.Moxie.isDone(),
       do: (): void => {
         if (!have($item`Letter from Carrie Bradshaw`)) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
@@ -273,7 +276,10 @@ export const MoxieQuest: Quest = {
     },
     {
       name: "Loathing Idol Microphone",
-      completed: () => have($effect`Poppy Performance`) || !have($item`2002 Mr. Store Catalog`),
+      completed: () =>
+        have($effect`Poppy Performance`) ||
+        !have($item`2002 Mr. Store Catalog`) ||
+        CommunityService.Moxie.isDone(),
       do: (): void => {
         if (!haveLoathingIdol) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
