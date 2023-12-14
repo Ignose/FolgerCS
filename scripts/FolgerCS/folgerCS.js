@@ -17845,13 +17845,6 @@ var HotResQuest = {
       tries: 1
     }
   }, {
-    name: "Horsery",
-    completed: () => property_get("_horsery") === "pale horse" || !property_get("horseryAvailable"),
-    do: () => (0,external_kolmafia_namespaceObject.cliExecute)("horsery pale"),
-    limit: {
-      tries: 1
-    }
-  }, {
     name: "Metal Meteoroid",
     completed: () => !have(template_string_$item(hotres_templateObject28 || (hotres_templateObject28 = hotres_taggedTemplateLiteral(["metal meteoroid"])))) || have(template_string_$item(hotres_templateObject29 || (hotres_templateObject29 = hotres_taggedTemplateLiteral(["meteorite guard"])))),
     do: () => (0,external_kolmafia_namespaceObject.create)(template_string_$item(hotres_templateObject30 || (hotres_templateObject30 = hotres_taggedTemplateLiteral(["meteorite guard"]))), 1),
