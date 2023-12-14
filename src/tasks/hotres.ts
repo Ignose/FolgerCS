@@ -84,12 +84,6 @@ export const HotResQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Horsery",
-      completed: () => get("_horsery") === "pale horse" || !get("horseryAvailable"),
-      do: () => cliExecute("horsery pale"),
-      limit: { tries: 1 },
-    },
-    {
       name: "Metal Meteoroid",
       completed: () => !have($item`metal meteoroid`) || have($item`meteorite guard`),
       do: () => create($item`meteorite guard`, 1),
