@@ -107,6 +107,7 @@ import {
   targetBaseMyst,
   targetBaseMystGap,
   tryAcquiringEffect,
+  useOffhandRemarkable,
 } from "../lib";
 import {
   baseOutfit,
@@ -303,9 +304,15 @@ export const LevelingQuest: Quest = {
   tasks: [
     {
       name: "LED Candle",
-      // eslint-disable-next-line libram/verify-constants
       completed: () => !have($item`LED candle`) || get("ledCandleMode", "") === "reading",
       do: () => cliExecute("jillcandle reading"),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Offhand Remarkable Maybe",
+      ready: () => useOffhandRemarkable(),
+      completed: () => have($effect`Offhand Remarkable`) || get("_aug13Cast", false),
+      do: () => useSkill($skill`Aug. 13th: Left/Off Hander's Day!`),
       limit: { tries: 1 },
     },
     {

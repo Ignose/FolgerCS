@@ -61,6 +61,7 @@ import {
   have,
   haveInCampground,
   maxBy,
+  RetroCape,
   set,
   SongBoom,
   sumNumbers,
@@ -159,7 +160,8 @@ export function sellMiscellaneousItems(): void {
 }
 
 export function computeHotRes(sim: boolean): number {
-  const cloake = have($item`vampyric cloake`) ? 5 : 0;
+  const cloake = have($item`vampyric cloake`) ? 2 : 0;
+  const retro = RetroCape.have() ? 3 : 0;
   const foam =
     have($item`Fourth of May Cosplay Saber`) &&
     have($item`industrial fire extinguisher`) &&
@@ -194,6 +196,7 @@ export function computeHotRes(sim: boolean): number {
 
   const all = sumNumbers([
     cloake,
+    retro,
     shield,
     foam,
     factory,
@@ -312,7 +315,7 @@ export function computeWeaponDamage(sim: boolean): number {
   return Math.max(1, Math.floor(60 - wDmgNumber / 25));
 }
 
-export function computeSpellDamage(): number {
+export function computeSpellDamage(sim: boolean): number {
   const simmer = have($skill`Simmer`) ? 50 : 0; //Simmering adds 100 spelldamage but we're treating it as 50 because it costs a turn.
   const cargo = have($item`Cargo Cultist Shorts`) && computeWeaponDamage(true) >= 1350 ? 4 : 0;
   const carol = have($familiar`Ghost of Crimbo Carols`) ? 100 : 0;
@@ -335,18 +338,19 @@ export function computeSpellDamage(): number {
   const saucier = have($skill`Master Saucier`) ? 10 : 0;
   const subtle = have($skill`Subtle and Quick to Anger`) ? 10 : 0;
   const calzone = !args.calzone ? 50 : 0;
-  const candle =
-    have($item`Our Daily Candles™ order form`) &&
-    (myClass() === $class`Pastamancer` || myClass() === $class`Seal Clubber`)
-      ? 100
-      : 0;
+  const stick = !sim && have($item`Stick-Knife of Loathing`) ? 200 : 0;
+  const staff = !sim && have($item`Staff of Simmering Hatred`) ? 200 : 0;
+  const candle = !sim && have($item`Abracandalabra`) ? 100 : 0;
+
   const all = sumNumbers([
     simmer,
+    stick,
     cargo,
     carol,
     meteor,
     elf,
     camel,
+    staff,
     visions,
     eyebrow,
     hells,
@@ -369,15 +373,16 @@ export function computeSpellDamage(): number {
   return Math.max(1, Math.floor(60 - all / 50));
 }
 
-export function computeFamiliarWeight(): number {
+export function computeFamiliarWeight(sim: boolean): number {
   const moonSpoon = have($item`hewn moon-rune spoon`) && !args.savemoontune ? 10 : 0;
   const deepDish = args.latedeepdish || !args.deepdish ? 15 : 0;
   const newsPaper = have($familiar`Garbage Fire`) ? 10 : 0;
   const meteor = have($skill`Meteor Shower`) && have($item`Fourth of May Cosplay Saber`) ? 20 : 0;
-  const belligerence = have($item`Clan VIP Lounge key`) ? 5 : 0;
+  const belligerence = have($item`Clan VIP Lounge key`) ? 10 : 0;
   const bond = have($skill`Blood Bond`) ? 5 : 0;
   const comb = have($item`Beach Comb`) ? 5 : 0;
   const empathy = have($skill`Empathy of the Newt`) ? 5 : 0;
+  const sympathy = have($skill`Amphibian Sympathy`) ? 5 : 0;
   const heart = have($skill`Summon Candy Heart`) ? 5 : 0;
   const leash = have($skill`Leash of Linguini`) ? 5 : 0;
   const puzzle = Witchess.have() ? toInt(getProperty("puzzleChampBonus")) : 0;
@@ -397,6 +402,12 @@ export function computeFamiliarWeight(): number {
   const stillsuit = comma === 0 && have($item`tiny stillsuit`) ? 5 : 0;
   const concierge = have($skill`Crimbo Training: Concierge`) ? 1 : 0;
   const SIT = bestSIT === 1 ? 5 : 0;
+  const pants =
+    !sim && have($item`repaid diaper`)
+      ? 15
+      : !sim && have($item`Great Wolf's beastly trousers`)
+      ? 10
+      : 0;
 
   return Math.max(
     1,
@@ -404,6 +415,7 @@ export function computeFamiliarWeight(): number {
       60 -
         sumNumbers([
           moonSpoon,
+          sympathy,
           deepDish,
           newsPaper,
           meteor,
@@ -422,6 +434,7 @@ export function computeFamiliarWeight(): number {
           brogues,
           concierge,
           comma,
+          pants,
           familiar,
           stillsuit,
           SIT,
@@ -1315,3 +1328,30 @@ export const haveLoathingIdol =
   have($item`Loathing Idol Microphone (75% charged)`) ||
   have($item`Loathing Idol Microphone (50% charged)`) ||
   have($item`Loathing Idol Microphone (25% charged)`);
+
+export function useOffhandRemarkable(): boolean {
+  if (!have($item`august scepter`)) return false;
+
+  const nonCom =
+    computeCombatFrequency(false) <= -90 && computeCombatFrequency(false) > -100 ? 4 : 0;
+  const sDmg = have($item`Abracandalabra`) ? 2 : 0;
+  const famWt =
+    have($item`sugar shield`) || have($item`burning newspaper`) || have($item`burning paper crane`)
+      ? 2
+      : have($item`familiar scrapbook`)
+      ? 1
+      : 0;
+  const statTests = 4;
+  const hotTest = computeHotRes(false);
+  const wDmgTest = computeWeaponDamage(false);
+  const sDmgTest = computeSpellDamage(false);
+  const nonComTest = Math.max(1, Math.floor((100 + computeCombatFrequency(false) - 20) / 5));
+  const wishValue = 50000;
+
+  if (
+    statTests + hotTest + wDmgTest + sDmgTest + nonComTest < 30 &&
+    (nonCom + sDmg + famWt) * get("valueOfAdventure") > wishValue
+  )
+    return true;
+  else return false;
+}

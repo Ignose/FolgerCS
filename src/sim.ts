@@ -636,14 +636,14 @@ export function checkTests(): void {
   const wDmgTestTurns = computeWeaponDamage(true);
   print(`Weapon Damage Test expected to take ${wDmgTestTurns} turns.`);
 
-  const sDmgTestTurns = computeSpellDamage();
+  const sDmgTestTurns = computeSpellDamage(false); //Setting to False tells Folger to include possible pulls; I only have Stick-Knife and Staff of Hatred defined
   print(`Spell Damage Test expected to take ${sDmgTestTurns} turns.`);
 
   const ncTest = computeCombatFrequency(true);
   const ncTestTurns = Math.max(1, Math.floor((100 + ncTest - 20) / 5));
   print(`NonCombat Test expected to take ${ncTestTurns} turns.`);
 
-  const famTestTurns = computeFamiliarWeight();
+  const famTestTurns = computeFamiliarWeight(false);
   print(`Familiar Weight Test expected to take ${famTestTurns} turns.`);
 
   const boozeTestTurns = computeBoozeDrop();
