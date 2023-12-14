@@ -143,7 +143,9 @@ export const NoncombatQuest: Quest = {
           $effect`Puzzle Champ`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
-        cliExecute("maximize -combat"); // To avoid maximizer bug, we invoke this once more
+        cliExecute(
+          "maximize('-combat, 0.04 familiar weight 75 max, switch disgeist, switch left-hand man, switch disembodied hand, -tie', false);"
+        ); // To avoid maximizer bug, we invoke this once more
 
         // If it saves us >= 6 turns, try using a wish
         if (checkValue($item`pocket wish`, checkTurnSave("NonCombat", $effect`Disquiet Riot`)))
@@ -162,7 +164,8 @@ export const NoncombatQuest: Quest = {
       },
       outfit: {
         familiar: $familiar`Disgeist`,
-        modifier: "-combat",
+        modifier:
+          "-combat, 0.04 familiar weight 75 max, switch disgeist, switch left-hand man, switch disembodied hand, -tie, false",
       },
       post: (): void => {
         uneffect($effect`The Sonata of Sneakiness`);
