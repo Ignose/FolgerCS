@@ -47,6 +47,7 @@ import {
   $monster,
   $skill,
   $slot,
+  $stat,
   clamp,
   CommunityService,
   get,
@@ -64,6 +65,14 @@ import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { baseOutfit, chooseFamiliar, unbreakableUmbrella } from "../engine/outfit";
 import { args } from "../args";
+
+let capeTuned = false;
+const optimalCape =
+  myPrimestat() === $stat`Muscle`
+    ? "vampire thrill"
+    : myPrimestat() === $stat`Mysticality`
+    ? "heck thrill"
+    : "robot thrill";
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
 export const RunStartQuest: Quest = {
@@ -141,6 +150,15 @@ export const RunStartQuest: Quest = {
       do: () =>
         // eslint-disable-next-line libram/verify-constants
         use($item`S.I.T. Course Completion Certificate`),
+    },
+    {
+      name: "Tune Cape",
+      ready: () => !capeTuned,
+      completed: () => capeTuned,
+      do: (): void => {
+        cliExecute(`retrocape ${optimalCape}`);
+        capeTuned = true;
+      },
     },
     {
       name: "Get Floundry item",

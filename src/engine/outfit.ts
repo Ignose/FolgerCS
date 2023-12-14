@@ -9,6 +9,7 @@ import {
   myMp,
   myPrimestat,
   numericModifier,
+  print,
   toInt,
 } from "kolmafia";
 import {
@@ -155,7 +156,10 @@ const candySword = $item`candy cane sword cane`;
 function useCandyCaneSword(): boolean {
   if (!have(candySword)) return false;
   examine(candySword);
-  if (numericModifier(candySword, "Weapon Damage") < 115) return true;
+  if (numericModifier(candySword, "Weapon Damage") < 115) {
+    print(`Candy Cane at ${numericModifier(candySword, "Weapon Damage")} weapon damage`);
+    return true;
+  }
   return false;
 }
 
