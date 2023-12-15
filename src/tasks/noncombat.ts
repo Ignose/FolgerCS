@@ -165,7 +165,7 @@ export const NoncombatQuest: Quest = {
       outfit: {
         familiar: $familiar`Disgeist`,
         modifier:
-          "-combat, 0.04 familiar weight 75 max, switch disgeist, switch left-hand man, switch disembodied hand, -tie, false",
+          "-combat, 0.04 familiar weight 75 max, switch disgeist, switch left-hand man, switch disembodied hand, -tie",
       },
       post: (): void => {
         uneffect($effect`The Sonata of Sneakiness`);
