@@ -144,7 +144,7 @@ export const NoncombatQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
         cliExecute(
-          "maximize('-combat, 0.04 familiar weight 75 max, switch disgeist, switch left-hand man, switch disembodied hand, -tie', false);"
+          "maximize -combat, 0.04 familiar weight 75 max, switch disgeist, switch left-hand man, switch disembodied hand, -tie"
         ); // To avoid maximizer bug, we invoke this once more
 
         // If it saves us >= 6 turns, try using a wish
