@@ -95,8 +95,8 @@ export function main(command?: string): void {
     HotResQuest,
     WeaponDamageQuest,
     SpellDamageQuest,
-    swapNCandFamTest() ? NoncombatQuest : FamiliarWeightQuest,
-    swapNCandFamTest() ? FamiliarWeightQuest : NoncombatQuest,
+    swapNCandFamTest() || args.doncfirst ? NoncombatQuest : FamiliarWeightQuest,
+    swapNCandFamTest() || args.doncfirst ? FamiliarWeightQuest : NoncombatQuest,
     BoozeDropQuest,
     DonateQuest,
   ]);

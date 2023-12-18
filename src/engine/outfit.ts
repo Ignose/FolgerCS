@@ -4,6 +4,7 @@ import {
   equip,
   equippedItem,
   Familiar,
+  haveEffect,
   Item,
   myMaxmp,
   myMp,
@@ -156,7 +157,10 @@ const candySword = $item`candy cane sword cane`;
 function useCandyCaneSword(): boolean {
   if (!have(candySword)) return false;
   examine(candySword);
-  if (numericModifier(candySword, "Weapon Damage") < 115) {
+  if (
+    numericModifier(candySword, "Weapon Damage") < 115 ||
+    haveEffect($effect`Peppermint Rush`) >= 401
+  ) {
     print(`Candy Cane at ${numericModifier(candySword, "Weapon Damage")} weapon damage`);
     return true;
   }

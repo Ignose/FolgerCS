@@ -219,6 +219,10 @@ export const args = Args.create(
       help: `Try using Synth for item%? Requires Sugar Shummoning`,
       default: false,
     }),
+    doncfirst: Args.flag({
+      help: `Should we automatically do the NonCombat test first? Assumes you cap NC without Shady Shades`,
+      default: false,
+    }),
     explicitlyexcludedefs: Args.string({
       help: `Effects that we should not acquire throughout the run.`,
       default: "",

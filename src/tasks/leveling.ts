@@ -581,7 +581,9 @@ export const LevelingQuest: Quest = {
       do: (): void => {
         if (!have($item`Staff of Simmering Hatred`)) {
           retrieveItem($item`weeping willow wand`);
-        } else retrieveItem($item`ebony epee`);
+        } else if (!have($item`candy cane sword cane`) || !have($item`candy cane sword cane`))
+          retrieveItem($item`ebony epee`);
+        else retrieveItem($item`weeping willow wand`);
       },
       limit: { tries: 1 },
     },

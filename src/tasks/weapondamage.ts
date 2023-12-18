@@ -46,6 +46,8 @@ import {
 } from "../lib";
 import { args } from "../args";
 
+const canesword = have($item`candy cane sword cane`);
+
 export const WeaponDamageQuest: Quest = {
   name: "Weapon Damage",
   completed: () => CommunityService.WeaponDamage.isDone(),
@@ -265,7 +267,10 @@ export const WeaponDamageQuest: Quest = {
           maxTurns
         );
       },
-      outfit: { modifier: "weapon dmg, switch disembodied hand, -switch left-hand man" },
+      outfit: {
+        weapon: canesword ? $item`candy cane sword cane` : undefined,
+        modifier: "weapon dmg, switch disembodied hand, -switch left-hand man",
+      },
       limit: { tries: 1 },
     },
   ],
