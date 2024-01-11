@@ -141,7 +141,7 @@ export const earlyLevelingQuest: Quest = {
     {
       name: "Configure Trainset",
       after: ["Install Trainset"],
-      completed: () => TrainSet.cycle() === stations,
+      completed: () => TrainSet.cycle().toString === stations.toString,
       do: (): void => {
         const offset = get("trainsetPosition") % 8;
         const newStations: TrainSet.Station[] = [];
