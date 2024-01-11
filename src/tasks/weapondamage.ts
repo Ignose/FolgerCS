@@ -181,7 +181,10 @@ export const WeaponDamageQuest: Quest = {
     },
     {
       name: "Stick-Knife Trick",
-      ready: () => args.stickknifeoutfit !== "" && myClass() === $class`Pastamancer`,
+      ready: () =>
+        args.stickknifeoutfit !== "" &&
+        myClass() === $class`Pastamancer` &&
+        have($item`Stick-Knife of Loathing`),
       completed: () => haveEquipped($item`Stick-Knife of Loathing`),
       do: (): void => {
         useSkill($skill`Bind Undead Elbow Macaroni`);
