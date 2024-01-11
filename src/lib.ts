@@ -1251,7 +1251,7 @@ export function goVote(): void {
     [`${mainStat} Percent: +25`, 3],
     ["Adventures: +1", 3],
     ["Spell Damage Percent: +20", 3],
-    ["Familiar Experience: +2", 2],
+    ["Experience (familiar): +2", 2],
     [`Experience (${mainStat}): +4`, 2],
     ["Hot Resistance: +3", 2],
     ["Meat Drop: +30", 1],
