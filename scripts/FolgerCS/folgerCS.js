@@ -16522,7 +16522,7 @@ var earlyLevelingQuest = {
   }, {
     name: "Configure Trainset",
     after: ["Install Trainset"],
-    completed: () => cycle() === stations,
+    completed: () => cycle().toString === stations.toString,
     do: () => {
       var offset = property_get("trainsetPosition") % 8;
       var newStations = [];
