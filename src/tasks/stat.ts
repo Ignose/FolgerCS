@@ -141,9 +141,9 @@ export const MuscleQuest: Quest = {
         }
 
         if (
-          CommunityService.Muscle.turnsSavedBy($effect`Hulkien`) >= 7 &&
+          CommunityService.Muscle.turnsSavedBy($effect`Hulkien`) >= 5 &&
           have($item`Eight Days a Week Pill Keeper`) &&
-          checkValue("Pillkeeper", CommunityService.Moxie.turnsSavedBy($effect`Hulkien`))
+          checkValue("Pillkeeper", CommunityService.Muscle.turnsSavedBy($effect`Hulkien`))
         )
           tryAcquiringEffect($effect`Hulkien`);
       },
@@ -226,9 +226,9 @@ export const MysticalityQuest: Quest = {
         }
 
         if (
-          CommunityService.Mysticality.actualCost() >= 7 &&
+          CommunityService.Mysticality.actualCost() >= 5 &&
           have($item`Eight Days a Week Pill Keeper`) &&
-          checkValue("Pillkeeper", CommunityService.Moxie.turnsSavedBy($effect`Hulkien`))
+          checkValue("Pillkeeper", CommunityService.Mysticality.turnsSavedBy($effect`Hulkien`))
         )
           tryAcquiringEffect($effect`Hulkien`);
       },
@@ -341,7 +341,7 @@ export const MoxieQuest: Quest = {
         }
 
         if (
-          CommunityService.Moxie.actualCost() >= 7 &&
+          CommunityService.Moxie.actualCost() >= 5 &&
           have($item`Eight Days a Week Pill Keeper`) &&
           checkValue("Pillkeeper", CommunityService.Moxie.turnsSavedBy($effect`Hulkien`))
         )

@@ -85,6 +85,15 @@ export const NoncombatQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Fiesta Exit",
+      completed: () => have($effect`Party Soundtrack`) || !have($skill`Cincho: Party Soundtrack`),
+      do: (): void => {
+        equip($slot`acc3`, $item`Cincho de Mayo`);
+        useSkill($skill`Cincho: Party Soundtrack`);
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "God Lobster",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -128,6 +137,7 @@ export const NoncombatQuest: Quest = {
           cliExecute("briefcase e -combat");
         const usefulEffects: Effect[] = [
           $effect`A Rose by Any Other Material`,
+          $effect`Blessing of the Bird`,
           $effect`Feeling Lonely`,
           $effect`Gummed Shoes`,
           $effect`Invisible Avatar`,
@@ -135,6 +145,7 @@ export const NoncombatQuest: Quest = {
           $effect`Smooth Movements`,
           $effect`The Sonata of Sneakiness`,
           $effect`Throwing Some Shade`,
+          $effect`Feeling Sneaky`,
 
           // Famwt for Disgeist
           $effect`Blood Bond`,

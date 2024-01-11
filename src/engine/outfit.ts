@@ -160,7 +160,9 @@ function useCandyCaneSword(): boolean {
   if (haveEffect($effect`Peppermint Rush`) >= 401) return false;
   if (
     numericModifier(candySword, "Weapon Damage") < 115 ||
-    haveEffect($effect`Peppermint Rush`) <= 401
+    haveEffect($effect`Peppermint Rush`) <= 401 ||
+    get("_surprisinglySweetSlashUsed", 0) < 11 ||
+    get("_surprisinglySweetStabUsed", 0) < 11
   ) {
     print(`Candy Cane at ${numericModifier(candySword, "Weapon Damage")} weapon damage`);
     return true;

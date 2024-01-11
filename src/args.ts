@@ -23,6 +23,10 @@ export const args = Args.create(
       help: `Name of the mother clan for your slime fighting needs`,
       default: "",
     }),
+    stickknifeoutfit: Args.string({
+      help: `Name of the outfit that contains stick-knife, for stick-knife trick`,
+      default: "",
+    }),
     fortifiedwine: Args.flag({
       help: `Do not grab the DFW lucky adventure (if you have numberology or are using skip-BT route)`,
       default: true,

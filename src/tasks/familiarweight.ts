@@ -14,6 +14,7 @@ import {
   toInt,
   use,
   useFamiliar,
+  useSkill,
   visitUrl,
 } from "kolmafia";
 import {
@@ -24,6 +25,7 @@ import {
   $item,
   $location,
   $skill,
+  $slot,
   CommunityService,
   get,
   have,
@@ -82,6 +84,15 @@ export const FamiliarWeightQuest: Quest = {
       name: "Fold Burning Newspaper",
       completed: () => !have($item`burning newspaper`),
       do: () => cliExecute("create burning paper crane"),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Fiesta Exit",
+      completed: () => have($effect`Party Soundtrack`) || !have($skill`Cincho: Party Soundtrack`),
+      do: (): void => {
+        equip($slot`acc3`, $item`Cincho de Mayo`);
+        useSkill($skill`Cincho: Party Soundtrack`);
+      },
       limit: { tries: 1 },
     },
     {

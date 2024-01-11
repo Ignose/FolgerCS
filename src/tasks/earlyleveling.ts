@@ -56,6 +56,22 @@ import { args } from "../args";
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
 
+const statStation: Station = {
+  Muscle: Station.BRAWN_SILO,
+  Mysticality: Station.BRAIN_SILO,
+  Moxie: Station.GROIN_SILO,
+}[myPrimestat().toString()];
+const stations = [
+  Station.COAL_HOPPER, // double mainstat gain
+  statStation, // main stats
+  Station.VIEWING_PLATFORM, // all stats
+  Station.GAIN_MEAT, // meat
+  Station.TOWER_FIZZY, // mp regen
+  Station.BRAIN_SILO, // myst stats
+  Station.WATER_BRIDGE, // +ML
+  Station.CANDY_FACTORY, // candies
+] as Cycle;
+
 let _bestShadowRift: Location | null = null;
 export function bestShadowRift(): Location {
   if (!_bestShadowRift) {
@@ -125,25 +141,10 @@ export const earlyLevelingQuest: Quest = {
     {
       name: "Configure Trainset",
       after: ["Install Trainset"],
-      completed: () => get("_folgerInitialConfig", false),
+      completed: () => TrainSet.cycle() === stations,
       do: (): void => {
         const offset = get("trainsetPosition") % 8;
         const newStations: TrainSet.Station[] = [];
-        const statStation: Station = {
-          Muscle: Station.BRAWN_SILO,
-          Mysticality: Station.BRAIN_SILO,
-          Moxie: Station.GROIN_SILO,
-        }[myPrimestat().toString()];
-        const stations = [
-          Station.COAL_HOPPER, // double mainstat gain
-          statStation, // main stats
-          Station.VIEWING_PLATFORM, // all stats
-          Station.GAIN_MEAT, // meat
-          Station.TOWER_FIZZY, // mp regen
-          Station.BRAIN_SILO, // myst stats
-          Station.WATER_BRIDGE, // +ML
-          Station.CANDY_FACTORY, // candies
-        ] as Cycle;
         for (let i = 0; i < 8; i++) {
           const newPos = (i + offset) % 8;
           newStations[newPos] = stations[i];
@@ -151,7 +152,7 @@ export const earlyLevelingQuest: Quest = {
         setConfiguration(newStations as Cycle);
         cliExecute("set _folgerInitialConfig = true");
       },
-      limit: { tries: 2 },
+      limit: { tries: 5 },
     },
     {
       name: "Red Skeleton, Tropical Skeleton, Two For One",

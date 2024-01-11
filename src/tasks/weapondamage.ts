@@ -7,6 +7,7 @@ import {
   faxbot,
   myClass,
   myMaxhp,
+  outfit,
   print,
   restoreHp,
   restoreMp,
@@ -243,6 +244,7 @@ export const WeaponDamageQuest: Quest = {
             useSkill($skill`Summon Sugar Sheets`, 1);
           if (!have($item`sugar shank`)) create($item`sugar shank`);
         }
+        outfit(args.stickknifeoutfit);
 
         if (
           CommunityService.WeaponDamage.turnsSavedBy($effect`Weapon of Mass Destruction`) >= 2 &&
