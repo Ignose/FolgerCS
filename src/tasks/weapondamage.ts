@@ -5,6 +5,7 @@ import {
   create,
   Effect,
   faxbot,
+  haveEquipped,
   myClass,
   myMaxhp,
   outfit,
@@ -17,6 +18,7 @@ import {
   visitUrl,
 } from "kolmafia";
 import {
+  $class,
   $effect,
   $effects,
   $familiar,
@@ -178,6 +180,16 @@ export const WeaponDamageQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Stick-Knife Trick",
+      ready: () => args.stickknifeoutfit !== "" && myClass() === $class`Pastamancer`,
+      completed: () => haveEquipped($item`Stick-Knife of Loathing`),
+      do: (): void => {
+        useSkill($skill`Bind Undead Elbow Macaroni`);
+        outfit(args.stickknifeoutfit);
+      },
+      limit: { tries: 2 },
+    },
+    {
       name: "Test",
       prepare: (): void => {
         if (
@@ -244,7 +256,6 @@ export const WeaponDamageQuest: Quest = {
             useSkill($skill`Summon Sugar Sheets`, 1);
           if (!have($item`sugar shank`)) create($item`sugar shank`);
         }
-        outfit(args.stickknifeoutfit);
 
         if (
           CommunityService.WeaponDamage.turnsSavedBy($effect`Weapon of Mass Destruction`) >= 2 &&
