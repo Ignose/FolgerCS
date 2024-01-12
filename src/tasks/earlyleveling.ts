@@ -120,14 +120,6 @@ export const earlyLevelingQuest: Quest = {
     myAdventures() > 60,
   tasks: [
     {
-      name: "Install Trainset",
-      completed: () => !have($item`model train set`) || getWorkshed() === $item`model train set`,
-      do: (): void => {
-        use($item`model train set`);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Scavenge",
       completed: () => get("_daycareGymScavenges") > 0 || !get("daycareOpen"),
       prepare: (): void => {
@@ -135,6 +127,14 @@ export const earlyLevelingQuest: Quest = {
       },
       do: (): void => {
         cliExecute("daycare scavenge free");
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Install Trainset",
+      completed: () => !have($item`model train set`) || getWorkshed() === $item`model train set`,
+      do: (): void => {
+        use($item`model train set`);
       },
       limit: { tries: 1 },
     },
