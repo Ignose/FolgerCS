@@ -13,6 +13,7 @@ import {
   myHp,
   myInebriety,
   myMaxhp,
+  myThrall,
   outfit,
   print,
   restoreHp,
@@ -31,6 +32,7 @@ import {
   $items,
   $location,
   $skill,
+  $thrall,
   clamp,
   Clan,
   CommunityService,
@@ -193,13 +195,14 @@ export const SpellDamageQuest: Quest = {
         args.stickknifeoutfit !== "" &&
         myClass() === $class`Pastamancer` &&
         have($item`Stick-Knife of Loathing`) &&
-        have($skill`Bind Undead Elbow Macaroni`),
+        (have($skill`Bind Undead Elbow Macaroni`) || myThrall() === $thrall`Undead Elbow Macaroni`),
       completed: () => haveEquipped($item`Stick-Knife of Loathing`),
       do: (): void => {
-        useSkill($skill`Bind Undead Elbow Macaroni`);
+        if (myThrall() !== $thrall`Undead Elbow Macaroni`)
+          useSkill($skill`Bind Undead Elbow Macaroni`);
         outfit(args.stickknifeoutfit);
       },
-      limit: { tries: 2 },
+      limit: { tries: 1 },
     },
     {
       name: "Test",

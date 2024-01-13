@@ -139,8 +139,7 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Configure Trainset",
-      after: ["Install Trainset"],
+      name: "Configure Trainset Early",
       completed: () => TrainSet.cycle().toString === stations.toString,
       do: (): void => {
         const offset = get("trainsetPosition") % 8;
@@ -339,9 +338,7 @@ export const earlyLevelingQuest: Quest = {
         get("_pledgeCheck", false),
       do: $location`Madness Bakery`,
       combat: new CombatStrategy().macro(
-        Macro.tryItem($item`blue rocket`)
-          .tryItem($item`red rocket`)
-          .trySkill($skill`%fn, let's pledge allegiance to a Zone`)
+        Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`)
           .trySkill($skill`Snokebomb`)
           .trySkill($skill`Reflex Hammer`)
           .trySkill($skill`Chest X-Ray`)

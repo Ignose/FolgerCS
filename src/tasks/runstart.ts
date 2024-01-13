@@ -450,13 +450,6 @@ export const RunStartQuest: Quest = {
       do: () => use($item`Asdon Martin keyfob`),
     },
     {
-      name: "Learn About Bugs",
-      ready: () => have($item`S.I.T. Course Completion Certificate`),
-      completed: () => get("_sitCourseCompleted") || have($skill`Insectologist`),
-      do: () => use($item`S.I.T. Course Completion Certificate`),
-      choices: { 1494: 2 },
-    },
-    {
       name: "Configure Trainset",
       completed: () =>
         !have($item`model train set`) ||
@@ -471,9 +464,9 @@ export const RunStartQuest: Quest = {
         }[myPrimestat().toString()];
         use($item`model train set`);
         setConfiguration([
-          Station.VIEWING_PLATFORM, // all stats
           Station.COAL_HOPPER, // double mainstat gain
           statStation, // main stats
+          Station.VIEWING_PLATFORM, // all stats
           Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
           Station.TOWER_FIZZY, // mp regen
           Station.TOWER_FROZEN, // hot resist (useful)

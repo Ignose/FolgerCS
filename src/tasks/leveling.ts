@@ -1177,9 +1177,7 @@ export const LevelingQuest: Quest = {
           (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
       do: $location`Madness Bakery`,
       combat: new CombatStrategy().macro(
-        Macro.tryItem($item`blue rocket`)
-          .tryItem($item`red rocket`)
-          .trySkill($skill`%fn, let's pledge allegiance to a Zone`)
+        Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`)
           .trySkill($skill`Chest X-Ray`)
           .trySkill($skill`Gingerbread Mob Hit`)
           .trySkill($skill`Shattering Punch`)
