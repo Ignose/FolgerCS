@@ -16537,7 +16537,7 @@ var earlyLevelingQuest = {
     }
   }, {
     name: "Red Skeleton, Tropical Skeleton, Two For One",
-    after: ["Configure Trainset"],
+    after: ["Configure Trainset Early"],
     ready: () => !have(template_string_$effect(earlyleveling_templateObject16 || (earlyleveling_templateObject16 = earlyleveling_taggedTemplateLiteral(["Everything Looks Yellow"])))) || have(template_string_$skill(earlyleveling_templateObject17 || (earlyleveling_templateObject17 = earlyleveling_taggedTemplateLiteral(["Feel Envy"])))) && property_get("_feelEnvyUsed") < 3 || have(template_string_$skill(earlyleveling_templateObject18 || (earlyleveling_templateObject18 = earlyleveling_taggedTemplateLiteral(["Feel Nostalgic"])))) && property_get("_feelNostalgicUsed") < 3,
     prepare: () => {
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
