@@ -155,7 +155,7 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Red Skeleton, Tropical Skeleton, Two For One",
-      after: ["Configure Trainset"],
+      after: ["Configure Trainset Early"],
       ready: () =>
         !have($effect`Everything Looks Yellow`) ||
         (have($skill`Feel Envy`) && get("_feelEnvyUsed") < 3) ||
