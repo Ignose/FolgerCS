@@ -85,7 +85,7 @@ export const NoncombatQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Fiesta Exit",
+      name: "Cincho: Party Soundtrack",
       completed: () => have($effect`Party Soundtrack`) || !have($skill`Cincho: Party Soundtrack`),
       do: (): void => {
         equip($slot`acc3`, $item`Cincho de Mayo`);

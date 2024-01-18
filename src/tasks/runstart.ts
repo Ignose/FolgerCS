@@ -58,7 +58,6 @@ import {
   Pantogram,
   SongBoom,
 } from "libram";
-import { canConfigure, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
 import { Quest } from "../engine/task";
 import { bestSIT, getGarden, goVote, statToMaximizerString, tryAcquiringEffect } from "../lib";
 import Macro from "../combat";
@@ -134,8 +133,6 @@ export const RunStartQuest: Quest = {
         use($item`pork elf goodies sack`);
         autosell($item`hamethyst`, itemAmount($item`hamethyst`));
         autosell($item`baconstone`, itemAmount($item`baconstone`));
-        if (!args.savepurqoise) autosell($item`porquoise`, itemAmount($item`porquoise`));
-        if (args.savepurqoise) autosell($item`porquoise`, itemAmount($item`porquoise`) - 2); //save a maximum of 2 porquise to prevent script crashing
       },
       limit: { tries: 1 },
     },
@@ -448,33 +445,6 @@ export const RunStartQuest: Quest = {
       ready: () => args.asdon,
       completed: () => getWorkshed() === $item`Asdon Martin keyfob`,
       do: () => use($item`Asdon Martin keyfob`),
-    },
-    {
-      name: "Configure Trainset",
-      completed: () =>
-        !have($item`model train set`) ||
-        (getWorkshed() === $item`model train set` && !canConfigure()) ||
-        args.skipbt ||
-        args.asdon,
-      do: (): void => {
-        const statStation: Station = {
-          Muscle: Station.BRAWN_SILO,
-          Mysticality: Station.BRAIN_SILO,
-          Moxie: Station.GROIN_SILO,
-        }[myPrimestat().toString()];
-        use($item`model train set`);
-        setConfiguration([
-          Station.COAL_HOPPER, // double mainstat gain
-          statStation, // main stats
-          Station.VIEWING_PLATFORM, // all stats
-          Station.GAIN_MEAT, // meat (we don't gain meat during free banishes)
-          Station.TOWER_FIZZY, // mp regen
-          Station.TOWER_FROZEN, // hot resist (useful)
-          Station.WATER_BRIDGE, // +ML
-          Station.CANDY_FACTORY, // candies (we don't get items during free banishes)
-        ]);
-      },
-      limit: { tries: 1 },
     },
     {
       name: "Soul Food",

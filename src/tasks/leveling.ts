@@ -84,6 +84,7 @@ import {
   //burnLibram,
   camelFightsLeft,
   checkPull,
+  checkPurqoise,
   checkValue,
   chooseLibram,
   computeCombatFrequency,
@@ -767,14 +768,20 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Use General Store Statboost",
-      prepare: () => sellMiscellaneousItems(),
+      prepare: (): void => {
+        sellMiscellaneousItems();
+        if (checkPurqoise(250)) autosell($item`porquoise`, 1);
+      },
       completed: () => have(generalStoreXpEffect),
       do: () => ensureEffect(generalStoreXpEffect),
     },
     {
       name: "Buy Oversized Sparkler",
       ready: () => get("hasRange") && myMeat() >= 1000,
-      prepare: () => sellMiscellaneousItems(),
+      prepare: (): void => {
+        sellMiscellaneousItems();
+        if (checkPurqoise(250)) autosell($item`porquoise`, 1);
+      },
       completed: () => have($item`oversized sparkler`),
       do: () => buy($item`oversized sparkler`, 1),
       limit: { tries: 1 },
@@ -1006,6 +1013,8 @@ export const LevelingQuest: Quest = {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         unbreakableUmbrella();
         restoreMp(50);
+        sellMiscellaneousItems();
+        if (checkPurqoise(250)) autosell($item`porquoise`, 1);
         if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
@@ -1036,7 +1045,10 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Get Range",
-      prepare: () => sellMiscellaneousItems(),
+      prepare: (): void => {
+        sellMiscellaneousItems();
+        if (checkPurqoise(500)) autosell($item`porquoise`, 1);
+      },
       completed: () => get("hasRange"),
       do: (): void => {
         if (!have($item`Dramatic™ range`)) {

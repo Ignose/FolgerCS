@@ -25,6 +25,7 @@ import {
   toInt,
   toItem,
   use,
+  visitUrl,
 } from "kolmafia";
 import {
   $class,
@@ -51,7 +52,7 @@ import { Cycle, setConfiguration, Station } from "libram/dist/resources/2022/Tra
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { chooseRift } from "libram/dist/resources/2023/ClosedCircuitPayphone";
-import { boomBoxProfit, sellMiscellaneousItems } from "../lib";
+import { boomBoxProfit, checkPurqoise, sellMiscellaneousItems } from "../lib";
 import { args } from "../args";
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
@@ -135,6 +136,8 @@ export const earlyLevelingQuest: Quest = {
       completed: () => !have($item`model train set`) || getWorkshed() === $item`model train set`,
       do: (): void => {
         use($item`model train set`);
+        visitUrl("campground.php?action=workshed");
+        visitUrl("main.php");
       },
       limit: { tries: 1 },
     },
@@ -149,7 +152,6 @@ export const earlyLevelingQuest: Quest = {
           newStations[newPos] = stations[i];
         }
         setConfiguration(newStations as Cycle);
-        cliExecute("set _folgerInitialConfig = true");
       },
       limit: { tries: 5 },
     },
@@ -163,6 +165,7 @@ export const earlyLevelingQuest: Quest = {
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
+        if (checkPurqoise(250)) autosell($item`porquoise`, 1);
         if (!have($item`red rocket`) && !have($effect`Everything Looks Yellow`)) {
           if (myMeat() < 250) throw new Error("Insufficient Meat to purchase red rocket!");
           buy($item`red rocket`, 1);
@@ -257,6 +260,8 @@ export const earlyLevelingQuest: Quest = {
           const newPos = (i + offset) % 8;
           newStations[newPos] = stations[i];
         }
+        visitUrl("campground.php?action=workshed");
+        visitUrl("main.php");
         setConfiguration(newStations as Cycle);
         cliExecute("set _folgerSecondConfig = true");
       },
@@ -313,6 +318,7 @@ export const earlyLevelingQuest: Quest = {
       ),
       outfit: () => ({
         ...baseOutfit,
+        offhand: $item`unbreakable umbrella`,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
       }),
       post: (): void => {

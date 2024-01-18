@@ -23,6 +23,7 @@ import {
   myClass,
   myLevel,
   myMaxhp,
+  myMeat,
   myMp,
   myPrimestat,
   print,
@@ -1354,4 +1355,9 @@ export function useOffhandRemarkable(): boolean {
   )
     return true;
   else return false;
+}
+
+export function checkPurqoise(meat: number): boolean {
+  if (myMeat() > meat) return false;
+  return true;
 }
