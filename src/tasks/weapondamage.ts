@@ -47,6 +47,7 @@ import {
   checkValue,
   forbiddenEffects,
   logTestSetup,
+  shrugAT,
   startingClan,
   tryAcquiringEffect,
   wishFor,
@@ -209,6 +210,7 @@ export const WeaponDamageQuest: Quest = {
           !forbiddenEffects.includes($effect`Wasabi With You`)
         )
           retrieveItem($item`wasabi marble soda`);
+        shrugAT();
         const usefulEffects: Effect[] = [
           $effect`Billiards Belligerence`,
           $effect`Bow-Legged Swagger`,
@@ -297,6 +299,7 @@ export const WeaponDamageQuest: Quest = {
         offhand: stickknife ? $item`Stick-Knife of Loathing` : undefined,
         modifier: "weapon dmg, weapon dmg percent, switch disembodied hand, -switch left-hand man",
       },
+      post: () => shrugAT(),
       limit: { tries: 1 },
     },
   ],

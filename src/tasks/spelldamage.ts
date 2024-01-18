@@ -212,7 +212,8 @@ export const SpellDamageQuest: Quest = {
           have($item`Ye Wizard's Shack snack voucher`) &&
           !forbiddenEffects.includes($effect`Pisces in the Skyces`)
         )
-          retrieveItem($item`tobiko marble soda`);
+          shrugAT();
+        retrieveItem($item`tobiko marble soda`);
         const usefulEffects: Effect[] = [
           $effect`Arched Eyebrow of the Archmage`,
           $effect`Carol of the Hells`,
@@ -267,6 +268,7 @@ export const SpellDamageQuest: Quest = {
       post: (): void => {
         if (have($skill`Spirit of Nothing`)) useSkill($skill`Spirit of Nothing`);
         if (have($familiar`Left-Hand Man`)) equip($familiar`Left-Hand Man`, $item.none);
+        shrugAT();
       },
       limit: { tries: 1 },
     },

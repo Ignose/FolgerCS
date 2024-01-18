@@ -33,6 +33,7 @@ import {
   logTestSetup,
   reagentBalancerEffect,
   reagentBalancerItem,
+  shrugAT,
   tryAcquiringEffect,
   useLoathingIdol,
 } from "../lib";
@@ -113,6 +114,7 @@ export const MuscleQuest: Quest = {
           if (itemAmount(reagentBalancerItem) > 1)
             use(reagentBalancerItem, itemAmount(reagentBalancerItem) - 1);
         }
+        if (!have($effect`Song of Bravado`)) shrugAT();
         const usefulEffects: Effect[] = [
           $effect`Big`,
           $effect`Disdain of the War Snapper`,
@@ -300,6 +302,7 @@ export const MoxieQuest: Quest = {
           if (itemAmount(reagentBalancerItem) > 1)
             use(reagentBalancerItem, itemAmount(reagentBalancerItem) - 1);
         }
+        if (!have($effect`Song of Bravado`)) shrugAT();
         const usefulEffects: Effect[] = [
           // $effect`Amazing`,
           $effect`Big`,

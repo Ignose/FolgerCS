@@ -1036,6 +1036,8 @@ export function shrugAT(): void {
     cliExecute("shrug Stevedave's Shanty of Superiority");
     cliExecute("shrug Ur-Kel's Aria of Annoyance");
     cliExecute("shrug Aloysius' Antiphon of Aptitude");
+    cliExecute("shrug Song of the North");
+    cliExecute("shrug Song of Bravado");
     return;
   }
 }
