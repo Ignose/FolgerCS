@@ -12123,7 +12123,11 @@ var args = Args.create("FolgerCS", "Written by Seraphiii, branched from InstantS
     default: false
   }),
   skipking: Args.flag({
-    help: "So not fight the Witchess King using the Witchess Set",
+    help: "Do not fight the Witchess King using the Witchess Set",
+    default: false
+  }),
+  skipwitch: Args.flag({
+    help: "Do not fight the Witchess Witch using the Witchess Set",
     default: false
   }),
   savepurqoise: Args.flag({
@@ -16233,7 +16237,7 @@ var LevelingQuest = {
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
-    completed: () => have(template_string_$item(_templateObject431 || (_templateObject431 = leveling_taggedTemplateLiteral(["battle broom"])))) || property_get("_witchessFights") >= 5 || !Witchess_have() || args.witchess,
+    completed: () => have(template_string_$item(_templateObject431 || (_templateObject431 = leveling_taggedTemplateLiteral(["battle broom"])))) || property_get("_witchessFights") >= 5 || !Witchess_have() || args.witchess || args.skipwitch,
     do: () => fightPiece($monster(_templateObject432 || (_templateObject432 = leveling_taggedTemplateLiteral(["Witchess Witch"])))),
     combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(_templateObject433 || (_templateObject433 = leveling_taggedTemplateLiteral(["Curse of Weaksauce"])))).attack().repeat()),
     outfit: leveling_objectSpread(leveling_objectSpread({}, baseOutfit()), {}, {
