@@ -59,7 +59,15 @@ import {
   SongBoom,
 } from "libram";
 import { Quest } from "../engine/task";
-import { bestSIT, getGarden, goVote, statToMaximizerString, tryAcquiringEffect } from "../lib";
+import {
+  bestSIT,
+  fuelUp,
+  getGarden,
+  goVote,
+  sellMiscellaneousItems,
+  statToMaximizerString,
+  tryAcquiringEffect,
+} from "../lib";
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { baseOutfit, chooseFamiliar, unbreakableUmbrella } from "../engine/outfit";
@@ -185,6 +193,7 @@ export const RunStartQuest: Quest = {
       completed: () => get("timesRested") >= args.saverests || myMp() >= Math.min(50, myMaxmp()),
       prepare: (): void => {
         if (have($item`Newbiesport™ tent`)) use($item`Newbiesport™ tent`);
+        sellMiscellaneousItems();
       },
       do: (): void => {
         if (myMeat() >= 2000) {
@@ -456,7 +465,10 @@ export const RunStartQuest: Quest = {
       name: "Set Asdon Workshed",
       ready: () => args.asdon,
       completed: () => getWorkshed() === $item`Asdon Martin keyfob`,
-      do: () => use($item`Asdon Martin keyfob`),
+      do: (): void => {
+        use($item`Asdon Martin keyfob`);
+        fuelUp();
+      },
     },
     {
       name: "Soul Food",
@@ -512,11 +524,6 @@ export const RunStartQuest: Quest = {
         ...baseOutfit(false),
         modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
       }),
-      post: (): void => {
-        if (have($item`MayDay™ supply package`) && !args.savemayday)
-          use($item`MayDay™ supply package`, 1);
-        if (have($item`space blanket`)) autosell($item`space blanket`, 1);
-      },
       limit: { tries: 1 },
     },
     {

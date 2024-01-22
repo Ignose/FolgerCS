@@ -90,7 +90,6 @@ import {
   computeCombatFrequency,
   findMaxPull,
   forbiddenEffects,
-  fuelUp,
   generalStoreXpEffect,
   getSynthExpBuff,
   getValidComplexCandyPairs,
@@ -160,6 +159,7 @@ const muscleList: Effect[] = [
   $effect`Adrenaline Rush`,
   // Weapon dmg
   $effect`Carol of the Bulls`,
+  $effect`Rage of the Reindeer`,
 ];
 
 const mysticalityList: Effect[] = [
@@ -389,7 +389,7 @@ export const LevelingQuest: Quest = {
       ready: () => args.asdon,
       completed: () => have($effect`Driving Recklessly`),
       do: (): void => {
-        fuelUp(), drive($effect`Driving Recklessly`);
+        drive($effect`Driving Recklessly`);
       },
       limit: { tries: 3 },
     },
@@ -648,11 +648,15 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Restore mp",
-      completed: () => get("timesRested") >= args.saverests || myMp() >= Math.min(200, myMaxmp()),
+      completed: () => get("timesRested") >= args.saverests || myMp() >= Math.min(50, myMaxmp()),
       prepare: (): void => {
         if (have($item`Newbiesport™ tent`)) use($item`Newbiesport™ tent`);
+        sellMiscellaneousItems();
       },
       do: (): void => {
+        if (myMeat() >= 2000) {
+          restoreMp(50);
+        }
         if (get("chateauAvailable")) {
           visitUrl("place.php?whichplace=chateau&action=chateau_restbox");
         } else if (get("getawayCampsiteUnlocked")) {
@@ -824,6 +828,13 @@ export const LevelingQuest: Quest = {
       completed: () =>
         SongBoom.song() === "Total Eclipse of Your Meat" || !have($item`SongBoom™ BoomBox`),
       do: () => SongBoom.setSong("Total Eclipse of Your Meat"),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Open Mayday",
+      ready: () => have($item`MayDay™ supply package`) && !args.savemayday,
+      completed: () => !have($item`MayDay™ supply package`),
+      do: () => use($item`MayDay™ supply package`),
       limit: { tries: 1 },
     },
     {
@@ -1014,6 +1025,7 @@ export const LevelingQuest: Quest = {
         unbreakableUmbrella();
         restoreMp(50);
         sellMiscellaneousItems();
+        garbageShirt();
         if (checkPurqoise(250)) autosell($item`porquoise`, 1);
         if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
@@ -1098,6 +1110,7 @@ export const LevelingQuest: Quest = {
           runChoice(1);
         }
         unbreakableUmbrella();
+        garbageShirt();
         restoreMp(50);
       },
       completed: () => get("_snojoFreeFights") >= 10 || !get("snojoAvailable"),
@@ -1483,6 +1496,7 @@ export const LevelingQuest: Quest = {
         unbreakableUmbrella();
         [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
+        garbageShirt();
       },
       completed: () =>
         get("_godLobsterFights") >= 3 ||
@@ -1560,6 +1574,7 @@ export const LevelingQuest: Quest = {
         unbreakableUmbrella();
         [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
+        garbageShirt();
       },
       completed: () => get("_machineTunnelsAdv") >= 5 || !have($familiar`Machine Elf`),
       do: $location`The Deep Machine Tunnels`,

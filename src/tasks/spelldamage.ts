@@ -1,6 +1,5 @@
 import { CombatStrategy } from "grimoire-kolmafia";
 import {
-  buy,
   cliExecute,
   drink,
   Effect,
@@ -207,7 +206,6 @@ export const SpellDamageQuest: Quest = {
     {
       name: "Test",
       prepare: (): void => {
-        if (!have($item`obsidian nutcracker`)) buy($item`obsidian nutcracker`, 1);
         if (
           have($item`Ye Wizard's Shack snack voucher`) &&
           !forbiddenEffects.includes($effect`Pisces in the Skyces`)

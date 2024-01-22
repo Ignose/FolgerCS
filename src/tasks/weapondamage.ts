@@ -269,7 +269,7 @@ export const WeaponDamageQuest: Quest = {
         if (
           have($item`Ye Wizard's Shack snack voucher`) &&
           !forbiddenEffects.includes($effect`Wasabi With You`) &&
-          CommunityService.WeaponDamage.actualCost() > 2
+          CommunityService.WeaponDamage.turnsSavedBy($effect`Wasabi With You`) > 2
         )
           retrieveItem($item`wasabi marble soda`);
 

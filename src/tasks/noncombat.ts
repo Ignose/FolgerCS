@@ -24,14 +24,7 @@ import {
   have,
   uneffect,
 } from "libram";
-import {
-  checkTurnSave,
-  checkValue,
-  fuelUp,
-  logTestSetup,
-  tryAcquiringEffect,
-  wishFor,
-} from "../lib";
+import { checkTurnSave, checkValue, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
 import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
@@ -70,7 +63,7 @@ export const NoncombatQuest: Quest = {
       ready: () => args.asdon,
       completed: () => have($effect`Driving Stealthily`),
       do: (): void => {
-        fuelUp(), drive($effect`Driving Stealthily`);
+        drive($effect`Driving Stealthily`);
       },
       limit: { tries: 3 },
     },
@@ -144,7 +137,6 @@ export const NoncombatQuest: Quest = {
           $effect`Silent Running`,
           $effect`Smooth Movements`,
           $effect`The Sonata of Sneakiness`,
-          $effect`Throwing Some Shade`,
           $effect`Feeling Sneaky`,
 
           // Famwt for Disgeist
@@ -157,6 +149,11 @@ export const NoncombatQuest: Quest = {
         cliExecute(
           "maximize -combat, 0.04 familiar weight 75 max, switch disgeist, switch left-hand man, switch disembodied hand, -tie"
         ); // To avoid maximizer bug, we invoke this once more
+
+        if (
+          checkValue($item`shady shades`, checkTurnSave("NonCombat", $effect`Throwing Some Shade`))
+        )
+          tryAcquiringEffect($effect`Throwing Some Shade`);
 
         // If it saves us >= 6 turns, try using a wish
         if (checkValue($item`pocket wish`, checkTurnSave("NonCombat", $effect`Disquiet Riot`)))
