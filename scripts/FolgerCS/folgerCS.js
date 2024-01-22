@@ -18007,35 +18007,17 @@ var HotResQuest = {
   name: "Hot Res",
   completed: () => CommunityService.HotRes.isDone(),
   tasks: [{
-    name: "Grab Foam Suit",
-    completed: () => have(template_string_$effect(hotres_templateObject || (hotres_templateObject = hotres_taggedTemplateLiteral(["Fireproof Foam Suit"])))) || !have(template_string_$item(hotres_templateObject2 || (hotres_templateObject2 = hotres_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))) || property_get("_saberForceUses") >= 5 || !have(template_string_$item(hotres_templateObject3 || (hotres_templateObject3 = hotres_taggedTemplateLiteral(["industrial fire extinguisher"])))) || !have(template_string_$skill(hotres_templateObject4 || (hotres_templateObject4 = hotres_taggedTemplateLiteral(["Double-Fisted Skull Smashing"])))),
-    do: $location(hotres_templateObject5 || (hotres_templateObject5 = hotres_taggedTemplateLiteral(["The Dire Warren"]))),
-    outfit: {
-      back: template_string_$item(hotres_templateObject6 || (hotres_templateObject6 = hotres_taggedTemplateLiteral(["vampyric cloake"]))),
-      weapon: template_string_$item(hotres_templateObject7 || (hotres_templateObject7 = hotres_taggedTemplateLiteral(["Fourth of May Cosplay Saber"]))),
-      offhand: template_string_$item(hotres_templateObject8 || (hotres_templateObject8 = hotres_taggedTemplateLiteral(["industrial fire extinguisher"]))),
-      familiar: template_string_$familiar(hotres_templateObject9 || (hotres_templateObject9 = hotres_taggedTemplateLiteral(["Cookbookbat"]))),
-      modifier: "Item Drop"
-    },
-    choices: {
-      1387: 3
-    },
-    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(hotres_templateObject10 || (hotres_templateObject10 = hotres_taggedTemplateLiteral(["Become a Cloud of Mist"])))).skill(template_string_$skill(hotres_templateObject11 || (hotres_templateObject11 = hotres_taggedTemplateLiteral(["Fire Extinguisher: Foam Yourself"])))).skill(template_string_$skill(hotres_templateObject12 || (hotres_templateObject12 = hotres_taggedTemplateLiteral(["Use the Force"])))).abort()),
-    limit: {
-      tries: 1
-    }
-  }, {
     name: "Reminisce Factory Worker (female)",
     after: ["Grab Foam Suit"],
     prepare: () => {
-      if (!have(template_string_$item(hotres_templateObject13 || (hotres_templateObject13 = hotres_taggedTemplateLiteral(["yellow rocket"])))) && !have(template_string_$effect(hotres_templateObject14 || (hotres_templateObject14 = hotres_taggedTemplateLiteral(["Everything Looks Yellow"]))))) (0,external_kolmafia_namespaceObject.buy)(template_string_$item(hotres_templateObject15 || (hotres_templateObject15 = hotres_taggedTemplateLiteral(["yellow rocket"]))), 1);
+      if (!have(template_string_$item(hotres_templateObject || (hotres_templateObject = hotres_taggedTemplateLiteral(["yellow rocket"])))) && !have(template_string_$effect(hotres_templateObject2 || (hotres_templateObject2 = hotres_taggedTemplateLiteral(["Everything Looks Yellow"]))))) (0,external_kolmafia_namespaceObject.buy)(template_string_$item(hotres_templateObject3 || (hotres_templateObject3 = hotres_taggedTemplateLiteral(["yellow rocket"]))), 1);
     },
-    completed: () => monstersReminisced().includes($monster(hotres_templateObject16 || (hotres_templateObject16 = hotres_taggedTemplateLiteral(["factory worker (female)"])))) || !availableLocketMonsters().includes($monster(hotres_templateObject17 || (hotres_templateObject17 = hotres_taggedTemplateLiteral(["factory worker (female)"])))) || args.factoryworker || checkValue("Locket", Math.min(14, CommunityService.HotRes.prediction - 1)),
-    do: () => reminisce($monster(hotres_templateObject18 || (hotres_templateObject18 = hotres_taggedTemplateLiteral(["factory worker (female)"])))),
+    completed: () => monstersReminisced().includes($monster(hotres_templateObject4 || (hotres_templateObject4 = hotres_taggedTemplateLiteral(["factory worker (female)"])))) || !availableLocketMonsters().includes($monster(hotres_templateObject5 || (hotres_templateObject5 = hotres_taggedTemplateLiteral(["factory worker (female)"])))) || args.factoryworker || checkValue("Locket", Math.min(14, CommunityService.HotRes.prediction - 1)) || computeHotRes(false) <= 1,
+    do: () => reminisce($monster(hotres_templateObject6 || (hotres_templateObject6 = hotres_taggedTemplateLiteral(["factory worker (female)"])))),
     outfit: () => ({
-      back: template_string_$item(hotres_templateObject19 || (hotres_templateObject19 = hotres_taggedTemplateLiteral(["vampyric cloake"]))),
-      weapon: template_string_$item(hotres_templateObject20 || (hotres_templateObject20 = hotres_taggedTemplateLiteral(["Fourth of May Cosplay Saber"]))),
-      offhand: have(template_string_$skill(hotres_templateObject21 || (hotres_templateObject21 = hotres_taggedTemplateLiteral(["Double-Fisted Skull Smashing"])))) ? template_string_$item(hotres_templateObject22 || (hotres_templateObject22 = hotres_taggedTemplateLiteral(["industrial fire extinguisher"]))) : undefined,
+      back: template_string_$item(hotres_templateObject7 || (hotres_templateObject7 = hotres_taggedTemplateLiteral(["vampyric cloake"]))),
+      weapon: template_string_$item(hotres_templateObject8 || (hotres_templateObject8 = hotres_taggedTemplateLiteral(["Fourth of May Cosplay Saber"]))),
+      offhand: have(template_string_$skill(hotres_templateObject9 || (hotres_templateObject9 = hotres_taggedTemplateLiteral(["Double-Fisted Skull Smashing"])))) ? template_string_$item(hotres_templateObject10 || (hotres_templateObject10 = hotres_taggedTemplateLiteral(["industrial fire extinguisher"]))) : undefined,
       familiar: chooseFamiliar(false),
       modifier: "Item Drop",
       avoid: sugarItemsAboutToBreak()
@@ -18043,7 +18025,25 @@ var HotResQuest = {
     choices: {
       1387: 3
     },
-    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(hotres_templateObject23 || (hotres_templateObject23 = hotres_taggedTemplateLiteral(["Become a Cloud of Mist"])))).trySkill(template_string_$skill(hotres_templateObject24 || (hotres_templateObject24 = hotres_taggedTemplateLiteral(["Fire Extinguisher: Foam Yourself"])))).trySkill(template_string_$skill(hotres_templateObject25 || (hotres_templateObject25 = hotres_taggedTemplateLiteral(["Use the Force"])))).trySkill(template_string_$skill(hotres_templateObject26 || (hotres_templateObject26 = hotres_taggedTemplateLiteral(["Shocking Lick"])))).tryItem(template_string_$item(hotres_templateObject27 || (hotres_templateObject27 = hotres_taggedTemplateLiteral(["yellow rocket"])))).default()),
+    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(hotres_templateObject11 || (hotres_templateObject11 = hotres_taggedTemplateLiteral(["Become a Cloud of Mist"])))).trySkill(template_string_$skill(hotres_templateObject12 || (hotres_templateObject12 = hotres_taggedTemplateLiteral(["Fire Extinguisher: Foam Yourself"])))).trySkill(template_string_$skill(hotres_templateObject13 || (hotres_templateObject13 = hotres_taggedTemplateLiteral(["Use the Force"])))).trySkill(template_string_$skill(hotres_templateObject14 || (hotres_templateObject14 = hotres_taggedTemplateLiteral(["Shocking Lick"])))).tryItem(template_string_$item(hotres_templateObject15 || (hotres_templateObject15 = hotres_taggedTemplateLiteral(["yellow rocket"])))).default()),
+    limit: {
+      tries: 1
+    }
+  }, {
+    name: "Grab Foam Suit",
+    completed: () => have(template_string_$effect(hotres_templateObject16 || (hotres_templateObject16 = hotres_taggedTemplateLiteral(["Fireproof Foam Suit"])))) || !have(template_string_$item(hotres_templateObject17 || (hotres_templateObject17 = hotres_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))) || property_get("_saberForceUses") >= 5 || !have(template_string_$item(hotres_templateObject18 || (hotres_templateObject18 = hotres_taggedTemplateLiteral(["industrial fire extinguisher"])))) || !have(template_string_$skill(hotres_templateObject19 || (hotres_templateObject19 = hotres_taggedTemplateLiteral(["Double-Fisted Skull Smashing"])))),
+    do: $location(hotres_templateObject20 || (hotres_templateObject20 = hotres_taggedTemplateLiteral(["The Dire Warren"]))),
+    outfit: {
+      back: template_string_$item(hotres_templateObject21 || (hotres_templateObject21 = hotres_taggedTemplateLiteral(["vampyric cloake"]))),
+      weapon: template_string_$item(hotres_templateObject22 || (hotres_templateObject22 = hotres_taggedTemplateLiteral(["Fourth of May Cosplay Saber"]))),
+      offhand: template_string_$item(hotres_templateObject23 || (hotres_templateObject23 = hotres_taggedTemplateLiteral(["industrial fire extinguisher"]))),
+      familiar: template_string_$familiar(hotres_templateObject24 || (hotres_templateObject24 = hotres_taggedTemplateLiteral(["Cookbookbat"]))),
+      modifier: "Item Drop"
+    },
+    choices: {
+      1387: 3
+    },
+    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(hotres_templateObject25 || (hotres_templateObject25 = hotres_taggedTemplateLiteral(["Become a Cloud of Mist"])))).skill(template_string_$skill(hotres_templateObject26 || (hotres_templateObject26 = hotres_taggedTemplateLiteral(["Fire Extinguisher: Foam Yourself"])))).skill(template_string_$skill(hotres_templateObject27 || (hotres_templateObject27 = hotres_taggedTemplateLiteral(["Use the Force"])))).abort()),
     limit: {
       tries: 1
     }
