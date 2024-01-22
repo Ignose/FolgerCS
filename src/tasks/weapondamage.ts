@@ -205,11 +205,6 @@ export const WeaponDamageQuest: Quest = {
     {
       name: "Test",
       prepare: (): void => {
-        if (
-          have($item`Ye Wizard's Shack snack voucher`) &&
-          !forbiddenEffects.includes($effect`Wasabi With You`)
-        )
-          retrieveItem($item`wasabi marble soda`);
         shrugAT();
         const usefulEffects: Effect[] = [
           $effect`Billiards Belligerence`,
@@ -270,6 +265,13 @@ export const WeaponDamageQuest: Quest = {
             useSkill($skill`Summon Sugar Sheets`, 1);
           if (!have($item`sugar shank`)) create($item`sugar shank`);
         }
+
+        if (
+          have($item`Ye Wizard's Shack snack voucher`) &&
+          !forbiddenEffects.includes($effect`Wasabi With You`) &&
+          CommunityService.WeaponDamage.actualCost() > 2
+        )
+          retrieveItem($item`wasabi marble soda`);
 
         if (
           CommunityService.WeaponDamage.turnsSavedBy($effect`Weapon of Mass Destruction`) >= 2 &&

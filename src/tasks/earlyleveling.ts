@@ -57,22 +57,6 @@ import { args } from "../args";
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
 
-const statStation: Station = {
-  Muscle: Station.BRAWN_SILO,
-  Mysticality: Station.BRAIN_SILO,
-  Moxie: Station.GROIN_SILO,
-}[myPrimestat().toString()];
-const stations = [
-  Station.COAL_HOPPER, // double mainstat gain
-  statStation, // main stats
-  Station.VIEWING_PLATFORM, // all stats
-  Station.GAIN_MEAT, // meat
-  Station.TOWER_FIZZY, // mp regen
-  Station.BRAIN_SILO, // myst stats
-  Station.WATER_BRIDGE, // +ML
-  Station.CANDY_FACTORY, // candies
-] as Cycle;
-
 let _bestShadowRift: Location | null = null;
 export function bestShadowRift(): Location {
   if (!_bestShadowRift) {
@@ -143,17 +127,35 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Configure Trainset Early",
-      completed: () => TrainSet.cycle().toString === stations.toString,
+      completed: () => get("_folgerInitialConfig", false),
       do: (): void => {
         const offset = get("trainsetPosition") % 8;
         const newStations: TrainSet.Station[] = [];
+        const statStation: Station = {
+          Muscle: Station.BRAWN_SILO,
+          Mysticality: Station.BRAIN_SILO,
+          Moxie: Station.GROIN_SILO,
+        }[myPrimestat().toString()];
+        const stations = [
+          Station.COAL_HOPPER, // double mainstat gain
+          statStation, // main stats
+          Station.VIEWING_PLATFORM, // all stats
+          Station.GAIN_MEAT, // meat
+          Station.TOWER_FIZZY, // mp regen
+          Station.BRAIN_SILO, // myst stats
+          Station.WATER_BRIDGE, // +ML
+          Station.CANDY_FACTORY, // candies
+        ] as Cycle;
         for (let i = 0; i < 8; i++) {
           const newPos = (i + offset) % 8;
           newStations[newPos] = stations[i];
         }
+        visitUrl("campground.php?action=workshed");
+        visitUrl("main.php");
         setConfiguration(newStations as Cycle);
+        cliExecute("set _folgerInitialConfig = true");
       },
-      limit: { tries: 5 },
+      limit: { tries: 2 },
     },
     {
       name: "Red Skeleton, Tropical Skeleton, Two For One",
@@ -174,7 +176,8 @@ export const earlyLevelingQuest: Quest = {
       },
       completed: () =>
         CombatLoversLocket.monstersReminisced().includes($monster`red skeleton`) ||
-        !CombatLoversLocket.availableLocketMonsters().includes($monster`red skeleton`),
+        !CombatLoversLocket.availableLocketMonsters().includes($monster`red skeleton`) ||
+        args.redskeleton,
       do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
       combat: get("_daycareGymScavenges")
         ? new CombatStrategy().macro(
@@ -224,8 +227,6 @@ export const earlyLevelingQuest: Quest = {
         modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
       }),
       post: (): void => {
-        if (have($item`MayDay™ supply package`) && args.savemayday)
-          use($item`MayDay™ supply package`, 1);
         if (have($item`space blanket`)) autosell($item`space blanket`, 1);
         use($item`red box`, 1);
         sendAutumnaton();

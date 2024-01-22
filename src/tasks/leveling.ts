@@ -1716,7 +1716,8 @@ export const LevelingQuest: Quest = {
         have($item`dented scepter`) ||
         get("_witchessFights") >= 5 ||
         !Witchess.have() ||
-        args.witchess,
+        args.witchess ||
+        args.skipking,
       do: () => Witchess.fightPiece($monster`Witchess King`),
       combat: new CombatStrategy().macro(Macro.default(useCinch)),
       outfit: baseOutfit,

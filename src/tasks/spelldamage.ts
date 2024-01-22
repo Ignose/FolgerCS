@@ -212,8 +212,12 @@ export const SpellDamageQuest: Quest = {
           have($item`Ye Wizard's Shack snack voucher`) &&
           !forbiddenEffects.includes($effect`Pisces in the Skyces`)
         )
-          shrugAT();
-        retrieveItem($item`tobiko marble soda`);
+          retrieveItem($item`tobiko marble soda`);
+
+        shrugAT();
+
+        if (have($familiar`Grim Brother`)) cliExecute("grim damage");
+
         const usefulEffects: Effect[] = [
           $effect`Arched Eyebrow of the Archmage`,
           $effect`Carol of the Hells`,
@@ -224,6 +228,7 @@ export const SpellDamageQuest: Quest = {
           $effect`Mental A-cue-ity`,
           $effect`Pisces in the Skyces`,
           $effect`Song of Sauce`,
+          $effect`Sigils of Yeg`,
           $effect`Spirit of Peppermint`,
           $effect`The Magic of LOV`,
           $effect`Warlock, Warstock, and Warbarrel`,

@@ -30,8 +30,7 @@ export const HotResQuest: Quest = {
         !have($item`Fourth of May Cosplay Saber`) ||
         get("_saberForceUses") >= 5 ||
         !have($item`industrial fire extinguisher`) ||
-        !have($skill`Double-Fisted Skull Smashing`) ||
-        !args.factoryworker,
+        !have($skill`Double-Fisted Skull Smashing`),
       do: $location`The Dire Warren`,
       outfit: {
         back: $item`vampyric cloake`,

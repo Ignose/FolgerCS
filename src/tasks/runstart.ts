@@ -182,7 +182,7 @@ export const RunStartQuest: Quest = {
     },
     {
       name: "Restore mp",
-      completed: () => get("timesRested") >= args.saverests || myMp() >= Math.min(200, myMaxmp()),
+      completed: () => get("timesRested") >= args.saverests || myMp() >= Math.min(50, myMaxmp()),
       prepare: (): void => {
         if (have($item`Newbiesport™ tent`)) use($item`Newbiesport™ tent`);
       },
@@ -239,6 +239,15 @@ export const RunStartQuest: Quest = {
 
         useFamiliar($familiar`Melodramedary`);
         use($item`box of Familiar Jacks`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Ensure Comma Chameleon Jacks",
+      ready: () => have($skill`Summon Clip Art`),
+      completed: () => have($item`box of Familiar Jacks`) || !have($familiar`Comma Chameleon`),
+      do: (): void => {
+        create($item`box of Familiar Jacks`, 1);
       },
       limit: { tries: 1 },
     },

@@ -111,6 +111,10 @@ export const args = Args.create(
       help: `Save 3 Witchess fights for the Queen, King and Witch`,
       default: false,
     }),
+    skipking: Args.flag({
+      help: `So not fight the Witchess King using the Witchess Set`,
+      default: false,
+    }),
     savepurqoise: Args.flag({
       help: `Do not autosell your porquoise`,
       default: false,
