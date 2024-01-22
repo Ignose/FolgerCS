@@ -112,7 +112,11 @@ export const args = Args.create(
       default: false,
     }),
     skipking: Args.flag({
-      help: `So not fight the Witchess King using the Witchess Set`,
+      help: `Do not fight the Witchess King using the Witchess Set`,
+      default: false,
+    }),
+    skipwitch: Args.flag({
+      help: `Do not fight the Witchess Witch using the Witchess Set`,
       default: false,
     }),
     savepurqoise: Args.flag({

@@ -1746,7 +1746,8 @@ export const LevelingQuest: Quest = {
         have($item`battle broom`) ||
         get("_witchessFights") >= 5 ||
         !Witchess.have() ||
-        args.witchess,
+        args.witchess ||
+        args.skipwitch,
       do: () => Witchess.fightPiece($monster`Witchess Witch`),
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Curse of Weaksauce`)
