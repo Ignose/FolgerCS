@@ -254,7 +254,8 @@ export const RunStartQuest: Quest = {
       completed: () =>
         !have($skill`Summon Sugar Sheets`) || args.savesugar || get("tomeSummons") >= 3,
       do: (): void => {
-        const sheetsToMake = 3 - get("tomeSummons");
+        const haveBT = have($item`borrowed time`) ? 1 : 0;
+        const sheetsToMake = 3 - get("tomeSummons") - haveBT;
         restoreMp(2 * sheetsToMake);
         useSkill($skill`Summon Sugar Sheets`, sheetsToMake);
       },
