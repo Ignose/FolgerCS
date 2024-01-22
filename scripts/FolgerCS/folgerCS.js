@@ -12638,6 +12638,12 @@ function tryAcquiringEffect(ef) {
     if (usePowerfulGlove) (0,external_kolmafia_namespaceObject.equip)($slot(_templateObject208 || (_templateObject208 = lib_taggedTemplateLiteral(["acc3"]))), currentAcc);
   }
 }
+function burnLibram(saveMp) {
+  if (availableTomes.length === 0) return;
+  while ((0,external_kolmafia_namespaceObject.myMp)() >= (0,external_kolmafia_namespaceObject.mpCost)(chooseLibram()) + saveMp) {
+    (0,external_kolmafia_namespaceObject.useSkill)(chooseLibram());
+  }
+}
 function canAcquireEffect(ef) {
   // This will not attempt to craft items to acquire the effect, which is the behaviour of ef.default
   // You will need to have the item beforehand for this to return true
@@ -16349,7 +16355,7 @@ var LevelingQuest = {
       if (have(template_string_$item(_templateObject474 || (_templateObject474 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))))) (0,external_kolmafia_namespaceObject.chew)(template_string_$item(_templateObject475 || (_templateObject475 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))), 1);
       sendAutumnaton();
       sellMiscellaneousItems();
-      //burnLibram(500);
+      burnLibram(500);
       refillLatte();
       boomBoxProfit();
     },
