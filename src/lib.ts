@@ -40,6 +40,7 @@ import {
   toSkill,
   toStat,
   use,
+  useSkill,
   //useSkill,
   visitUrl,
 } from "kolmafia";
@@ -675,6 +676,13 @@ export function tryAcquiringEffect(ef: Effect, tryRegardless = false): void {
     if (usePowerfulGlove) equip($slot`acc3`, $item`Powerful Glove`);
     cliExecute(efDefault.replace(/cast 1 /g, "cast "));
     if (usePowerfulGlove) equip($slot`acc3`, currentAcc);
+  }
+}
+
+export function burnLibram(saveMp: number): void {
+  if (availableTomes.length === 0) return;
+  while (myMp() >= mpCost(chooseLibram()) + saveMp) {
+    useSkill(chooseLibram());
   }
 }
 
