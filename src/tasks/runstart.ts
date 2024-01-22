@@ -8,6 +8,7 @@ import {
   create,
   currentMcd,
   drink,
+  eat,
   equip,
   getCampground,
   getWorkshed,
@@ -17,6 +18,7 @@ import {
   itemAmount,
   myAdventures,
   myInebriety,
+  myLevel,
   myMaxhp,
   myMaxmp,
   myMeat,
@@ -57,10 +59,12 @@ import {
   haveInCampground,
   Pantogram,
   SongBoom,
+  TrainSet,
 } from "libram";
 import { Quest } from "../engine/task";
 import {
   bestSIT,
+  checkPull,
   fuelUp,
   getGarden,
   goVote,
@@ -72,6 +76,7 @@ import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { baseOutfit, chooseFamiliar, unbreakableUmbrella } from "../engine/outfit";
 import { args } from "../args";
+import { Cycle, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
 
 let capeTuned = false;
 const optimalCape =
@@ -80,6 +85,8 @@ const optimalCape =
     : myPrimestat() === $stat`Mysticality`
     ? "heck thrill"
     : "robot thrill";
+
+let btorpizza = false;
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
 export const RunStartQuest: Quest = {
@@ -208,27 +215,6 @@ export const RunStartQuest: Quest = {
         }
       },
       outfit: { modifier: "myst, mp, -tie" },
-    },
-    {
-      name: "Borrowed Time",
-      prepare: (): void => {
-        if (have($item`borrowed time`)) return;
-        if (have($skill`Summon Clip Art`) && get("tomeSummons") < 3)
-          create($item`borrowed time`, 1);
-        else takeStorage($item`borrowed time`, 1);
-      },
-      completed: () => get("_borrowedTimeUsed") || args.skipbt,
-      do: (): void => {
-        if (storageAmount($item`borrowed time`) === 0 && !have($item`borrowed time`)) {
-          print("Uh oh! You do not seem to have a borrowed time in Hagnk's", "red");
-          print(
-            "Try to purchase one from the mall with your meat from Hagnk's before re-running instantsccs",
-            "red"
-          );
-        }
-        use($item`borrowed time`, 1);
-      },
-      limit: { tries: 1 },
     },
     {
       name: "Numberology",
@@ -486,6 +472,39 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Configure Trainset Early",
+      ready: () => getWorkshed() === $item`model train set`,
+      completed: () => get("_folgerInitialConfig", false),
+      do: (): void => {
+        const offset = get("trainsetPosition") % 8;
+        const newStations: TrainSet.Station[] = [];
+        const statStation: Station = {
+          Muscle: Station.BRAWN_SILO,
+          Mysticality: Station.BRAIN_SILO,
+          Moxie: Station.GROIN_SILO,
+        }[myPrimestat().toString()];
+        const stations = [
+          Station.COAL_HOPPER, // double mainstat gain
+          statStation, // main stats
+          Station.VIEWING_PLATFORM, // all stats
+          Station.GAIN_MEAT, // meat
+          Station.TOWER_FIZZY, // mp regen
+          Station.BRAIN_SILO, // myst stats
+          Station.WATER_BRIDGE, // +ML
+          Station.CANDY_FACTORY, // candies
+        ] as Cycle;
+        for (let i = 0; i < 8; i++) {
+          const newPos = (i + offset) % 8;
+          newStations[newPos] = stations[i];
+        }
+        visitUrl("campground.php?action=workshed");
+        visitUrl("main.php");
+        setConfiguration(newStations as Cycle);
+        cliExecute("set _folgerInitialConfig = true");
+      },
+      limit: { tries: 2 },
+    },
+    {
       name: "Map Novelty Tropical Skeleton",
       prepare: (): void => {
         if (useParkaSpit) {
@@ -608,6 +627,10 @@ export const RunStartQuest: Quest = {
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
+        if (!have($item`red rocket`) && !have($effect`Everything Looks Red`)) {
+          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase red rocket!");
+          buy($item`red rocket`, 1);
+        }
       },
       ready: () => getKramcoWandererChance() >= 1.0,
       completed: () =>
@@ -617,7 +640,54 @@ export const RunStartQuest: Quest = {
         ...baseOutfit(),
         offhand: $item`Kramco Sausage-o-Matic™`,
       }),
-      combat: new CombatStrategy().macro(Macro.default()),
+      combat: new CombatStrategy().macro(Macro.tryItem($item`red rocket`).default()),
+    },
+    {
+      name: "Borrowed Time",
+      prepare: (): void => {
+        if (have($item`borrowed time`)) return;
+        if (myLevel() >= 5 && !args.calzone && !args.pizza) {
+          btorpizza = true;
+          return;
+        }
+        if (have($skill`Summon Clip Art`) && get("tomeSummons") < 3)
+          create($item`borrowed time`, 1);
+        else takeStorage($item`borrowed time`, 1);
+      },
+      completed: () => get("_borrowedTimeUsed") || args.skipbt,
+      do: (): void => {
+        if (storageAmount($item`borrowed time`) === 0 && !have($item`borrowed time`)) {
+          print("Uh oh! You do not seem to have a borrowed time in Hagnk's", "red");
+          print(
+            "Try to purchase one from the mall with your meat from Hagnk's before re-running instantsccs",
+            "red"
+          );
+        }
+        use($item`borrowed time`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pizza over Borrowed Time",
+      ready: () => btorpizza,
+      prepare: (): void => {
+        if (!args.calzone && checkPull($item`Calzone of Legend`))
+          takeStorage($item`Calzone of Legend`, 1);
+        if (!args.pizza && checkPull($item`Pizza of Legend`))
+          takeStorage($item`Pizza of Legend`, 1);
+        if (!args.deepdish && checkPull($item`Deep Dish of Legend`))
+          takeStorage($item`Deep Dish of Legend`, 1);
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+        if (have($item`whet stone`)) use($item`whet stone`);
+      },
+      completed: () => myAdventures() >= 61,
+      do: (): void => {
+        if (have($item`Calzone of Legend`)) eat($item`Calzone of Legend`, 1);
+        if (have($item`Pizza of Legend`)) eat($item`Pizza of Legend`, 1);
+        if (have($item`Deep Dish of Legend`) && !args.latedeepdish)
+          eat($item`Deep Dish of Legend`, 1);
+      },
+      limit: { tries: 1 },
     },
   ],
 };

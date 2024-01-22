@@ -168,7 +168,7 @@ export const earlyLevelingQuest: Quest = {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
         if (checkPurqoise(250)) autosell($item`porquoise`, 1);
-        if (!have($item`red rocket`) && !have($effect`Everything Looks Yellow`)) {
+        if (!have($item`red rocket`) && !have($effect`Everything Looks Red`)) {
           if (myMeat() < 250) throw new Error("Insufficient Meat to purchase red rocket!");
           buy($item`red rocket`, 1);
         }
