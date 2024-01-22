@@ -6357,6 +6357,10 @@ var args = Args.create("FolgerCS", "Written by Seraphiii, branched from InstantS
     help: "Name of the mother clan for your slime fighting needs",
     default: ""
   }),
+  stickknifeoutfit: Args.string({
+    help: "Name of the outfit that contains stick-knife, for stick-knife trick",
+    default: ""
+  }),
   fortifiedwine: Args.flag({
     help: "Do not grab the DFW lucky adventure (if you have numberology or are using skip-BT route)",
     default: true
@@ -6439,6 +6443,10 @@ var args = Args.create("FolgerCS", "Written by Seraphiii, branched from InstantS
   }),
   skipbishop: Args.flag({
     help: "Save 3 Witchess fights for the Queen, King and Witch",
+    default: false
+  }),
+  skipking: Args.flag({
+    help: "So not fight the Witchess King using the Witchess Set",
     default: false
   }),
   savepurqoise: Args.flag({
@@ -6553,6 +6561,10 @@ var args = Args.create("FolgerCS", "Written by Seraphiii, branched from InstantS
     help: "Try using Synth for item%? Requires Sugar Shummoning",
     default: false
   }),
+  doncfirst: Args.flag({
+    help: "Should we automatically do the NonCombat test first? Assumes you cap NC without Shady Shades",
+    default: false
+  }),
   explicitlyexcludedefs: Args.string({
     help: "Effects that we should not acquire throughout the run.",
     default: ""
@@ -6658,7 +6670,7 @@ function convertArgsToHtml() {
   pages.filter(p => p.components.length > 0).forEach(p => {
     var html = {
       type: "html",
-      data: "<h1 style=\"text-align: center;\">FolgerCS v0.3.0 ".concat(p.page, "</div>")
+      data: "<h1 style=\"text-align: center;\">FolgerCS v0.5.0 ".concat(p.page, "</div>")
     };
     p.components.splice(0, 0, html);
   });
