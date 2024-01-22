@@ -6446,7 +6446,11 @@ var args = Args.create("FolgerCS", "Written by Seraphiii, branched from InstantS
     default: false
   }),
   skipking: Args.flag({
-    help: "So not fight the Witchess King using the Witchess Set",
+    help: "Do not fight the Witchess King using the Witchess Set",
+    default: false
+  }),
+  skipwitch: Args.flag({
+    help: "Do not fight the Witchess Witch using the Witchess Set",
     default: false
   }),
   savepurqoise: Args.flag({
