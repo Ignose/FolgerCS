@@ -572,11 +572,6 @@ export const RunStartQuest: Quest = {
           modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
         };
       },
-      post: (): void => {
-        if (have($item`MayDay™ supply package`) && !args.savemayday)
-          use($item`MayDay™ supply package`, 1);
-        if (have($item`space blanket`)) autosell($item`space blanket`, 1);
-      },
       limit: { tries: 4 },
     },
     {
