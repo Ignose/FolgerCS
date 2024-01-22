@@ -245,7 +245,10 @@ export const RunStartQuest: Quest = {
     {
       name: "Ensure Comma Chameleon Jacks",
       ready: () => have($skill`Summon Clip Art`),
-      completed: () => have($item`box of Familiar Jacks`) || !have($familiar`Comma Chameleon`),
+      completed: () =>
+        have($item`box of Familiar Jacks`) ||
+        !have($familiar`Comma Chameleon`) ||
+        have($item`homemade robot gear`),
       do: (): void => {
         create($item`box of Familiar Jacks`, 1);
       },
