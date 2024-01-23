@@ -12569,7 +12569,7 @@ if (manuallyExcludedBuffs !== undefined) {
   });
 }
 function fuelUp() {
-  (0,external_kolmafia_namespaceObject.buy)(23, template_string_$item(_templateObject190 || (_templateObject190 = lib_taggedTemplateLiteral(["all-purpose flower"]))));
+  (0,external_kolmafia_namespaceObject.buy)(1, template_string_$item(_templateObject190 || (_templateObject190 = lib_taggedTemplateLiteral(["all-purpose flower"]))));
   (0,external_kolmafia_namespaceObject.use)(23, template_string_$item(_templateObject191 || (_templateObject191 = lib_taggedTemplateLiteral(["all-purpose flower"]))));
   (0,external_kolmafia_namespaceObject.buy)((0,external_kolmafia_namespaceObject.availableAmount)(template_string_$item(_templateObject192 || (_templateObject192 = lib_taggedTemplateLiteral(["wad of dough"])))), template_string_$item(_templateObject193 || (_templateObject193 = lib_taggedTemplateLiteral(["soda water"]))));
   (0,external_kolmafia_namespaceObject.create)((0,external_kolmafia_namespaceObject.availableAmount)(template_string_$item(_templateObject194 || (_templateObject194 = lib_taggedTemplateLiteral(["wad of dough"])))), template_string_$item(_templateObject195 || (_templateObject195 = lib_taggedTemplateLiteral(["loaf of soda bread"]))));
