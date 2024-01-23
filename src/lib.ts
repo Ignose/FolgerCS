@@ -582,7 +582,7 @@ if (manuallyExcludedBuffs !== undefined) {
 }
 
 export function fuelUp(): void {
-  buy(23, $item`all-purpose flower`);
+  buy(1, $item`all-purpose flower`);
   use(23, $item`all-purpose flower`);
   buy(availableAmount($item`wad of dough`), $item`soda water`);
   create(availableAmount($item`wad of dough`), $item`loaf of soda bread`);
