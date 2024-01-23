@@ -154,6 +154,7 @@ export function sellMiscellaneousItems(): void {
     $item`hot nuggets`,
     $item`red rum`,
     $item`red book`,
+    $item`space blanket`,
     ...baseBoozes,
   ];
   items.forEach((it) => {
