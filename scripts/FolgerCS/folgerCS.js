@@ -14933,7 +14933,7 @@ function next() {
   return cycle()[get("trainsetPosition") % 8];
 }
 ;// CONCATENATED MODULE: ./src/tasks/leveling.ts
-var leveling_templateObject, leveling_templateObject2, leveling_templateObject3, leveling_templateObject4, leveling_templateObject5, leveling_templateObject6, leveling_templateObject7, leveling_templateObject8, leveling_templateObject9, leveling_templateObject10, leveling_templateObject11, leveling_templateObject12, leveling_templateObject13, leveling_templateObject14, leveling_templateObject15, leveling_templateObject16, leveling_templateObject17, leveling_templateObject18, leveling_templateObject19, leveling_templateObject20, leveling_templateObject21, leveling_templateObject22, leveling_templateObject23, leveling_templateObject24, leveling_templateObject25, leveling_templateObject26, leveling_templateObject27, leveling_templateObject28, leveling_templateObject29, leveling_templateObject30, leveling_templateObject31, leveling_templateObject32, leveling_templateObject33, leveling_templateObject34, leveling_templateObject35, leveling_templateObject36, leveling_templateObject37, leveling_templateObject38, leveling_templateObject39, leveling_templateObject40, leveling_templateObject41, leveling_templateObject42, leveling_templateObject43, leveling_templateObject44, leveling_templateObject45, leveling_templateObject46, leveling_templateObject47, leveling_templateObject48, leveling_templateObject49, leveling_templateObject50, leveling_templateObject51, leveling_templateObject52, leveling_templateObject53, leveling_templateObject54, leveling_templateObject55, leveling_templateObject56, leveling_templateObject57, leveling_templateObject58, leveling_templateObject59, leveling_templateObject60, leveling_templateObject61, leveling_templateObject62, leveling_templateObject63, leveling_templateObject64, leveling_templateObject65, leveling_templateObject66, leveling_templateObject67, leveling_templateObject68, leveling_templateObject69, leveling_templateObject70, leveling_templateObject71, leveling_templateObject72, leveling_templateObject73, leveling_templateObject74, leveling_templateObject75, leveling_templateObject76, leveling_templateObject77, leveling_templateObject78, leveling_templateObject79, leveling_templateObject80, leveling_templateObject81, leveling_templateObject82, leveling_templateObject83, leveling_templateObject84, leveling_templateObject85, leveling_templateObject86, leveling_templateObject87, leveling_templateObject88, leveling_templateObject89, leveling_templateObject90, leveling_templateObject91, leveling_templateObject92, leveling_templateObject93, leveling_templateObject94, leveling_templateObject95, leveling_templateObject96, leveling_templateObject97, leveling_templateObject98, leveling_templateObject99, leveling_templateObject100, leveling_templateObject101, leveling_templateObject102, leveling_templateObject103, leveling_templateObject104, leveling_templateObject105, leveling_templateObject106, leveling_templateObject107, leveling_templateObject108, leveling_templateObject109, leveling_templateObject110, leveling_templateObject111, leveling_templateObject112, leveling_templateObject113, leveling_templateObject114, leveling_templateObject115, leveling_templateObject116, leveling_templateObject117, leveling_templateObject118, leveling_templateObject119, leveling_templateObject120, leveling_templateObject121, leveling_templateObject122, leveling_templateObject123, leveling_templateObject124, leveling_templateObject125, leveling_templateObject126, leveling_templateObject127, leveling_templateObject128, leveling_templateObject129, leveling_templateObject130, leveling_templateObject131, leveling_templateObject132, leveling_templateObject133, leveling_templateObject134, leveling_templateObject135, leveling_templateObject136, leveling_templateObject137, leveling_templateObject138, leveling_templateObject139, leveling_templateObject140, leveling_templateObject141, leveling_templateObject142, leveling_templateObject143, leveling_templateObject144, leveling_templateObject145, leveling_templateObject146, leveling_templateObject147, leveling_templateObject148, leveling_templateObject149, leveling_templateObject150, leveling_templateObject151, leveling_templateObject152, leveling_templateObject153, leveling_templateObject154, leveling_templateObject155, leveling_templateObject156, leveling_templateObject157, leveling_templateObject158, leveling_templateObject159, leveling_templateObject160, leveling_templateObject161, leveling_templateObject162, leveling_templateObject163, leveling_templateObject164, leveling_templateObject165, leveling_templateObject166, leveling_templateObject167, leveling_templateObject168, leveling_templateObject169, leveling_templateObject170, leveling_templateObject171, leveling_templateObject172, leveling_templateObject173, leveling_templateObject174, leveling_templateObject175, leveling_templateObject176, leveling_templateObject177, leveling_templateObject178, leveling_templateObject179, leveling_templateObject180, leveling_templateObject181, leveling_templateObject182, leveling_templateObject183, leveling_templateObject184, leveling_templateObject185, leveling_templateObject186, leveling_templateObject187, leveling_templateObject188, leveling_templateObject189, leveling_templateObject190, leveling_templateObject191, leveling_templateObject192, leveling_templateObject193, leveling_templateObject194, leveling_templateObject195, leveling_templateObject196, leveling_templateObject197, leveling_templateObject198, leveling_templateObject199, leveling_templateObject200, leveling_templateObject201, leveling_templateObject202, leveling_templateObject203, leveling_templateObject204, leveling_templateObject205, leveling_templateObject206, leveling_templateObject207, leveling_templateObject208, leveling_templateObject209, leveling_templateObject210, leveling_templateObject211, leveling_templateObject212, leveling_templateObject213, leveling_templateObject214, leveling_templateObject215, leveling_templateObject216, leveling_templateObject217, leveling_templateObject218, leveling_templateObject219, leveling_templateObject220, leveling_templateObject221, leveling_templateObject222, leveling_templateObject223, leveling_templateObject224, leveling_templateObject225, leveling_templateObject226, leveling_templateObject227, leveling_templateObject228, leveling_templateObject229, leveling_templateObject230, leveling_templateObject231, leveling_templateObject232, leveling_templateObject233, leveling_templateObject234, leveling_templateObject235, leveling_templateObject236, leveling_templateObject237, leveling_templateObject238, leveling_templateObject239, leveling_templateObject240, leveling_templateObject241, leveling_templateObject242, leveling_templateObject243, leveling_templateObject244, leveling_templateObject245, leveling_templateObject246, leveling_templateObject247, leveling_templateObject248, leveling_templateObject249, leveling_templateObject250, leveling_templateObject251, leveling_templateObject252, leveling_templateObject253, leveling_templateObject254, leveling_templateObject255, leveling_templateObject256, leveling_templateObject257, leveling_templateObject258, leveling_templateObject259, leveling_templateObject260, leveling_templateObject261, leveling_templateObject262, leveling_templateObject263, leveling_templateObject264, leveling_templateObject265, leveling_templateObject266, leveling_templateObject267, leveling_templateObject268, leveling_templateObject269, leveling_templateObject270, leveling_templateObject271, leveling_templateObject272, leveling_templateObject273, leveling_templateObject274, leveling_templateObject275, leveling_templateObject276, leveling_templateObject277, leveling_templateObject278, leveling_templateObject279, leveling_templateObject280, leveling_templateObject281, leveling_templateObject282, leveling_templateObject283, leveling_templateObject284, leveling_templateObject285, leveling_templateObject286, leveling_templateObject287, leveling_templateObject288, leveling_templateObject289, leveling_templateObject290, leveling_templateObject291, leveling_templateObject292, leveling_templateObject293, leveling_templateObject294, leveling_templateObject295, leveling_templateObject296, leveling_templateObject297, leveling_templateObject298, leveling_templateObject299, leveling_templateObject300, leveling_templateObject301, leveling_templateObject302, leveling_templateObject303, leveling_templateObject304, leveling_templateObject305, leveling_templateObject306, leveling_templateObject307, leveling_templateObject308, leveling_templateObject309, leveling_templateObject310, leveling_templateObject311, leveling_templateObject312, leveling_templateObject313, leveling_templateObject314, leveling_templateObject315, leveling_templateObject316, leveling_templateObject317, leveling_templateObject318, leveling_templateObject319, leveling_templateObject320, leveling_templateObject321, leveling_templateObject322, leveling_templateObject323, leveling_templateObject324, leveling_templateObject325, leveling_templateObject326, leveling_templateObject327, leveling_templateObject328, leveling_templateObject329, leveling_templateObject330, leveling_templateObject331, leveling_templateObject332, leveling_templateObject333, leveling_templateObject334, leveling_templateObject335, leveling_templateObject336, leveling_templateObject337, leveling_templateObject338, leveling_templateObject339, _templateObject340, _templateObject341, _templateObject342, _templateObject343, _templateObject344, _templateObject345, _templateObject346, _templateObject347, _templateObject348, _templateObject349, _templateObject350, _templateObject351, _templateObject352, _templateObject353, _templateObject354, _templateObject355, _templateObject356, _templateObject357, _templateObject358, _templateObject359, _templateObject360, _templateObject361, _templateObject362, _templateObject363, _templateObject364, _templateObject365, _templateObject366, _templateObject367, _templateObject368, _templateObject369, _templateObject370, _templateObject371, _templateObject372, _templateObject373, _templateObject374, _templateObject375, _templateObject376, _templateObject377, _templateObject378, _templateObject379, _templateObject380, _templateObject381, _templateObject382, _templateObject383, _templateObject384, _templateObject385, _templateObject386, _templateObject387, _templateObject388, _templateObject389, _templateObject390, _templateObject391, _templateObject392, _templateObject393, _templateObject394, _templateObject395, _templateObject396, _templateObject397, _templateObject398, _templateObject399, _templateObject400, _templateObject401, _templateObject402, _templateObject403, _templateObject404, _templateObject405, _templateObject406, _templateObject407, _templateObject408, _templateObject409, _templateObject410, _templateObject411, _templateObject412, _templateObject413, _templateObject414, _templateObject415, _templateObject416, _templateObject417, _templateObject418, _templateObject419, _templateObject420, _templateObject421, _templateObject422, _templateObject423, _templateObject424, _templateObject425, _templateObject426, _templateObject427, _templateObject428, _templateObject429, _templateObject430, _templateObject431, _templateObject432, _templateObject433, _templateObject434, _templateObject435, _templateObject436, _templateObject437, _templateObject438, _templateObject439, _templateObject440, _templateObject441, _templateObject442, _templateObject443, _templateObject444, _templateObject445, _templateObject446, _templateObject447, _templateObject448, _templateObject449, _templateObject450, _templateObject451, _templateObject452, _templateObject453, _templateObject454, _templateObject455, _templateObject456, _templateObject457, _templateObject458, _templateObject459, _templateObject460, _templateObject461, _templateObject462, _templateObject463, _templateObject464, _templateObject465, _templateObject466, _templateObject467, _templateObject468, _templateObject469, _templateObject470, _templateObject471, _templateObject472, _templateObject473, _templateObject474, _templateObject475;
+var leveling_templateObject, leveling_templateObject2, leveling_templateObject3, leveling_templateObject4, leveling_templateObject5, leveling_templateObject6, leveling_templateObject7, leveling_templateObject8, leveling_templateObject9, leveling_templateObject10, leveling_templateObject11, leveling_templateObject12, leveling_templateObject13, leveling_templateObject14, leveling_templateObject15, leveling_templateObject16, leveling_templateObject17, leveling_templateObject18, leveling_templateObject19, leveling_templateObject20, leveling_templateObject21, leveling_templateObject22, leveling_templateObject23, leveling_templateObject24, leveling_templateObject25, leveling_templateObject26, leveling_templateObject27, leveling_templateObject28, leveling_templateObject29, leveling_templateObject30, leveling_templateObject31, leveling_templateObject32, leveling_templateObject33, leveling_templateObject34, leveling_templateObject35, leveling_templateObject36, leveling_templateObject37, leveling_templateObject38, leveling_templateObject39, leveling_templateObject40, leveling_templateObject41, leveling_templateObject42, leveling_templateObject43, leveling_templateObject44, leveling_templateObject45, leveling_templateObject46, leveling_templateObject47, leveling_templateObject48, leveling_templateObject49, leveling_templateObject50, leveling_templateObject51, leveling_templateObject52, leveling_templateObject53, leveling_templateObject54, leveling_templateObject55, leveling_templateObject56, leveling_templateObject57, leveling_templateObject58, leveling_templateObject59, leveling_templateObject60, leveling_templateObject61, leveling_templateObject62, leveling_templateObject63, leveling_templateObject64, leveling_templateObject65, leveling_templateObject66, leveling_templateObject67, leveling_templateObject68, leveling_templateObject69, leveling_templateObject70, leveling_templateObject71, leveling_templateObject72, leveling_templateObject73, leveling_templateObject74, leveling_templateObject75, leveling_templateObject76, leveling_templateObject77, leveling_templateObject78, leveling_templateObject79, leveling_templateObject80, leveling_templateObject81, leveling_templateObject82, leveling_templateObject83, leveling_templateObject84, leveling_templateObject85, leveling_templateObject86, leveling_templateObject87, leveling_templateObject88, leveling_templateObject89, leveling_templateObject90, leveling_templateObject91, leveling_templateObject92, leveling_templateObject93, leveling_templateObject94, leveling_templateObject95, leveling_templateObject96, leveling_templateObject97, leveling_templateObject98, leveling_templateObject99, leveling_templateObject100, leveling_templateObject101, leveling_templateObject102, leveling_templateObject103, leveling_templateObject104, leveling_templateObject105, leveling_templateObject106, leveling_templateObject107, leveling_templateObject108, leveling_templateObject109, leveling_templateObject110, leveling_templateObject111, leveling_templateObject112, leveling_templateObject113, leveling_templateObject114, leveling_templateObject115, leveling_templateObject116, leveling_templateObject117, leveling_templateObject118, leveling_templateObject119, leveling_templateObject120, leveling_templateObject121, leveling_templateObject122, leveling_templateObject123, leveling_templateObject124, leveling_templateObject125, leveling_templateObject126, leveling_templateObject127, leveling_templateObject128, leveling_templateObject129, leveling_templateObject130, leveling_templateObject131, leveling_templateObject132, leveling_templateObject133, leveling_templateObject134, leveling_templateObject135, leveling_templateObject136, leveling_templateObject137, leveling_templateObject138, leveling_templateObject139, leveling_templateObject140, leveling_templateObject141, leveling_templateObject142, leveling_templateObject143, leveling_templateObject144, leveling_templateObject145, leveling_templateObject146, leveling_templateObject147, leveling_templateObject148, leveling_templateObject149, leveling_templateObject150, leveling_templateObject151, leveling_templateObject152, leveling_templateObject153, leveling_templateObject154, leveling_templateObject155, leveling_templateObject156, leveling_templateObject157, leveling_templateObject158, leveling_templateObject159, leveling_templateObject160, leveling_templateObject161, leveling_templateObject162, leveling_templateObject163, leveling_templateObject164, leveling_templateObject165, leveling_templateObject166, leveling_templateObject167, leveling_templateObject168, leveling_templateObject169, leveling_templateObject170, leveling_templateObject171, leveling_templateObject172, leveling_templateObject173, leveling_templateObject174, leveling_templateObject175, leveling_templateObject176, leveling_templateObject177, leveling_templateObject178, leveling_templateObject179, leveling_templateObject180, leveling_templateObject181, leveling_templateObject182, leveling_templateObject183, leveling_templateObject184, leveling_templateObject185, leveling_templateObject186, leveling_templateObject187, leveling_templateObject188, leveling_templateObject189, leveling_templateObject190, leveling_templateObject191, leveling_templateObject192, leveling_templateObject193, leveling_templateObject194, leveling_templateObject195, leveling_templateObject196, leveling_templateObject197, leveling_templateObject198, leveling_templateObject199, leveling_templateObject200, leveling_templateObject201, leveling_templateObject202, leveling_templateObject203, leveling_templateObject204, leveling_templateObject205, leveling_templateObject206, leveling_templateObject207, leveling_templateObject208, leveling_templateObject209, leveling_templateObject210, leveling_templateObject211, leveling_templateObject212, leveling_templateObject213, leveling_templateObject214, leveling_templateObject215, leveling_templateObject216, leveling_templateObject217, leveling_templateObject218, leveling_templateObject219, leveling_templateObject220, leveling_templateObject221, leveling_templateObject222, leveling_templateObject223, leveling_templateObject224, leveling_templateObject225, leveling_templateObject226, leveling_templateObject227, leveling_templateObject228, leveling_templateObject229, leveling_templateObject230, leveling_templateObject231, leveling_templateObject232, leveling_templateObject233, leveling_templateObject234, leveling_templateObject235, leveling_templateObject236, leveling_templateObject237, leveling_templateObject238, leveling_templateObject239, leveling_templateObject240, leveling_templateObject241, leveling_templateObject242, leveling_templateObject243, leveling_templateObject244, leveling_templateObject245, leveling_templateObject246, leveling_templateObject247, leveling_templateObject248, leveling_templateObject249, leveling_templateObject250, leveling_templateObject251, leveling_templateObject252, leveling_templateObject253, leveling_templateObject254, leveling_templateObject255, leveling_templateObject256, leveling_templateObject257, leveling_templateObject258, leveling_templateObject259, leveling_templateObject260, leveling_templateObject261, leveling_templateObject262, leveling_templateObject263, leveling_templateObject264, leveling_templateObject265, leveling_templateObject266, leveling_templateObject267, leveling_templateObject268, leveling_templateObject269, leveling_templateObject270, leveling_templateObject271, leveling_templateObject272, leveling_templateObject273, leveling_templateObject274, leveling_templateObject275, leveling_templateObject276, leveling_templateObject277, leveling_templateObject278, leveling_templateObject279, leveling_templateObject280, leveling_templateObject281, leveling_templateObject282, leveling_templateObject283, leveling_templateObject284, leveling_templateObject285, leveling_templateObject286, leveling_templateObject287, leveling_templateObject288, leveling_templateObject289, leveling_templateObject290, leveling_templateObject291, leveling_templateObject292, leveling_templateObject293, leveling_templateObject294, leveling_templateObject295, leveling_templateObject296, leveling_templateObject297, leveling_templateObject298, leveling_templateObject299, leveling_templateObject300, leveling_templateObject301, leveling_templateObject302, leveling_templateObject303, leveling_templateObject304, leveling_templateObject305, leveling_templateObject306, leveling_templateObject307, leveling_templateObject308, leveling_templateObject309, leveling_templateObject310, leveling_templateObject311, leveling_templateObject312, leveling_templateObject313, leveling_templateObject314, leveling_templateObject315, leveling_templateObject316, leveling_templateObject317, leveling_templateObject318, leveling_templateObject319, leveling_templateObject320, leveling_templateObject321, leveling_templateObject322, leveling_templateObject323, leveling_templateObject324, leveling_templateObject325, leveling_templateObject326, leveling_templateObject327, leveling_templateObject328, leveling_templateObject329, leveling_templateObject330, leveling_templateObject331, leveling_templateObject332, leveling_templateObject333, leveling_templateObject334, leveling_templateObject335, leveling_templateObject336, leveling_templateObject337, leveling_templateObject338, leveling_templateObject339, _templateObject340, _templateObject341, _templateObject342, _templateObject343, _templateObject344, _templateObject345, _templateObject346, _templateObject347, _templateObject348, _templateObject349, _templateObject350, _templateObject351, _templateObject352, _templateObject353, _templateObject354, _templateObject355, _templateObject356, _templateObject357, _templateObject358, _templateObject359, _templateObject360, _templateObject361, _templateObject362, _templateObject363, _templateObject364, _templateObject365, _templateObject366, _templateObject367, _templateObject368, _templateObject369, _templateObject370, _templateObject371, _templateObject372, _templateObject373, _templateObject374, _templateObject375, _templateObject376, _templateObject377, _templateObject378, _templateObject379, _templateObject380, _templateObject381, _templateObject382, _templateObject383, _templateObject384, _templateObject385, _templateObject386, _templateObject387, _templateObject388, _templateObject389, _templateObject390, _templateObject391, _templateObject392, _templateObject393, _templateObject394, _templateObject395, _templateObject396, _templateObject397, _templateObject398, _templateObject399, _templateObject400, _templateObject401, _templateObject402, _templateObject403, _templateObject404, _templateObject405, _templateObject406, _templateObject407, _templateObject408, _templateObject409, _templateObject410, _templateObject411, _templateObject412, _templateObject413, _templateObject414, _templateObject415, _templateObject416, _templateObject417, _templateObject418, _templateObject419, _templateObject420, _templateObject421, _templateObject422, _templateObject423, _templateObject424, _templateObject425, _templateObject426, _templateObject427, _templateObject428, _templateObject429, _templateObject430, _templateObject431, _templateObject432, _templateObject433, _templateObject434, _templateObject435, _templateObject436, _templateObject437, _templateObject438, _templateObject439, _templateObject440, _templateObject441, _templateObject442, _templateObject443, _templateObject444, _templateObject445, _templateObject446, _templateObject447, _templateObject448, _templateObject449, _templateObject450, _templateObject451, _templateObject452, _templateObject453, _templateObject454, _templateObject455, _templateObject456, _templateObject457, _templateObject458, _templateObject459, _templateObject460, _templateObject461, _templateObject462, _templateObject463, _templateObject464, _templateObject465, _templateObject466, _templateObject467, _templateObject468, _templateObject469, _templateObject470, _templateObject471, _templateObject472, _templateObject473, _templateObject474, _templateObject475, _templateObject476, _templateObject477, _templateObject478, _templateObject479, _templateObject480, _templateObject481, _templateObject482, _templateObject483;
 function leveling_ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function leveling_objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? leveling_ownKeys(Object(t), !0).forEach(function (r) { leveling_defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : leveling_ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function leveling_defineProperty(obj, key, value) { key = leveling_toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -15699,10 +15699,12 @@ var LevelingQuest = {
     completed: () => have(template_string_$item(leveling_templateObject280 || (leveling_templateObject280 = leveling_taggedTemplateLiteral(["Rufus's shadow lodestone"])))) || !have(template_string_$effect(leveling_templateObject281 || (leveling_templateObject281 = leveling_taggedTemplateLiteral(["Shadow Affinity"])))) && property_get("encountersUntilSRChoice") !== 0 || !have(template_string_$item(leveling_templateObject282 || (leveling_templateObject282 = leveling_taggedTemplateLiteral(["closed-circuit pay phone"])))),
     do: bestShadowRift(),
     combat: new CombatStrategy().macro(combat_Macro.tryItem(template_string_$item(leveling_templateObject283 || (leveling_templateObject283 = leveling_taggedTemplateLiteral(["red rocket"])))).trySkill(template_string_$skill(leveling_templateObject284 || (leveling_templateObject284 = leveling_taggedTemplateLiteral(["Gulp Latte"])))).trySkill(template_string_$skill(leveling_templateObject285 || (leveling_templateObject285 = leveling_taggedTemplateLiteral(["Giant Growth"])))).trySkill(template_string_$skill(leveling_templateObject286 || (leveling_templateObject286 = leveling_taggedTemplateLiteral(["Recall Facts: %phylum Circadian Rhythms"])))).default()),
-    outfit: baseOutfit,
+    outfit: () => leveling_objectSpread(leveling_objectSpread({}, baseOutfit), {}, {
+      shirt: garbageShirt() ? template_string_$item(leveling_templateObject287 || (leveling_templateObject287 = leveling_taggedTemplateLiteral(["makeshift garbage shirt"]))) : undefined
+    }),
     post: () => {
       if (have(rufusTarget())) {
-        property_withChoice(1498, 1, () => (0,external_kolmafia_namespaceObject.use)(template_string_$item(leveling_templateObject287 || (leveling_templateObject287 = leveling_taggedTemplateLiteral(["closed-circuit pay phone"])))));
+        property_withChoice(1498, 1, () => (0,external_kolmafia_namespaceObject.use)(template_string_$item(leveling_templateObject288 || (leveling_templateObject288 = leveling_taggedTemplateLiteral(["closed-circuit pay phone"])))));
       }
       if (restoreMPEfficiently() === "Refill Latte" && (0,external_kolmafia_namespaceObject.myMp)() < 75) refillLatte();
       sendAutumnaton();
@@ -15716,21 +15718,21 @@ var LevelingQuest = {
     name: "Get Range",
     prepare: () => {
       sellMiscellaneousItems();
-      if (checkPurqoise(500)) (0,external_kolmafia_namespaceObject.autosell)(template_string_$item(leveling_templateObject288 || (leveling_templateObject288 = leveling_taggedTemplateLiteral(["porquoise"]))), 1);
+      if (checkPurqoise(500)) (0,external_kolmafia_namespaceObject.autosell)(template_string_$item(leveling_templateObject289 || (leveling_templateObject289 = leveling_taggedTemplateLiteral(["porquoise"]))), 1);
     },
     completed: () => property_get("hasRange"),
     do: () => {
-      if (!have(template_string_$item(leveling_templateObject289 || (leveling_templateObject289 = leveling_taggedTemplateLiteral(["Dramatic\u2122 range"]))))) {
-        (0,external_kolmafia_namespaceObject.buy)(1, template_string_$item(leveling_templateObject290 || (leveling_templateObject290 = leveling_taggedTemplateLiteral(["Dramatic\u2122 range"]))));
+      if (!have(template_string_$item(leveling_templateObject290 || (leveling_templateObject290 = leveling_taggedTemplateLiteral(["Dramatic\u2122 range"]))))) {
+        (0,external_kolmafia_namespaceObject.buy)(1, template_string_$item(leveling_templateObject291 || (leveling_templateObject291 = leveling_taggedTemplateLiteral(["Dramatic\u2122 range"]))));
       }
-      (0,external_kolmafia_namespaceObject.use)(1, template_string_$item(leveling_templateObject291 || (leveling_templateObject291 = leveling_taggedTemplateLiteral(["Dramatic\u2122 range"]))));
+      (0,external_kolmafia_namespaceObject.use)(1, template_string_$item(leveling_templateObject292 || (leveling_templateObject292 = leveling_taggedTemplateLiteral(["Dramatic\u2122 range"]))));
     }
   }, {
     name: "Use Reagent Booster",
     completed: () => !have(reagentBoosterIngredient) && !have(reagentBoosterItem) || have(reagentBoosterEffect),
     do: () => {
       if (!have(reagentBoosterItem)) {
-        if (property_get("reagentSummons") === 0) (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(leveling_templateObject292 || (leveling_templateObject292 = leveling_taggedTemplateLiteral(["Advanced Saucecrafting"]))), 1);
+        if (property_get("reagentSummons") === 0) (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(leveling_templateObject293 || (leveling_templateObject293 = leveling_taggedTemplateLiteral(["Advanced Saucecrafting"]))), 1);
         (0,external_kolmafia_namespaceObject.create)(reagentBoosterItem, 1);
       }
       ensureEffect(reagentBoosterEffect);
@@ -15741,7 +15743,7 @@ var LevelingQuest = {
     completed: () => !have(reagentBalancerIngredient) && (0,external_kolmafia_namespaceObject.itemAmount)(reagentBalancerItem) <= 1 || have(reagentBalancerEffect) || (0,external_kolmafia_namespaceObject.itemAmount)(reagentBalancerItem) === 1,
     do: () => {
       if (!have(reagentBalancerItem)) {
-        if (property_get("reagentSummons") === 0) (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(leveling_templateObject293 || (leveling_templateObject293 = leveling_taggedTemplateLiteral(["Advanced Saucecrafting"]))), 1);
+        if (property_get("reagentSummons") === 0) (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(leveling_templateObject294 || (leveling_templateObject294 = leveling_taggedTemplateLiteral(["Advanced Saucecrafting"]))), 1);
         (0,external_kolmafia_namespaceObject.create)(reagentBalancerItem, 1);
       }
       if ((0,external_kolmafia_namespaceObject.itemAmount)(reagentBalancerItem) > 1) (0,external_kolmafia_namespaceObject.use)(reagentBalancerItem, (0,external_kolmafia_namespaceObject.itemAmount)(reagentBalancerItem) - 1);
@@ -15763,10 +15765,11 @@ var LevelingQuest = {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
     completed: () => property_get("_snojoFreeFights") >= 10 || !property_get("snojoAvailable"),
-    do: $location(leveling_templateObject294 || (leveling_templateObject294 = leveling_taggedTemplateLiteral(["The X-32-F Combat Training Snowman"]))),
-    combat: new CombatStrategy().macro(combat_Macro.if_("!haseffect Citizen of a Zone", combat_Macro.trySkill(template_string_$skill(leveling_templateObject295 || (leveling_templateObject295 = leveling_taggedTemplateLiteral(["%fn, let's pledge allegiance to a Zone"]))))).trySkill(template_string_$skill(leveling_templateObject296 || (leveling_templateObject296 = leveling_taggedTemplateLiteral(["Recall Facts: %phylum Circadian Rhythms"])))).trySkill(template_string_$skill(leveling_templateObject297 || (leveling_templateObject297 = leveling_taggedTemplateLiteral(["Gulp Latte"])))).default()),
+    do: $location(leveling_templateObject295 || (leveling_templateObject295 = leveling_taggedTemplateLiteral(["The X-32-F Combat Training Snowman"]))),
+    combat: new CombatStrategy().macro(combat_Macro.if_("!haseffect Citizen of a Zone", combat_Macro.trySkill(template_string_$skill(leveling_templateObject296 || (leveling_templateObject296 = leveling_taggedTemplateLiteral(["%fn, let's pledge allegiance to a Zone"]))))).trySkill(template_string_$skill(leveling_templateObject297 || (leveling_templateObject297 = leveling_taggedTemplateLiteral(["Recall Facts: %phylum Circadian Rhythms"])))).trySkill(template_string_$skill(leveling_templateObject298 || (leveling_templateObject298 = leveling_taggedTemplateLiteral(["Gulp Latte"])))).default()),
     outfit: () => leveling_objectSpread(leveling_objectSpread({}, baseOutfit), {}, {
-      familiar: !have(template_string_$effect(leveling_templateObject298 || (leveling_templateObject298 = leveling_taggedTemplateLiteral(["Citizen of a Zone"])))) ? template_string_$familiar(leveling_templateObject299 || (leveling_templateObject299 = leveling_taggedTemplateLiteral(["Patriotic Eagle"]))) : chooseFamiliar()
+      familiar: !have(template_string_$effect(leveling_templateObject299 || (leveling_templateObject299 = leveling_taggedTemplateLiteral(["Citizen of a Zone"])))) ? template_string_$familiar(leveling_templateObject300 || (leveling_templateObject300 = leveling_taggedTemplateLiteral(["Patriotic Eagle"]))) : chooseFamiliar(),
+      shirt: garbageShirt() ? template_string_$item(leveling_templateObject301 || (leveling_templateObject301 = leveling_taggedTemplateLiteral(["makeshift garbage shirt"]))) : undefined
     }),
     limit: {
       tries: 10
@@ -15780,33 +15783,33 @@ var LevelingQuest = {
   }, {
     name: "Get Totem and Saucepan",
     prepare: () => sellMiscellaneousItems(),
-    completed: () => have(template_string_$item(leveling_templateObject300 || (leveling_templateObject300 = leveling_taggedTemplateLiteral(["turtle totem"])))) && have(template_string_$item(leveling_templateObject301 || (leveling_templateObject301 = leveling_taggedTemplateLiteral(["saucepan"])))),
+    completed: () => have(template_string_$item(leveling_templateObject302 || (leveling_templateObject302 = leveling_taggedTemplateLiteral(["turtle totem"])))) && have(template_string_$item(leveling_templateObject303 || (leveling_templateObject303 = leveling_taggedTemplateLiteral(["saucepan"])))),
     do: () => {
-      (0,external_kolmafia_namespaceObject.buy)(1, template_string_$item(leveling_templateObject302 || (leveling_templateObject302 = leveling_taggedTemplateLiteral(["chewing gum on a string"]))));
-      (0,external_kolmafia_namespaceObject.use)(1, template_string_$item(leveling_templateObject303 || (leveling_templateObject303 = leveling_taggedTemplateLiteral(["chewing gum on a string"]))));
+      (0,external_kolmafia_namespaceObject.buy)(1, template_string_$item(leveling_templateObject304 || (leveling_templateObject304 = leveling_taggedTemplateLiteral(["chewing gum on a string"]))));
+      (0,external_kolmafia_namespaceObject.use)(1, template_string_$item(leveling_templateObject305 || (leveling_templateObject305 = leveling_taggedTemplateLiteral(["chewing gum on a string"]))));
     },
     limit: {
       tries: 50
     }
   }, {
     name: "Red Skeleton",
-    ready: () => !have(template_string_$effect(leveling_templateObject304 || (leveling_templateObject304 = leveling_taggedTemplateLiteral(["Everything Looks Yellow"])))) || have(template_string_$skill(leveling_templateObject305 || (leveling_templateObject305 = leveling_taggedTemplateLiteral(["Feel Envy"])))) && property_get("_feelEnvyUsed") < 3,
+    ready: () => !have(template_string_$effect(leveling_templateObject306 || (leveling_templateObject306 = leveling_taggedTemplateLiteral(["Everything Looks Yellow"])))) || have(template_string_$skill(leveling_templateObject307 || (leveling_templateObject307 = leveling_taggedTemplateLiteral(["Feel Envy"])))) && property_get("_feelEnvyUsed") < 3,
     prepare: () => {
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
-      if (!have(template_string_$item(leveling_templateObject306 || (leveling_templateObject306 = leveling_taggedTemplateLiteral(["yellow rocket"])))) && !have(template_string_$effect(leveling_templateObject307 || (leveling_templateObject307 = leveling_taggedTemplateLiteral(["Everything Looks Yellow"]))))) {
+      if (!have(template_string_$item(leveling_templateObject308 || (leveling_templateObject308 = leveling_taggedTemplateLiteral(["yellow rocket"])))) && !have(template_string_$effect(leveling_templateObject309 || (leveling_templateObject309 = leveling_taggedTemplateLiteral(["Everything Looks Yellow"]))))) {
         if ((0,external_kolmafia_namespaceObject.myMeat)() < 250) throw new Error("Insufficient Meat to purchase yellow rocket!");
-        (0,external_kolmafia_namespaceObject.buy)(template_string_$item(leveling_templateObject308 || (leveling_templateObject308 = leveling_taggedTemplateLiteral(["yellow rocket"]))), 1);
+        (0,external_kolmafia_namespaceObject.buy)(template_string_$item(leveling_templateObject310 || (leveling_templateObject310 = leveling_taggedTemplateLiteral(["yellow rocket"]))), 1);
       }
       unbreakableUmbrella();
       docBag();
     },
-    completed: () => monstersReminisced().includes($monster(leveling_templateObject309 || (leveling_templateObject309 = leveling_taggedTemplateLiteral(["red skeleton"])))) || !availableLocketMonsters().includes($monster(leveling_templateObject310 || (leveling_templateObject310 = leveling_taggedTemplateLiteral(["red skeleton"])))) || args.redskeleton || checkValue("Locket", 4) || have(template_string_$item(leveling_templateObject311 || (leveling_templateObject311 = leveling_taggedTemplateLiteral(["red eye"])))),
-    do: () => reminisce($monster(leveling_templateObject312 || (leveling_templateObject312 = leveling_taggedTemplateLiteral(["red skeleton"])))),
-    combat: new CombatStrategy().macro(combat_Macro.if_("!haseffect Everything Looks Yellow", combat_Macro.tryItem(template_string_$item(leveling_templateObject313 || (leveling_templateObject313 = leveling_taggedTemplateLiteral(["yellow rocket"]))))).trySkill(template_string_$skill(leveling_templateObject314 || (leveling_templateObject314 = leveling_taggedTemplateLiteral(["Feel Envy"])))).trySkill(template_string_$skill(leveling_templateObject315 || (leveling_templateObject315 = leveling_taggedTemplateLiteral(["Chest X-Ray"])))).trySkill(template_string_$skill(leveling_templateObject316 || (leveling_templateObject316 = leveling_taggedTemplateLiteral(["Shattering Punch"])))).trySkill(template_string_$skill(leveling_templateObject317 || (leveling_templateObject317 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"])))).default()),
+    completed: () => monstersReminisced().includes($monster(leveling_templateObject311 || (leveling_templateObject311 = leveling_taggedTemplateLiteral(["red skeleton"])))) || !availableLocketMonsters().includes($monster(leveling_templateObject312 || (leveling_templateObject312 = leveling_taggedTemplateLiteral(["red skeleton"])))) || args.redskeleton || checkValue("Locket", 4) || have(template_string_$item(leveling_templateObject313 || (leveling_templateObject313 = leveling_taggedTemplateLiteral(["red eye"])))),
+    do: () => reminisce($monster(leveling_templateObject314 || (leveling_templateObject314 = leveling_taggedTemplateLiteral(["red skeleton"])))),
+    combat: new CombatStrategy().macro(combat_Macro.if_("!haseffect Everything Looks Yellow", combat_Macro.tryItem(template_string_$item(leveling_templateObject315 || (leveling_templateObject315 = leveling_taggedTemplateLiteral(["yellow rocket"]))))).trySkill(template_string_$skill(leveling_templateObject316 || (leveling_templateObject316 = leveling_taggedTemplateLiteral(["Feel Envy"])))).trySkill(template_string_$skill(leveling_templateObject317 || (leveling_templateObject317 = leveling_taggedTemplateLiteral(["Chest X-Ray"])))).trySkill(template_string_$skill(leveling_templateObject318 || (leveling_templateObject318 = leveling_taggedTemplateLiteral(["Shattering Punch"])))).trySkill(template_string_$skill(leveling_templateObject319 || (leveling_templateObject319 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"])))).default()),
     outfit: baseOutfit,
     post: () => {
       if (restoreMPEfficiently() === "Refill Latte" && (0,external_kolmafia_namespaceObject.myMp)() < 75) refillLatte();
-      (0,external_kolmafia_namespaceObject.use)(template_string_$item(leveling_templateObject318 || (leveling_templateObject318 = leveling_taggedTemplateLiteral(["red box"]))), 1);
+      (0,external_kolmafia_namespaceObject.use)(template_string_$item(leveling_templateObject320 || (leveling_templateObject320 = leveling_taggedTemplateLiteral(["red box"]))), 1);
       sendAutumnaton();
       sellMiscellaneousItems();
       boomBoxProfit();
@@ -15823,11 +15826,11 @@ var LevelingQuest = {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
     ready: () => !property_get("snojoAvailable", false),
-    completed: () => have(template_string_$effect(leveling_templateObject319 || (leveling_templateObject319 = leveling_taggedTemplateLiteral(["Citizen of a Zone"])))) || !have(template_string_$familiar(leveling_templateObject320 || (leveling_templateObject320 = leveling_taggedTemplateLiteral(["Patriotic Eagle"])))) || property_get("_citizenZone").includes("Madness") || (property_get("_shatteringPunchUsed") >= 3 || !have(template_string_$skill(leveling_templateObject321 || (leveling_templateObject321 = leveling_taggedTemplateLiteral(["Shattering Punch"]))))) && (property_get("_gingerbreadMobHitUsed") || !have(template_string_$skill(leveling_templateObject322 || (leveling_templateObject322 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"]))))),
-    do: $location(leveling_templateObject323 || (leveling_templateObject323 = leveling_taggedTemplateLiteral(["Madness Bakery"]))),
-    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(leveling_templateObject324 || (leveling_templateObject324 = leveling_taggedTemplateLiteral(["%fn, let's pledge allegiance to a Zone"])))).trySkill(template_string_$skill(leveling_templateObject325 || (leveling_templateObject325 = leveling_taggedTemplateLiteral(["Chest X-Ray"])))).trySkill(template_string_$skill(leveling_templateObject326 || (leveling_templateObject326 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"])))).trySkill(template_string_$skill(leveling_templateObject327 || (leveling_templateObject327 = leveling_taggedTemplateLiteral(["Shattering Punch"])))).default()),
+    completed: () => have(template_string_$effect(leveling_templateObject321 || (leveling_templateObject321 = leveling_taggedTemplateLiteral(["Citizen of a Zone"])))) || !have(template_string_$familiar(leveling_templateObject322 || (leveling_templateObject322 = leveling_taggedTemplateLiteral(["Patriotic Eagle"])))) || property_get("_citizenZone").includes("Madness") || (property_get("_shatteringPunchUsed") >= 3 || !have(template_string_$skill(leveling_templateObject323 || (leveling_templateObject323 = leveling_taggedTemplateLiteral(["Shattering Punch"]))))) && (property_get("_gingerbreadMobHitUsed") || !have(template_string_$skill(leveling_templateObject324 || (leveling_templateObject324 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"]))))),
+    do: $location(leveling_templateObject325 || (leveling_templateObject325 = leveling_taggedTemplateLiteral(["Madness Bakery"]))),
+    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(leveling_templateObject326 || (leveling_templateObject326 = leveling_taggedTemplateLiteral(["%fn, let's pledge allegiance to a Zone"])))).trySkill(template_string_$skill(leveling_templateObject327 || (leveling_templateObject327 = leveling_taggedTemplateLiteral(["Chest X-Ray"])))).trySkill(template_string_$skill(leveling_templateObject328 || (leveling_templateObject328 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"])))).trySkill(template_string_$skill(leveling_templateObject329 || (leveling_templateObject329 = leveling_taggedTemplateLiteral(["Shattering Punch"])))).default()),
     outfit: () => leveling_objectSpread(leveling_objectSpread({}, baseOutfit), {}, {
-      familiar: template_string_$familiar(leveling_templateObject328 || (leveling_templateObject328 = leveling_taggedTemplateLiteral(["Patriotic Eagle"])))
+      familiar: template_string_$familiar(leveling_templateObject330 || (leveling_templateObject330 = leveling_taggedTemplateLiteral(["Patriotic Eagle"])))
     }),
     post: () => {
       sellMiscellaneousItems();
@@ -15842,20 +15845,20 @@ var LevelingQuest = {
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
       unbreakableUmbrella();
       [].concat(usefulEffects, leveling_toConsumableArray(statEffects)).forEach(ef => tryAcquiringEffect(ef));
-      tryAcquiringEffect(template_string_$effect(leveling_templateObject329 || (leveling_templateObject329 = leveling_taggedTemplateLiteral(["Comic Violence"]))));
+      tryAcquiringEffect(template_string_$effect(leveling_templateObject331 || (leveling_templateObject331 = leveling_taggedTemplateLiteral(["Comic Violence"]))));
     },
     completed: () => property_get("_loveTunnelUsed") || !property_get("loveTunnelAvailable"),
     do: () => fightAll("LOV Epaulettes", "Open Heart Surgery", "LOV Extraterrestrial Chocolate"),
-    combat: new CombatStrategy().macro(combat_Macro.if_($monster(leveling_templateObject330 || (leveling_templateObject330 = leveling_taggedTemplateLiteral(["LOV Enforcer"]))), combat_Macro.attack().repeat()).if_($monster(leveling_templateObject331 || (leveling_templateObject331 = leveling_taggedTemplateLiteral(["LOV Engineer"]))), combat_Macro.while_("!mpbelow ".concat((0,external_kolmafia_namespaceObject.mpCost)(template_string_$skill(leveling_templateObject332 || (leveling_templateObject332 = leveling_taggedTemplateLiteral(["Toynado"])))), " && hasskill ").concat((0,external_kolmafia_namespaceObject.toInt)(template_string_$skill(leveling_templateObject333 || (leveling_templateObject333 = leveling_taggedTemplateLiteral(["Toynado"]))))), combat_Macro.skill(template_string_$skill(leveling_templateObject334 || (leveling_templateObject334 = leveling_taggedTemplateLiteral(["Toynado"]))))).while_("!mpbelow ".concat((0,external_kolmafia_namespaceObject.mpCost)(template_string_$skill(leveling_templateObject335 || (leveling_templateObject335 = leveling_taggedTemplateLiteral(["Saucegeyser"])))), " && hasskill ").concat((0,external_kolmafia_namespaceObject.toInt)(template_string_$skill(leveling_templateObject336 || (leveling_templateObject336 = leveling_taggedTemplateLiteral(["Saucegeyser"]))))), combat_Macro.skill(template_string_$skill(leveling_templateObject337 || (leveling_templateObject337 = leveling_taggedTemplateLiteral(["Saucegeyser"]))))).while_("!mpbelow ".concat((0,external_kolmafia_namespaceObject.mpCost)(template_string_$skill(leveling_templateObject338 || (leveling_templateObject338 = leveling_taggedTemplateLiteral(["Saucestorm"])))), " && hasskill ").concat((0,external_kolmafia_namespaceObject.toInt)(template_string_$skill(leveling_templateObject339 || (leveling_templateObject339 = leveling_taggedTemplateLiteral(["Saucestorm"]))))), combat_Macro.skill(template_string_$skill(_templateObject340 || (_templateObject340 = leveling_taggedTemplateLiteral(["Saucestorm"]))))).repeat()).if_($monster(_templateObject341 || (_templateObject341 = leveling_taggedTemplateLiteral(["LOV Equivocator"]))), combat_Macro["default"]())),
+    combat: new CombatStrategy().macro(combat_Macro.if_($monster(leveling_templateObject332 || (leveling_templateObject332 = leveling_taggedTemplateLiteral(["LOV Enforcer"]))), combat_Macro.attack().repeat()).if_($monster(leveling_templateObject333 || (leveling_templateObject333 = leveling_taggedTemplateLiteral(["LOV Engineer"]))), combat_Macro.while_("!mpbelow ".concat((0,external_kolmafia_namespaceObject.mpCost)(template_string_$skill(leveling_templateObject334 || (leveling_templateObject334 = leveling_taggedTemplateLiteral(["Toynado"])))), " && hasskill ").concat((0,external_kolmafia_namespaceObject.toInt)(template_string_$skill(leveling_templateObject335 || (leveling_templateObject335 = leveling_taggedTemplateLiteral(["Toynado"]))))), combat_Macro.skill(template_string_$skill(leveling_templateObject336 || (leveling_templateObject336 = leveling_taggedTemplateLiteral(["Toynado"]))))).while_("!mpbelow ".concat((0,external_kolmafia_namespaceObject.mpCost)(template_string_$skill(leveling_templateObject337 || (leveling_templateObject337 = leveling_taggedTemplateLiteral(["Saucegeyser"])))), " && hasskill ").concat((0,external_kolmafia_namespaceObject.toInt)(template_string_$skill(leveling_templateObject338 || (leveling_templateObject338 = leveling_taggedTemplateLiteral(["Saucegeyser"]))))), combat_Macro.skill(template_string_$skill(leveling_templateObject339 || (leveling_templateObject339 = leveling_taggedTemplateLiteral(["Saucegeyser"]))))).while_("!mpbelow ".concat((0,external_kolmafia_namespaceObject.mpCost)(template_string_$skill(_templateObject340 || (_templateObject340 = leveling_taggedTemplateLiteral(["Saucestorm"])))), " && hasskill ").concat((0,external_kolmafia_namespaceObject.toInt)(template_string_$skill(_templateObject341 || (_templateObject341 = leveling_taggedTemplateLiteral(["Saucestorm"]))))), combat_Macro.skill(template_string_$skill(_templateObject342 || (_templateObject342 = leveling_taggedTemplateLiteral(["Saucestorm"]))))).repeat()).if_($monster(_templateObject343 || (_templateObject343 = leveling_taggedTemplateLiteral(["LOV Equivocator"]))), combat_Macro["default"]())),
     outfit: () => leveling_objectSpread(leveling_objectSpread({}, baseOutfit(false)), {}, {
-      weapon: template_string_$item(_templateObject342 || (_templateObject342 = leveling_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))
+      weapon: template_string_$item(_templateObject344 || (_templateObject344 = leveling_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))
     }),
     limit: {
       tries: 1
     },
     post: () => {
-      if (have(template_string_$effect(_templateObject343 || (_templateObject343 = leveling_taggedTemplateLiteral(["Beaten Up"]))))) (0,external_kolmafia_namespaceObject.cliExecute)("hottub");
-      if (have(template_string_$item(_templateObject344 || (_templateObject344 = leveling_taggedTemplateLiteral(["LOV Extraterrestrial Chocolate"]))))) (0,external_kolmafia_namespaceObject.use)(template_string_$item(_templateObject345 || (_templateObject345 = leveling_taggedTemplateLiteral(["LOV Extraterrestrial Chocolate"]))), 1);
+      if (have(template_string_$effect(_templateObject345 || (_templateObject345 = leveling_taggedTemplateLiteral(["Beaten Up"]))))) (0,external_kolmafia_namespaceObject.cliExecute)("hottub");
+      if (have(template_string_$item(_templateObject346 || (_templateObject346 = leveling_taggedTemplateLiteral(["LOV Extraterrestrial Chocolate"]))))) (0,external_kolmafia_namespaceObject.use)(template_string_$item(_templateObject347 || (_templateObject347 = leveling_taggedTemplateLiteral(["LOV Extraterrestrial Chocolate"]))), 1);
       sendAutumnaton();
       sellMiscellaneousItems();
       boomBoxProfit();
@@ -15864,7 +15867,7 @@ var LevelingQuest = {
     name: "Restore cinch",
     completed: () => property_get("timesRested") >= args.saverests || property_get("_cinchUsed", 0) <= 95 || !useCinch,
     prepare: () => {
-      if (have(template_string_$item(_templateObject346 || (_templateObject346 = leveling_taggedTemplateLiteral(["Newbiesport\u2122 tent"]))))) (0,external_kolmafia_namespaceObject.use)(template_string_$item(_templateObject347 || (_templateObject347 = leveling_taggedTemplateLiteral(["Newbiesport\u2122 tent"]))));
+      if (have(template_string_$item(_templateObject348 || (_templateObject348 = leveling_taggedTemplateLiteral(["Newbiesport\u2122 tent"]))))) (0,external_kolmafia_namespaceObject.use)(template_string_$item(_templateObject349 || (_templateObject349 = leveling_taggedTemplateLiteral(["Newbiesport\u2122 tent"]))));
     },
     do: () => {
       if (property_get("chateauAvailable")) {
@@ -15880,7 +15883,7 @@ var LevelingQuest = {
     }
   }, {
     name: "Monster Habitats",
-    ready: () => property_get("_monsterHabitatsFightsLeft") > 0 && (haveFreeBanish() || Array.from(getBanishedMonsters().values()).includes($monster(_templateObject348 || (_templateObject348 = leveling_taggedTemplateLiteral(["fluffy bunny"]))))),
+    ready: () => property_get("_monsterHabitatsFightsLeft") > 0 && (haveFreeBanish() || Array.from(getBanishedMonsters().values()).includes($monster(_templateObject350 || (_templateObject350 = leveling_taggedTemplateLiteral(["fluffy bunny"]))))),
     prepare: () => {
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
       unbreakableUmbrella();
@@ -15889,8 +15892,8 @@ var LevelingQuest = {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
     completed: () => property_get("_monsterHabitatsFightsLeft") === 0,
-    do: $location(_templateObject349 || (_templateObject349 = leveling_taggedTemplateLiteral(["The Dire Warren"]))),
-    combat: new CombatStrategy().macro(() => combat_Macro.if_($monster(_templateObject350 || (_templateObject350 = leveling_taggedTemplateLiteral(["fluffy bunny"]))), combat_Macro.banish()).externalIf(property_get("_monsterHabitatsFightsLeft") <= 1 && (0,external_kolmafia_namespaceObject.toInt)(property_get("_monsterHabitatsRecalled")) < 3 - (0,external_kolmafia_namespaceObject.toInt)(args.savehabitats) && have(template_string_$skill(_templateObject351 || (_templateObject351 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"])))) && (haveFreeBanish() || Array.from(getBanishedMonsters().values()).includes($monster(_templateObject352 || (_templateObject352 = leveling_taggedTemplateLiteral(["fluffy bunny"]))))), combat_Macro.trySkill(template_string_$skill(_templateObject353 || (_templateObject353 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"]))))).default(useCinch)),
+    do: $location(_templateObject351 || (_templateObject351 = leveling_taggedTemplateLiteral(["The Dire Warren"]))),
+    combat: new CombatStrategy().macro(() => combat_Macro.if_($monster(_templateObject352 || (_templateObject352 = leveling_taggedTemplateLiteral(["fluffy bunny"]))), combat_Macro.banish()).externalIf(property_get("_monsterHabitatsFightsLeft") <= 1 && (0,external_kolmafia_namespaceObject.toInt)(property_get("_monsterHabitatsRecalled")) < 3 - (0,external_kolmafia_namespaceObject.toInt)(args.savehabitats) && have(template_string_$skill(_templateObject353 || (_templateObject353 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"])))) && (haveFreeBanish() || Array.from(getBanishedMonsters().values()).includes($monster(_templateObject354 || (_templateObject354 = leveling_taggedTemplateLiteral(["fluffy bunny"]))))), combat_Macro.trySkill(template_string_$skill(_templateObject355 || (_templateObject355 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"]))))).default(useCinch)),
     outfit: baseOutfit,
     post: () => {
       sendAutumnaton();
@@ -15915,13 +15918,13 @@ var LevelingQuest = {
     },
     completed: () => {
       var _get2;
-      return !have(template_string_$item(_templateObject354 || (_templateObject354 = leveling_taggedTemplateLiteral(["backup camera"])))) || !freeFightMonsters.includes((_get2 = property_get("lastCopyableMonster")) !== null && _get2 !== void 0 ? _get2 : $monster.none) || property_get("_backUpUses") >= 11 - clamp(args.savebackups, 0, 11) || (0,external_kolmafia_namespaceObject.myBasestat)((0,external_kolmafia_namespaceObject.myPrimestat)()) >= 190;
+      return !have(template_string_$item(_templateObject356 || (_templateObject356 = leveling_taggedTemplateLiteral(["backup camera"])))) || !freeFightMonsters.includes((_get2 = property_get("lastCopyableMonster")) !== null && _get2 !== void 0 ? _get2 : $monster.none) || property_get("_backUpUses") >= 11 - clamp(args.savebackups, 0, 11) || (0,external_kolmafia_namespaceObject.myBasestat)((0,external_kolmafia_namespaceObject.myPrimestat)()) >= 190;
     },
     // no longer need to back up Witchess Kings
-    do: $location(_templateObject355 || (_templateObject355 = leveling_taggedTemplateLiteral(["The Dire Warren"]))),
-    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(_templateObject356 || (_templateObject356 = leveling_taggedTemplateLiteral(["Back-Up to your Last Enemy"])))).default(useCinch)),
+    do: $location(_templateObject357 || (_templateObject357 = leveling_taggedTemplateLiteral(["The Dire Warren"]))),
+    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(_templateObject358 || (_templateObject358 = leveling_taggedTemplateLiteral(["Back-Up to your Last Enemy"])))).default(useCinch)),
     outfit: () => leveling_objectSpread(leveling_objectSpread({}, baseOutfit()), {}, {
-      acc3: template_string_$item(_templateObject357 || (_templateObject357 = leveling_taggedTemplateLiteral(["backup camera"])))
+      acc3: template_string_$item(_templateObject359 || (_templateObject359 = leveling_taggedTemplateLiteral(["backup camera"])))
     }),
     post: () => {
       var _get3;
@@ -15942,12 +15945,13 @@ var LevelingQuest = {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
     ready: () => getKramcoWandererChance() >= 1.0,
-    completed: () => getKramcoWandererChance() < 1.0 || !have(template_string_$item(_templateObject358 || (_templateObject358 = leveling_taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"])))),
-    do: $location(_templateObject359 || (_templateObject359 = leveling_taggedTemplateLiteral(["Noob Cave"]))),
+    completed: () => getKramcoWandererChance() < 1.0 || !have(template_string_$item(_templateObject360 || (_templateObject360 = leveling_taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"])))),
+    do: $location(_templateObject361 || (_templateObject361 = leveling_taggedTemplateLiteral(["Noob Cave"]))),
     outfit: () => leveling_objectSpread(leveling_objectSpread({}, baseOutfit()), {}, {
-      offhand: template_string_$item(_templateObject360 || (_templateObject360 = leveling_taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"])))
+      offhand: template_string_$item(_templateObject362 || (_templateObject362 = leveling_taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"]))),
+      shirt: garbageShirt() ? template_string_$item(_templateObject363 || (_templateObject363 = leveling_taggedTemplateLiteral(["makeshift garbage shirt"]))) : undefined
     }),
-    combat: new CombatStrategy().macro(() => combat_Macro.externalIf(property_get("_monsterHabitatsFightsLeft") <= 1 && (0,external_kolmafia_namespaceObject.toInt)(property_get("_monsterHabitatsRecalled")) < 3 - args.savehabitats && have(template_string_$skill(_templateObject361 || (_templateObject361 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"])))) && (haveFreeBanish() || Array.from(getBanishedMonsters().values()).includes($monster(_templateObject362 || (_templateObject362 = leveling_taggedTemplateLiteral(["fluffy bunny"]))))), combat_Macro.trySkill(template_string_$skill(_templateObject363 || (_templateObject363 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"]))))).default(useCinch)),
+    combat: new CombatStrategy().macro(() => combat_Macro.externalIf(property_get("_monsterHabitatsFightsLeft") <= 1 && (0,external_kolmafia_namespaceObject.toInt)(property_get("_monsterHabitatsRecalled")) < 3 - args.savehabitats && have(template_string_$skill(_templateObject364 || (_templateObject364 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"])))) && (haveFreeBanish() || Array.from(getBanishedMonsters().values()).includes($monster(_templateObject365 || (_templateObject365 = leveling_taggedTemplateLiteral(["fluffy bunny"]))))), combat_Macro.trySkill(template_string_$skill(_templateObject366 || (_templateObject366 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"]))))).default(useCinch)),
     post: () => {
       sendAutumnaton();
       sellMiscellaneousItems();
@@ -15961,9 +15965,9 @@ var LevelingQuest = {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
       if (SourceTerminal_have()) (0,external_kolmafia_namespaceObject.cliExecute)("terminal educate portscan");
     },
-    completed: () => property_get("_speakeasyFreeFights", 0) >= 1 || !property_get("ownsSpeakeasy") || !have(template_string_$skill(_templateObject364 || (_templateObject364 = leveling_taggedTemplateLiteral(["Map the Monsters"])))) || property_get("_monstersMapped") >= 3,
-    do: () => mapMonster($location(_templateObject365 || (_templateObject365 = leveling_taggedTemplateLiteral(["An Unusually Quiet Barroom Brawl"]))), $monster(_templateObject366 || (_templateObject366 = leveling_taggedTemplateLiteral(["goblin flapper"])))),
-    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(_templateObject367 || (_templateObject367 = leveling_taggedTemplateLiteral(["Feel Envy"])))).trySkill(template_string_$skill(_templateObject368 || (_templateObject368 = leveling_taggedTemplateLiteral(["Portscan"])))).default()),
+    completed: () => property_get("_speakeasyFreeFights", 0) >= 1 || !property_get("ownsSpeakeasy") || !have(template_string_$skill(_templateObject367 || (_templateObject367 = leveling_taggedTemplateLiteral(["Map the Monsters"])))) || property_get("_monstersMapped") >= 3,
+    do: () => mapMonster($location(_templateObject368 || (_templateObject368 = leveling_taggedTemplateLiteral(["An Unusually Quiet Barroom Brawl"]))), $monster(_templateObject369 || (_templateObject369 = leveling_taggedTemplateLiteral(["goblin flapper"])))),
+    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(_templateObject370 || (_templateObject370 = leveling_taggedTemplateLiteral(["Feel Envy"])))).trySkill(template_string_$skill(_templateObject371 || (_templateObject371 = leveling_taggedTemplateLiteral(["Portscan"])))).default()),
     outfit: baseOutfit,
     limit: {
       tries: 1
@@ -15982,8 +15986,8 @@ var LevelingQuest = {
       if (SourceTerminal_have()) (0,external_kolmafia_namespaceObject.cliExecute)("terminal educate portscan");
     },
     completed: () => property_get("_speakeasyFreeFights", 0) >= 2 || !property_get("ownsSpeakeasy") || !SourceTerminal_have() || property_get("_sourceTerminalPortscanUses") > 0,
-    do: $location(_templateObject369 || (_templateObject369 = leveling_taggedTemplateLiteral(["An Unusually Quiet Barroom Brawl"]))),
-    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(_templateObject370 || (_templateObject370 = leveling_taggedTemplateLiteral(["Portscan"])))).default()),
+    do: $location(_templateObject372 || (_templateObject372 = leveling_taggedTemplateLiteral(["An Unusually Quiet Barroom Brawl"]))),
+    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(_templateObject373 || (_templateObject373 = leveling_taggedTemplateLiteral(["Portscan"])))).default()),
     outfit: baseOutfit,
     limit: {
       tries: 1
@@ -16001,7 +16005,7 @@ var LevelingQuest = {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
     completed: () => property_get("_speakeasyFreeFights", 0) >= 3 || !property_get("ownsSpeakeasy"),
-    do: $location(_templateObject371 || (_templateObject371 = leveling_taggedTemplateLiteral(["An Unusually Quiet Barroom Brawl"]))),
+    do: $location(_templateObject374 || (_templateObject374 = leveling_taggedTemplateLiteral(["An Unusually Quiet Barroom Brawl"]))),
     combat: new CombatStrategy().macro(combat_Macro["default"]()),
     outfit: baseOutfit,
     limit: {
@@ -16020,13 +16024,13 @@ var LevelingQuest = {
       unbreakableUmbrella();
       docBag();
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
-      if (!have(template_string_$effect(_templateObject372 || (_templateObject372 = leveling_taggedTemplateLiteral(["Everything Looks Red"])))) && !have(template_string_$item(_templateObject373 || (_templateObject373 = leveling_taggedTemplateLiteral(["red rocket"]))))) {
-        if ((0,external_kolmafia_namespaceObject.myMeat)() >= 250) (0,external_kolmafia_namespaceObject.buy)(template_string_$item(_templateObject374 || (_templateObject374 = leveling_taggedTemplateLiteral(["red rocket"]))), 1);
+      if (!have(template_string_$effect(_templateObject375 || (_templateObject375 = leveling_taggedTemplateLiteral(["Everything Looks Red"])))) && !have(template_string_$item(_templateObject376 || (_templateObject376 = leveling_taggedTemplateLiteral(["red rocket"]))))) {
+        if ((0,external_kolmafia_namespaceObject.myMeat)() >= 250) (0,external_kolmafia_namespaceObject.buy)(template_string_$item(_templateObject377 || (_templateObject377 = leveling_taggedTemplateLiteral(["red rocket"]))), 1);
       }
     },
-    completed: () => !have(template_string_$skill(_templateObject375 || (_templateObject375 = leveling_taggedTemplateLiteral(["Map the Monsters"])))) || !have(template_string_$skill(_templateObject376 || (_templateObject376 = leveling_taggedTemplateLiteral(["Just the Facts"])))) || property_get("_monstersMapped") >= 3 || have(template_string_$item(_templateObject377 || (_templateObject377 = leveling_taggedTemplateLiteral(["pocket wish"]))), 1) || (0,external_kolmafia_namespaceObject.myClass)() !== $class(_templateObject378 || (_templateObject378 = leveling_taggedTemplateLiteral(["Seal Clubber"]))) || (property_get("_shatteringPunchUsed") >= 3 || !have(template_string_$skill(_templateObject379 || (_templateObject379 = leveling_taggedTemplateLiteral(["Shattering Punch"]))))) && (property_get("_gingerbreadMobHitUsed") || !have(template_string_$skill(_templateObject380 || (_templateObject380 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"]))))),
-    do: () => mapMonster($location(_templateObject381 || (_templateObject381 = leveling_taggedTemplateLiteral(["The Haunted Kitchen"]))), $monster(_templateObject382 || (_templateObject382 = leveling_taggedTemplateLiteral(["paper towelgeist"])))),
-    combat: new CombatStrategy().macro(combat_Macro.if_($monster(_templateObject383 || (_templateObject383 = leveling_taggedTemplateLiteral(["paper towelgeist"]))), combat_Macro.tryItem(template_string_$item(_templateObject384 || (_templateObject384 = leveling_taggedTemplateLiteral(["blue rocket"])))).tryItem(template_string_$item(_templateObject385 || (_templateObject385 = leveling_taggedTemplateLiteral(["red rocket"])))).trySkill(template_string_$skill(_templateObject386 || (_templateObject386 = leveling_taggedTemplateLiteral(["Chest X-Ray"])))).trySkill(template_string_$skill(_templateObject387 || (_templateObject387 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"])))).trySkill(template_string_$skill(_templateObject388 || (_templateObject388 = leveling_taggedTemplateLiteral(["Shattering Punch"])))).default()).abort()),
+    completed: () => !have(template_string_$skill(_templateObject378 || (_templateObject378 = leveling_taggedTemplateLiteral(["Map the Monsters"])))) || !have(template_string_$skill(_templateObject379 || (_templateObject379 = leveling_taggedTemplateLiteral(["Just the Facts"])))) || property_get("_monstersMapped") >= 3 || have(template_string_$item(_templateObject380 || (_templateObject380 = leveling_taggedTemplateLiteral(["pocket wish"]))), 1) || (0,external_kolmafia_namespaceObject.myClass)() !== $class(_templateObject381 || (_templateObject381 = leveling_taggedTemplateLiteral(["Seal Clubber"]))) || (property_get("_shatteringPunchUsed") >= 3 || !have(template_string_$skill(_templateObject382 || (_templateObject382 = leveling_taggedTemplateLiteral(["Shattering Punch"]))))) && (property_get("_gingerbreadMobHitUsed") || !have(template_string_$skill(_templateObject383 || (_templateObject383 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"]))))),
+    do: () => mapMonster($location(_templateObject384 || (_templateObject384 = leveling_taggedTemplateLiteral(["The Haunted Kitchen"]))), $monster(_templateObject385 || (_templateObject385 = leveling_taggedTemplateLiteral(["paper towelgeist"])))),
+    combat: new CombatStrategy().macro(combat_Macro.if_($monster(_templateObject386 || (_templateObject386 = leveling_taggedTemplateLiteral(["paper towelgeist"]))), combat_Macro.tryItem(template_string_$item(_templateObject387 || (_templateObject387 = leveling_taggedTemplateLiteral(["blue rocket"])))).tryItem(template_string_$item(_templateObject388 || (_templateObject388 = leveling_taggedTemplateLiteral(["red rocket"])))).trySkill(template_string_$skill(_templateObject389 || (_templateObject389 = leveling_taggedTemplateLiteral(["Chest X-Ray"])))).trySkill(template_string_$skill(_templateObject390 || (_templateObject390 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"])))).trySkill(template_string_$skill(_templateObject391 || (_templateObject391 = leveling_taggedTemplateLiteral(["Shattering Punch"])))).default()).abort()),
     post: () => {
       sellMiscellaneousItems();
       boomBoxProfit();
@@ -16043,7 +16047,7 @@ var LevelingQuest = {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
       garbageShirt();
     },
-    completed: () => property_get("_godLobsterFights") >= 3 || !have(template_string_$familiar(_templateObject389 || (_templateObject389 = leveling_taggedTemplateLiteral(["God Lobster"])))) || property_get("_godLobsterFights") >= 2 && godLobsterSave,
+    completed: () => property_get("_godLobsterFights") >= 3 || !have(template_string_$familiar(_templateObject392 || (_templateObject392 = leveling_taggedTemplateLiteral(["God Lobster"])))) || property_get("_godLobsterFights") >= 2 && godLobsterSave,
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("main.php?fightgodlobster=1"),
     combat: new CombatStrategy().macro(combat_Macro["default"](useCinch)),
     choices: {
@@ -16051,8 +16055,9 @@ var LevelingQuest = {
     },
     // Get xp on last fight
     outfit: () => leveling_objectSpread(leveling_objectSpread({}, baseOutfit()), {}, {
-      famequip: template_string_$items(_templateObject390 || (_templateObject390 = leveling_taggedTemplateLiteral(["God Lobster's Ring, God Lobster's Scepter"]))),
-      familiar: template_string_$familiar(_templateObject391 || (_templateObject391 = leveling_taggedTemplateLiteral(["God Lobster"])))
+      famequip: template_string_$items(_templateObject393 || (_templateObject393 = leveling_taggedTemplateLiteral(["God Lobster's Ring, God Lobster's Scepter"]))),
+      familiar: template_string_$familiar(_templateObject394 || (_templateObject394 = leveling_taggedTemplateLiteral(["God Lobster"]))),
+      shirt: garbageShirt() ? template_string_$item(_templateObject395 || (_templateObject395 = leveling_taggedTemplateLiteral(["makeshift garbage shirt"]))) : undefined
     }),
     limit: {
       tries: 3
@@ -16070,10 +16075,10 @@ var LevelingQuest = {
       [].concat(usefulEffects, leveling_toConsumableArray(statEffects)).forEach(ef => tryAcquiringEffect(ef));
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
-    completed: () => property_get("_eldritchHorrorEvoked") || !have(template_string_$skill(_templateObject392 || (_templateObject392 = leveling_taggedTemplateLiteral(["Evoke Eldritch Horror"])))),
-    do: () => (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(_templateObject393 || (_templateObject393 = leveling_taggedTemplateLiteral(["Evoke Eldritch Horror"])))),
+    completed: () => property_get("_eldritchHorrorEvoked") || !have(template_string_$skill(_templateObject396 || (_templateObject396 = leveling_taggedTemplateLiteral(["Evoke Eldritch Horror"])))),
+    do: () => (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(_templateObject397 || (_templateObject397 = leveling_taggedTemplateLiteral(["Evoke Eldritch Horror"])))),
     post: () => {
-      if (have(template_string_$effect(_templateObject394 || (_templateObject394 = leveling_taggedTemplateLiteral(["Beaten Up"]))))) (0,external_kolmafia_namespaceObject.cliExecute)("hottub");
+      if (have(template_string_$effect(_templateObject398 || (_templateObject398 = leveling_taggedTemplateLiteral(["Beaten Up"]))))) (0,external_kolmafia_namespaceObject.cliExecute)("hottub");
       sendAutumnaton();
       sellMiscellaneousItems();
     },
@@ -16091,8 +16096,8 @@ var LevelingQuest = {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
     completed: () => property_get("_witchessFights") >= 4 - (args.skipbishop ? 2 : 0) || !Witchess_have() || args.witchess,
-    do: () => fightPiece($monster(_templateObject395 || (_templateObject395 = leveling_taggedTemplateLiteral(["Witchess Bishop"])))),
-    combat: new CombatStrategy().macro(() => combat_Macro.externalIf(property_get("_monsterHabitatsFightsLeft") <= 1 && (0,external_kolmafia_namespaceObject.toInt)(property_get("_monsterHabitatsRecalled")) < 3 - args.savehabitats && have(template_string_$skill(_templateObject396 || (_templateObject396 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"])))) && (haveFreeBanish() || Array.from(getBanishedMonsters().values()).includes($monster(_templateObject397 || (_templateObject397 = leveling_taggedTemplateLiteral(["fluffy bunny"]))))), combat_Macro.trySkill(template_string_$skill(_templateObject398 || (_templateObject398 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"]))))).default(useCinch)),
+    do: () => fightPiece($monster(_templateObject399 || (_templateObject399 = leveling_taggedTemplateLiteral(["Witchess Bishop"])))),
+    combat: new CombatStrategy().macro(() => combat_Macro.externalIf(property_get("_monsterHabitatsFightsLeft") <= 1 && (0,external_kolmafia_namespaceObject.toInt)(property_get("_monsterHabitatsRecalled")) < 3 - args.savehabitats && have(template_string_$skill(_templateObject400 || (_templateObject400 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"])))) && (haveFreeBanish() || Array.from(getBanishedMonsters().values()).includes($monster(_templateObject401 || (_templateObject401 = leveling_taggedTemplateLiteral(["fluffy bunny"]))))), combat_Macro.trySkill(template_string_$skill(_templateObject402 || (_templateObject402 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"]))))).default(useCinch)),
     outfit: baseOutfit,
     post: () => {
       sendAutumnaton();
@@ -16111,11 +16116,11 @@ var LevelingQuest = {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
       garbageShirt();
     },
-    completed: () => property_get("_machineTunnelsAdv") >= 5 || !have(template_string_$familiar(_templateObject399 || (_templateObject399 = leveling_taggedTemplateLiteral(["Machine Elf"])))),
-    do: $location(_templateObject400 || (_templateObject400 = leveling_taggedTemplateLiteral(["The Deep Machine Tunnels"]))),
+    completed: () => property_get("_machineTunnelsAdv") >= 5 || !have(template_string_$familiar(_templateObject403 || (_templateObject403 = leveling_taggedTemplateLiteral(["Machine Elf"])))),
+    do: $location(_templateObject404 || (_templateObject404 = leveling_taggedTemplateLiteral(["The Deep Machine Tunnels"]))),
     combat: new CombatStrategy().macro(combat_Macro["default"](useCinch)),
     outfit: () => leveling_objectSpread(leveling_objectSpread({}, baseOutfit()), {}, {
-      familiar: template_string_$familiar(_templateObject401 || (_templateObject401 = leveling_taggedTemplateLiteral(["Machine Elf"])))
+      familiar: template_string_$familiar(_templateObject405 || (_templateObject405 = leveling_taggedTemplateLiteral(["Machine Elf"])))
     }),
     limit: {
       tries: 5
@@ -16129,7 +16134,7 @@ var LevelingQuest = {
     name: "Powerlevel",
     completed: () => (0,external_kolmafia_namespaceObject.myBasestat)((0,external_kolmafia_namespaceObject.myPrimestat)()) >= targetBaseMyst - targetBaseMystGap && (
     // I don't know if this will cause issues.
-    powerlevelingLocation() !== $location(_templateObject402 || (_templateObject402 = leveling_taggedTemplateLiteral(["The Neverending Party"]))) || overlevelled() || property_get("_neverendingPartyFreeTurns") >= 10),
+    powerlevelingLocation() !== $location(_templateObject406 || (_templateObject406 = leveling_taggedTemplateLiteral(["The Neverending Party"]))) || overlevelled() || property_get("_neverendingPartyFreeTurns") >= 10),
     do: powerlevelingLocation(),
     prepare: () => {
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
@@ -16146,11 +16151,13 @@ var LevelingQuest = {
       }
       [].concat(usefulEffects, leveling_toConsumableArray(statEffects)).forEach(ef => tryAcquiringEffect(ef));
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
-      if (!have(template_string_$effect(_templateObject403 || (_templateObject403 = leveling_taggedTemplateLiteral(["Everything Looks Red"])))) && !have(template_string_$item(_templateObject404 || (_templateObject404 = leveling_taggedTemplateLiteral(["red rocket"]))))) {
-        if ((0,external_kolmafia_namespaceObject.myMeat)() >= 250) (0,external_kolmafia_namespaceObject.buy)(template_string_$item(_templateObject405 || (_templateObject405 = leveling_taggedTemplateLiteral(["red rocket"]))), 1);
+      if (!have(template_string_$effect(_templateObject407 || (_templateObject407 = leveling_taggedTemplateLiteral(["Everything Looks Red"])))) && !have(template_string_$item(_templateObject408 || (_templateObject408 = leveling_taggedTemplateLiteral(["red rocket"]))))) {
+        if ((0,external_kolmafia_namespaceObject.myMeat)() >= 250) (0,external_kolmafia_namespaceObject.buy)(template_string_$item(_templateObject409 || (_templateObject409 = leveling_taggedTemplateLiteral(["red rocket"]))), 1);
       }
     },
-    outfit: baseOutfit,
+    outfit: () => leveling_objectSpread(leveling_objectSpread({}, baseOutfit()), {}, {
+      shirt: garbageShirt() ? template_string_$item(_templateObject410 || (_templateObject410 = leveling_taggedTemplateLiteral(["makeshift garbage shirt"]))) : undefined
+    }),
     limit: {
       tries: 60
     },
@@ -16160,9 +16167,9 @@ var LevelingQuest = {
       1322: 2,
       1324: 5
     },
-    combat: new CombatStrategy().macro(combat_Macro.tryItem(template_string_$item(_templateObject406 || (_templateObject406 = leveling_taggedTemplateLiteral(["red rocket"])))).trySkill(template_string_$skill(_templateObject407 || (_templateObject407 = leveling_taggedTemplateLiteral(["Gulp Latte"])))).trySkill(template_string_$skill(_templateObject408 || (_templateObject408 = leveling_taggedTemplateLiteral(["Feel Pride"])))).trySkill(template_string_$skill(_templateObject409 || (_templateObject409 = leveling_taggedTemplateLiteral(["Cincho: Confetti Extravaganza"])))).trySkill(template_string_$skill(_templateObject410 || (_templateObject410 = leveling_taggedTemplateLiteral(["Bowl Sideways"])))).trySkill(template_string_$skill(_templateObject411 || (_templateObject411 = leveling_taggedTemplateLiteral(["Recall Facts: %phylum Circadian Rhythms"])))).default(useCinch)),
+    combat: new CombatStrategy().macro(combat_Macro.tryItem(template_string_$item(_templateObject411 || (_templateObject411 = leveling_taggedTemplateLiteral(["red rocket"])))).trySkill(template_string_$skill(_templateObject412 || (_templateObject412 = leveling_taggedTemplateLiteral(["Gulp Latte"])))).trySkill(template_string_$skill(_templateObject413 || (_templateObject413 = leveling_taggedTemplateLiteral(["Feel Pride"])))).trySkill(template_string_$skill(_templateObject414 || (_templateObject414 = leveling_taggedTemplateLiteral(["Cincho: Confetti Extravaganza"])))).trySkill(template_string_$skill(_templateObject415 || (_templateObject415 = leveling_taggedTemplateLiteral(["Bowl Sideways"])))).trySkill(template_string_$skill(_templateObject416 || (_templateObject416 = leveling_taggedTemplateLiteral(["Recall Facts: %phylum Circadian Rhythms"])))).default(useCinch)),
     post: () => {
-      if (have(template_string_$item(_templateObject412 || (_templateObject412 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))))) (0,external_kolmafia_namespaceObject.chew)(template_string_$item(_templateObject413 || (_templateObject413 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))), 1);
+      if (have(template_string_$item(_templateObject417 || (_templateObject417 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))))) (0,external_kolmafia_namespaceObject.chew)(template_string_$item(_templateObject418 || (_templateObject418 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))), 1);
       if (restoreMPEfficiently() === "Refill Latte" && (0,external_kolmafia_namespaceObject.myMp)() < 75) refillLatte();
       sendAutumnaton();
       sellMiscellaneousItems();
@@ -16188,12 +16195,13 @@ var LevelingQuest = {
       }
       [].concat(usefulEffects, leveling_toConsumableArray(statEffects)).forEach(ef => tryAcquiringEffect(ef));
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
-      if (!have(template_string_$effect(_templateObject414 || (_templateObject414 = leveling_taggedTemplateLiteral(["Everything Looks Red"])))) && !have(template_string_$item(_templateObject415 || (_templateObject415 = leveling_taggedTemplateLiteral(["red rocket"]))))) {
-        if ((0,external_kolmafia_namespaceObject.myMeat)() >= 250) (0,external_kolmafia_namespaceObject.buy)(template_string_$item(_templateObject416 || (_templateObject416 = leveling_taggedTemplateLiteral(["red rocket"]))), 1);
+      if (!have(template_string_$effect(_templateObject419 || (_templateObject419 = leveling_taggedTemplateLiteral(["Everything Looks Red"])))) && !have(template_string_$item(_templateObject420 || (_templateObject420 = leveling_taggedTemplateLiteral(["red rocket"]))))) {
+        if ((0,external_kolmafia_namespaceObject.myMeat)() >= 250) (0,external_kolmafia_namespaceObject.buy)(template_string_$item(_templateObject421 || (_templateObject421 = leveling_taggedTemplateLiteral(["red rocket"]))), 1);
       }
     },
     outfit: () => leveling_objectSpread(leveling_objectSpread({}, baseOutfit()), {}, {
-      familiar: template_string_$familiar(_templateObject417 || (_templateObject417 = leveling_taggedTemplateLiteral(["Melodramedary"])))
+      familiar: template_string_$familiar(_templateObject422 || (_templateObject422 = leveling_taggedTemplateLiteral(["Melodramedary"]))),
+      shirt: garbageShirt() ? template_string_$item(_templateObject423 || (_templateObject423 = leveling_taggedTemplateLiteral(["makeshift garbage shirt"]))) : undefined
     }),
     limit: {
       tries: 60
@@ -16204,9 +16212,9 @@ var LevelingQuest = {
       1322: 2,
       1324: 5
     },
-    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(_templateObject418 || (_templateObject418 = leveling_taggedTemplateLiteral(["Feel Pride"])))).trySkill(template_string_$skill(_templateObject419 || (_templateObject419 = leveling_taggedTemplateLiteral(["Cincho: Confetti Extravaganza"])))).trySkill(template_string_$skill(_templateObject420 || (_templateObject420 = leveling_taggedTemplateLiteral(["Gulp Latte"])))).trySkill(template_string_$skill(_templateObject421 || (_templateObject421 = leveling_taggedTemplateLiteral(["Recall Facts: %phylum Circadian Rhythms"])))).trySkill(template_string_$skill(_templateObject422 || (_templateObject422 = leveling_taggedTemplateLiteral(["Chest X-Ray"])))).trySkill(template_string_$skill(_templateObject423 || (_templateObject423 = leveling_taggedTemplateLiteral(["Shattering Punch"])))).trySkill(template_string_$skill(_templateObject424 || (_templateObject424 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"])))).default(useCinch)),
+    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(_templateObject424 || (_templateObject424 = leveling_taggedTemplateLiteral(["Feel Pride"])))).trySkill(template_string_$skill(_templateObject425 || (_templateObject425 = leveling_taggedTemplateLiteral(["Cincho: Confetti Extravaganza"])))).trySkill(template_string_$skill(_templateObject426 || (_templateObject426 = leveling_taggedTemplateLiteral(["Gulp Latte"])))).trySkill(template_string_$skill(_templateObject427 || (_templateObject427 = leveling_taggedTemplateLiteral(["Recall Facts: %phylum Circadian Rhythms"])))).trySkill(template_string_$skill(_templateObject428 || (_templateObject428 = leveling_taggedTemplateLiteral(["Chest X-Ray"])))).trySkill(template_string_$skill(_templateObject429 || (_templateObject429 = leveling_taggedTemplateLiteral(["Shattering Punch"])))).trySkill(template_string_$skill(_templateObject430 || (_templateObject430 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"])))).default(useCinch)),
     post: () => {
-      if (have(template_string_$item(_templateObject425 || (_templateObject425 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))))) (0,external_kolmafia_namespaceObject.chew)(template_string_$item(_templateObject426 || (_templateObject426 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))), 1);
+      if (have(template_string_$item(_templateObject431 || (_templateObject431 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))))) (0,external_kolmafia_namespaceObject.chew)(template_string_$item(_templateObject432 || (_templateObject432 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))), 1);
       sendAutumnaton();
       sellMiscellaneousItems();
       boomBoxProfit();
@@ -16214,10 +16222,10 @@ var LevelingQuest = {
   }, {
     name: "Drink Bee's Knees",
     after: ["Powerlevel"],
-    completed: () => have(template_string_$effect(_templateObject427 || (_templateObject427 = leveling_taggedTemplateLiteral(["On the Trolley"])))) || args.beesknees,
+    completed: () => have(template_string_$effect(_templateObject433 || (_templateObject433 = leveling_taggedTemplateLiteral(["On the Trolley"])))) || args.beesknees,
     do: () => {
       if ((0,external_kolmafia_namespaceObject.myMeat)() < 500) throw new Error("Insufficient Meat to purchase Bee's Knees!");
-      tryAcquiringEffect(template_string_$effect(_templateObject428 || (_templateObject428 = leveling_taggedTemplateLiteral(["Ode to Booze"]))));
+      tryAcquiringEffect(template_string_$effect(_templateObject434 || (_templateObject434 = leveling_taggedTemplateLiteral(["Ode to Booze"]))));
       (0,external_kolmafia_namespaceObject.visitUrl)("clan_viplounge.php?preaction=speakeasydrink&drink=5&pwd=".concat(+(0,external_kolmafia_namespaceObject.myHash)())); // Bee's Knees
     },
 
@@ -16228,8 +16236,8 @@ var LevelingQuest = {
     name: "Acquire Lyle's Buff",
     completed: () => property_get("_lyleFavored"),
     do: () => {
-      tryAcquiringEffect(template_string_$effect(_templateObject429 || (_templateObject429 = leveling_taggedTemplateLiteral(["Favored by Lyle"]))));
-      tryAcquiringEffect(template_string_$effect(_templateObject430 || (_templateObject430 = leveling_taggedTemplateLiteral(["Starry-Eyed"]))));
+      tryAcquiringEffect(template_string_$effect(_templateObject435 || (_templateObject435 = leveling_taggedTemplateLiteral(["Favored by Lyle"]))));
+      tryAcquiringEffect(template_string_$effect(_templateObject436 || (_templateObject436 = leveling_taggedTemplateLiteral(["Starry-Eyed"]))));
     },
     limit: {
       tries: 1
@@ -16238,12 +16246,12 @@ var LevelingQuest = {
     name: "Witchess King",
     prepare: () => {
       garbageShirt();
-      [].concat(leveling_toConsumableArray(usefulEffects.filter(ef => !$effects(_templateObject431 || (_templateObject431 = leveling_taggedTemplateLiteral(["Song of Sauce, Song of Bravado"]))).includes(ef))), prismaticEffects, wdmgEffects, leveling_toConsumableArray(statEffects)).forEach(ef => tryAcquiringEffect(ef));
+      [].concat(leveling_toConsumableArray(usefulEffects.filter(ef => !$effects(_templateObject437 || (_templateObject437 = leveling_taggedTemplateLiteral(["Song of Sauce, Song of Bravado"]))).includes(ef))), prismaticEffects, wdmgEffects, leveling_toConsumableArray(statEffects)).forEach(ef => tryAcquiringEffect(ef));
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
-    completed: () => have(template_string_$item(_templateObject432 || (_templateObject432 = leveling_taggedTemplateLiteral(["dented scepter"])))) || property_get("_witchessFights") >= 5 || !Witchess_have() || args.witchess || args.skipking,
-    do: () => fightPiece($monster(_templateObject433 || (_templateObject433 = leveling_taggedTemplateLiteral(["Witchess King"])))),
+    completed: () => have(template_string_$item(_templateObject438 || (_templateObject438 = leveling_taggedTemplateLiteral(["dented scepter"])))) || property_get("_witchessFights") >= 5 || !Witchess_have() || args.witchess || args.skipking,
+    do: () => fightPiece($monster(_templateObject439 || (_templateObject439 = leveling_taggedTemplateLiteral(["Witchess King"])))),
     combat: new CombatStrategy().macro(combat_Macro["default"](useCinch)),
     outfit: baseOutfit,
     post: () => {
@@ -16258,17 +16266,17 @@ var LevelingQuest = {
     name: "Witchess Witch",
     prepare: () => {
       garbageShirt();
-      [].concat(leveling_toConsumableArray(usefulEffects.filter(ef => !$effects(_templateObject434 || (_templateObject434 = leveling_taggedTemplateLiteral(["Song of Sauce, Song of Bravado"]))).includes(ef))), prismaticEffects, wdmgEffects, leveling_toConsumableArray(statEffects)).forEach(ef => tryAcquiringEffect(ef));
+      [].concat(leveling_toConsumableArray(usefulEffects.filter(ef => !$effects(_templateObject440 || (_templateObject440 = leveling_taggedTemplateLiteral(["Song of Sauce, Song of Bravado"]))).includes(ef))), prismaticEffects, wdmgEffects, leveling_toConsumableArray(statEffects)).forEach(ef => tryAcquiringEffect(ef));
       if (property_get("_hotTubSoaks") < 5 && (0,external_kolmafia_namespaceObject.myHp)() < (0,external_kolmafia_namespaceObject.myMaxhp)()) (0,external_kolmafia_namespaceObject.cliExecute)("hottub");
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
-    completed: () => have(template_string_$item(_templateObject435 || (_templateObject435 = leveling_taggedTemplateLiteral(["battle broom"])))) || property_get("_witchessFights") >= 5 || !Witchess_have() || args.witchess || args.skipwitch,
-    do: () => fightPiece($monster(_templateObject436 || (_templateObject436 = leveling_taggedTemplateLiteral(["Witchess Witch"])))),
-    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(_templateObject437 || (_templateObject437 = leveling_taggedTemplateLiteral(["Curse of Weaksauce"])))).attack().repeat()),
+    completed: () => have(template_string_$item(_templateObject441 || (_templateObject441 = leveling_taggedTemplateLiteral(["battle broom"])))) || property_get("_witchessFights") >= 5 || !Witchess_have() || args.witchess || args.skipwitch,
+    do: () => fightPiece($monster(_templateObject442 || (_templateObject442 = leveling_taggedTemplateLiteral(["Witchess Witch"])))),
+    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(_templateObject443 || (_templateObject443 = leveling_taggedTemplateLiteral(["Curse of Weaksauce"])))).attack().repeat()),
     outfit: leveling_objectSpread(leveling_objectSpread({}, baseOutfit()), {}, {
-      weapon: have(template_string_$effect(_templateObject438 || (_templateObject438 = leveling_taggedTemplateLiteral(["Comic Violence"])))) && have(template_string_$item(_templateObject439 || (_templateObject439 = leveling_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))) ? template_string_$item(_templateObject440 || (_templateObject440 = leveling_taggedTemplateLiteral(["Fourth of May Cosplay Saber"]))) : template_string_$item(_templateObject441 || (_templateObject441 = leveling_taggedTemplateLiteral(["June cleaver"]))),
-      offhand: have(template_string_$skill(_templateObject442 || (_templateObject442 = leveling_taggedTemplateLiteral(["Double-Fisted Skull Smashing"])))) ? template_string_$item(_templateObject443 || (_templateObject443 = leveling_taggedTemplateLiteral(["dented scepter"]))) : undefined,
+      weapon: have(template_string_$effect(_templateObject444 || (_templateObject444 = leveling_taggedTemplateLiteral(["Comic Violence"])))) && have(template_string_$item(_templateObject445 || (_templateObject445 = leveling_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))) ? template_string_$item(_templateObject446 || (_templateObject446 = leveling_taggedTemplateLiteral(["Fourth of May Cosplay Saber"]))) : template_string_$item(_templateObject447 || (_templateObject447 = leveling_taggedTemplateLiteral(["June cleaver"]))),
+      offhand: have(template_string_$skill(_templateObject448 || (_templateObject448 = leveling_taggedTemplateLiteral(["Double-Fisted Skull Smashing"])))) ? template_string_$item(_templateObject449 || (_templateObject449 = leveling_taggedTemplateLiteral(["dented scepter"]))) : undefined,
       modifier: "weapon dmg"
     }),
     post: () => {
@@ -16283,17 +16291,17 @@ var LevelingQuest = {
     name: "Witchess Queen",
     prepare: () => {
       garbageShirt();
-      [].concat(leveling_toConsumableArray(usefulEffects.filter(ef => !$effects(_templateObject444 || (_templateObject444 = leveling_taggedTemplateLiteral(["Song of Sauce, Song of Bravado"]))).includes(ef))), prismaticEffects, wdmgEffects, leveling_toConsumableArray(statEffects)).forEach(ef => tryAcquiringEffect(ef));
+      [].concat(leveling_toConsumableArray(usefulEffects.filter(ef => !$effects(_templateObject450 || (_templateObject450 = leveling_taggedTemplateLiteral(["Song of Sauce, Song of Bravado"]))).includes(ef))), prismaticEffects, wdmgEffects, leveling_toConsumableArray(statEffects)).forEach(ef => tryAcquiringEffect(ef));
       if (property_get("_hotTubSoaks") < 5 && (0,external_kolmafia_namespaceObject.myHp)() < (0,external_kolmafia_namespaceObject.myMaxhp)()) (0,external_kolmafia_namespaceObject.cliExecute)("hottub");
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
-    completed: () => have(template_string_$item(_templateObject445 || (_templateObject445 = leveling_taggedTemplateLiteral(["very pointy crown"])))) || property_get("_witchessFights") >= 5 || !Witchess_have() || args.witchess || args.skipqueen,
-    do: () => fightPiece($monster(_templateObject446 || (_templateObject446 = leveling_taggedTemplateLiteral(["Witchess Queen"])))),
+    completed: () => have(template_string_$item(_templateObject451 || (_templateObject451 = leveling_taggedTemplateLiteral(["very pointy crown"])))) || property_get("_witchessFights") >= 5 || !Witchess_have() || args.witchess || args.skipqueen,
+    do: () => fightPiece($monster(_templateObject452 || (_templateObject452 = leveling_taggedTemplateLiteral(["Witchess Queen"])))),
     combat: new CombatStrategy().macro(combat_Macro.attack().repeat()),
     outfit: leveling_objectSpread(leveling_objectSpread({}, baseOutfit()), {}, {
-      weapon: have(template_string_$effect(_templateObject447 || (_templateObject447 = leveling_taggedTemplateLiteral(["Comic Violence"])))) && have(template_string_$item(_templateObject448 || (_templateObject448 = leveling_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))) ? template_string_$item(_templateObject449 || (_templateObject449 = leveling_taggedTemplateLiteral(["Fourth of May Cosplay Saber"]))) : template_string_$item(_templateObject450 || (_templateObject450 = leveling_taggedTemplateLiteral(["June cleaver"]))),
-      offhand: have(template_string_$skill(_templateObject451 || (_templateObject451 = leveling_taggedTemplateLiteral(["Double-Fisted Skull Smashing"])))) ? template_string_$item(_templateObject452 || (_templateObject452 = leveling_taggedTemplateLiteral(["dented scepter"]))) : undefined
+      weapon: have(template_string_$effect(_templateObject453 || (_templateObject453 = leveling_taggedTemplateLiteral(["Comic Violence"])))) && have(template_string_$item(_templateObject454 || (_templateObject454 = leveling_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))) ? template_string_$item(_templateObject455 || (_templateObject455 = leveling_taggedTemplateLiteral(["Fourth of May Cosplay Saber"]))) : template_string_$item(_templateObject456 || (_templateObject456 = leveling_taggedTemplateLiteral(["June cleaver"]))),
+      offhand: have(template_string_$skill(_templateObject457 || (_templateObject457 = leveling_taggedTemplateLiteral(["Double-Fisted Skull Smashing"])))) ? template_string_$item(_templateObject458 || (_templateObject458 = leveling_taggedTemplateLiteral(["dented scepter"]))) : undefined
     }),
     post: () => {
       sendAutumnaton();
@@ -16312,9 +16320,9 @@ var LevelingQuest = {
       [].concat(usefulEffects, leveling_toConsumableArray(statEffects)).forEach(ef => tryAcquiringEffect(ef));
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
-    completed: () => monstersReminisced().includes($monster(_templateObject453 || (_templateObject453 = leveling_taggedTemplateLiteral(["Witchess King"])))) || !availableLocketMonsters().includes($monster(_templateObject454 || (_templateObject454 = leveling_taggedTemplateLiteral(["Witchess King"])))) || args.witchessking || have(template_string_$item(_templateObject455 || (_templateObject455 = leveling_taggedTemplateLiteral(["dented scepter"])))),
-    do: () => reminisce($monster(_templateObject456 || (_templateObject456 = leveling_taggedTemplateLiteral(["Witchess King"])))),
-    combat: new CombatStrategy().macro(() => combat_Macro.externalIf(property_get("_monsterHabitatsFightsLeft") <= 1 && property_get("_monsterHabitatsRecalled") < 3 - args.savehabitats && have(template_string_$skill(_templateObject457 || (_templateObject457 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"])))) && (haveFreeBanish() || Array.from(getBanishedMonsters().values()).includes($monster(_templateObject458 || (_templateObject458 = leveling_taggedTemplateLiteral(["fluffy bunny"]))))), combat_Macro.trySkill(template_string_$skill(_templateObject459 || (_templateObject459 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"]))))).default(useCinch)),
+    completed: () => monstersReminisced().includes($monster(_templateObject459 || (_templateObject459 = leveling_taggedTemplateLiteral(["Witchess King"])))) || !availableLocketMonsters().includes($monster(_templateObject460 || (_templateObject460 = leveling_taggedTemplateLiteral(["Witchess King"])))) || args.witchessking || have(template_string_$item(_templateObject461 || (_templateObject461 = leveling_taggedTemplateLiteral(["dented scepter"])))),
+    do: () => reminisce($monster(_templateObject462 || (_templateObject462 = leveling_taggedTemplateLiteral(["Witchess King"])))),
+    combat: new CombatStrategy().macro(() => combat_Macro.externalIf(property_get("_monsterHabitatsFightsLeft") <= 1 && property_get("_monsterHabitatsRecalled") < 3 - args.savehabitats && have(template_string_$skill(_templateObject463 || (_templateObject463 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"])))) && (haveFreeBanish() || Array.from(getBanishedMonsters().values()).includes($monster(_templateObject464 || (_templateObject464 = leveling_taggedTemplateLiteral(["fluffy bunny"]))))), combat_Macro.trySkill(template_string_$skill(_templateObject465 || (_templateObject465 = leveling_taggedTemplateLiteral(["Recall Facts: Monster Habitats"]))))).default(useCinch)),
     outfit: baseOutfit,
     post: () => {
       sendAutumnaton();
@@ -16329,7 +16337,7 @@ var LevelingQuest = {
     after: ["Drink Bee's Knees"],
     prepare: () => {
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
-      if ((0,external_kolmafia_namespaceObject.equippedItem)($slot(_templateObject460 || (_templateObject460 = leveling_taggedTemplateLiteral(["offhand"])))) !== template_string_$item(_templateObject461 || (_templateObject461 = leveling_taggedTemplateLiteral(["latte lovers member's mug"])))) {
+      if ((0,external_kolmafia_namespaceObject.equippedItem)($slot(_templateObject466 || (_templateObject466 = leveling_taggedTemplateLiteral(["offhand"])))) !== template_string_$item(_templateObject467 || (_templateObject467 = leveling_taggedTemplateLiteral(["latte lovers member's mug"])))) {
         unbreakableUmbrella();
       }
       garbageShirt();
@@ -16338,13 +16346,16 @@ var LevelingQuest = {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
     outfit: () => {
-      if (chooseLibram() === template_string_$skill.none || !have(template_string_$item(_templateObject462 || (_templateObject462 = leveling_taggedTemplateLiteral(["latte lovers member's mug"])))) || property_get("_latteRefillsUsed") >= 3) return baseOutfit();else return leveling_objectSpread(leveling_objectSpread({}, baseOutfit()), {}, {
-        offhand: template_string_$item(_templateObject463 || (_templateObject463 = leveling_taggedTemplateLiteral(["latte lovers member's mug"])))
+      if (chooseLibram() === template_string_$skill.none || !have(template_string_$item(_templateObject468 || (_templateObject468 = leveling_taggedTemplateLiteral(["latte lovers member's mug"])))) || property_get("_latteRefillsUsed") >= 3) return leveling_objectSpread(leveling_objectSpread({}, baseOutfit()), {}, {
+        shirt: garbageShirt() ? template_string_$item(_templateObject469 || (_templateObject469 = leveling_taggedTemplateLiteral(["makeshift garbage shirt"]))) : undefined
+      });else return leveling_objectSpread(leveling_objectSpread({}, baseOutfit()), {}, {
+        offhand: template_string_$item(_templateObject470 || (_templateObject470 = leveling_taggedTemplateLiteral(["latte lovers member's mug"]))),
+        shirt: garbageShirt() ? template_string_$item(_templateObject471 || (_templateObject471 = leveling_taggedTemplateLiteral(["makeshift garbage shirt"]))) : undefined
       });
     },
-    completed: () => (0,external_kolmafia_namespaceObject.myBasestat)((0,external_kolmafia_namespaceObject.myPrimestat)()) >= targetBaseMyst && property_get("_feelPrideUsed", 3) >= 3 || (property_get("_shatteringPunchUsed") >= 3 || !have(template_string_$skill(_templateObject464 || (_templateObject464 = leveling_taggedTemplateLiteral(["Shattering Punch"]))))) && (property_get("_gingerbreadMobHitUsed") || !have(template_string_$skill(_templateObject465 || (_templateObject465 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"]))))) || overlevelled(),
+    completed: () => (0,external_kolmafia_namespaceObject.myBasestat)((0,external_kolmafia_namespaceObject.myPrimestat)()) >= targetBaseMyst && property_get("_feelPrideUsed", 3) >= 3 || (property_get("_shatteringPunchUsed") >= 3 || !have(template_string_$skill(_templateObject472 || (_templateObject472 = leveling_taggedTemplateLiteral(["Shattering Punch"]))))) && (property_get("_gingerbreadMobHitUsed") || !have(template_string_$skill(_templateObject473 || (_templateObject473 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"]))))) || overlevelled(),
     do: powerlevelingLocation(),
-    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(_templateObject466 || (_templateObject466 = leveling_taggedTemplateLiteral(["Feel Pride"])))).trySkill(template_string_$skill(_templateObject467 || (_templateObject467 = leveling_taggedTemplateLiteral(["Cincho: Confetti Extravaganza"])))).trySkill(template_string_$skill(_templateObject468 || (_templateObject468 = leveling_taggedTemplateLiteral(["Gulp Latte"])))).trySkill(template_string_$skill(_templateObject469 || (_templateObject469 = leveling_taggedTemplateLiteral(["Recall Facts: %phylum Circadian Rhythms"])))).trySkill(template_string_$skill(_templateObject470 || (_templateObject470 = leveling_taggedTemplateLiteral(["Chest X-Ray"])))).trySkill(template_string_$skill(_templateObject471 || (_templateObject471 = leveling_taggedTemplateLiteral(["Shattering Punch"])))).trySkill(template_string_$skill(_templateObject472 || (_templateObject472 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"])))).trySkill(template_string_$skill(_templateObject473 || (_templateObject473 = leveling_taggedTemplateLiteral(["Bowl Sideways"])))).default(useCinch)),
+    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(_templateObject474 || (_templateObject474 = leveling_taggedTemplateLiteral(["Feel Pride"])))).trySkill(template_string_$skill(_templateObject475 || (_templateObject475 = leveling_taggedTemplateLiteral(["Cincho: Confetti Extravaganza"])))).trySkill(template_string_$skill(_templateObject476 || (_templateObject476 = leveling_taggedTemplateLiteral(["Gulp Latte"])))).trySkill(template_string_$skill(_templateObject477 || (_templateObject477 = leveling_taggedTemplateLiteral(["Recall Facts: %phylum Circadian Rhythms"])))).trySkill(template_string_$skill(_templateObject478 || (_templateObject478 = leveling_taggedTemplateLiteral(["Chest X-Ray"])))).trySkill(template_string_$skill(_templateObject479 || (_templateObject479 = leveling_taggedTemplateLiteral(["Shattering Punch"])))).trySkill(template_string_$skill(_templateObject480 || (_templateObject480 = leveling_taggedTemplateLiteral(["Gingerbread Mob Hit"])))).trySkill(template_string_$skill(_templateObject481 || (_templateObject481 = leveling_taggedTemplateLiteral(["Bowl Sideways"])))).default(useCinch)),
     choices: {
       1094: 5,
       1115: 6,
@@ -16352,7 +16363,7 @@ var LevelingQuest = {
       1324: 5
     },
     post: () => {
-      if (have(template_string_$item(_templateObject474 || (_templateObject474 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))))) (0,external_kolmafia_namespaceObject.chew)(template_string_$item(_templateObject475 || (_templateObject475 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))), 1);
+      if (have(template_string_$item(_templateObject482 || (_templateObject482 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))))) (0,external_kolmafia_namespaceObject.chew)(template_string_$item(_templateObject483 || (_templateObject483 = leveling_taggedTemplateLiteral(["SMOOCH coffee cup"]))), 1);
       sendAutumnaton();
       sellMiscellaneousItems();
       burnLibram(500);
@@ -16386,24 +16397,31 @@ function garbageShirt() {
       if (!have(template_string_$item(engine_outfit_templateObject6 || (engine_outfit_templateObject6 = engine_outfit_taggedTemplateLiteral(["makeshift garbage shirt"]))))) (0,external_kolmafia_namespaceObject.cliExecute)("fold makeshift garbage shirt");
       (0,external_kolmafia_namespaceObject.equip)($slot(engine_outfit_templateObject7 || (engine_outfit_templateObject7 = engine_outfit_taggedTemplateLiteral(["shirt"]))), template_string_$item(engine_outfit_templateObject8 || (engine_outfit_templateObject8 = engine_outfit_taggedTemplateLiteral(["makeshift garbage shirt"]))));
     }
+    return true;
   }
+  return false;
+}
+function parka() {
+  if (!have(template_string_$item(engine_outfit_templateObject9 || (engine_outfit_templateObject9 = engine_outfit_taggedTemplateLiteral(["Jurassic Parka"])))) || !have(template_string_$skill(engine_outfit_templateObject10 || (engine_outfit_templateObject10 = engine_outfit_taggedTemplateLiteral(["Torso Awareness"]))))) return false;
+  if (property_get("parkaMode") !== "spikolodon") (0,external_kolmafia_namespaceObject.cliExecute)("parka spikolodon");
+  return true;
 }
 function unbreakableUmbrella() {
-  if (have(template_string_$item(engine_outfit_templateObject9 || (engine_outfit_templateObject9 = engine_outfit_taggedTemplateLiteral(["unbreakable umbrella"])))) && property_get("umbrellaState") !== "broken") (0,external_kolmafia_namespaceObject.cliExecute)("umbrella ml");
+  if (have(template_string_$item(engine_outfit_templateObject11 || (engine_outfit_templateObject11 = engine_outfit_taggedTemplateLiteral(["unbreakable umbrella"])))) && property_get("umbrellaState") !== "broken") (0,external_kolmafia_namespaceObject.cliExecute)("umbrella ml");
 }
 function docBag() {
-  if (have(template_string_$item(engine_outfit_templateObject10 || (engine_outfit_templateObject10 = engine_outfit_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"])))) && property_get("_chestXRayUsed") < 3) (0,external_kolmafia_namespaceObject.equip)($slot(engine_outfit_templateObject11 || (engine_outfit_templateObject11 = engine_outfit_taggedTemplateLiteral(["acc3"]))), template_string_$item(engine_outfit_templateObject12 || (engine_outfit_templateObject12 = engine_outfit_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"]))));
+  if (have(template_string_$item(engine_outfit_templateObject12 || (engine_outfit_templateObject12 = engine_outfit_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"])))) && property_get("_chestXRayUsed") < 3) (0,external_kolmafia_namespaceObject.equip)($slot(engine_outfit_templateObject13 || (engine_outfit_templateObject13 = engine_outfit_taggedTemplateLiteral(["acc3"]))), template_string_$item(engine_outfit_templateObject14 || (engine_outfit_templateObject14 = engine_outfit_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"]))));
 }
 function sugarItemsAboutToBreak() {
   var sugarItems = [{
     id: 4180,
-    item: template_string_$item(engine_outfit_templateObject13 || (engine_outfit_templateObject13 = engine_outfit_taggedTemplateLiteral(["sugar shank"])))
+    item: template_string_$item(engine_outfit_templateObject15 || (engine_outfit_templateObject15 = engine_outfit_taggedTemplateLiteral(["sugar shank"])))
   }, {
     id: 4181,
-    item: template_string_$item(engine_outfit_templateObject14 || (engine_outfit_templateObject14 = engine_outfit_taggedTemplateLiteral(["sugar chapeau"])))
+    item: template_string_$item(engine_outfit_templateObject16 || (engine_outfit_templateObject16 = engine_outfit_taggedTemplateLiteral(["sugar chapeau"])))
   }, {
     id: 4182,
-    item: template_string_$item(engine_outfit_templateObject15 || (engine_outfit_templateObject15 = engine_outfit_taggedTemplateLiteral(["sugar shorts"])))
+    item: template_string_$item(engine_outfit_templateObject17 || (engine_outfit_templateObject17 = engine_outfit_taggedTemplateLiteral(["sugar shorts"])))
   }];
   return sugarItems.map(entry => {
     var id = entry.id,
@@ -16414,50 +16432,49 @@ function sugarItemsAboutToBreak() {
 }
 function nanorhino() {
   var allowAttackingFamiliars = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-  return allowAttackingFamiliars && property_get("_nanorhinoCharge", 0) === 100 ? template_string_$familiar(engine_outfit_templateObject16 || (engine_outfit_templateObject16 = engine_outfit_taggedTemplateLiteral(["Nanorhino"]))) : template_string_$familiar.none;
+  return allowAttackingFamiliars && property_get("_nanorhinoCharge", 0) === 100 ? template_string_$familiar(engine_outfit_templateObject18 || (engine_outfit_templateObject18 = engine_outfit_taggedTemplateLiteral(["Nanorhino"]))) : template_string_$familiar.none;
 }
 function shorterOrderCook() {
   var allowAttackingFamiliars = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-  return allowAttackingFamiliars && !have(template_string_$item(engine_outfit_templateObject17 || (engine_outfit_templateObject17 = engine_outfit_taggedTemplateLiteral(["short stack of pancakes"])))) ? template_string_$familiar(engine_outfit_templateObject18 || (engine_outfit_templateObject18 = engine_outfit_taggedTemplateLiteral(["Shorter-Order Cook"]))) : template_string_$familiar.none;
+  return allowAttackingFamiliars && !have(template_string_$item(engine_outfit_templateObject19 || (engine_outfit_templateObject19 = engine_outfit_taggedTemplateLiteral(["short stack of pancakes"])))) ? template_string_$familiar(engine_outfit_templateObject20 || (engine_outfit_templateObject20 = engine_outfit_taggedTemplateLiteral(["Shorter-Order Cook"]))) : template_string_$familiar.none;
 }
 function garbageFire() {
-  return !have(template_string_$item(engine_outfit_templateObject19 || (engine_outfit_templateObject19 = engine_outfit_taggedTemplateLiteral(["burning newspaper"])))) ? template_string_$familiar(engine_outfit_templateObject20 || (engine_outfit_templateObject20 = engine_outfit_taggedTemplateLiteral(["Garbage Fire"]))) : template_string_$familiar.none;
+  return !have(template_string_$item(engine_outfit_templateObject21 || (engine_outfit_templateObject21 = engine_outfit_taggedTemplateLiteral(["burning newspaper"])))) ? template_string_$familiar(engine_outfit_templateObject22 || (engine_outfit_templateObject22 = engine_outfit_taggedTemplateLiteral(["Garbage Fire"]))) : template_string_$familiar.none;
 }
 function sombrero() {
   var allowAttackingFamiliars = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
   var sombreros = [].concat(engine_outfit_toConsumableArray(allowAttackingFamiliars ? // eslint-disable-next-line libram/verify-constants
-  $familiars(engine_outfit_templateObject21 || (engine_outfit_templateObject21 = engine_outfit_taggedTemplateLiteral(["Jill-of-All-Trades, Patriotic Eagle, Galloping Grill"]))) : []), [template_string_$familiar(engine_outfit_templateObject22 || (engine_outfit_templateObject22 = engine_outfit_taggedTemplateLiteral(["Baby Sandworm"]))), template_string_$familiar(engine_outfit_templateObject23 || (engine_outfit_templateObject23 = engine_outfit_taggedTemplateLiteral(["Hovering Sombrero"])))]).filter(fam => have(fam));
+  $familiars(engine_outfit_templateObject23 || (engine_outfit_templateObject23 = engine_outfit_taggedTemplateLiteral(["Jill-of-All-Trades, Patriotic Eagle, Galloping Grill"]))) : []), [template_string_$familiar(engine_outfit_templateObject24 || (engine_outfit_templateObject24 = engine_outfit_taggedTemplateLiteral(["Baby Sandworm"]))), template_string_$familiar(engine_outfit_templateObject25 || (engine_outfit_templateObject25 = engine_outfit_taggedTemplateLiteral(["Hovering Sombrero"])))]).filter(fam => have(fam));
   return sombreros.length > 0 ? sombreros[0] : template_string_$familiar.none;
 }
 function rockinRobin() {
-  return !have(template_string_$item(engine_outfit_templateObject24 || (engine_outfit_templateObject24 = engine_outfit_taggedTemplateLiteral(["robin's egg"])))) ? template_string_$familiar(engine_outfit_templateObject25 || (engine_outfit_templateObject25 = engine_outfit_taggedTemplateLiteral(["Rockin' Robin"]))) : template_string_$familiar.none;
+  return !have(template_string_$item(engine_outfit_templateObject26 || (engine_outfit_templateObject26 = engine_outfit_taggedTemplateLiteral(["robin's egg"])))) ? template_string_$familiar(engine_outfit_templateObject27 || (engine_outfit_templateObject27 = engine_outfit_taggedTemplateLiteral(["Rockin' Robin"]))) : template_string_$familiar.none;
 }
 function optimisticCandle() {
-  return !have(template_string_$item(engine_outfit_templateObject26 || (engine_outfit_templateObject26 = engine_outfit_taggedTemplateLiteral(["glob of melted wax"])))) ? template_string_$familiar(engine_outfit_templateObject27 || (engine_outfit_templateObject27 = engine_outfit_taggedTemplateLiteral(["Optimistic Candle"]))) : template_string_$familiar.none;
+  return !have(template_string_$item(engine_outfit_templateObject28 || (engine_outfit_templateObject28 = engine_outfit_taggedTemplateLiteral(["glob of melted wax"])))) ? template_string_$familiar(engine_outfit_templateObject29 || (engine_outfit_templateObject29 = engine_outfit_taggedTemplateLiteral(["Optimistic Candle"]))) : template_string_$familiar.none;
 }
 function melodramedary() {
-  return have(template_string_$familiar(engine_outfit_templateObject28 || (engine_outfit_templateObject28 = engine_outfit_taggedTemplateLiteral(["Melodramedary"])))) && camelFightsLeft() >= Math.ceil((100 - property_get("camelSpit")) / 3.0) && property_get("camelSpit") < 100 || have(template_string_$familiar(engine_outfit_templateObject29 || (engine_outfit_templateObject29 = engine_outfit_taggedTemplateLiteral(["Melodramedary"])))) && camelFightsLeft() >= Math.ceil((100 - property_get("camelSpit")) / 4.0) && property_get("camelSpit") < 100 && have(template_string_$item(engine_outfit_templateObject30 || (engine_outfit_templateObject30 = engine_outfit_taggedTemplateLiteral(["dromedary drinking helmet"])))) ? template_string_$familiar(engine_outfit_templateObject31 || (engine_outfit_templateObject31 = engine_outfit_taggedTemplateLiteral(["Melodramedary"]))) : template_string_$familiar.none;
+  return have(template_string_$familiar(engine_outfit_templateObject30 || (engine_outfit_templateObject30 = engine_outfit_taggedTemplateLiteral(["Melodramedary"])))) && camelFightsLeft() >= Math.ceil((100 - property_get("camelSpit")) / 3.0) && property_get("camelSpit") < 100 || have(template_string_$familiar(engine_outfit_templateObject31 || (engine_outfit_templateObject31 = engine_outfit_taggedTemplateLiteral(["Melodramedary"])))) && camelFightsLeft() >= Math.ceil((100 - property_get("camelSpit")) / 4.0) && property_get("camelSpit") < 100 && have(template_string_$item(engine_outfit_templateObject32 || (engine_outfit_templateObject32 = engine_outfit_taggedTemplateLiteral(["dromedary drinking helmet"])))) ? template_string_$familiar(engine_outfit_templateObject33 || (engine_outfit_templateObject33 = engine_outfit_taggedTemplateLiteral(["Melodramedary"]))) : template_string_$familiar.none;
 }
 function chooseFamiliar() {
   var allowAttackingFamiliars = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
   var ignoredFamiliars = args.explicitlyexcludedfams.split(",").map(i => (0,external_kolmafia_namespaceObject.toInt)(i));
-  var defaultFam = have(template_string_$familiar(engine_outfit_templateObject32 || (engine_outfit_templateObject32 = engine_outfit_taggedTemplateLiteral(["Cookbookbat"])))) ? template_string_$familiar(engine_outfit_templateObject33 || (engine_outfit_templateObject33 = engine_outfit_taggedTemplateLiteral(["Cookbookbat"]))) : template_string_$familiar.none;
+  var defaultFam = have(template_string_$familiar(engine_outfit_templateObject34 || (engine_outfit_templateObject34 = engine_outfit_taggedTemplateLiteral(["Cookbookbat"])))) ? template_string_$familiar(engine_outfit_templateObject35 || (engine_outfit_templateObject35 = engine_outfit_taggedTemplateLiteral(["Cookbookbat"]))) : template_string_$familiar.none;
   var familiars = [melodramedary, shorterOrderCook, garbageFire, nanorhino, optimisticCandle, rockinRobin, sombrero].map(fn => fn(allowAttackingFamiliars)).filter(fam => have(fam) && !ignoredFamiliars.includes((0,external_kolmafia_namespaceObject.toInt)(fam)));
   return familiars.length > 0 ? familiars[0] : defaultFam;
 }
-var specialEquipFamiliars = $familiars(engine_outfit_templateObject34 || (engine_outfit_templateObject34 = engine_outfit_taggedTemplateLiteral(["Disembodied Hand, Left-Hand Man, Mad Hatrack, Fancypants Scarecrow, Ghost of Crimbo Carols, Ghost of Crimbo Cheer, Ghost of Crimbo Commerce"])));
+var specialEquipFamiliars = $familiars(engine_outfit_templateObject36 || (engine_outfit_templateObject36 = engine_outfit_taggedTemplateLiteral(["Disembodied Hand, Left-Hand Man, Mad Hatrack, Fancypants Scarecrow, Ghost of Crimbo Carols, Ghost of Crimbo Cheer, Ghost of Crimbo Commerce"])));
 function chooseHeaviestFamiliar() {
   return maxBy(external_kolmafia_namespaceObject.Familiar.all().filter(fam => have(fam) && !specialEquipFamiliars.includes(fam)), fam => fam.experience);
 }
 function avoidDaylightShavingsHelm() {
-  return nextBuff() === template_string_$effect(engine_outfit_templateObject35 || (engine_outfit_templateObject35 = engine_outfit_taggedTemplateLiteral(["Musician's Musician's Moustache"]))) || hasBuff() || !have(template_string_$item(engine_outfit_templateObject36 || (engine_outfit_templateObject36 = engine_outfit_taggedTemplateLiteral(["Daylight Shavings Helmet"]))));
+  return nextBuff() === template_string_$effect(engine_outfit_templateObject37 || (engine_outfit_templateObject37 = engine_outfit_taggedTemplateLiteral(["Musician's Musician's Moustache"]))) || hasBuff() || !have(template_string_$item(engine_outfit_templateObject38 || (engine_outfit_templateObject38 = engine_outfit_taggedTemplateLiteral(["Daylight Shavings Helmet"]))));
 }
-var candySword = template_string_$item(engine_outfit_templateObject37 || (engine_outfit_templateObject37 = engine_outfit_taggedTemplateLiteral(["candy cane sword cane"])));
+var candySword = template_string_$item(engine_outfit_templateObject39 || (engine_outfit_templateObject39 = engine_outfit_taggedTemplateLiteral(["candy cane sword cane"])));
 function useCandyCaneSword() {
   if (!have(candySword)) return false;
   examine(candySword);
-  if ((0,external_kolmafia_namespaceObject.haveEffect)(template_string_$effect(engine_outfit_templateObject38 || (engine_outfit_templateObject38 = engine_outfit_taggedTemplateLiteral(["Peppermint Rush"])))) >= 401) return false;
-  if ((0,external_kolmafia_namespaceObject.numericModifier)(candySword, "Weapon Damage") < 115 || (0,external_kolmafia_namespaceObject.haveEffect)(template_string_$effect(engine_outfit_templateObject39 || (engine_outfit_templateObject39 = engine_outfit_taggedTemplateLiteral(["Peppermint Rush"])))) <= 401 || property_get("_surprisinglySweetSlashUsed", 0) < 11 || property_get("_surprisinglySweetStabUsed", 0) < 11) {
+  if ((0,external_kolmafia_namespaceObject.numericModifier)(candySword, "Weapon Damage") < 115 && property_get("_surprisinglySweetSlashUsed", 0) < 11 && property_get("_surprisinglySweetStabUsed", 0) < 11) {
     (0,external_kolmafia_namespaceObject.print)("Candy Cane at ".concat((0,external_kolmafia_namespaceObject.numericModifier)(candySword, "Weapon Damage"), " weapon damage"));
     return true;
   }
@@ -16467,6 +16484,7 @@ function baseOutfit() {
   var allowAttackingFamiliars = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
   // Only try equipping/nag LOV Epaulettes if we are done with the LOV tunnel
   var lovTunnelCompleted = property_get("_loveTunnelUsed") || !property_get("loveTunnelAvailable");
+  parka();
   return {
     weapon: useCandyCaneSword() ? candySword : have(template_string_$item(engine_outfit_templateObject40 || (engine_outfit_templateObject40 = engine_outfit_taggedTemplateLiteral(["June cleaver"])))) ? template_string_$item(engine_outfit_templateObject41 || (engine_outfit_templateObject41 = engine_outfit_taggedTemplateLiteral(["June cleaver"]))) : undefined,
     hat: avoidDaylightShavingsHelm() ? undefined : template_string_$item(engine_outfit_templateObject42 || (engine_outfit_templateObject42 = engine_outfit_taggedTemplateLiteral(["Daylight Shavings Helmet"]))),
