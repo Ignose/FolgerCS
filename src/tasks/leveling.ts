@@ -1044,7 +1044,10 @@ export const LevelingQuest: Quest = {
           .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
           .default()
       ),
-      outfit: baseOutfit,
+      outfit: () => ({
+        ...baseOutfit,
+        shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
+      }),
       post: (): void => {
         if (have(rufusTarget() as Item)) {
           withChoice(1498, 1, () => use($item`closed-circuit pay phone`));
@@ -1128,6 +1131,7 @@ export const LevelingQuest: Quest = {
       outfit: () => ({
         ...baseOutfit,
         familiar: !have($effect`Citizen of a Zone`) ? $familiar`Patriotic Eagle` : chooseFamiliar(),
+        shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
       }),
       limit: { tries: 10 },
       post: (): void => {
@@ -1367,6 +1371,7 @@ export const LevelingQuest: Quest = {
       outfit: () => ({
         ...baseOutfit(),
         offhand: $item`Kramco Sausage-o-Matic™`,
+        shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
       }),
       combat: new CombatStrategy().macro(() =>
         Macro.externalIf(
@@ -1510,6 +1515,7 @@ export const LevelingQuest: Quest = {
         ...baseOutfit(),
         famequip: $items`God Lobster's Ring, God Lobster's Scepter`,
         familiar: $familiar`God Lobster`,
+        shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
       }),
       limit: { tries: 3 },
       post: (): void => {
@@ -1618,7 +1624,10 @@ export const LevelingQuest: Quest = {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
       },
-      outfit: baseOutfit,
+      outfit: () => ({
+        ...baseOutfit(),
+        shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
+      }),
       limit: { tries: 60 },
       choices: {
         1094: 5,
@@ -1670,6 +1679,7 @@ export const LevelingQuest: Quest = {
       outfit: () => ({
         ...baseOutfit(),
         familiar: $familiar`Melodramedary`,
+        shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
       }),
       limit: { tries: 60 },
       choices: {
@@ -1875,11 +1885,15 @@ export const LevelingQuest: Quest = {
           !have($item`latte lovers member's mug`) ||
           get("_latteRefillsUsed") >= 3
         )
-          return baseOutfit();
+          return {
+            ...baseOutfit(),
+            shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
+          };
         else
           return {
             ...baseOutfit(),
             offhand: $item`latte lovers member's mug`,
+            shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
           };
       },
       completed: () =>

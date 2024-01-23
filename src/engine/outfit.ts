@@ -4,7 +4,6 @@ import {
   equip,
   equippedItem,
   Familiar,
-  haveEffect,
   Item,
   myMaxmp,
   myMp,
@@ -30,7 +29,7 @@ import { camelFightsLeft, statToMaximizerString } from "../lib";
 import { args } from "../args";
 import { restoreMPEfficiently } from "../tasks/leveling";
 
-export function garbageShirt(): void {
+export function garbageShirt(): boolean {
   if (
     have($item`January's Garbage Tote`) &&
     get("garbageShirtCharge") > 0 &&
@@ -43,7 +42,15 @@ export function garbageShirt(): void {
       if (!have($item`makeshift garbage shirt`)) cliExecute("fold makeshift garbage shirt");
       equip($slot`shirt`, $item`makeshift garbage shirt`);
     }
+    return true;
   }
+  return false;
+}
+
+export function parka(): boolean {
+  if (!have($item`Jurassic Parka`) || !have($skill`Torso Awareness`)) return false;
+  if (get("parkaMode") !== "spikolodon") cliExecute("parka spikolodon");
+  return true;
 }
 
 export function unbreakableUmbrella(): void {
@@ -157,11 +164,9 @@ const candySword = $item`candy cane sword cane`;
 function useCandyCaneSword(): boolean {
   if (!have(candySword)) return false;
   examine(candySword);
-  if (haveEffect($effect`Peppermint Rush`) >= 401) return false;
   if (
-    numericModifier(candySword, "Weapon Damage") < 115 ||
-    haveEffect($effect`Peppermint Rush`) <= 401 ||
-    get("_surprisinglySweetSlashUsed", 0) < 11 ||
+    numericModifier(candySword, "Weapon Damage") < 115 &&
+    get("_surprisinglySweetSlashUsed", 0) < 11 &&
     get("_surprisinglySweetStabUsed", 0) < 11
   ) {
     print(`Candy Cane at ${numericModifier(candySword, "Weapon Damage")} weapon damage`);
@@ -173,6 +178,7 @@ function useCandyCaneSword(): boolean {
 export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
   // Only try equipping/nag LOV Epaulettes if we are done with the LOV tunnel
   const lovTunnelCompleted = get("_loveTunnelUsed") || !get("loveTunnelAvailable");
+  parka();
 
   return {
     weapon: useCandyCaneSword()
