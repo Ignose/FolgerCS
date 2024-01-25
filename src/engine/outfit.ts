@@ -29,6 +29,8 @@ import { camelFightsLeft, statToMaximizerString } from "../lib";
 import { args } from "../args";
 import { restoreMPEfficiently } from "../tasks/leveling";
 
+const primeStat = statToMaximizerString(myPrimestat());
+
 export function garbageShirt(): boolean {
   if (
     have($item`January's Garbage Tote`) &&
@@ -208,9 +210,7 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
           get("_leafMonstersFought", 0) < 5
         ? $item`tiny rake`
         : undefined,
-    modifier: `0.25 ${statToMaximizerString(
-      myPrimestat()
-    )}, 0.33 ML, -equip tinsel tights, -equip wad of used tape`, //Update to check prime stat
+    modifier: ` ${primeStat}, 4 ML, 3 ${primeStat} exp, 1.33 exp, 30 ${primeStat} experience percent, 3 familiar exp, -equip tinsel tights, -equip wad of used tape`, //Update to check prime stat
     avoid: [
       ...sugarItemsAboutToBreak(),
       ...(avoidDaylightShavingsHelm() ? [$item`Daylight Shavings Helmet`] : []),
