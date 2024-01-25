@@ -16389,6 +16389,7 @@ function engine_outfit_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = s
 
 
 
+var primeStat = statToMaximizerString((0,external_kolmafia_namespaceObject.myPrimestat)());
 function garbageShirt() {
   if (have(template_string_$item(engine_outfit_templateObject || (engine_outfit_templateObject = engine_outfit_taggedTemplateLiteral(["January's Garbage Tote"])))) && property_get("garbageShirtCharge") > 0 && have(template_string_$skill(engine_outfit_templateObject2 || (engine_outfit_templateObject2 = engine_outfit_taggedTemplateLiteral(["Torso Awareness"]))))) {
     if (property_get("garbageShirtCharge") === 1) {
@@ -16494,7 +16495,7 @@ function baseOutfit() {
     acc2: have(template_string_$item(engine_outfit_templateObject48 || (engine_outfit_templateObject48 = engine_outfit_taggedTemplateLiteral(["Cincho de Mayo"])))) && property_get("_cinchUsed", 0) < 95 && 100 - property_get("_cinchUsed", 0) > args.savecinch ? template_string_$item(engine_outfit_templateObject49 || (engine_outfit_templateObject49 = engine_outfit_taggedTemplateLiteral(["Cincho de Mayo"]))) : undefined,
     familiar: chooseFamiliar(allowAttackingFamiliars),
     famequip: have(template_string_$item(engine_outfit_templateObject50 || (engine_outfit_templateObject50 = engine_outfit_taggedTemplateLiteral(["dromedary drinking helmet"])))) && chooseFamiliar() === template_string_$familiar(outfit_templateObject51 || (outfit_templateObject51 = engine_outfit_taggedTemplateLiteral(["Melodramedary"]))) ? template_string_$item(outfit_templateObject52 || (outfit_templateObject52 = engine_outfit_taggedTemplateLiteral(["dromedary drinking helmet"]))) : have(template_string_$item(outfit_templateObject53 || (outfit_templateObject53 = engine_outfit_taggedTemplateLiteral(["tiny rake"])))) && chooseFamiliar() === template_string_$familiar(outfit_templateObject54 || (outfit_templateObject54 = engine_outfit_taggedTemplateLiteral(["Melodramedary"]))) && property_get("_leafMonstersFought", 0) < 5 ? template_string_$item(outfit_templateObject55 || (outfit_templateObject55 = engine_outfit_taggedTemplateLiteral(["tiny rake"]))) : undefined,
-    modifier: "0.25 ".concat(statToMaximizerString((0,external_kolmafia_namespaceObject.myPrimestat)()), ", 0.33 ML, -equip tinsel tights, -equip wad of used tape"),
+    modifier: " ".concat(primeStat, ", 4 ML, 3 ").concat(primeStat, " exp, 1.33 exp, 30 ").concat(primeStat, " experience percent, 3 familiar exp, -equip tinsel tights, -equip wad of used tape"),
     //Update to check prime stat
     avoid: [].concat(engine_outfit_toConsumableArray(sugarItemsAboutToBreak()), engine_outfit_toConsumableArray(avoidDaylightShavingsHelm() ? [template_string_$item(outfit_templateObject56 || (outfit_templateObject56 = engine_outfit_taggedTemplateLiteral(["Daylight Shavings Helmet"])))] : []))
   };
