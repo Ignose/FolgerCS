@@ -86,9 +86,7 @@ export const WeaponDamageQuest: Quest = {
         restoreMp(50);
       },
       completed: () =>
-        have($effect`Feeling Lost`) ||
         !have($familiar`Ghost of Crimbo Carols`) ||
-        (have($skill`Meteor Lore`) && get("camelSpit") < 100) ||
         !haveFreeBanish() ||
         $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
           (ef) => have(ef)
@@ -171,7 +169,7 @@ export const WeaponDamageQuest: Quest = {
           get("camelSpit") >= 100
             ? $familiar`Melodramedary`
             : $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
-                (ef) => have(ef)
+                (ef) => !have(ef)
               )
             ? $familiar`Ghost of Crimbo Carols`
             : chooseFamiliar(false),

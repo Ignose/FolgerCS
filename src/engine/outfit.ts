@@ -201,7 +201,10 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
       100 - get("_cinchUsed", 0) > args.savecinch
         ? $item`Cincho de Mayo`
         : undefined,
-    familiar: chooseFamiliar(allowAttackingFamiliars),
+    familiar:
+      have($familiar`Melodramedary`) && get("camelSpit") < 100
+        ? $familiar`Melodramedary`
+        : chooseFamiliar(allowAttackingFamiliars),
     famequip:
       have($item`dromedary drinking helmet`) && chooseFamiliar() === $familiar`Melodramedary`
         ? $item`dromedary drinking helmet`
