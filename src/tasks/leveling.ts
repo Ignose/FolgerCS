@@ -889,7 +889,15 @@ export const LevelingQuest: Quest = {
         visitUrl("campground.php?preaction=leaves");
         visitUrl("choice.php?pwd&whichchoice=1510&option=1&leaves=11");
       },
-      combat: new CombatStrategy().macro(Macro.default()),
+      combat: new CombatStrategy().macro(
+        Macro
+          //.trySkill($skill`spring growth spurt`)
+          .default()
+      ),
+      /*outfit: () => ({
+        ...baseOutfit,
+        acc3: have($item`spring shoes`) ? $item`spring shoes` : undefined,
+      }),*/
       post: (): void => {
         sellMiscellaneousItems();
         boomBoxProfit();
@@ -1640,7 +1648,6 @@ export const LevelingQuest: Quest = {
           .trySkill($skill`Gulp Latte`)
           .trySkill($skill`Feel Pride`)
           .trySkill($skill`Cincho: Confetti Extravaganza`)
-          .trySkill($skill`Bowl Sideways`)
           .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
           .default(useCinch)
       ),
@@ -1910,7 +1917,6 @@ export const LevelingQuest: Quest = {
           .trySkill($skill`Chest X-Ray`)
           .trySkill($skill`Shattering Punch`)
           .trySkill($skill`Gingerbread Mob Hit`)
-          .trySkill($skill`Bowl Sideways`)
           .default(useCinch)
       ),
       choices: {
