@@ -542,6 +542,7 @@ export const RunStartQuest: Quest = {
       ),
       outfit: () => ({
         ...baseOutfit(false),
+        shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
         modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
       }),
       limit: { tries: 1 },
