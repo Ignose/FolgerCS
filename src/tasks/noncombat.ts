@@ -138,6 +138,7 @@ export const NoncombatQuest: Quest = {
           $effect`Smooth Movements`,
           $effect`The Sonata of Sneakiness`,
           $effect`Feeling Sneaky`,
+          $effect`Ultra-Soft Steps`,
 
           // Famwt for Disgeist
           $effect`Blood Bond`,

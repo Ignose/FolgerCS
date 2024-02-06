@@ -894,10 +894,10 @@ export const LevelingQuest: Quest = {
           //.trySkill($skill`spring growth spurt`)
           .default()
       ),
-      /*outfit: () => ({
+      outfit: () => ({
         ...baseOutfit,
         acc3: have($item`spring shoes`) ? $item`spring shoes` : undefined,
-      }),*/
+      }),
       post: (): void => {
         sellMiscellaneousItems();
         boomBoxProfit();
