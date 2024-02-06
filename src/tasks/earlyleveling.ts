@@ -195,7 +195,7 @@ export const earlyLevelingQuest: Quest = {
               .trySkill($skill`Shattering Punch`)
               .default()
           ),
-      outfit: () => baseOutfit(true),
+      outfit: () => baseOutfit(false),
       limit: { tries: 1 },
     },
     {

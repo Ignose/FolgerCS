@@ -1052,10 +1052,7 @@ export const LevelingQuest: Quest = {
           .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
           .default()
       ),
-      outfit: () => ({
-        ...baseOutfit,
-        shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
-      }),
+      outfit: baseOutfit,
       post: (): void => {
         if (have(rufusTarget() as Item)) {
           withChoice(1498, 1, () => use($item`closed-circuit pay phone`));
@@ -1632,10 +1629,7 @@ export const LevelingQuest: Quest = {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
       },
-      outfit: () => ({
-        ...baseOutfit(),
-        shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
-      }),
+      outfit: baseOutfit,
       limit: { tries: 60 },
       choices: {
         1094: 5,
