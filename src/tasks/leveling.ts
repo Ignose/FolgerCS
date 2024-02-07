@@ -1235,6 +1235,7 @@ export const LevelingQuest: Quest = {
         unbreakableUmbrella();
         [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         tryAcquiringEffect($effect`Comic Violence`);
+        tryAcquiringEffect($effect`Fat Leon's Phat Loot Lyric`);
       },
       completed: () => get("_loveTunnelUsed") || !get("loveTunnelAvailable"),
       do: () =>
@@ -1275,6 +1276,7 @@ export const LevelingQuest: Quest = {
         sendAutumnaton();
         sellMiscellaneousItems();
         boomBoxProfit();
+        uneffect($effect`Fat Leon's Phat Loot Lyric`);
       },
     },
     {
