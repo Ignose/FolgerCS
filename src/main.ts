@@ -39,7 +39,7 @@ import { args } from "./args";
 const timeProperty = "fullday_elapsedTime";
 
 export function main(command?: string): void {
-  sinceKolmafiaRevision(27820);
+  sinceKolmafiaRevision(27822);
 
   Args.fill(args, command);
   if (args.help) {

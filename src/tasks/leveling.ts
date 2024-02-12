@@ -889,11 +889,7 @@ export const LevelingQuest: Quest = {
         visitUrl("campground.php?preaction=leaves");
         visitUrl("choice.php?pwd&whichchoice=1510&option=1&leaves=11");
       },
-      combat: new CombatStrategy().macro(
-        Macro
-          //.trySkill($skill`spring growth spurt`)
-          .default()
-      ),
+      combat: new CombatStrategy().macro(Macro.trySkill($skill`spring growth spurt`).default()),
       outfit: () => ({
         ...baseOutfit,
         acc3: have($item`spring shoes`) ? $item`spring shoes` : undefined,

@@ -181,7 +181,8 @@ export const earlyLevelingQuest: Quest = {
       do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
       combat: get("_daycareGymScavenges")
         ? new CombatStrategy().macro(
-            Macro.trySkill($skill`Snokebomb`)
+            Macro.trySkill($skill`Spring Away`)
+              .trySkill($skill`Snokebomb`)
               .trySkill($skill`Reflex Hammer`)
               .trySkill($skill`Chest X-Ray`)
               .trySkill($skill`Gingerbread Mob Hit`)
@@ -195,7 +196,13 @@ export const earlyLevelingQuest: Quest = {
               .trySkill($skill`Shattering Punch`)
               .default()
           ),
-      outfit: () => baseOutfit(false),
+      outfit: () => ({
+        ...baseOutfit(false),
+        shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
+        familiar: have($familiar`Melodramedary`) ? $familiar`Melodramedary` : undefined,
+        acc3: have($item`Spring Shoes`) ? $item`Spring Shoes` : undefined,
+        modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
+      }),
       limit: { tries: 1 },
     },
     {
