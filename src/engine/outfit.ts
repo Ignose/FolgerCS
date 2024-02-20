@@ -212,7 +212,7 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
           get("_leafMonstersFought", 0) < 5
         ? $item`tiny rake`
         : undefined,
-    modifier: ` ${primeStat}, 4 ML, 3 ${primeStat} exp, 1.33 exp, 30 ${primeStat} experience percent, 3 familiar exp, -equip tinsel tights, -equip wad of used tape`, //Update to check prime stat
+    modifier: `1 ${primeStat}, 1 ML, 6 ${primeStat} exp, 30 ${primeStat} experience percent, -equip tinsel tights, -equip wad of used tape`, //Update to check prime stat
     avoid: [
       ...sugarItemsAboutToBreak(),
       ...(avoidDaylightShavingsHelm() ? [$item`Daylight Shavings Helmet`] : []),
