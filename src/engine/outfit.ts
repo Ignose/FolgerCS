@@ -193,7 +193,6 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
       myMaxmp() > 200 && myMp() < 75 && restoreMPEfficiently() === "Gulp"
         ? $item`latte lovers member's mug`
         : $item`unbreakable umbrella`,
-    back: lovTunnelCompleted ? $item`LOV Epaulettes` : undefined,
     acc1: have($item`codpiece`) ? $item`codpiece` : undefined,
     acc2:
       have($item`Cincho de Mayo`) &&
