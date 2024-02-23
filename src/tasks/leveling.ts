@@ -151,9 +151,9 @@ export function restoreMPEfficiently(): string {
 
 const mainStatStr = myPrimestat().toString();
 const LOVEquip =
-  mainStatStr === $stat`Muscle`
+  myPrimestat() === $stat`Muscle`
     ? "LOV Eardigan"
-    : mainStatStr === $stat`Mysticality`
+    : myPrimestat() === $stat`Mysticality`
     ? "LOV Epaulettes"
     : "LOV Earring";
 const muscleList: Effect[] = [
