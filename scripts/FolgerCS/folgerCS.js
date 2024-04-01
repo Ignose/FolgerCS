@@ -15740,7 +15740,10 @@ var LevelingQuest = {
   }, {
     name: "Get Rufus Quest",
     completed: () => property_get("_shadowAffinityToday") || !have(template_string_$item(leveling_templateObject280 || (leveling_templateObject280 = leveling_taggedTemplateLiteral(["closed-circuit pay phone"])))),
-    do: () => chooseQuest(() => 2),
+    do: () => {
+      chooseQuest(() => 2);
+      if ((0,external_kolmafia_namespaceObject.holiday)().includes("April Fool's Day")) (0,external_kolmafia_namespaceObject.visitUrl)("questlog.php?which=7");
+    },
     limit: {
       tries: 1
     }
