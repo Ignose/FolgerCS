@@ -13,6 +13,7 @@ import {
   getMonsters,
   getWorkshed,
   haveEffect,
+  holiday,
   inebrietyLimit,
   Item,
   itemAmount,
@@ -1026,7 +1027,10 @@ export const LevelingQuest: Quest = {
     {
       name: "Get Rufus Quest",
       completed: () => get("_shadowAffinityToday") || !have($item`closed-circuit pay phone`),
-      do: () => chooseQuest(() => 2),
+      do: (): void => {
+        chooseQuest(() => 2);
+        if (holiday().includes("April Fool's Day")) visitUrl("questlog.php?which=7");
+      },
       limit: { tries: 1 },
     },
     {
