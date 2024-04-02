@@ -522,18 +522,53 @@ const meteorite = Math.min(8, computeWeaponDamage(false) - 1) + 4;
 const slippers = Math.min(4, 1 + ((-1 * computeCombatFrequency(false)) / 5) * 3);
 const chlamys = Math.min(3, ((-1 * computeCombatFrequency(false)) / 5) * 3);
 
-export const pullValue = new Map([
-  [$item`box of Familiar Jacks`, famJacksValue],
-  [$item`Stick-Knife of Loathing`, stickKnife],
-  [$item`Staff of Simmering Hatred`, staff],
-  [$item`Buddy Bjorn`, 6.8],
-  [$item`meteorite necklace`, meteorite],
-  [$item`Great Wolf's beastly trousers`, greatWolfs],
-  [$item`repaid diaper`, 3],
-  [$item`tobiko marble soda`, tobikoSoda],
-  [$item`chalk chlamys`, chlamys],
-  [$item`Fuzzy Slippers of Hatred`, slippers],
-]);
+type valuePull = {
+  item: Item;
+  value: number;
+};
+
+export const pullValue: valuePull[] = [
+  {
+    item: $item`box of Familiar Jacks`,
+    value: famJacksValue,
+  },
+  {
+    item: $item`Stick-Knife of Loathing`,
+    value: stickKnife,
+  },
+  {
+    item: $item`Staff of Simmering Hatred`,
+    value: staff,
+  },
+  {
+    item: $item`Buddy Bjorn`,
+    value: 6.8,
+  },
+  {
+    item: $item`meteorite necklace`,
+    value: meteorite,
+  },
+  {
+    item: $item`Great Wolf's beastly trousers`,
+    value: greatWolfs,
+  },
+  {
+    item: $item`repaid diaper`,
+    value: 3,
+  },
+  {
+    item: $item`tobiko marble soda`,
+    value: tobikoSoda,
+  },
+  {
+    item: $item`chalk chlamys`,
+    value: chlamys,
+  },
+  {
+    item: $item`Fuzzy Slippers of Hatred`,
+    value: slippers,
+  },
+];
 
 export function checkPull(item: Item): boolean {
   if (
@@ -548,19 +583,10 @@ export function checkPull(item: Item): boolean {
 }
 
 export function findMaxPull(): Item | null {
-  let maxItem: Item | null = null;
-  let maxValue = -1;
-
-  for (const [item, value] of pullValue) {
-    if (checkPull(item)) {
-      if (value > maxValue) {
-        maxValue = value;
-        maxItem = item;
-      }
-    }
-  }
-
-  return maxItem;
+  return maxBy(
+    pullValue.filter(({ item }) => storageAmount(item) >= 1),
+    `value`
+  ).item;
 }
 
 export const forbiddenEffects: Effect[] = [];

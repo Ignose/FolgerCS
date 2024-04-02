@@ -18,6 +18,7 @@ import {
   restoreHp,
   restoreMp,
   retrieveItem,
+  use,
   useSkill,
   visitUrl,
 } from "kolmafia";
@@ -84,6 +85,7 @@ export const SpellDamageQuest: Quest = {
       do: (): void => {
         visitUrl("inventory.php?action=pocket");
         visitUrl("choice.php?whichchoice=1420&option=1&pocket=177");
+        use($item`Yeg's Motel hand soap`);
       },
       limit: { tries: 1 },
     },
