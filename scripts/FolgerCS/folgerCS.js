@@ -12366,7 +12366,6 @@ function src_lib_slicedToArray(arr, i) { return src_lib_arrayWithHoles(arr) || s
 function src_lib_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function src_lib_iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function src_lib_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-function src_lib_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = src_lib_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function src_lib_toConsumableArray(arr) { return src_lib_arrayWithoutHoles(arr) || src_lib_iterableToArray(arr) || src_lib_unsupportedIterableToArray(arr) || src_lib_nonIterableSpread(); }
 function src_lib_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function src_lib_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return src_lib_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return src_lib_arrayLikeToArray(o, minLen); }
@@ -12582,34 +12581,46 @@ var tobikoSoda = have(template_string_$skill(_templateObject170 || (_templateObj
 var meteorite = Math.min(8, computeWeaponDamage(false) - 1) + 4;
 var slippers = Math.min(4, 1 + -1 * computeCombatFrequency(false) / 5 * 3);
 var chlamys = Math.min(3, -1 * computeCombatFrequency(false) / 5 * 3);
-var pullValue = new Map([[template_string_$item(_templateObject171 || (_templateObject171 = lib_taggedTemplateLiteral(["box of Familiar Jacks"]))), famJacksValue], [template_string_$item(_templateObject172 || (_templateObject172 = lib_taggedTemplateLiteral(["Stick-Knife of Loathing"]))), stickKnife], [template_string_$item(_templateObject173 || (_templateObject173 = lib_taggedTemplateLiteral(["Staff of Simmering Hatred"]))), staff], [template_string_$item(_templateObject174 || (_templateObject174 = lib_taggedTemplateLiteral(["Buddy Bjorn"]))), 6.8], [template_string_$item(_templateObject175 || (_templateObject175 = lib_taggedTemplateLiteral(["meteorite necklace"]))), meteorite], [template_string_$item(_templateObject176 || (_templateObject176 = lib_taggedTemplateLiteral(["Great Wolf's beastly trousers"]))), greatWolfs], [template_string_$item(_templateObject177 || (_templateObject177 = lib_taggedTemplateLiteral(["repaid diaper"]))), 3], [template_string_$item(_templateObject178 || (_templateObject178 = lib_taggedTemplateLiteral(["tobiko marble soda"]))), tobikoSoda], [template_string_$item(_templateObject179 || (_templateObject179 = lib_taggedTemplateLiteral(["chalk chlamys"]))), chlamys], [template_string_$item(_templateObject180 || (_templateObject180 = lib_taggedTemplateLiteral(["Fuzzy Slippers of Hatred"]))), slippers]]);
+var pullValue = [{
+  item: template_string_$item(_templateObject171 || (_templateObject171 = lib_taggedTemplateLiteral(["box of Familiar Jacks"]))),
+  value: famJacksValue
+}, {
+  item: template_string_$item(_templateObject172 || (_templateObject172 = lib_taggedTemplateLiteral(["Stick-Knife of Loathing"]))),
+  value: stickKnife
+}, {
+  item: template_string_$item(_templateObject173 || (_templateObject173 = lib_taggedTemplateLiteral(["Staff of Simmering Hatred"]))),
+  value: staff
+}, {
+  item: template_string_$item(_templateObject174 || (_templateObject174 = lib_taggedTemplateLiteral(["Buddy Bjorn"]))),
+  value: 6.8
+}, {
+  item: template_string_$item(_templateObject175 || (_templateObject175 = lib_taggedTemplateLiteral(["meteorite necklace"]))),
+  value: meteorite
+}, {
+  item: template_string_$item(_templateObject176 || (_templateObject176 = lib_taggedTemplateLiteral(["Great Wolf's beastly trousers"]))),
+  value: greatWolfs
+}, {
+  item: template_string_$item(_templateObject177 || (_templateObject177 = lib_taggedTemplateLiteral(["repaid diaper"]))),
+  value: 3
+}, {
+  item: template_string_$item(_templateObject178 || (_templateObject178 = lib_taggedTemplateLiteral(["tobiko marble soda"]))),
+  value: tobikoSoda
+}, {
+  item: template_string_$item(_templateObject179 || (_templateObject179 = lib_taggedTemplateLiteral(["chalk chlamys"]))),
+  value: chlamys
+}, {
+  item: template_string_$item(_templateObject180 || (_templateObject180 = lib_taggedTemplateLiteral(["Fuzzy Slippers of Hatred"]))),
+  value: slippers
+}];
 function checkPull(item) {
   if (property_get("_roninStoragePulls").split(",").length >= 5 || have(item) || property_get("_roninStoragePulls").split(",").includes((0,external_kolmafia_namespaceObject.toInt)(item).toString()) || (0,external_kolmafia_namespaceObject.storageAmount)(item) === 0 || 5 - property_get("_roninStoragePulls").split(",").length <= args.savepulls) return true;
   return false;
 }
 function findMaxPull() {
-  var maxItem = null;
-  var maxValue = -1;
-  var _iterator = src_lib_createForOfIteratorHelper(pullValue),
-    _step;
-  try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var _step$value = src_lib_slicedToArray(_step.value, 2),
-        item = _step$value[0],
-        value = _step$value[1];
-      if (checkPull(item)) {
-        if (value > maxValue) {
-          maxValue = value;
-          maxItem = item;
-        }
-      }
-    }
-  } catch (err) {
-    _iterator.e(err);
-  } finally {
-    _iterator.f();
-  }
-  return maxItem;
+  return maxBy(pullValue.filter(_ref => {
+    var item = _ref.item;
+    return (0,external_kolmafia_namespaceObject.storageAmount)(item) >= 1;
+  }), "value").item;
 }
 var forbiddenEffects = [];
 if (args.witchess) forbiddenEffects.push(template_string_$effect(_templateObject181 || (_templateObject181 = lib_taggedTemplateLiteral(["Puzzle Champ"]))));
@@ -12834,17 +12845,17 @@ function haveCandies(a, b) {
   return Array.from(candiesRequired.values()).every(val => val === 1);
 }
 var rem = mainStat === template_string_$stat(_templateObject246 || (_templateObject246 = lib_taggedTemplateLiteral(["Muscle"]))) ? 2 : mainStat === template_string_$stat(_templateObject247 || (_templateObject247 = lib_taggedTemplateLiteral(["Mysticality"]))) ? 3 : 4;
-var complexCandyPairs = complexCandies.map((a, i) => complexCandies.slice(i).map(b => [a, b])).reduce((acc, val) => acc.concat(val), []).filter(_ref => {
-  var _ref2 = src_lib_slicedToArray(_ref, 2),
-    a = _ref2[0],
-    b = _ref2[1];
+var complexCandyPairs = complexCandies.map((a, i) => complexCandies.slice(i).map(b => [a, b])).reduce((acc, val) => acc.concat(val), []).filter(_ref2 => {
+  var _ref3 = src_lib_slicedToArray(_ref2, 2),
+    a = _ref3[0],
+    b = _ref3[1];
   return ((0,external_kolmafia_namespaceObject.toInt)(a) + (0,external_kolmafia_namespaceObject.toInt)(b)) % 5 === rem;
 });
 function getValidComplexCandyPairs() {
-  return complexCandyPairs.filter(_ref3 => {
-    var _ref4 = src_lib_slicedToArray(_ref3, 2),
-      a = _ref4[0],
-      b = _ref4[1];
+  return complexCandyPairs.filter(_ref4 => {
+    var _ref5 = src_lib_slicedToArray(_ref4, 2),
+      a = _ref5[0],
+      b = _ref5[1];
     return haveCandies(a, b);
   });
 }
@@ -18909,7 +18920,7 @@ var DonateQuest = {
   }]
 };
 ;// CONCATENATED MODULE: ./src/tasks/spelldamage.ts
-var spelldamage_templateObject, spelldamage_templateObject2, spelldamage_templateObject3, spelldamage_templateObject4, spelldamage_templateObject5, spelldamage_templateObject6, spelldamage_templateObject7, spelldamage_templateObject8, spelldamage_templateObject9, spelldamage_templateObject10, spelldamage_templateObject11, spelldamage_templateObject12, spelldamage_templateObject13, spelldamage_templateObject14, spelldamage_templateObject15, spelldamage_templateObject16, spelldamage_templateObject17, spelldamage_templateObject18, spelldamage_templateObject19, spelldamage_templateObject20, spelldamage_templateObject21, spelldamage_templateObject22, spelldamage_templateObject23, spelldamage_templateObject24, spelldamage_templateObject25, spelldamage_templateObject26, spelldamage_templateObject27, spelldamage_templateObject28, spelldamage_templateObject29, spelldamage_templateObject30, spelldamage_templateObject31, spelldamage_templateObject32, spelldamage_templateObject33, spelldamage_templateObject34, spelldamage_templateObject35, spelldamage_templateObject36, spelldamage_templateObject37, spelldamage_templateObject38, spelldamage_templateObject39, spelldamage_templateObject40, spelldamage_templateObject41, spelldamage_templateObject42, spelldamage_templateObject43, spelldamage_templateObject44, spelldamage_templateObject45, spelldamage_templateObject46, spelldamage_templateObject47, spelldamage_templateObject48, spelldamage_templateObject49, spelldamage_templateObject50, spelldamage_templateObject51, spelldamage_templateObject52, spelldamage_templateObject53, spelldamage_templateObject54, spelldamage_templateObject55, spelldamage_templateObject56, spelldamage_templateObject57, spelldamage_templateObject58, spelldamage_templateObject59, spelldamage_templateObject60, spelldamage_templateObject61, spelldamage_templateObject62, spelldamage_templateObject63, spelldamage_templateObject64, spelldamage_templateObject65, spelldamage_templateObject66, spelldamage_templateObject67, spelldamage_templateObject68, spelldamage_templateObject69, spelldamage_templateObject70, spelldamage_templateObject71, spelldamage_templateObject72, spelldamage_templateObject73, spelldamage_templateObject74, spelldamage_templateObject75, spelldamage_templateObject76, spelldamage_templateObject77, spelldamage_templateObject78, spelldamage_templateObject79;
+var spelldamage_templateObject, spelldamage_templateObject2, spelldamage_templateObject3, spelldamage_templateObject4, spelldamage_templateObject5, spelldamage_templateObject6, spelldamage_templateObject7, spelldamage_templateObject8, spelldamage_templateObject9, spelldamage_templateObject10, spelldamage_templateObject11, spelldamage_templateObject12, spelldamage_templateObject13, spelldamage_templateObject14, spelldamage_templateObject15, spelldamage_templateObject16, spelldamage_templateObject17, spelldamage_templateObject18, spelldamage_templateObject19, spelldamage_templateObject20, spelldamage_templateObject21, spelldamage_templateObject22, spelldamage_templateObject23, spelldamage_templateObject24, spelldamage_templateObject25, spelldamage_templateObject26, spelldamage_templateObject27, spelldamage_templateObject28, spelldamage_templateObject29, spelldamage_templateObject30, spelldamage_templateObject31, spelldamage_templateObject32, spelldamage_templateObject33, spelldamage_templateObject34, spelldamage_templateObject35, spelldamage_templateObject36, spelldamage_templateObject37, spelldamage_templateObject38, spelldamage_templateObject39, spelldamage_templateObject40, spelldamage_templateObject41, spelldamage_templateObject42, spelldamage_templateObject43, spelldamage_templateObject44, spelldamage_templateObject45, spelldamage_templateObject46, spelldamage_templateObject47, spelldamage_templateObject48, spelldamage_templateObject49, spelldamage_templateObject50, spelldamage_templateObject51, spelldamage_templateObject52, spelldamage_templateObject53, spelldamage_templateObject54, spelldamage_templateObject55, spelldamage_templateObject56, spelldamage_templateObject57, spelldamage_templateObject58, spelldamage_templateObject59, spelldamage_templateObject60, spelldamage_templateObject61, spelldamage_templateObject62, spelldamage_templateObject63, spelldamage_templateObject64, spelldamage_templateObject65, spelldamage_templateObject66, spelldamage_templateObject67, spelldamage_templateObject68, spelldamage_templateObject69, spelldamage_templateObject70, spelldamage_templateObject71, spelldamage_templateObject72, spelldamage_templateObject73, spelldamage_templateObject74, spelldamage_templateObject75, spelldamage_templateObject76, spelldamage_templateObject77, spelldamage_templateObject78, spelldamage_templateObject79, spelldamage_templateObject80;
 function spelldamage_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 
@@ -18943,6 +18954,7 @@ var SpellDamageQuest = {
     do: () => {
       (0,external_kolmafia_namespaceObject.visitUrl)("inventory.php?action=pocket");
       (0,external_kolmafia_namespaceObject.visitUrl)("choice.php?whichchoice=1420&option=1&pocket=177");
+      (0,external_kolmafia_namespaceObject.use)(template_string_$item(spelldamage_templateObject9 || (spelldamage_templateObject9 = spelldamage_taggedTemplateLiteral(["Yeg's Motel hand soap"]))));
     },
     limit: {
       tries: 1
@@ -18953,14 +18965,14 @@ var SpellDamageQuest = {
       (0,external_kolmafia_namespaceObject.restoreHp)(clamp(1000, (0,external_kolmafia_namespaceObject.myMaxhp)() / 2, (0,external_kolmafia_namespaceObject.myMaxhp)()));
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
     },
-    completed: () => !have(template_string_$familiar(spelldamage_templateObject9 || (spelldamage_templateObject9 = spelldamage_taggedTemplateLiteral(["Ghost of Crimbo Carols"])))) || have(template_string_$skill(spelldamage_templateObject10 || (spelldamage_templateObject10 = spelldamage_taggedTemplateLiteral(["Meteor Lore"])))) && property_get("camelSpit") < 100 || !haveFreeBanish() || $effects(spelldamage_templateObject11 || (spelldamage_templateObject11 = spelldamage_taggedTemplateLiteral(["Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping"]))).some(ef => have(ef)),
-    do: $location(spelldamage_templateObject12 || (spelldamage_templateObject12 = spelldamage_taggedTemplateLiteral(["The Dire Warren"]))),
+    completed: () => !have(template_string_$familiar(spelldamage_templateObject10 || (spelldamage_templateObject10 = spelldamage_taggedTemplateLiteral(["Ghost of Crimbo Carols"])))) || have(template_string_$skill(spelldamage_templateObject11 || (spelldamage_templateObject11 = spelldamage_taggedTemplateLiteral(["Meteor Lore"])))) && property_get("camelSpit") < 100 || !haveFreeBanish() || $effects(spelldamage_templateObject12 || (spelldamage_templateObject12 = spelldamage_taggedTemplateLiteral(["Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping"]))).some(ef => have(ef)),
+    do: $location(spelldamage_templateObject13 || (spelldamage_templateObject13 = spelldamage_taggedTemplateLiteral(["The Dire Warren"]))),
     combat: new CombatStrategy().macro(combat_Macro.banish().abort()),
     outfit: {
-      offhand: template_string_$item(spelldamage_templateObject13 || (spelldamage_templateObject13 = spelldamage_taggedTemplateLiteral(["latte lovers member's mug"]))),
-      acc1: template_string_$item(spelldamage_templateObject14 || (spelldamage_templateObject14 = spelldamage_taggedTemplateLiteral(["Kremlin's Greatest Briefcase"]))),
-      acc2: template_string_$item(spelldamage_templateObject15 || (spelldamage_templateObject15 = spelldamage_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"]))),
-      familiar: template_string_$familiar(spelldamage_templateObject16 || (spelldamage_templateObject16 = spelldamage_taggedTemplateLiteral(["Ghost of Crimbo Carols"]))),
+      offhand: template_string_$item(spelldamage_templateObject14 || (spelldamage_templateObject14 = spelldamage_taggedTemplateLiteral(["latte lovers member's mug"]))),
+      acc1: template_string_$item(spelldamage_templateObject15 || (spelldamage_templateObject15 = spelldamage_taggedTemplateLiteral(["Kremlin's Greatest Briefcase"]))),
+      acc2: template_string_$item(spelldamage_templateObject16 || (spelldamage_templateObject16 = spelldamage_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"]))),
+      familiar: template_string_$familiar(spelldamage_templateObject17 || (spelldamage_templateObject17 = spelldamage_taggedTemplateLiteral(["Ghost of Crimbo Carols"]))),
       famequip: template_string_$item.none
     },
     limit: {
@@ -18973,17 +18985,17 @@ var SpellDamageQuest = {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
       Clan.join(args.motherclan);
     },
-    completed: () => !have(template_string_$familiar(spelldamage_templateObject17 || (spelldamage_templateObject17 = spelldamage_taggedTemplateLiteral(["Machine Elf"])))) || !haveMotherSlimeBanish() || have(template_string_$effect(spelldamage_templateObject18 || (spelldamage_templateObject18 = spelldamage_taggedTemplateLiteral(["Inner Elf"])))) || args.motherclan.length === 0,
-    do: $location(spelldamage_templateObject19 || (spelldamage_templateObject19 = spelldamage_taggedTemplateLiteral(["The Slime Tube"]))),
-    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(spelldamage_templateObject20 || (spelldamage_templateObject20 = spelldamage_taggedTemplateLiteral(["KGB tranquilizer dart"])))).trySkill(template_string_$skill(spelldamage_templateObject21 || (spelldamage_templateObject21 = spelldamage_taggedTemplateLiteral(["Snokebomb"])))).abort()),
+    completed: () => !have(template_string_$familiar(spelldamage_templateObject18 || (spelldamage_templateObject18 = spelldamage_taggedTemplateLiteral(["Machine Elf"])))) || !haveMotherSlimeBanish() || have(template_string_$effect(spelldamage_templateObject19 || (spelldamage_templateObject19 = spelldamage_taggedTemplateLiteral(["Inner Elf"])))) || args.motherclan.length === 0,
+    do: $location(spelldamage_templateObject20 || (spelldamage_templateObject20 = spelldamage_taggedTemplateLiteral(["The Slime Tube"]))),
+    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(spelldamage_templateObject21 || (spelldamage_templateObject21 = spelldamage_taggedTemplateLiteral(["KGB tranquilizer dart"])))).trySkill(template_string_$skill(spelldamage_templateObject22 || (spelldamage_templateObject22 = spelldamage_taggedTemplateLiteral(["Snokebomb"])))).abort()),
     choices: {
       326: 1
     },
     outfit: {
-      acc1: template_string_$item(spelldamage_templateObject22 || (spelldamage_templateObject22 = spelldamage_taggedTemplateLiteral(["Kremlin's Greatest Briefcase"]))),
-      acc2: template_string_$item(spelldamage_templateObject23 || (spelldamage_templateObject23 = spelldamage_taggedTemplateLiteral(["Eight Days a Week Pill Keeper"]))),
+      acc1: template_string_$item(spelldamage_templateObject23 || (spelldamage_templateObject23 = spelldamage_taggedTemplateLiteral(["Kremlin's Greatest Briefcase"]))),
+      acc2: template_string_$item(spelldamage_templateObject24 || (spelldamage_templateObject24 = spelldamage_taggedTemplateLiteral(["Eight Days a Week Pill Keeper"]))),
       // survive first hit if it occurs
-      familiar: template_string_$familiar(spelldamage_templateObject24 || (spelldamage_templateObject24 = spelldamage_taggedTemplateLiteral(["Machine Elf"]))),
+      familiar: template_string_$familiar(spelldamage_templateObject25 || (spelldamage_templateObject25 = spelldamage_taggedTemplateLiteral(["Machine Elf"]))),
       modifier: "HP"
     },
     post: () => Clan.join(startingClan),
@@ -18992,12 +19004,12 @@ var SpellDamageQuest = {
     }
   }, {
     name: "Meteor Shower",
-    completed: () => have(template_string_$effect(spelldamage_templateObject25 || (spelldamage_templateObject25 = spelldamage_taggedTemplateLiteral(["Meteor Showered"])))) || !have(template_string_$item(spelldamage_templateObject26 || (spelldamage_templateObject26 = spelldamage_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))) || !have(template_string_$skill(spelldamage_templateObject27 || (spelldamage_templateObject27 = spelldamage_taggedTemplateLiteral(["Meteor Lore"])))) || property_get("_saberForceUses") >= 5,
-    do: $location(spelldamage_templateObject28 || (spelldamage_templateObject28 = spelldamage_taggedTemplateLiteral(["The Dire Warren"]))),
-    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(spelldamage_templateObject29 || (spelldamage_templateObject29 = spelldamage_taggedTemplateLiteral(["Meteor Shower"])))).trySkill(template_string_$skill(spelldamage_templateObject30 || (spelldamage_templateObject30 = spelldamage_taggedTemplateLiteral(["%fn, spit on me!"])))).trySkill(template_string_$skill(spelldamage_templateObject31 || (spelldamage_templateObject31 = spelldamage_taggedTemplateLiteral(["Use the Force"])))).abort()),
+    completed: () => have(template_string_$effect(spelldamage_templateObject26 || (spelldamage_templateObject26 = spelldamage_taggedTemplateLiteral(["Meteor Showered"])))) || !have(template_string_$item(spelldamage_templateObject27 || (spelldamage_templateObject27 = spelldamage_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))) || !have(template_string_$skill(spelldamage_templateObject28 || (spelldamage_templateObject28 = spelldamage_taggedTemplateLiteral(["Meteor Lore"])))) || property_get("_saberForceUses") >= 5,
+    do: $location(spelldamage_templateObject29 || (spelldamage_templateObject29 = spelldamage_taggedTemplateLiteral(["The Dire Warren"]))),
+    combat: new CombatStrategy().macro(combat_Macro.trySkill(template_string_$skill(spelldamage_templateObject30 || (spelldamage_templateObject30 = spelldamage_taggedTemplateLiteral(["Meteor Shower"])))).trySkill(template_string_$skill(spelldamage_templateObject31 || (spelldamage_templateObject31 = spelldamage_taggedTemplateLiteral(["%fn, spit on me!"])))).trySkill(template_string_$skill(spelldamage_templateObject32 || (spelldamage_templateObject32 = spelldamage_taggedTemplateLiteral(["Use the Force"])))).abort()),
     outfit: () => ({
-      weapon: template_string_$item(spelldamage_templateObject32 || (spelldamage_templateObject32 = spelldamage_taggedTemplateLiteral(["Fourth of May Cosplay Saber"]))),
-      familiar: property_get("camelSpit") >= 100 ? template_string_$familiar(spelldamage_templateObject33 || (spelldamage_templateObject33 = spelldamage_taggedTemplateLiteral(["Melodramedary"]))) : $effects(spelldamage_templateObject34 || (spelldamage_templateObject34 = spelldamage_taggedTemplateLiteral(["Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping"]))).some(ef => have(ef)) ? template_string_$familiar(spelldamage_templateObject35 || (spelldamage_templateObject35 = spelldamage_taggedTemplateLiteral(["Ghost of Crimbo Carols"]))) : chooseFamiliar(false),
+      weapon: template_string_$item(spelldamage_templateObject33 || (spelldamage_templateObject33 = spelldamage_taggedTemplateLiteral(["Fourth of May Cosplay Saber"]))),
+      familiar: property_get("camelSpit") >= 100 ? template_string_$familiar(spelldamage_templateObject34 || (spelldamage_templateObject34 = spelldamage_taggedTemplateLiteral(["Melodramedary"]))) : $effects(spelldamage_templateObject35 || (spelldamage_templateObject35 = spelldamage_taggedTemplateLiteral(["Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping"]))).some(ef => have(ef)) ? template_string_$familiar(spelldamage_templateObject36 || (spelldamage_templateObject36 = spelldamage_taggedTemplateLiteral(["Ghost of Crimbo Carols"]))) : chooseFamiliar(false),
       avoid: sugarItemsAboutToBreak()
     }),
     choices: {
@@ -19008,29 +19020,29 @@ var SpellDamageQuest = {
     }
   }, {
     name: "Deep Dark Visions",
-    completed: () => have(template_string_$effect(spelldamage_templateObject36 || (spelldamage_templateObject36 = spelldamage_taggedTemplateLiteral(["Visions of the Deep Dark Deeps"])))) || forbiddenEffects.includes(template_string_$effect(spelldamage_templateObject37 || (spelldamage_templateObject37 = spelldamage_taggedTemplateLiteral(["Visions of the Deep Dark Deeps"])))) || !have(template_string_$skill(spelldamage_templateObject38 || (spelldamage_templateObject38 = spelldamage_taggedTemplateLiteral(["Deep Dark Visions"])))) || triedDeepDark,
-    prepare: () => $effects(spelldamage_templateObject39 || (spelldamage_templateObject39 = spelldamage_taggedTemplateLiteral(["Astral Shell, Elemental Saucesphere"]))).forEach(ef => tryAcquiringEffect(ef)),
+    completed: () => have(template_string_$effect(spelldamage_templateObject37 || (spelldamage_templateObject37 = spelldamage_taggedTemplateLiteral(["Visions of the Deep Dark Deeps"])))) || forbiddenEffects.includes(template_string_$effect(spelldamage_templateObject38 || (spelldamage_templateObject38 = spelldamage_taggedTemplateLiteral(["Visions of the Deep Dark Deeps"])))) || !have(template_string_$skill(spelldamage_templateObject39 || (spelldamage_templateObject39 = spelldamage_taggedTemplateLiteral(["Deep Dark Visions"])))) || triedDeepDark,
+    prepare: () => $effects(spelldamage_templateObject40 || (spelldamage_templateObject40 = spelldamage_taggedTemplateLiteral(["Astral Shell, Elemental Saucesphere"]))).forEach(ef => tryAcquiringEffect(ef)),
     do: () => {
       triedDeepDark = true;
-      var resist = 1 - (0,external_kolmafia_namespaceObject.elementalResistance)($element(spelldamage_templateObject40 || (spelldamage_templateObject40 = spelldamage_taggedTemplateLiteral(["spooky"])))) / 100;
+      var resist = 1 - (0,external_kolmafia_namespaceObject.elementalResistance)($element(spelldamage_templateObject41 || (spelldamage_templateObject41 = spelldamage_taggedTemplateLiteral(["spooky"])))) / 100;
       var neededHp = Math.max(500, (0,external_kolmafia_namespaceObject.myMaxhp)() * 4 * resist);
       if ((0,external_kolmafia_namespaceObject.myMaxhp)() < neededHp) return;
       if ((0,external_kolmafia_namespaceObject.myHp)() < neededHp) (0,external_kolmafia_namespaceObject.restoreHp)(neededHp);
-      tryAcquiringEffect(template_string_$effect(spelldamage_templateObject41 || (spelldamage_templateObject41 = spelldamage_taggedTemplateLiteral(["Visions of the Deep Dark Deeps"]))));
+      tryAcquiringEffect(template_string_$effect(spelldamage_templateObject42 || (spelldamage_templateObject42 = spelldamage_taggedTemplateLiteral(["Visions of the Deep Dark Deeps"]))));
     },
     outfit: {
       modifier: "HP 500max, Spooky Resistance",
-      familiar: template_string_$familiar(spelldamage_templateObject42 || (spelldamage_templateObject42 = spelldamage_taggedTemplateLiteral(["Exotic Parrot"])))
+      familiar: template_string_$familiar(spelldamage_templateObject43 || (spelldamage_templateObject43 = spelldamage_taggedTemplateLiteral(["Exotic Parrot"])))
     },
     limit: {
       tries: 1
     }
   }, {
     name: "Stick-Knife Trick",
-    ready: () => args.stickknifeoutfit !== "" && (0,external_kolmafia_namespaceObject.myClass)() === $class(spelldamage_templateObject43 || (spelldamage_templateObject43 = spelldamage_taggedTemplateLiteral(["Pastamancer"]))) && have(template_string_$item(spelldamage_templateObject44 || (spelldamage_templateObject44 = spelldamage_taggedTemplateLiteral(["Stick-Knife of Loathing"])))) && (have(template_string_$skill(spelldamage_templateObject45 || (spelldamage_templateObject45 = spelldamage_taggedTemplateLiteral(["Bind Undead Elbow Macaroni"])))) || (0,external_kolmafia_namespaceObject.myThrall)() === $thrall(spelldamage_templateObject46 || (spelldamage_templateObject46 = spelldamage_taggedTemplateLiteral(["Undead Elbow Macaroni"])))),
-    completed: () => (0,external_kolmafia_namespaceObject.haveEquipped)(template_string_$item(spelldamage_templateObject47 || (spelldamage_templateObject47 = spelldamage_taggedTemplateLiteral(["Stick-Knife of Loathing"])))),
+    ready: () => args.stickknifeoutfit !== "" && (0,external_kolmafia_namespaceObject.myClass)() === $class(spelldamage_templateObject44 || (spelldamage_templateObject44 = spelldamage_taggedTemplateLiteral(["Pastamancer"]))) && have(template_string_$item(spelldamage_templateObject45 || (spelldamage_templateObject45 = spelldamage_taggedTemplateLiteral(["Stick-Knife of Loathing"])))) && (have(template_string_$skill(spelldamage_templateObject46 || (spelldamage_templateObject46 = spelldamage_taggedTemplateLiteral(["Bind Undead Elbow Macaroni"])))) || (0,external_kolmafia_namespaceObject.myThrall)() === $thrall(spelldamage_templateObject47 || (spelldamage_templateObject47 = spelldamage_taggedTemplateLiteral(["Undead Elbow Macaroni"])))),
+    completed: () => (0,external_kolmafia_namespaceObject.haveEquipped)(template_string_$item(spelldamage_templateObject48 || (spelldamage_templateObject48 = spelldamage_taggedTemplateLiteral(["Stick-Knife of Loathing"])))),
     do: () => {
-      if ((0,external_kolmafia_namespaceObject.myThrall)() !== $thrall(spelldamage_templateObject48 || (spelldamage_templateObject48 = spelldamage_taggedTemplateLiteral(["Undead Elbow Macaroni"])))) (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(spelldamage_templateObject49 || (spelldamage_templateObject49 = spelldamage_taggedTemplateLiteral(["Bind Undead Elbow Macaroni"]))));
+      if ((0,external_kolmafia_namespaceObject.myThrall)() !== $thrall(spelldamage_templateObject49 || (spelldamage_templateObject49 = spelldamage_taggedTemplateLiteral(["Undead Elbow Macaroni"])))) (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(spelldamage_templateObject50 || (spelldamage_templateObject50 = spelldamage_taggedTemplateLiteral(["Bind Undead Elbow Macaroni"]))));
       (0,external_kolmafia_namespaceObject.outfit)(args.stickknifeoutfit);
     },
     limit: {
@@ -19039,20 +19051,20 @@ var SpellDamageQuest = {
   }, {
     name: "Test",
     prepare: () => {
-      if (have(template_string_$item(spelldamage_templateObject50 || (spelldamage_templateObject50 = spelldamage_taggedTemplateLiteral(["Ye Wizard's Shack snack voucher"])))) && !forbiddenEffects.includes(template_string_$effect(spelldamage_templateObject51 || (spelldamage_templateObject51 = spelldamage_taggedTemplateLiteral(["Pisces in the Skyces"]))))) (0,external_kolmafia_namespaceObject.retrieveItem)(template_string_$item(spelldamage_templateObject52 || (spelldamage_templateObject52 = spelldamage_taggedTemplateLiteral(["tobiko marble soda"]))));
+      if (have(template_string_$item(spelldamage_templateObject51 || (spelldamage_templateObject51 = spelldamage_taggedTemplateLiteral(["Ye Wizard's Shack snack voucher"])))) && !forbiddenEffects.includes(template_string_$effect(spelldamage_templateObject52 || (spelldamage_templateObject52 = spelldamage_taggedTemplateLiteral(["Pisces in the Skyces"]))))) (0,external_kolmafia_namespaceObject.retrieveItem)(template_string_$item(spelldamage_templateObject53 || (spelldamage_templateObject53 = spelldamage_taggedTemplateLiteral(["tobiko marble soda"]))));
       shrugAT();
-      if (have(template_string_$familiar(spelldamage_templateObject53 || (spelldamage_templateObject53 = spelldamage_taggedTemplateLiteral(["Grim Brother"]))))) (0,external_kolmafia_namespaceObject.cliExecute)("grim damage");
-      var usefulEffects = [template_string_$effect(spelldamage_templateObject54 || (spelldamage_templateObject54 = spelldamage_taggedTemplateLiteral(["Arched Eyebrow of the Archmage"]))), template_string_$effect(spelldamage_templateObject55 || (spelldamage_templateObject55 = spelldamage_taggedTemplateLiteral(["Carol of the Hells"]))), template_string_$effect(spelldamage_templateObject56 || (spelldamage_templateObject56 = spelldamage_taggedTemplateLiteral(["Cowrruption"]))), template_string_$effect(spelldamage_templateObject57 || (spelldamage_templateObject57 = spelldamage_taggedTemplateLiteral(["Destructive Resolve"]))), template_string_$effect(spelldamage_templateObject58 || (spelldamage_templateObject58 = spelldamage_taggedTemplateLiteral(["Imported Strength"]))), template_string_$effect(spelldamage_templateObject59 || (spelldamage_templateObject59 = spelldamage_taggedTemplateLiteral(["Jackasses' Symphony of Destruction"]))), template_string_$effect(spelldamage_templateObject60 || (spelldamage_templateObject60 = spelldamage_taggedTemplateLiteral(["Mental A-cue-ity"]))), template_string_$effect(spelldamage_templateObject61 || (spelldamage_templateObject61 = spelldamage_taggedTemplateLiteral(["Pisces in the Skyces"]))), template_string_$effect(spelldamage_templateObject62 || (spelldamage_templateObject62 = spelldamage_taggedTemplateLiteral(["Song of Sauce"]))), template_string_$effect(spelldamage_templateObject63 || (spelldamage_templateObject63 = spelldamage_taggedTemplateLiteral(["Sigils of Yeg"]))), template_string_$effect(spelldamage_templateObject64 || (spelldamage_templateObject64 = spelldamage_taggedTemplateLiteral(["Spirit of Peppermint"]))), template_string_$effect(spelldamage_templateObject65 || (spelldamage_templateObject65 = spelldamage_taggedTemplateLiteral(["The Magic of LOV"]))), template_string_$effect(spelldamage_templateObject66 || (spelldamage_templateObject66 = spelldamage_taggedTemplateLiteral(["Warlock, Warstock, and Warbarrel"]))), template_string_$effect(spelldamage_templateObject67 || (spelldamage_templateObject67 = spelldamage_taggedTemplateLiteral(["We're All Made of Starfish"])))];
+      if (have(template_string_$familiar(spelldamage_templateObject54 || (spelldamage_templateObject54 = spelldamage_taggedTemplateLiteral(["Grim Brother"]))))) (0,external_kolmafia_namespaceObject.cliExecute)("grim damage");
+      var usefulEffects = [template_string_$effect(spelldamage_templateObject55 || (spelldamage_templateObject55 = spelldamage_taggedTemplateLiteral(["Arched Eyebrow of the Archmage"]))), template_string_$effect(spelldamage_templateObject56 || (spelldamage_templateObject56 = spelldamage_taggedTemplateLiteral(["Carol of the Hells"]))), template_string_$effect(spelldamage_templateObject57 || (spelldamage_templateObject57 = spelldamage_taggedTemplateLiteral(["Cowrruption"]))), template_string_$effect(spelldamage_templateObject58 || (spelldamage_templateObject58 = spelldamage_taggedTemplateLiteral(["Destructive Resolve"]))), template_string_$effect(spelldamage_templateObject59 || (spelldamage_templateObject59 = spelldamage_taggedTemplateLiteral(["Imported Strength"]))), template_string_$effect(spelldamage_templateObject60 || (spelldamage_templateObject60 = spelldamage_taggedTemplateLiteral(["Jackasses' Symphony of Destruction"]))), template_string_$effect(spelldamage_templateObject61 || (spelldamage_templateObject61 = spelldamage_taggedTemplateLiteral(["Mental A-cue-ity"]))), template_string_$effect(spelldamage_templateObject62 || (spelldamage_templateObject62 = spelldamage_taggedTemplateLiteral(["Pisces in the Skyces"]))), template_string_$effect(spelldamage_templateObject63 || (spelldamage_templateObject63 = spelldamage_taggedTemplateLiteral(["Song of Sauce"]))), template_string_$effect(spelldamage_templateObject64 || (spelldamage_templateObject64 = spelldamage_taggedTemplateLiteral(["Sigils of Yeg"]))), template_string_$effect(spelldamage_templateObject65 || (spelldamage_templateObject65 = spelldamage_taggedTemplateLiteral(["Spirit of Peppermint"]))), template_string_$effect(spelldamage_templateObject66 || (spelldamage_templateObject66 = spelldamage_taggedTemplateLiteral(["The Magic of LOV"]))), template_string_$effect(spelldamage_templateObject67 || (spelldamage_templateObject67 = spelldamage_taggedTemplateLiteral(["Warlock, Warstock, and Warbarrel"]))), template_string_$effect(spelldamage_templateObject68 || (spelldamage_templateObject68 = spelldamage_taggedTemplateLiteral(["We're All Made of Starfish"])))];
       usefulEffects.forEach(ef => tryAcquiringEffect(ef, true));
-      var wines = template_string_$items(spelldamage_templateObject68 || (spelldamage_templateObject68 = spelldamage_taggedTemplateLiteral(["Sacramento wine, distilled fortified wine"])));
+      var wines = template_string_$items(spelldamage_templateObject69 || (spelldamage_templateObject69 = spelldamage_taggedTemplateLiteral(["Sacramento wine, distilled fortified wine"])));
       while (CommunityService.SpellDamage.actualCost() > (0,external_kolmafia_namespaceObject.myAdventures)() && (0,external_kolmafia_namespaceObject.myInebriety)() < (0,external_kolmafia_namespaceObject.inebrietyLimit)() && wines.some(booze => have(booze))) {
-        tryAcquiringEffect(template_string_$effect(spelldamage_templateObject69 || (spelldamage_templateObject69 = spelldamage_taggedTemplateLiteral(["Ode to Booze"]))));
+        tryAcquiringEffect(template_string_$effect(spelldamage_templateObject70 || (spelldamage_templateObject70 = spelldamage_taggedTemplateLiteral(["Ode to Booze"]))));
         (0,external_kolmafia_namespaceObject.drink)(wines.filter(booze => have(booze))[0], 1);
       }
-      if (checkValue(template_string_$item(spelldamage_templateObject70 || (spelldamage_templateObject70 = spelldamage_taggedTemplateLiteral(["battery (AAA)"]))), checkTurnSave("SpellDamage", template_string_$effect(spelldamage_templateObject71 || (spelldamage_templateObject71 = spelldamage_taggedTemplateLiteral(["AAA-Charged"])))))) tryAcquiringEffect(template_string_$effect(spelldamage_templateObject72 || (spelldamage_templateObject72 = spelldamage_taggedTemplateLiteral(["AAA-Charged"]))), true);
+      if (checkValue(template_string_$item(spelldamage_templateObject71 || (spelldamage_templateObject71 = spelldamage_taggedTemplateLiteral(["battery (AAA)"]))), checkTurnSave("SpellDamage", template_string_$effect(spelldamage_templateObject72 || (spelldamage_templateObject72 = spelldamage_taggedTemplateLiteral(["AAA-Charged"])))))) tryAcquiringEffect(template_string_$effect(spelldamage_templateObject73 || (spelldamage_templateObject73 = spelldamage_taggedTemplateLiteral(["AAA-Charged"]))), true);
       if (!property_get("_madTeaParty") && !Witchess_have()) {
-        if (!have(template_string_$item(spelldamage_templateObject73 || (spelldamage_templateObject73 = spelldamage_taggedTemplateLiteral(["mariachi hat"]))))) (0,external_kolmafia_namespaceObject.retrieveItem)(1, template_string_$item(spelldamage_templateObject74 || (spelldamage_templateObject74 = spelldamage_taggedTemplateLiteral(["chewing gum on a string"]))));
-        tryAcquiringEffect(template_string_$effect(spelldamage_templateObject75 || (spelldamage_templateObject75 = spelldamage_taggedTemplateLiteral(["Full Bottle in front of Me"]))));
+        if (!have(template_string_$item(spelldamage_templateObject74 || (spelldamage_templateObject74 = spelldamage_taggedTemplateLiteral(["mariachi hat"]))))) (0,external_kolmafia_namespaceObject.retrieveItem)(1, template_string_$item(spelldamage_templateObject75 || (spelldamage_templateObject75 = spelldamage_taggedTemplateLiteral(["chewing gum on a string"]))));
+        tryAcquiringEffect(template_string_$effect(spelldamage_templateObject76 || (spelldamage_templateObject76 = spelldamage_taggedTemplateLiteral(["Full Bottle in front of Me"]))));
       }
     },
     completed: () => CommunityService.SpellDamage.isDone(),
@@ -19071,8 +19083,8 @@ var SpellDamageQuest = {
       modifier: "spell dmg, switch disembodied hand, -switch left-hand man"
     },
     post: () => {
-      if (have(template_string_$skill(spelldamage_templateObject76 || (spelldamage_templateObject76 = spelldamage_taggedTemplateLiteral(["Spirit of Nothing"]))))) (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(spelldamage_templateObject77 || (spelldamage_templateObject77 = spelldamage_taggedTemplateLiteral(["Spirit of Nothing"]))));
-      if (have(template_string_$familiar(spelldamage_templateObject78 || (spelldamage_templateObject78 = spelldamage_taggedTemplateLiteral(["Left-Hand Man"]))))) (0,external_kolmafia_namespaceObject.equip)(template_string_$familiar(spelldamage_templateObject79 || (spelldamage_templateObject79 = spelldamage_taggedTemplateLiteral(["Left-Hand Man"]))), template_string_$item.none);
+      if (have(template_string_$skill(spelldamage_templateObject77 || (spelldamage_templateObject77 = spelldamage_taggedTemplateLiteral(["Spirit of Nothing"]))))) (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(spelldamage_templateObject78 || (spelldamage_templateObject78 = spelldamage_taggedTemplateLiteral(["Spirit of Nothing"]))));
+      if (have(template_string_$familiar(spelldamage_templateObject79 || (spelldamage_templateObject79 = spelldamage_taggedTemplateLiteral(["Left-Hand Man"]))))) (0,external_kolmafia_namespaceObject.equip)(template_string_$familiar(spelldamage_templateObject80 || (spelldamage_templateObject80 = spelldamage_taggedTemplateLiteral(["Left-Hand Man"]))), template_string_$item.none);
       shrugAT();
     },
     limit: {
