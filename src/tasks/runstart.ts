@@ -50,6 +50,7 @@ import {
   $skill,
   $slot,
   $stat,
+  AprilingBandHelmet,
   clamp,
   CommunityService,
   get,
@@ -439,6 +440,12 @@ export const RunStartQuest: Quest = {
       name: "Looking Glass",
       completed: () => get("_lookingGlass"),
       do: () => visitUrl("clan_viplounge.php?action=lookingglass&whichfloor=2"),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Apriling Band Runstart (-com)",
+      completed: () => !AprilingBandHelmet.have() || have($effect`Apriling Band Patrol Beat`),
+      do: () => AprilingBandHelmet.conduct($effect`Apriling Band Patrol Beat`),
       limit: { tries: 1 },
     },
     {

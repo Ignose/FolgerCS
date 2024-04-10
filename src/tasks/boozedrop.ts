@@ -30,6 +30,7 @@ import {
   $location,
   $skill,
   $slot,
+  AprilingBandHelmet,
   CommunityService,
   get,
   getKramcoWandererChance,
@@ -82,6 +83,12 @@ export const BoozeDropQuest: Quest = {
         1500: 2,
       },
       combat: new CombatStrategy().macro(Macro.abort()),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Apriling Band Booze",
+      completed: () => !AprilingBandHelmet.have() || have($effect`Apriling Band Celebration Bop`),
+      do: () => AprilingBandHelmet.conduct($effect`Apriling Band Celebration Bop`),
       limit: { tries: 1 },
     },
     {
