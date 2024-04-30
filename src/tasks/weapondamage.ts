@@ -55,7 +55,7 @@ import {
 import { args } from "../args";
 
 const canesword = have($item`candy cane sword cane`);
-const stickknife =
+const stickknife = () =>
   have($item`Stick-Knife of Loathing`) &&
   (myPrimestat() === $stat`Muscle` || myClass() === $class`Pastamancer`);
 
@@ -296,7 +296,7 @@ export const WeaponDamageQuest: Quest = {
       },
       outfit: {
         weapon: canesword ? $item`candy cane sword cane` : undefined,
-        offhand: stickknife ? $item`Stick-Knife of Loathing` : undefined,
+        offhand: stickknife() ? $item`Stick-Knife of Loathing` : undefined,
         modifier: "weapon dmg, weapon dmg percent, switch disembodied hand, -switch left-hand man",
       },
       post: () => shrugAT(),

@@ -135,10 +135,10 @@ import {
   Station,
 } from "libram/dist/resources/2022/TrainSet";
 
-const useCinch = args.savecinch < 100 - get("_cinchUsed");
+const useCinch = () => args.savecinch < 100 - get("_cinchUsed");
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
 const freeFightMonsters: Monster[] = $monsters`Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle`;
-const godLobsterChoice = have($item`God Lobster's Ring`) ? 2 : 3;
+const godLobsterChoice = () => (have($item`God Lobster's Ring`) ? 2 : 3);
 const godLobsterSave = computeCombatFrequency(false) === -95;
 
 export function restoreMPEfficiently(): string {
@@ -1324,7 +1324,7 @@ export const LevelingQuest: Quest = {
                 Array.from(getBanishedMonsters().values()).includes($monster`fluffy bunny`)),
             Macro.trySkill($skill`Recall Facts: Monster Habitats`)
           )
-          .default(useCinch)
+          .default(useCinch())
       ),
       outfit: baseOutfit,
       post: (): void => {
@@ -1351,7 +1351,7 @@ export const LevelingQuest: Quest = {
         myBasestat(myPrimestat()) >= 190, // no longer need to back up Witchess Kings
       do: $location`The Dire Warren`,
       combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Back-Up to your Last Enemy`).default(useCinch)
+        Macro.trySkill($skill`Back-Up to your Last Enemy`).default(useCinch())
       ),
       outfit: () => ({
         ...baseOutfit(),
@@ -1390,7 +1390,7 @@ export const LevelingQuest: Quest = {
             (haveFreeBanish() ||
               Array.from(getBanishedMonsters().values()).includes($monster`fluffy bunny`)),
           Macro.trySkill($skill`Recall Facts: Monster Habitats`)
-        ).default(useCinch)
+        ).default(useCinch())
       ),
       post: (): void => {
         sendAutumnaton();
@@ -1518,8 +1518,8 @@ export const LevelingQuest: Quest = {
         !have($familiar`God Lobster`) ||
         (get("_godLobsterFights") >= 2 && godLobsterSave),
       do: () => visitUrl("main.php?fightgodlobster=1"),
-      combat: new CombatStrategy().macro(Macro.default(useCinch)),
-      choices: { 1310: godLobsterChoice }, // Get xp on last fight
+      combat: new CombatStrategy().macro(Macro.default(useCinch())),
+      choices: { 1310: godLobsterChoice() }, // Get xp on last fight
       outfit: () => ({
         ...baseOutfit(),
         famequip: $items`God Lobster's Ring, God Lobster's Scepter`,
@@ -1548,7 +1548,7 @@ export const LevelingQuest: Quest = {
         sendAutumnaton();
         sellMiscellaneousItems();
       },
-      combat: new CombatStrategy().macro(Macro.default(useCinch)),
+      combat: new CombatStrategy().macro(Macro.default(useCinch())),
       outfit: baseOutfit,
       limit: { tries: 1 },
     },
@@ -1573,7 +1573,7 @@ export const LevelingQuest: Quest = {
             (haveFreeBanish() ||
               Array.from(getBanishedMonsters().values()).includes($monster`fluffy bunny`)),
           Macro.trySkill($skill`Recall Facts: Monster Habitats`)
-        ).default(useCinch)
+        ).default(useCinch())
       ),
       outfit: baseOutfit,
       post: (): void => {
@@ -1594,7 +1594,7 @@ export const LevelingQuest: Quest = {
       },
       completed: () => get("_machineTunnelsAdv") >= 5 || !have($familiar`Machine Elf`),
       do: $location`The Deep Machine Tunnels`,
-      combat: new CombatStrategy().macro(Macro.default(useCinch)),
+      combat: new CombatStrategy().macro(Macro.default(useCinch())),
       outfit: () => ({
         ...baseOutfit(),
         familiar: $familiar`Machine Elf`,
@@ -1647,7 +1647,7 @@ export const LevelingQuest: Quest = {
           .trySkill($skill`Feel Pride`)
           .trySkill($skill`Cincho: Confetti Extravaganza`)
           .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
-          .default(useCinch)
+          .default(useCinch())
       ),
       post: (): void => {
         if (have($item`SMOOCH coffee cup`)) chew($item`SMOOCH coffee cup`, 1);
@@ -1701,7 +1701,7 @@ export const LevelingQuest: Quest = {
           .trySkill($skill`Chest X-Ray`)
           .trySkill($skill`Shattering Punch`)
           .trySkill($skill`Gingerbread Mob Hit`)
-          .default(useCinch)
+          .default(useCinch())
       ),
       post: (): void => {
         if (have($item`SMOOCH coffee cup`)) chew($item`SMOOCH coffee cup`, 1);
@@ -1750,7 +1750,7 @@ export const LevelingQuest: Quest = {
         args.witchess ||
         args.skipking,
       do: () => Witchess.fightPiece($monster`Witchess King`),
-      combat: new CombatStrategy().macro(Macro.default(useCinch)),
+      combat: new CombatStrategy().macro(Macro.default(useCinch())),
       outfit: baseOutfit,
       post: (): void => {
         sendAutumnaton();
@@ -1861,7 +1861,7 @@ export const LevelingQuest: Quest = {
             (haveFreeBanish() ||
               Array.from(getBanishedMonsters().values()).includes($monster`fluffy bunny`)),
           Macro.trySkill($skill`Recall Facts: Monster Habitats`)
-        ).default(useCinch)
+        ).default(useCinch())
       ),
       outfit: baseOutfit,
       post: (): void => {
@@ -1915,7 +1915,7 @@ export const LevelingQuest: Quest = {
           .trySkill($skill`Chest X-Ray`)
           .trySkill($skill`Shattering Punch`)
           .trySkill($skill`Gingerbread Mob Hit`)
-          .default(useCinch)
+          .default(useCinch())
       ),
       choices: {
         1094: 5,

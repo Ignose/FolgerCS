@@ -283,7 +283,7 @@ export const MoxieQuest: Quest = {
         !have($item`2002 Mr. Store Catalog`) ||
         CommunityService.Moxie.isDone(),
       do: (): void => {
-        if (!haveLoathingIdol) {
+        if (!haveLoathingIdol()) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
         }
         withChoice(1505, 1, () => useLoathingIdol());

@@ -512,15 +512,16 @@ export function computeBoozeDrop(): number {
   return Math.max(1, Math.floor(60 - (all + addWish) / 15));
 }
 
-const famJacksValue = have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;
-const greatWolfs = Math.min(2, computeWeaponDamage(false) - 1) + 2;
+const famJacksValue = () =>
+  have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;
+const greatWolfs = () => Math.min(2, computeWeaponDamage(false) - 1) + 2;
 const stickKnife =
   myPrimestat() === $stat`muscle` ? Math.min(5, computeWeaponDamage(false) - 1) + 4 : 0;
-const staff = have($skill`Spirit of Rigatoni`) ? 4 : 0;
-const tobikoSoda = have($skill`Summon Alice's Army Cards`) ? 0 : 3;
-const meteorite = Math.min(8, computeWeaponDamage(false) - 1) + 4;
-const slippers = Math.min(4, 1 + ((-1 * computeCombatFrequency(false)) / 5) * 3);
-const chlamys = Math.min(3, ((-1 * computeCombatFrequency(false)) / 5) * 3);
+const staff = () => (have($skill`Spirit of Rigatoni`) ? 4 : 0);
+const tobikoSoda = () => (have($skill`Summon Alice's Army Cards`) ? 0 : 3);
+const meteorite = () => Math.min(8, computeWeaponDamage(false) - 1) + 4;
+const slippers = () => Math.min(4, 1 + ((-1 * computeCombatFrequency(false)) / 5) * 3);
+const chlamys = () => Math.min(3, ((-1 * computeCombatFrequency(false)) / 5) * 3);
 
 type valuePull = {
   item: Item;
@@ -530,7 +531,7 @@ type valuePull = {
 export const pullValue: valuePull[] = [
   {
     item: $item`box of Familiar Jacks`,
-    value: famJacksValue,
+    value: famJacksValue(),
   },
   {
     item: $item`Stick-Knife of Loathing`,
@@ -538,7 +539,7 @@ export const pullValue: valuePull[] = [
   },
   {
     item: $item`Staff of Simmering Hatred`,
-    value: staff,
+    value: staff(),
   },
   {
     item: $item`Buddy Bjorn`,
@@ -546,11 +547,11 @@ export const pullValue: valuePull[] = [
   },
   {
     item: $item`meteorite necklace`,
-    value: meteorite,
+    value: meteorite(),
   },
   {
     item: $item`Great Wolf's beastly trousers`,
-    value: greatWolfs,
+    value: greatWolfs(),
   },
   {
     item: $item`repaid diaper`,
@@ -558,15 +559,15 @@ export const pullValue: valuePull[] = [
   },
   {
     item: $item`tobiko marble soda`,
-    value: tobikoSoda,
+    value: tobikoSoda(),
   },
   {
     item: $item`chalk chlamys`,
-    value: chlamys,
+    value: chlamys(),
   },
   {
     item: $item`Fuzzy Slippers of Hatred`,
-    value: slippers,
+    value: slippers(),
   },
 ];
 
@@ -1363,7 +1364,7 @@ export function useLoathingIdol(): void {
   );
 }
 
-export const haveLoathingIdol =
+export const haveLoathingIdol = () =>
   have($item`Loathing Idol Microphone`) ||
   have($item`Loathing Idol Microphone (75% charged)`) ||
   have($item`Loathing Idol Microphone (50% charged)`) ||
