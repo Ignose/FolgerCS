@@ -7964,6 +7964,118 @@ function fightPiece(piece) {
   }
   return (0,external_kolmafia_namespaceObject.runCombat)();
 }
+;// CONCATENATED MODULE: ./node_modules/libram/dist/resources/2024/AprilingBandHelmet.js
+var AprilingBandHelmet_templateObject;
+function AprilingBandHelmet_slicedToArray(arr, i) { return AprilingBandHelmet_arrayWithHoles(arr) || AprilingBandHelmet_iterableToArrayLimit(arr, i) || AprilingBandHelmet_unsupportedIterableToArray(arr, i) || AprilingBandHelmet_nonIterableRest(); }
+function AprilingBandHelmet_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function AprilingBandHelmet_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return AprilingBandHelmet_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return AprilingBandHelmet_arrayLikeToArray(o, minLen); }
+function AprilingBandHelmet_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function AprilingBandHelmet_iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function AprilingBandHelmet_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function AprilingBandHelmet_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+
+
+
+
+var helmet = template_string_$item(AprilingBandHelmet_templateObject || (AprilingBandHelmet_templateObject = AprilingBandHelmet_taggedTemplateLiteral(["Apriling band helmet"])));
+/**
+ * @returns whether you `have` the Apriling band helmet
+ */
+function AprilingBandHelmet_have() {
+  return have(helmet);
+}
+var MARCHING_SONGS = Object.freeze(["Apriling Band Patrol Beat", "Apriling Band Battle Cadence", "Apriling Band Celebration Bop"]);
+var MARCHING_SONG_EFFECTS = Object.freeze(MARCHING_SONGS.map(song => (0,external_kolmafia_namespaceObject.toEffect)(song)));
+var INSTRUMENTS = Object.freeze(["Apriling band saxophone", "Apriling band quad tom", "Apriling band tuba", "Apriling band staff", "Apriling band piccolo"]);
+var INSTRUMENT_ITEMS = Object.freeze(INSTRUMENTS.map(instrument => (0,external_kolmafia_namespaceObject.toItem)(instrument)));
+var visitConduct = () => (0,external_kolmafia_namespaceObject.visitUrl)("inventory.php?pwd&action=apriling");
+/**
+ * @returns Whether we can currently join a new section of our Apriling band
+ */
+function canJoinSection() {
+  return AprilingBandHelmet_have() && property_get("_aprilBandInstruments") < 2;
+}
+function makeConductFunction(mafiaClass, canDo, set, offset) {
+  return input => {
+    if (!canDo()) return false;
+    var _ref = typeof input === "string" ? [input, mafiaClass.get(input)] : [input.name, input],
+      _ref2 = AprilingBandHelmet_slicedToArray(_ref, 2),
+      name = _ref2[0],
+      instance = _ref2[1];
+    if (have(instance)) return true;
+    var key = set.indexOf(name);
+    if (key === -1) return false;
+    visitConduct();
+    (0,external_kolmafia_namespaceObject.runChoice)(key + offset);
+    (0,external_kolmafia_namespaceObject.runChoice)(9);
+    return have(instance);
+  };
+}
+/**
+ * Joins the given section of your Apriling band, returning whether you successfully obtained its instrument
+ *
+ * @param section The section of your band to join--either the instrument's name as a string, or the item itself.
+ *
+ * @returns Whether we have the item, at the end of all things
+ */
+var joinSection = makeConductFunction(external_kolmafia_namespaceObject.Item, canJoinSection, INSTRUMENTS, 4);
+/**
+ * @returns Whether we can currently change the marching song of our Apriling Band
+ */
+function canChangeSong() {
+  return AprilingBandHelmet_have() && property_get("nextAprilBandTurn") <= (0,external_kolmafia_namespaceObject.totalTurnsPlayed)();
+}
+/**
+ * Instructs your Apriling band to play the given song, returning whether it's successfully playing
+ *
+ * @param song The song for your band to play--either the effect's name or the effect itself.
+ *
+ * @returns Whether we have the effect, at the end of all things
+ */
+var changeSong = makeConductFunction(external_kolmafia_namespaceObject.Effect, canChangeSong, MARCHING_SONGS, 1);
+/**
+ * Conduct your Apriling band helmet
+ *
+ * @param result The instrument (as an item or string) or song (as an effect or string) you want out of this thing
+ * @returns Whether we successfully completed the task
+ */
+function conduct(result) {
+  if (result instanceof external_kolmafia_namespaceObject.Item || utils_arrayContains(result, INSTRUMENTS)) {
+    return joinSection(result);
+  }
+  return changeSong(result);
+}
+/**
+ * Plays a given Apriling band instrument
+ *
+ * @param instrument The instrument to play
+ * @param acquire Whether or not we should obtain the instrument if we don't currently have it
+ * @returns Whether we successfully played our instrument
+ */
+function play(instrument) {
+  var acquire = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  var item = instrument instanceof Item ? instrument : Item.get(instrument);
+  if (!canPlay(instrument, acquire)) return false;
+  if (acquire && !have_(item)) joinSection(item);
+  var currentUsesRemaining = item.dailyusesleft;
+  visitUrl("inventory.php?pwd=".concat(myHash(), "&iid=").concat(item.id, "&action=aprilplay"), false);
+  return item.dailyusesleft !== currentUsesRemaining;
+}
+/**
+ * Determine whether you can play an instrument
+ * @param instrument The instrument you want to play
+ * @param acquire Whether you're willing to obtain an instrument you don't already have
+ * @returns Whether you can play that instrument
+ */
+function canPlay(instrument) {
+  var acquire = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  if (!AprilingBandHelmet_have()) return false;
+  var item = instrument instanceof Item ? instrument : Item.get(instrument);
+  if (!have_(item) && (!acquire || !canJoinSection())) return false;
+  if (item.dailyusesleft <= 0) return false;
+  return true;
+}
 ;// CONCATENATED MODULE: ./node_modules/libram/dist/resources/2022/CombatLoversLocket.js
 var CombatLoversLocket_templateObject;
 function CombatLoversLocket_slicedToArray(arr, i) { return CombatLoversLocket_arrayWithHoles(arr) || CombatLoversLocket_iterableToArrayLimit(arr, i) || CombatLoversLocket_unsupportedIterableToArray(arr, i) || CombatLoversLocket_nonIterableRest(); }
@@ -12847,7 +12959,8 @@ function computeCombatFrequency(sim) {
   var silentRunning = -5;
   var feelingLonely = have(template_string_$skill(_templateObject229 || (_templateObject229 = lib_taggedTemplateLiteral(["Feel Lonely"])))) ? -5 : 0;
   var stub = !sim && have(template_string_$item(_templateObject230 || (_templateObject230 = lib_taggedTemplateLiteral(["trampled ticket stub"])))) ? -5 : 0;
-  var effects = sumNumbers([rose, smoothMovements, sonata, favoriteBird, shadowWaters, powerfulGlove, shoeGum, silentRunning, feelingLonely, stub]);
+  var apriling = AprilingBandHelmet_have() ? 10 : 0;
+  var effects = sumNumbers([rose, smoothMovements, sonata, favoriteBird, shadowWaters, powerfulGlove, shoeGum, silentRunning, feelingLonely, stub, apriling]);
   var disgeist = have(template_string_$familiar(_templateObject231 || (_templateObject231 = lib_taggedTemplateLiteral(["Disgeist"])))) ? -5 : 0;
   var familiar = disgeist;
   var darkHorse = property_get("horseryAvailable") ? -5 : 0;
@@ -13909,14 +14022,14 @@ function DaylightShavings_taggedTemplateLiteral(strings, raw) { if (!raw) { raw 
 
 
 
-var helmet = template_string_$item(DaylightShavings_templateObject || (DaylightShavings_templateObject = DaylightShavings_taggedTemplateLiteral(["Daylight Shavings Helmet"])));
+var DaylightShavings_helmet = template_string_$item(DaylightShavings_templateObject || (DaylightShavings_templateObject = DaylightShavings_taggedTemplateLiteral(["Daylight Shavings Helmet"])));
 /**
  * Returns whether the player owns an unpackaged Daylight Shavings Helmet, and it's available in either the inventory or other zones as determined by autoSatisfy settings.
  *
  * @returns whether we have the Daylight Shavings Helmet.
  */
 function DaylightShavings_have() {
-  return haveItem(helmet);
+  return haveItem(DaylightShavings_helmet);
 }
 var buffs = $effects(DaylightShavings_templateObject2 || (DaylightShavings_templateObject2 = DaylightShavings_taggedTemplateLiteral(["Spectacle Moustache, Toiletbrush Moustache, Barbell Moustache, Grizzly Beard, Surrealist's Moustache, Musician's Musician's Moustache, Gull-Wing Moustache, Space Warlord's Beard, Pointy Wizard Beard, Cowboy Stache, Friendly Chops"])));
 /**
@@ -15063,7 +15176,7 @@ var useCinch = () => args.savecinch < 100 - property_get("_cinchUsed");
 var leveling_baseBoozes = template_string_$items(leveling_templateObject || (leveling_templateObject = leveling_taggedTemplateLiteral(["bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey"])));
 var freeFightMonsters = $monsters(leveling_templateObject2 || (leveling_templateObject2 = leveling_taggedTemplateLiteral(["Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle"])));
 var godLobsterChoice = () => have(template_string_$item(leveling_templateObject3 || (leveling_templateObject3 = leveling_taggedTemplateLiteral(["God Lobster's Ring"])))) ? 2 : 3;
-var godLobsterSave = computeCombatFrequency(false) === -95;
+var godLobsterSave = () => computeCombatFrequency(false) === -95;
 function restoreMPEfficiently() {
   if (have(template_string_$item(leveling_templateObject4 || (leveling_templateObject4 = leveling_taggedTemplateLiteral(["magical sausage"]))))) return "Sausage";
   if (!property_get("_latteDrinkUsed", false) && have(template_string_$item(leveling_templateObject5 || (leveling_templateObject5 = leveling_taggedTemplateLiteral(["latte lovers member's mug"]))))) return "Gulp";
@@ -16155,7 +16268,7 @@ var LevelingQuest = {
       (0,external_kolmafia_namespaceObject.restoreMp)(50);
       garbageShirt();
     },
-    completed: () => property_get("_godLobsterFights") >= 3 || !have(template_string_$familiar(_templateObject398 || (_templateObject398 = leveling_taggedTemplateLiteral(["God Lobster"])))) || property_get("_godLobsterFights") >= 2 && godLobsterSave,
+    completed: () => property_get("_godLobsterFights") >= 3 || !have(template_string_$familiar(_templateObject398 || (_templateObject398 = leveling_taggedTemplateLiteral(["God Lobster"])))) || property_get("_godLobsterFights") >= 2 && godLobsterSave(),
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("main.php?fightgodlobster=1"),
     combat: new CombatStrategy().macro(combat_Macro["default"](useCinch())),
     choices: {
@@ -17145,118 +17258,6 @@ function makePants(alignment, element, leftSac, middleSac, rightSac) {
  */
 function makePantsFromObject(pants) {
   return makePants(pants.alignment, pants.element, pants.leftSac, pants.middleSac, pants.rightSac);
-}
-;// CONCATENATED MODULE: ./node_modules/libram/dist/resources/2024/AprilingBandHelmet.js
-var AprilingBandHelmet_templateObject;
-function AprilingBandHelmet_slicedToArray(arr, i) { return AprilingBandHelmet_arrayWithHoles(arr) || AprilingBandHelmet_iterableToArrayLimit(arr, i) || AprilingBandHelmet_unsupportedIterableToArray(arr, i) || AprilingBandHelmet_nonIterableRest(); }
-function AprilingBandHelmet_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function AprilingBandHelmet_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return AprilingBandHelmet_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return AprilingBandHelmet_arrayLikeToArray(o, minLen); }
-function AprilingBandHelmet_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function AprilingBandHelmet_iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function AprilingBandHelmet_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-function AprilingBandHelmet_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-
-
-
-
-var AprilingBandHelmet_helmet = template_string_$item(AprilingBandHelmet_templateObject || (AprilingBandHelmet_templateObject = AprilingBandHelmet_taggedTemplateLiteral(["Apriling band helmet"])));
-/**
- * @returns whether you `have` the Apriling band helmet
- */
-function AprilingBandHelmet_have() {
-  return have(AprilingBandHelmet_helmet);
-}
-var MARCHING_SONGS = Object.freeze(["Apriling Band Patrol Beat", "Apriling Band Battle Cadence", "Apriling Band Celebration Bop"]);
-var MARCHING_SONG_EFFECTS = Object.freeze(MARCHING_SONGS.map(song => (0,external_kolmafia_namespaceObject.toEffect)(song)));
-var INSTRUMENTS = Object.freeze(["Apriling band saxophone", "Apriling band quad tom", "Apriling band tuba", "Apriling band staff", "Apriling band piccolo"]);
-var INSTRUMENT_ITEMS = Object.freeze(INSTRUMENTS.map(instrument => (0,external_kolmafia_namespaceObject.toItem)(instrument)));
-var visitConduct = () => (0,external_kolmafia_namespaceObject.visitUrl)("inventory.php?pwd&action=apriling");
-/**
- * @returns Whether we can currently join a new section of our Apriling band
- */
-function canJoinSection() {
-  return AprilingBandHelmet_have() && property_get("_aprilBandInstruments") < 2;
-}
-function makeConductFunction(mafiaClass, canDo, set, offset) {
-  return input => {
-    if (!canDo()) return false;
-    var _ref = typeof input === "string" ? [input, mafiaClass.get(input)] : [input.name, input],
-      _ref2 = AprilingBandHelmet_slicedToArray(_ref, 2),
-      name = _ref2[0],
-      instance = _ref2[1];
-    if (have(instance)) return true;
-    var key = set.indexOf(name);
-    if (key === -1) return false;
-    visitConduct();
-    (0,external_kolmafia_namespaceObject.runChoice)(key + offset);
-    (0,external_kolmafia_namespaceObject.runChoice)(9);
-    return have(instance);
-  };
-}
-/**
- * Joins the given section of your Apriling band, returning whether you successfully obtained its instrument
- *
- * @param section The section of your band to join--either the instrument's name as a string, or the item itself.
- *
- * @returns Whether we have the item, at the end of all things
- */
-var joinSection = makeConductFunction(external_kolmafia_namespaceObject.Item, canJoinSection, INSTRUMENTS, 4);
-/**
- * @returns Whether we can currently change the marching song of our Apriling Band
- */
-function canChangeSong() {
-  return AprilingBandHelmet_have() && property_get("nextAprilBandTurn") <= (0,external_kolmafia_namespaceObject.totalTurnsPlayed)();
-}
-/**
- * Instructs your Apriling band to play the given song, returning whether it's successfully playing
- *
- * @param song The song for your band to play--either the effect's name or the effect itself.
- *
- * @returns Whether we have the effect, at the end of all things
- */
-var changeSong = makeConductFunction(external_kolmafia_namespaceObject.Effect, canChangeSong, MARCHING_SONGS, 1);
-/**
- * Conduct your Apriling band helmet
- *
- * @param result The instrument (as an item or string) or song (as an effect or string) you want out of this thing
- * @returns Whether we successfully completed the task
- */
-function conduct(result) {
-  if (result instanceof external_kolmafia_namespaceObject.Item || utils_arrayContains(result, INSTRUMENTS)) {
-    return joinSection(result);
-  }
-  return changeSong(result);
-}
-/**
- * Plays a given Apriling band instrument
- *
- * @param instrument The instrument to play
- * @param acquire Whether or not we should obtain the instrument if we don't currently have it
- * @returns Whether we successfully played our instrument
- */
-function play(instrument) {
-  var acquire = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-  var item = instrument instanceof Item ? instrument : Item.get(instrument);
-  if (!canPlay(instrument, acquire)) return false;
-  if (acquire && !have_(item)) joinSection(item);
-  var currentUsesRemaining = item.dailyusesleft;
-  visitUrl("inventory.php?pwd=".concat(myHash(), "&iid=").concat(item.id, "&action=aprilplay"), false);
-  return item.dailyusesleft !== currentUsesRemaining;
-}
-/**
- * Determine whether you can play an instrument
- * @param instrument The instrument you want to play
- * @param acquire Whether you're willing to obtain an instrument you don't already have
- * @returns Whether you can play that instrument
- */
-function canPlay(instrument) {
-  var acquire = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-  if (!AprilingBandHelmet_have()) return false;
-  var item = instrument instanceof Item ? instrument : Item.get(instrument);
-  if (!have_(item) && (!acquire || !canJoinSection())) return false;
-  if (item.dailyusesleft <= 0) return false;
-  return true;
 }
 ;// CONCATENATED MODULE: ./src/tasks/runstart.ts
 var runstart_templateObject, runstart_templateObject2, runstart_templateObject3, runstart_templateObject4, runstart_templateObject5, runstart_templateObject6, runstart_templateObject7, runstart_templateObject8, runstart_templateObject9, runstart_templateObject10, runstart_templateObject11, runstart_templateObject12, runstart_templateObject13, runstart_templateObject14, runstart_templateObject15, runstart_templateObject16, runstart_templateObject17, runstart_templateObject18, runstart_templateObject19, runstart_templateObject20, runstart_templateObject21, runstart_templateObject22, runstart_templateObject23, runstart_templateObject24, runstart_templateObject25, runstart_templateObject26, runstart_templateObject27, runstart_templateObject28, runstart_templateObject29, runstart_templateObject30, runstart_templateObject31, runstart_templateObject32, runstart_templateObject33, runstart_templateObject34, runstart_templateObject35, runstart_templateObject36, runstart_templateObject37, runstart_templateObject38, runstart_templateObject39, runstart_templateObject40, runstart_templateObject41, runstart_templateObject42, runstart_templateObject43, runstart_templateObject44, runstart_templateObject45, runstart_templateObject46, runstart_templateObject47, runstart_templateObject48, runstart_templateObject49, runstart_templateObject50, runstart_templateObject51, runstart_templateObject52, runstart_templateObject53, runstart_templateObject54, runstart_templateObject55, runstart_templateObject56, runstart_templateObject57, runstart_templateObject58, runstart_templateObject59, runstart_templateObject60, runstart_templateObject61, runstart_templateObject62, runstart_templateObject63, runstart_templateObject64, runstart_templateObject65, runstart_templateObject66, runstart_templateObject67, runstart_templateObject68, runstart_templateObject69, runstart_templateObject70, runstart_templateObject71, runstart_templateObject72, runstart_templateObject73, runstart_templateObject74, runstart_templateObject75, runstart_templateObject76, runstart_templateObject77, runstart_templateObject78, runstart_templateObject79, runstart_templateObject80, runstart_templateObject81, runstart_templateObject82, runstart_templateObject83, runstart_templateObject84, runstart_templateObject85, runstart_templateObject86, runstart_templateObject87, runstart_templateObject88, runstart_templateObject89, runstart_templateObject90, runstart_templateObject91, runstart_templateObject92, runstart_templateObject93, runstart_templateObject94, runstart_templateObject95, runstart_templateObject96, runstart_templateObject97, runstart_templateObject98, runstart_templateObject99, runstart_templateObject100, runstart_templateObject101, runstart_templateObject102, runstart_templateObject103, runstart_templateObject104, runstart_templateObject105, runstart_templateObject106, runstart_templateObject107, runstart_templateObject108, runstart_templateObject109, runstart_templateObject110, runstart_templateObject111, runstart_templateObject112, runstart_templateObject113, runstart_templateObject114, runstart_templateObject115, runstart_templateObject116, runstart_templateObject117, runstart_templateObject118, runstart_templateObject119, runstart_templateObject120, runstart_templateObject121, runstart_templateObject122, runstart_templateObject123, runstart_templateObject124, runstart_templateObject125, runstart_templateObject126, runstart_templateObject127, runstart_templateObject128, runstart_templateObject129, runstart_templateObject130, runstart_templateObject131, runstart_templateObject132, runstart_templateObject133, runstart_templateObject134, runstart_templateObject135, runstart_templateObject136, runstart_templateObject137, runstart_templateObject138, runstart_templateObject139, runstart_templateObject140, runstart_templateObject141, runstart_templateObject142, runstart_templateObject143;
@@ -18256,7 +18257,15 @@ var BoozeDropQuest = {
     limit: {
       tries: 1
     }
-  }, {
+  },
+  /* {
+    name: "Yams Item Drop",
+    ready: () => have($item`Mayam Calendar`),
+    completed: () => ["yam4", "explosion", "clock"].every((sym) => get("_mayamSymbolsUsed").includes(sym)) || get("_mayamSymbolsUsed").includes("eye"),
+    do: () => Mayam(stuff),
+    limit: { tries: 1 },
+  }, */
+  {
     name: "Feeling Lost",
     completed: () => have(template_string_$effect(boozedrop_templateObject61 || (boozedrop_templateObject61 = boozedrop_taggedTemplateLiteral(["Feeling Lost"])))) || !have(template_string_$skill(boozedrop_templateObject62 || (boozedrop_templateObject62 = boozedrop_taggedTemplateLiteral(["Feel Lost"])))),
     do: () => (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(boozedrop_templateObject63 || (boozedrop_templateObject63 = boozedrop_taggedTemplateLiteral(["Feel Lost"])))),
