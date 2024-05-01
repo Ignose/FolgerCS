@@ -221,6 +221,13 @@ export const BoozeDropQuest: Quest = {
       do: () => buy($item`oversized sparkler`, 1),
       limit: { tries: 1 },
     },
+    /* {
+      name: "Yams Item Drop",
+      ready: () => have($item`Mayam Calendar`),
+      completed: () => ["yam4", "explosion", "clock"].every((sym) => get("_mayamSymbolsUsed").includes(sym)) || get("_mayamSymbolsUsed").includes("eye"),
+      do: () => Mayam(stuff),
+      limit: { tries: 1 },
+    }, */
     {
       name: "Feeling Lost",
       completed: () => have($effect`Feeling Lost`) || !have($skill`Feel Lost`),
