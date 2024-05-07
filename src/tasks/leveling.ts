@@ -495,11 +495,13 @@ export const LevelingQuest: Quest = {
       ready: () => args.dopullstest,
       completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
       do: (): void => {
-        const maxPullItem = findMaxPull();
-        if (maxPullItem) takeStorage(maxPullItem, 1);
-        else print("Hmmm, seems like we don't have anything to pull.");
+        while (5 - get("_roninStoragePulls").split(",").length <= args.savepulls) {
+          const maxPullItem = findMaxPull();
+          if (maxPullItem) takeStorage(maxPullItem, 1);
+          else print("Hmmm, seems like we don't have anything to pull.");
+        }
       },
-      limit: { tries: 3 },
+      limit: { tries: 4 },
     },
     {
       name: "Pull Some Jacks",

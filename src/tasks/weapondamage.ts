@@ -65,6 +65,7 @@ export const WeaponDamageQuest: Quest = {
   tasks: [
     {
       name: "Potion of Potency",
+      ready: () => have($item`orange`) && have($item`scrumptious reagent`),
       completed: () =>
         have($item`potion of potency`) ||
         have($effect`Pronounced Potency`) ||

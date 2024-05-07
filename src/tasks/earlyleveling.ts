@@ -179,23 +179,15 @@ export const earlyLevelingQuest: Quest = {
         !CombatLoversLocket.availableLocketMonsters().includes($monster`red skeleton`) ||
         args.redskeleton,
       do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
-      combat: get("_daycareGymScavenges")
-        ? new CombatStrategy().macro(
-            Macro.trySkill($skill`Spring Away`)
-              .trySkill($skill`Snokebomb`)
-              .trySkill($skill`Reflex Hammer`)
-              .trySkill($skill`Chest X-Ray`)
-              .trySkill($skill`Gingerbread Mob Hit`)
-              .trySkill($skill`Shattering Punch`)
-              .default()
-          )
-        : new CombatStrategy().macro(
-            Macro.trySkill($skill`Reflex Hammer`)
-              .trySkill($skill`Chest X-Ray`)
-              .trySkill($skill`Gingerbread Mob Hit`)
-              .trySkill($skill`Shattering Punch`)
-              .default()
-          ),
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`Spring Away`)
+          .trySkill($skill`Snokebomb`)
+          .trySkill($skill`Reflex Hammer`)
+          .trySkill($skill`Chest X-Ray`)
+          .trySkill($skill`Gingerbread Mob Hit`)
+          .trySkill($skill`Shattering Punch`)
+          .default()
+      ),
       outfit: () => ({
         ...baseOutfit(false),
         shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,

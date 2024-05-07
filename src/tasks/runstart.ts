@@ -336,7 +336,9 @@ export const RunStartQuest: Quest = {
         const statString = statToMaximizerString(myPrimestat());
         cliExecute(`mummery ${statString}`);
       },
-      outfit: { familiar: chooseFamiliar() },
+      outfit: {
+        familiar: have($familiar`Melodramedary`) ? $familiar`Melodramedary` : chooseFamiliar(),
+      },
       limit: { tries: 1 },
     },
     {
