@@ -2,6 +2,7 @@ import {
   autosell,
   availableAmount,
   buy,
+  buyUsingStorage,
   cliExecute,
   create,
   Effect,
@@ -529,9 +530,14 @@ type valuePull = {
   value: number;
 };
 
+export const jacks =
+  mallPrice($item`box of Familiar Jacks`) < mallPrice($item`yule battery`)
+    ? $item`box of Familiar Jacks`
+    : $item`yule battery`;
+
 export const pullValue: valuePull[] = [
   {
-    item: $item`box of Familiar Jacks`,
+    item: jacks,
     value: famJacksValue(),
   },
   {
@@ -572,6 +578,17 @@ export const pullValue: valuePull[] = [
   },
 ];
 
+export function acquirePulls(item: Item): boolean {
+  if (storageAmount(item) >= 1) return true;
+  const pull = pullValue.find((pull) => pull.item === item);
+  if (pull === undefined) return false;
+  if (pull.value * get("valueOfAdventure") > mallPrice(item)) {
+    buyUsingStorage(item);
+    return true;
+  }
+  return false;
+}
+
 export function checkPull(item: Item): boolean {
   if (
     get("_roninStoragePulls").split(",").length >= 5 ||
@@ -585,10 +602,21 @@ export function checkPull(item: Item): boolean {
 }
 
 export function findMaxPull(): Item | null {
-  return maxBy(
-    pullValue.filter(({ item }) => storageAmount(item) >= 1),
-    `value`
-  ).item;
+  const availablePulls = pullValue
+    .filter(({ item }) => storageAmount(item) >= 1)
+    .filter(({ item }) => !have(item))
+    .filter(({ value }) => value >= 1)
+    .sort((a, b) => b.value - a.value);
+  return maxBy(availablePulls, `value`).item;
+}
+
+export function simMaxPull(): valuePull[] | null | Item {
+  const pullList = pullValue
+    .filter(({ item }) => have(item) || storageAmount(item) >= 1)
+    .filter(({ value }) => value >= 1)
+    .sort((a, b) => b.value - a.value);
+
+  return pullList;
 }
 
 export const forbiddenEffects: Effect[] = [];

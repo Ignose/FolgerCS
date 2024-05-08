@@ -117,6 +117,7 @@ function optimisticCandle(): Familiar {
 }
 
 function melodramedary(): Familiar {
+  if (have($effect`Spit Upon`)) return $familiar.none;
   return (have($familiar`Melodramedary`) &&
     camelFightsLeft() >= Math.ceil((100 - get("camelSpit")) / 3.0) &&
     get("camelSpit") < 100) ||

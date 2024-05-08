@@ -18,6 +18,7 @@ import {
   computeHotRes,
   computeSpellDamage,
   computeWeaponDamage,
+  simMaxPull,
 } from "./lib";
 
 class Hardcoded {
@@ -648,4 +649,20 @@ export function checkTests(): void {
 
   const boozeTestTurns = computeBoozeDrop();
   print(`Booze Drop Test expected to take ${boozeTestTurns} turns.`);
+
+  print("");
+}
+
+export function simPulls(): void {
+  const pulls = simMaxPull();
+  if (pulls instanceof Item) print(`Best Item to Pull: ${pulls}`);
+  else if (pulls) {
+    print("Expected pulls:");
+    pulls.forEach((pull) => {
+      print(`Item: ${pull.item}`);
+      print(`-   Turns Saved: ${pull.value}`);
+    });
+  } else {
+    print("No pulls available.");
+  }
 }

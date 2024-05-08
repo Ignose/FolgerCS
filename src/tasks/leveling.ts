@@ -81,6 +81,7 @@ import {
 } from "libram";
 import { CombatStrategy, OutfitSpec } from "grimoire-kolmafia";
 import {
+  acquirePulls,
   boomBoxProfit,
   burnLibram,
   //burnLibram,
@@ -90,11 +91,14 @@ import {
   checkValue,
   chooseLibram,
   computeCombatFrequency,
+  computeHotRes,
+  computeWeaponDamage,
   findMaxPull,
   forbiddenEffects,
   generalStoreXpEffect,
   getSynthExpBuff,
   getValidComplexCandyPairs,
+  jacks,
   overlevelled,
   reagentBalancerEffect,
   reagentBalancerIngredient,
@@ -493,9 +497,14 @@ export const LevelingQuest: Quest = {
     {
       name: "Pull Some Everything",
       ready: () => args.dopullstest,
+      prepare: () =>
+        $items`tobiko marble soda, ${jacks.name}`.forEach((item) => acquirePulls(item)),
       completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
       do: (): void => {
-        while (5 - get("_roninStoragePulls").split(",").length <= args.savepulls) {
+        while (
+          5 - get("_roninStoragePulls").split(",").length >= args.savepulls ||
+          get("_roninStoragePulls").split(",").length === 5
+        ) {
           const maxPullItem = findMaxPull();
           if (maxPullItem) takeStorage(maxPullItem, 1);
           else print("Hmmm, seems like we don't have anything to pull.");
@@ -1602,6 +1611,34 @@ export const LevelingQuest: Quest = {
         familiar: $familiar`Machine Elf`,
       }),
       limit: { tries: 5 },
+      post: (): void => {
+        sendAutumnaton();
+        sellMiscellaneousItems();
+        boomBoxProfit();
+      },
+    },
+    {
+      name: "Early Camel Spit",
+      ready: () =>
+        get("camelSpit") >= 100 &&
+        have($familiar`Comma Chameleon`) &&
+        get("_neverendingPartyFreeTurns") < 10 &&
+        computeHotRes(false) + computeWeaponDamage(false) + 4 < 10,
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        unbreakableUmbrella();
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
+        restoreMp(50);
+        garbageShirt();
+      },
+      completed: () => have($effect`Spit Upon`),
+      do: $location`The Neverending Party`,
+      combat: new CombatStrategy().macro(Macro.trySkill($skill`%fn, spit on me!`).kill()),
+      outfit: () => ({
+        ...baseOutfit(),
+        familiar: $familiar`Melodramedary`,
+      }),
+      limit: { tries: 1 },
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();

@@ -33,7 +33,7 @@ import { HotResQuest } from "./tasks/hotres";
 import { WeaponDamageQuest } from "./tasks/weapondamage";
 import { DonateQuest, logResourceUsage } from "./tasks/donate";
 import { SpellDamageQuest } from "./tasks/spelldamage";
-import { checkRequirements, checkTests } from "./sim";
+import { checkRequirements, checkTests, simPulls } from "./sim";
 import { args } from "./args";
 
 const timeProperty = "fullday_elapsedTime";
@@ -49,6 +49,7 @@ export function main(command?: string): void {
   if (args.sim) {
     checkRequirements();
     checkTests();
+    simPulls();
     return;
   }
 
