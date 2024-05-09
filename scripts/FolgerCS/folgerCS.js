@@ -15432,9 +15432,11 @@ var LevelingQuest = {
     prepare: () => template_string_$items(leveling_templateObject138 || (leveling_templateObject138 = leveling_taggedTemplateLiteral(["tobiko marble soda, ", ""])), jacks.name).forEach(item => acquirePulls(item)),
     completed: () => 5 - property_get("_roninStoragePulls").split(",").length <= args.savepulls,
     do: () => {
-      while (5 - property_get("_roninStoragePulls").split(",").length >= args.savepulls || property_get("_roninStoragePulls").split(",").length === 5) {
+      var i = 5 - args.savepulls - property_get("_roninStoragePulls").split(",").length;
+      while (i < 5) {
         var maxPullItem = findMaxPull();
         if (maxPullItem) (0,external_kolmafia_namespaceObject.takeStorage)(maxPullItem, 1);else (0,external_kolmafia_namespaceObject.print)("Hmmm, seems like we don't have anything to pull.");
+        i++;
       }
     },
     limit: {
