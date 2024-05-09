@@ -501,13 +501,12 @@ export const LevelingQuest: Quest = {
         $items`tobiko marble soda, ${jacks.name}`.forEach((item) => acquirePulls(item)),
       completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
       do: (): void => {
-        while (
-          5 - get("_roninStoragePulls").split(",").length >= args.savepulls ||
-          get("_roninStoragePulls").split(",").length === 5
-        ) {
+        let i = 5 - args.savepulls - get("_roninStoragePulls").split(",").length;
+        while (i < 5) {
           const maxPullItem = findMaxPull();
           if (maxPullItem) takeStorage(maxPullItem, 1);
           else print("Hmmm, seems like we don't have anything to pull.");
+          i++;
         }
       },
       limit: { tries: 4 },
