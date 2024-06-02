@@ -100,6 +100,15 @@ export const RunStartQuest: Quest = {
       do: () => visitUrl("council.php"),
     },
     {
+      name: "Apriling Part 1",
+      ready: () => AprilingBandHelmet.canChangeSong(),
+      completed: () => have($effect`Apriling Band Patrol Beat`),
+      do: (): void => {
+        AprilingBandHelmet.conduct($effect`Apriling Band Patrol Beat`);
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Toot",
       prepare: () => visitUrl("tutorial.php?action=toot"),
       completed: () =>
