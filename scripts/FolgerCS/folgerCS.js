@@ -12994,7 +12994,7 @@ function computeCombatFrequency(sim) {
   var silentRunning = -5;
   var feelingLonely = have(template_string_$skill(_templateObject232 || (_templateObject232 = lib_taggedTemplateLiteral(["Feel Lonely"])))) ? -5 : 0;
   var stub = !sim && have(template_string_$item(_templateObject233 || (_templateObject233 = lib_taggedTemplateLiteral(["trampled ticket stub"])))) ? -5 : 0;
-  var apriling = AprilingBandHelmet_have() ? 10 : 0;
+  var apriling = AprilingBandHelmet_have() ? -10 : 0;
   var effects = sumNumbers([rose, smoothMovements, sonata, favoriteBird, shadowWaters, powerfulGlove, shoeGum, silentRunning, feelingLonely, stub, apriling]);
   var disgeist = have(template_string_$familiar(_templateObject234 || (_templateObject234 = lib_taggedTemplateLiteral(["Disgeist"])))) ? -5 : 0;
   var familiar = disgeist;
