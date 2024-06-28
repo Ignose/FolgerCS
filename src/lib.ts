@@ -871,7 +871,7 @@ export function computeCombatFrequency(sim: boolean): number {
   const silentRunning = -5;
   const feelingLonely = have($skill`Feel Lonely`) ? -5 : 0;
   const stub = !sim && have($item`trampled ticket stub`) ? -5 : 0;
-  const apriling = AprilingBandHelmet.have() ? 10 : 0;
+  const apriling = AprilingBandHelmet.have() ? -10 : 0;
   const effects = sumNumbers([
     rose,
     smoothMovements,
