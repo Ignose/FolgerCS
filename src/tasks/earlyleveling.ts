@@ -269,6 +269,44 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 2 },
     },
     {
+      name: "Cooler Kramco",
+      after: ["ReConfigure Trainset"],
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        restoreMp(50);
+      },
+      ready: () => getKramcoWandererChance() >= 1.0 && have($familiar`Patriotic Eagle`),
+      completed: () => getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`),
+      do: $location`Madness Bakery`,
+      outfit: () => ({
+        ...baseOutfit(),
+        offhand: $item`Kramco Sausage-o-Matic™`,
+        familiar: $familiar`Patriotic Eagle`,
+      }),
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`).trySkill(
+          $skill`%fn, fire a Red, White and Blue Blast`
+        ).default
+      ),
+    },
+    {
+      name: "Cooler Kramco Part 2",
+      after: ["Cooler Kramco"],
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        restoreMp(50);
+      },
+      ready: () => get("rwbMonster") === $monster`Sausage Goblin`,
+      completed: () => get("rwbMonsterCount") === 0,
+      do: $location`Madness Bakery`,
+      outfit: () => ({
+        ...baseOutfit(),
+        familiar: have($familiar`Melodramedary`) ? $familiar`Melodramedary` : undefined,
+      }),
+      combat: new CombatStrategy().macro(Macro.default),
+      limit: { tries: 2 },
+    },
+    {
       name: "Kramco",
       after: ["ReConfigure Trainset"],
       prepare: (): void => {
@@ -342,7 +380,8 @@ export const earlyLevelingQuest: Quest = {
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
         get("_citizenZone").includes("Madness Bakery") ||
-        get("_pledgeCheck", false),
+        get("_pledgeCheck", false) ||
+        have($effect`Seeing Red, White and Blue`),
       do: $location`Madness Bakery`,
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`)
