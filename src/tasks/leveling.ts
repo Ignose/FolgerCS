@@ -1391,10 +1391,6 @@ export const LevelingQuest: Quest = {
         ...baseOutfit(),
         offhand: $item`Kramco Sausage-o-Matic™`,
         shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
-        familiar:
-          have($familiar`Patriotic Eagle`) && !have($effect`Seeing Red, White and Blue`)
-            ? $familiar`Patriotic Eagle`
-            : undefined,
       }),
       combat: new CombatStrategy().macro(() =>
         Macro.externalIf(
@@ -1404,39 +1400,13 @@ export const LevelingQuest: Quest = {
             (haveFreeBanish() ||
               Array.from(getBanishedMonsters().values()).includes($monster`fluffy bunny`)),
           Macro.trySkill($skill`Recall Facts: Monster Habitats`)
-        )
-          .trySkill($skill`%fn, fire a Red, White and Blue Blast`)
-          .default(useCinch())
+        ).default(useCinch())
       ),
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
         boomBoxProfit();
       },
-    },
-    {
-      name: "RWB Kramco",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        garbageShirt();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-      },
-      ready: () => get("rwbMonster") === $monster`Sausage Goblin`,
-      completed: () => get("rwbMonsterCount") === 0,
-      do: $location`Noob Cave`,
-      outfit: () => ({
-        ...baseOutfit(),
-        shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
-      }),
-      combat: new CombatStrategy().macro(() => Macro.default(useCinch())),
-      post: (): void => {
-        sendAutumnaton();
-        sellMiscellaneousItems();
-        boomBoxProfit();
-      },
-      limit: { tries: 2 },
     },
     {
       name: "Oliver's Place (Map)",
