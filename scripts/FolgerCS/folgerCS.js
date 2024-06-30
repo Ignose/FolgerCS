@@ -17959,7 +17959,7 @@ var FamiliarWeightQuest = {
     }
   }, {
     name: "Fiesta Exit",
-    completed: () => have(template_string_$effect(familiarweight_templateObject10 || (familiarweight_templateObject10 = familiarweight_taggedTemplateLiteral(["Party Soundtrack"])))) || !have(template_string_$skill(familiarweight_templateObject11 || (familiarweight_templateObject11 = familiarweight_taggedTemplateLiteral(["Cincho: Party Soundtrack"])))),
+    completed: () => have(template_string_$effect(familiarweight_templateObject10 || (familiarweight_templateObject10 = familiarweight_taggedTemplateLiteral(["Party Soundtrack"])))) || !have(template_string_$skill(familiarweight_templateObject11 || (familiarweight_templateObject11 = familiarweight_taggedTemplateLiteral(["Cincho: Party Soundtrack"])))) || 100 - property_get("_cinchUsed") < 75,
     do: () => {
       (0,external_kolmafia_namespaceObject.equip)($slot(familiarweight_templateObject12 || (familiarweight_templateObject12 = familiarweight_taggedTemplateLiteral(["acc3"]))), template_string_$item(familiarweight_templateObject13 || (familiarweight_templateObject13 = familiarweight_taggedTemplateLiteral(["Cincho de Mayo"]))));
       (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(familiarweight_templateObject14 || (familiarweight_templateObject14 = familiarweight_taggedTemplateLiteral(["Cincho: Party Soundtrack"]))));
