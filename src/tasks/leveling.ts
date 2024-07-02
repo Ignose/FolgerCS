@@ -143,7 +143,6 @@ const useCinch = () => args.savecinch < 100 - get("_cinchUsed");
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
 const freeFightMonsters: Monster[] = $monsters`Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle`;
 const godLobsterChoice = () => (have($item`God Lobster's Ring`) ? 2 : 3);
-const godLobsterSave = () => computeCombatFrequency(false) === -95;
 
 export function restoreMPEfficiently(): string {
   if (have($item`magical sausage`)) return "Sausage";
@@ -316,6 +315,13 @@ export const LevelingQuest: Quest = {
       !haveFreeKill()),
   tasks: [
     {
+      name: "Open Mayday",
+      ready: () => have($item`MayDay™ supply package`) && !args.savemayday,
+      completed: () => !have($item`MayDay™ supply package`),
+      do: () => use($item`MayDay™ supply package`),
+      limit: { tries: 1 },
+    },
+    {
       name: "LED Candle",
       completed: () => !have($item`LED candle`) || get("ledCandleMode", "") === "reading",
       do: () => cliExecute("jillcandle reading"),
@@ -407,11 +413,9 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Wardrobe-o-matic",
-      // eslint-disable-next-line libram/verify-constants
       ready: () => myLevel() >= 15 && have($item`wardrobe-o-matic`),
       completed: () => get("_wardrobeUsed", false),
       do: (): void => {
-        // eslint-disable-next-line libram/verify-constants
         use($item`wardrobe-o-matic`);
         cliExecute("set _wardrobeUsed = true");
       },
@@ -424,79 +428,7 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Synth Exp Buff",
-      completed: () =>
-        !have($skill`Sweet Synthesis`) ||
-        args.synthxp ||
-        have(synthExpBuff) ||
-        getValidComplexCandyPairs().length === 0,
-      do: (): void => getSynthExpBuff(),
-      limit: { tries: 5 },
-    },
-    {
-      name: "Pull Deep Dish of Legend",
-      ready: () => !args.deepdish,
-      completed: () =>
-        checkPull($item`Deep Dish of Legend`) || have($effect`In the Depths`) || args.deepdish,
-      prepare: (): void => {
-        cliExecute(`maximize ${myPrimestat()} experience percent`);
-      },
-      do: (): void => {
-        if (storageAmount($item`Deep Dish of Legend`) === 0) {
-          print("Uh oh! You do not seem to have a Deep Dish of Legend in Hagnk's", "red");
-          print("Consider pulling something to make up for the turngen and 300%mus,", "red");
-          print(
-            "then type 'set instant_skipDeepDishOfLegend=true' before re-running instantsccs",
-            "red"
-          );
-        }
-        takeStorage($item`Deep Dish of Legend`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Calzone of Legend",
-      completed: () =>
-        checkPull($item`Calzone of Legend`) || have($effect`In the 'zone zone!`) || args.calzone,
-      prepare: (): void => {
-        cliExecute(`maximize ${myPrimestat()} experience percent`);
-      },
-      do: (): void => {
-        if (storageAmount($item`Calzone of Legend`) === 0) {
-          print("Uh oh! You do not seem to have a Calzone of Legend in Hagnk's", "red");
-          print(
-            "Consider pulling something to make up for the turngen and 300%myst (e.g. a roasted vegetable focaccia),",
-            "red"
-          );
-          print(
-            "then type 'set instant_skipCalzoneOfLegend=true' before re-running instantsccs",
-            "red"
-          );
-        }
-        takeStorage($item`Calzone of Legend`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Pizza of Legend",
-      completed: () =>
-        checkPull($item`Pizza of Legend`) || have($effect`Endless Drool`) || args.pizza,
-      do: (): void => {
-        if (storageAmount($item`Pizza of Legend`) === 0) {
-          print("Uh oh! You do not seem to have a Pizza of Legend in Hagnk's", "red");
-          print("Consider pulling something to make up for the turngen and 300%mox,", "red");
-          print(
-            "then type 'set instant_skipPizzaOfLegend=true' before re-running instantsccs",
-            "red"
-          );
-        }
-        takeStorage($item`Pizza of Legend`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Pull Some Everything",
-      ready: () => args.dopullstest,
       prepare: () =>
         $items`tobiko marble soda, ${jacks.name}`.forEach((item) => acquirePulls(item)),
       completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
@@ -510,84 +442,6 @@ export const LevelingQuest: Quest = {
         }
       },
       limit: { tries: 4 },
-    },
-    {
-      name: "Pull Some Jacks",
-      ready: () => args.dopulls,
-      completed: () =>
-        have($skill`Summon Clip Art`) ||
-        !have($familiar`Comma Chameleon`) ||
-        have($item`box of Familiar Jacks`) ||
-        checkPull($item`box of Familiar Jacks`),
-      do: (): void => {
-        takeStorage($item`box of Familiar Jacks`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Buddy Bjorn",
-      ready: () => args.dopulls,
-      completed: () => checkPull($item`Buddy Bjorn`),
-      do: (): void => {
-        takeStorage($item`Buddy Bjorn`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Stick-Knife",
-      ready: () => args.dopulls,
-      completed: () => checkPull($item`Stick-Knife of Loathing`),
-      do: (): void => {
-        takeStorage($item`Stick-Knife of Loathing`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Repaid Diaper",
-      ready: () => args.dopulls,
-      completed: () =>
-        checkPull($item`Great Wolf's beastly trousers`) || checkPull($item`repaid diaper`),
-      do: (): void => {
-        takeStorage($item`repaid diaper`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Beastly Trousers",
-      ready: () => args.dopulls,
-      completed: () =>
-        checkPull($item`Great Wolf's beastly trousers`) || have($item`astral trousers`),
-      do: (): void => {
-        takeStorage($item`Great Wolf's beastly trousers`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Staff of Simering Hatred",
-      ready: () => args.dopulls,
-      completed: () => checkPull($item`Staff of Simmering Hatred`),
-      do: (): void => {
-        takeStorage($item`Staff of Simmering Hatred`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Tobiko Marble Soda",
-      ready: () => args.dopulls,
-      completed: () => checkPull($item`tobiko marble soda`),
-      do: (): void => {
-        takeStorage($item`tobiko marble soda`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Chlamys",
-      ready: () => args.dopulls && computeCombatFrequency(false) > -100,
-      completed: () => checkPull($item`chalk chlamys`),
-      do: (): void => {
-        takeStorage($item`chalk chlamys`, 1);
-      },
-      limit: { tries: 1 },
     },
     {
       name: "Lathe",
@@ -616,29 +470,6 @@ export const LevelingQuest: Quest = {
         !have($skill`Giant Growth`),
       do: (): void => {
         cheatCard("Forest");
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Daypass",
-      completed: () =>
-        powerlevelingLocation() !== $location`Uncle Gator's Country Fun-Time Liquid Waste Sluice` ||
-        5 - get("_roninStoragePulls").split(",").length >= args.savepulls ||
-        get("stenchAirportAlways") ||
-        get("_stenchAirportToday"),
-      do: (): void => {
-        if (storageAmount($item`one-day ticket to Dinseylandfill`) === 0) {
-          print(
-            "Uh oh! You do not seem to have a one-day ticket to Dinseylandfill in Hagnk's",
-            "red"
-          );
-          print(
-            "Try to purchase one from the mall with your meat from Hagnk's before re-running instantsccs",
-            "red"
-          );
-        }
-        takeStorage($item`one-day ticket to Dinseylandfill`, 1);
-        use($item`one-day ticket to Dinseylandfill`, 1);
       },
       limit: { tries: 1 },
     },
@@ -699,87 +530,10 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Eat Calzone",
-      completed: () => get("calzoneOfLegendEaten") || !have($item`Calzone of Legend`),
-      prepare: (): void => {
-        cliExecute(`maximize ${myPrimestat()} experience percent`);
-      },
-      do: (): void => {
-        eat($item`Calzone of Legend`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Eat Deep Dish",
-      completed: () =>
-        get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`) || args.latedeepdish,
-      prepare: (): void => {
-        cliExecute(`maximize ${myPrimestat()} experience percent`);
-      },
-      do: (): void => {
-        if (have($item`familiar scrapbook`)) {
-          equip($item`familiar scrapbook`);
-        }
-        eat($item`Deep Dish of Legend`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Cast Prevent Scurvy",
       completed: () => !have($skill`Prevent Scurvy and Sobriety`) || get("_preventScurvy"),
       prepare: () => restoreMp(mpCost($skill`Prevent Scurvy and Sobriety`)),
       do: () => useSkill($skill`Prevent Scurvy and Sobriety`),
-      limit: { tries: 1 },
-    },
-    {
-      name: "Cast Perfect Freeze",
-      completed: () =>
-        !have($skill`Perfect Freeze`) || get("_perfectFreezeUsed") || args.perfectfreeze,
-      prepare: () => restoreMp(mpCost($skill`Perfect Freeze`)),
-      do: () => useSkill($skill`Perfect Freeze`),
-      limit: { tries: 1 },
-    },
-    {
-      name: "Drink Perfect Drink",
-      completed: () =>
-        myInebriety() >= 3 ||
-        !have($item`perfect ice cube`) ||
-        !baseBoozes.some((it) => have(it)) ||
-        args.perfectfreeze,
-      prepare: (): void => {
-        cliExecute(`maximize ${myPrimestat()} experience percent`);
-      },
-      do: (): void => {
-        tryAcquiringEffect($effect`Ode to Booze`);
-        const baseBooze = baseBoozes.filter((it) => have(it))[0];
-        let booze;
-        switch (baseBooze) {
-          case $item`bottle of vodka`:
-            booze = $item`perfect cosmopolitan`;
-            break;
-          case $item`bottle of whiskey`:
-            booze = $item`perfect old-fashioned`;
-            break;
-          case $item`boxed wine`:
-            booze = $item`perfect mimosa`;
-            break;
-          case $item`bottle of rum`:
-            booze = $item`perfect dark and stormy`;
-            break;
-          case $item`bottle of tequila`:
-            booze = $item`perfect paloma`;
-            break;
-          case $item`bottle of gin`:
-            booze = $item`perfect negroni`;
-            break;
-          default:
-            break;
-        }
-        if (booze) {
-          create(booze, 1);
-          drink(booze, 1);
-        }
-      },
       limit: { tries: 1 },
     },
     {
@@ -809,18 +563,6 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Eat Pizza",
-      ready: () => have($effect`Ready to Eat`), // only eat this after we red rocket
-      completed: () => get("pizzaOfLegendEaten") || !have($item`Pizza of Legend`),
-      prepare: (): void => {
-        cliExecute(`maximize ${myPrimestat()} experience percent`);
-      },
-      do: (): void => {
-        eat($item`Pizza of Legend`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Drink Astral Pilsners",
       ready: () => myLevel() >= 11,
       completed: () =>
@@ -846,13 +588,6 @@ export const LevelingQuest: Quest = {
       completed: () =>
         SongBoom.song() === "Total Eclipse of Your Meat" || !have($item`SongBoom™ BoomBox`),
       do: () => SongBoom.setSong("Total Eclipse of Your Meat"),
-      limit: { tries: 1 },
-    },
-    {
-      name: "Open Mayday",
-      ready: () => have($item`MayDay™ supply package`) && !args.savemayday,
-      completed: () => !have($item`MayDay™ supply package`),
-      do: () => use($item`MayDay™ supply package`),
       limit: { tries: 1 },
     },
     {
@@ -1173,45 +908,6 @@ export const LevelingQuest: Quest = {
       limit: { tries: 50 },
     },
     {
-      name: "Red Skeleton",
-      ready: () =>
-        !have($effect`Everything Looks Yellow`) ||
-        (have($skill`Feel Envy`) && get("_feelEnvyUsed") < 3),
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        if (!have($item`yellow rocket`) && !have($effect`Everything Looks Yellow`)) {
-          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase yellow rocket!");
-          buy($item`yellow rocket`, 1);
-        }
-        unbreakableUmbrella();
-        docBag();
-      },
-      completed: () =>
-        CombatLoversLocket.monstersReminisced().includes($monster`red skeleton`) ||
-        !CombatLoversLocket.availableLocketMonsters().includes($monster`red skeleton`) ||
-        args.redskeleton ||
-        checkValue("Locket", 4) ||
-        have($item`red eye`),
-      do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
-      combat: new CombatStrategy().macro(
-        Macro.if_("!haseffect Everything Looks Yellow", Macro.tryItem($item`yellow rocket`))
-          .trySkill($skill`Feel Envy`)
-          .trySkill($skill`Chest X-Ray`)
-          .trySkill($skill`Shattering Punch`)
-          .trySkill($skill`Gingerbread Mob Hit`)
-          .default()
-      ),
-      outfit: baseOutfit,
-      post: (): void => {
-        if (restoreMPEfficiently() === "Refill Latte" && myMp() < 75) refillLatte();
-        use($item`red box`, 1);
-        sendAutumnaton();
-        sellMiscellaneousItems();
-        boomBoxProfit();
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Bakery Pledge",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -1310,72 +1006,6 @@ export const LevelingQuest: Quest = {
       outfit: { modifier: "myst, mp" },
     },
     {
-      name: "Monster Habitats",
-      ready: () =>
-        get("_monsterHabitatsFightsLeft") > 0 &&
-        (haveFreeBanish() ||
-          Array.from(getBanishedMonsters().values()).includes($monster`fluffy bunny`)),
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        garbageShirt();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-      },
-      completed: () => get("_monsterHabitatsFightsLeft") === 0,
-      do: $location`The Dire Warren`,
-      combat: new CombatStrategy().macro(() =>
-        Macro.if_($monster`fluffy bunny`, Macro.banish())
-          .externalIf(
-            get("_monsterHabitatsFightsLeft") <= 1 &&
-              toInt(get("_monsterHabitatsRecalled")) < 3 - toInt(args.savehabitats) &&
-              have($skill`Recall Facts: Monster Habitats`) &&
-              (haveFreeBanish() ||
-                Array.from(getBanishedMonsters().values()).includes($monster`fluffy bunny`)),
-            Macro.trySkill($skill`Recall Facts: Monster Habitats`)
-          )
-          .default(useCinch())
-      ),
-      outfit: baseOutfit,
-      post: (): void => {
-        sendAutumnaton();
-        sellMiscellaneousItems();
-        boomBoxProfit();
-      },
-      limit: { tries: 15 },
-    },
-    {
-      name: "Backups",
-      ready: () => freeFightMonsters.includes(get("lastCopyableMonster") ?? $monster.none),
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        garbageShirt();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-      },
-      completed: () =>
-        !have($item`backup camera`) ||
-        !freeFightMonsters.includes(get("lastCopyableMonster") ?? $monster.none) ||
-        get("_backUpUses") >= 11 - clamp(args.savebackups, 0, 11) ||
-        myBasestat(myPrimestat()) >= 190, // no longer need to back up Witchess Kings
-      do: $location`The Dire Warren`,
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Back-Up to your Last Enemy`).default(useCinch())
-      ),
-      outfit: () => ({
-        ...baseOutfit(),
-        acc3: $item`backup camera`,
-      }),
-      post: (): void => {
-        if (!freeFightMonsters.includes(get("lastCopyableMonster") ?? $monster.none))
-          throw new Error("Fought unexpected monster");
-        sendAutumnaton();
-        sellMiscellaneousItems();
-      },
-      limit: { tries: 11 },
-    },
-    {
       name: "Kramco",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -1392,16 +1022,7 @@ export const LevelingQuest: Quest = {
         offhand: $item`Kramco Sausage-o-Matic™`,
         shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
       }),
-      combat: new CombatStrategy().macro(() =>
-        Macro.externalIf(
-          get("_monsterHabitatsFightsLeft") <= 1 &&
-            toInt(get("_monsterHabitatsRecalled")) < 3 - args.savehabitats &&
-            have($skill`Recall Facts: Monster Habitats`) &&
-            (haveFreeBanish() ||
-              Array.from(getBanishedMonsters().values()).includes($monster`fluffy bunny`)),
-          Macro.trySkill($skill`Recall Facts: Monster Habitats`)
-        ).default(useCinch())
-      ),
+      combat: new CombatStrategy().macro(() => Macro.default(useCinch())),
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
@@ -1526,7 +1147,7 @@ export const LevelingQuest: Quest = {
       completed: () =>
         get("_godLobsterFights") >= 3 ||
         !have($familiar`God Lobster`) ||
-        (get("_godLobsterFights") >= 2 && godLobsterSave()),
+        get("_godLobsterFights") >= 2,
       do: () => visitUrl("main.php?fightgodlobster=1"),
       combat: new CombatStrategy().macro(Macro.default(useCinch())),
       choices: { 1310: godLobsterChoice() }, // Get xp on last fight
@@ -1749,17 +1370,6 @@ export const LevelingQuest: Quest = {
       },
     },
     {
-      name: "Drink Bee's Knees",
-      after: ["Powerlevel"],
-      completed: () => have($effect`On the Trolley`) || args.beesknees,
-      do: (): void => {
-        if (myMeat() < 500) throw new Error("Insufficient Meat to purchase Bee's Knees!");
-        tryAcquiringEffect($effect`Ode to Booze`);
-        visitUrl(`clan_viplounge.php?preaction=speakeasydrink&drink=5&pwd=${+myHash()}`); // Bee's Knees
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Acquire Lyle's Buff",
       completed: () => get("_lyleFavored"),
       do: (): void => {
@@ -1877,41 +1487,8 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Witchess King (Locket)",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        garbageShirt();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-      },
-      completed: () =>
-        CombatLoversLocket.monstersReminisced().includes($monster`Witchess King`) ||
-        !CombatLoversLocket.availableLocketMonsters().includes($monster`Witchess King`) ||
-        args.witchessking ||
-        have($item`dented scepter`),
-      do: () => CombatLoversLocket.reminisce($monster`Witchess King`),
-      combat: new CombatStrategy().macro(() =>
-        Macro.externalIf(
-          get("_monsterHabitatsFightsLeft") <= 1 &&
-            get("_monsterHabitatsRecalled") < 3 - args.savehabitats &&
-            have($skill`Recall Facts: Monster Habitats`) &&
-            (haveFreeBanish() ||
-              Array.from(getBanishedMonsters().values()).includes($monster`fluffy bunny`)),
-          Macro.trySkill($skill`Recall Facts: Monster Habitats`)
-        ).default(useCinch())
-      ),
-      outfit: baseOutfit,
-      post: (): void => {
-        sendAutumnaton();
-        sellMiscellaneousItems();
-        boomBoxProfit();
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Free Kills and More Fights",
-      after: ["Drink Bee's Knees"],
+      after: ["Powerlevel"],
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         if (equippedItem($slot`offhand`) !== $item`latte lovers member's mug`) {

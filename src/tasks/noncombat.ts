@@ -87,47 +87,12 @@ export const NoncombatQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "God Lobster",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        restoreMp(50);
-      },
-      completed: () =>
-        get("_godLobsterFights") >= 3 ||
-        !have($familiar`God Lobster`) ||
-        !have($item`God Lobster's Ring`),
-      do: () => visitUrl("main.php?fightgodlobster=1"),
-      combat: new CombatStrategy().macro(Macro.default(false)),
-      choices: { 1310: 1 }, // Get xp on last fight
-      outfit: () => ({
-        ...baseOutfit(),
-        famequip: $item`God Lobster's Ring`,
-        familiar: $familiar`God Lobster`,
-      }),
-      limit: { tries: 3 },
-    },
-    {
-      name: "Buy Porkpie-mounted Popper",
-      completed: () =>
-        have($item`porkpie-mounted popper`) ||
-        CommunityService.BoozeDrop.prediction <= 1 ||
-        get("_fireworksShopHatBought", false),
-      do: () => buy($item`porkpie-mounted popper`, 1),
-      limit: { tries: 1 },
-    },
-    {
       name: "Test",
       completed: () => CommunityService.Noncombat.isDone(),
       prepare: (): void => {
         if (have($item`Jurassic Parka`) && get("parkaMode") !== "pterodactyl")
           cliExecute("parka pterodactyl");
-        if (
-          get("_kgbClicksUsed") < 22 &&
-          have($item`Kremlin's Greatest Briefcase`) &&
-          !args.savekgb
-        )
-          cliExecute("briefcase e -combat");
+
         const usefulEffects: Effect[] = [
           $effect`A Rose by Any Other Material`,
           $effect`Blessing of the Bird`,
@@ -155,10 +120,6 @@ export const NoncombatQuest: Quest = {
           checkValue($item`shady shades`, checkTurnSave("NonCombat", $effect`Throwing Some Shade`))
         )
           tryAcquiringEffect($effect`Throwing Some Shade`);
-
-        // If it saves us >= 6 turns, try using a wish
-        if (checkValue($item`pocket wish`, checkTurnSave("NonCombat", $effect`Disquiet Riot`)))
-          wishFor($effect`Disquiet Riot`);
       },
       do: (): void => {
         const maxTurns = args.noncomlimit;

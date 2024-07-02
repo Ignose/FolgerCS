@@ -71,33 +71,20 @@ export function main(command?: string): void {
   visitUrl("main.php");
   cliExecute("refresh all");
 
-  const swapMainStatTest = have($item`Deck of Every Card`) && myPrimestat === $stat`Muscle`;
-  function swapNCandFamTest(): boolean {
-    if (
-      (computeCombatFrequency(false) <= -100 ||
-        (computeCombatFrequency(false) === -95 && have($familiar`God Lobster`))) &&
-      have($familiar`Comma Chameleon`) &&
-      (have($skill`Summon Clip Art`) || have($item`box of Familiar Jacks`))
-    )
-      return true;
-
-    return false;
-  }
-
   const tasks: Task[] = getTasks([
     RunStartQuest,
     earlyLevelingQuest,
     CoilWireQuest,
     LevelingQuest,
-    swapMainStatTest ? MoxieQuest : MuscleQuest,
-    swapMainStatTest ? MysticalityQuest : HPQuest,
-    swapMainStatTest ? MuscleQuest : MysticalityQuest,
-    swapMainStatTest ? HPQuest : MoxieQuest,
+    MuscleQuest,
+    HPQuest,
+    MysticalityQuest,
+    MoxieQuest,
     HotResQuest,
     WeaponDamageQuest,
     SpellDamageQuest,
-    swapNCandFamTest() || args.doncfirst ? NoncombatQuest : FamiliarWeightQuest,
-    swapNCandFamTest() || args.doncfirst ? FamiliarWeightQuest : NoncombatQuest,
+    NoncombatQuest,
+    FamiliarWeightQuest,
     BoozeDropQuest,
     DonateQuest,
   ]);

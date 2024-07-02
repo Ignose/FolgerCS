@@ -238,47 +238,6 @@ export const WeaponDamageQuest: Quest = {
           )
         )
           useSkill($skill`Visit your Favorite Bird`);
-
-        $effects`Spit Upon, Pyramid Power, Outer Wolf™`.forEach((ef) => {
-          if (
-            checkValue(
-              $item`pocket wish`,
-              checkTurnSave("WeaponDamage", ef) + CommunityService.SpellDamage.turnsSavedBy(ef)
-            )
-          )
-            wishFor(ef);
-        });
-
-        if (checkValue("Cargo", checkTurnSave("WeaponDamage", $effect`Rictus of Yeg`))) {
-          visitUrl("inventory.php?action=pocket");
-          visitUrl("choice.php?whichchoice=1420&option=1&pocket=284");
-        }
-
-        if (
-          args.experimentalsynth &&
-          CommunityService.WeaponDamage.actualCost() > 2 &&
-          get("tomeSummons") <= 1 &&
-          have($skill`Summon Sugar Sheets`)
-        ) {
-          if (!have($item`sugar sheet`) && !have($item`sugar shank`))
-            useSkill($skill`Summon Sugar Sheets`, 1);
-          if (!have($item`sugar shank`)) create($item`sugar shank`);
-        }
-
-        if (
-          have($item`Ye Wizard's Shack snack voucher`) &&
-          !forbiddenEffects.includes($effect`Wasabi With You`) &&
-          CommunityService.WeaponDamage.turnsSavedBy($effect`Wasabi With You`) > 2
-        )
-          retrieveItem($item`wasabi marble soda`);
-
-        if (
-          CommunityService.WeaponDamage.turnsSavedBy($effect`Weapon of Mass Destruction`) >= 2 &&
-          !get("_madTeaParty")
-        ) {
-          if (!have($item`goofily-plumed helmet`)) buy($item`goofily-plumed helmet`, 1);
-          tryAcquiringEffect($effect`Weapon of Mass Destruction`);
-        }
       },
       completed: () => CommunityService.WeaponDamage.isDone(),
       do: (): void => {

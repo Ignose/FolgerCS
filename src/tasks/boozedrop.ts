@@ -35,6 +35,7 @@ import {
   get,
   getKramcoWandererChance,
   have,
+  MayamCalendar,
   uneffect,
   withChoice,
 } from "libram";
@@ -92,27 +93,6 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Acquire Clover",
-      completed: () =>
-        have($item`11-leaf clover`) || get("_cloversPurchased") >= 2 || args.savecyclops,
-      do: (): void => {
-        buy(1, $item`chewing gum on a string`);
-        use(1, $item`chewing gum on a string`);
-        hermit($item`11-leaf clover`, 1);
-      },
-      limit: { tries: 50 },
-    },
-    {
-      name: "Get Cyclops Eyedrops",
-      completed: () =>
-        have($item`cyclops eyedrops`) || have($effect`One Very Clear Eye`) || args.savecyclops,
-      do: (): void => {
-        if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
-        if (!have($item`cyclops eyedrops`)) adv1($location`The Limerick Dungeon`, -1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Acquire Government",
       completed: () =>
         !have($item`government cheese`) || get("lastAnticheeseDay") > 0 || args.savegovernment,
@@ -145,22 +125,6 @@ export const BoozeDropQuest: Quest = {
         acc1: $item`Kremlin's Greatest Briefcase`,
         acc2: $item`Lil' Doctor™ bag`,
         familiar: chooseFamiliar(false),
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Drink Sacramento Wine",
-      completed: () =>
-        have($effect`Sacré Mental`) ||
-        !have($item`Sacramento wine`) ||
-        myInebriety() >= inebrietyLimit() ||
-        args.sacramentowine,
-      do: (): void => {
-        if (myInebriety() < inebrietyLimit()) {
-          tryAcquiringEffect($effect`Ode to Booze`);
-          drink($item`Sacramento wine`, 1);
-          uneffect($effect`Ode to Booze`);
-        }
       },
       limit: { tries: 1 },
     },
@@ -221,13 +185,15 @@ export const BoozeDropQuest: Quest = {
       do: () => buy($item`oversized sparkler`, 1),
       limit: { tries: 1 },
     },
-    /* {
+    {
       name: "Yams Item Drop",
       ready: () => have($item`Mayam Calendar`),
-      completed: () => ["yam4", "explosion", "clock"].every((sym) => get("_mayamSymbolsUsed").includes(sym)) || get("_mayamSymbolsUsed").includes("eye"),
-      do: () => Mayam(stuff),
+      completed: () =>
+        ["yam4", "explosion", "clock"].every((sym) => get("_mayamSymbolsUsed").includes(sym)) ||
+        get("_mayamSymbolsUsed").includes("eye"),
+      do: () => MayamCalendar.submit("yam1 meat eyepatch yam4"),
       limit: { tries: 1 },
-    }, */
+    },
     {
       name: "Feeling Lost",
       completed: () => have($effect`Feeling Lost`) || !have($skill`Feel Lost`),

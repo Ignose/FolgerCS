@@ -31,41 +31,6 @@ export const HotResQuest: Quest = {
   completed: () => CommunityService.HotRes.isDone(),
   tasks: [
     {
-      name: "Reminisce Factory Worker (female)",
-      after: ["Grab Foam Suit"],
-      prepare: (): void => {
-        if (!have($item`yellow rocket`) && !have($effect`Everything Looks Yellow`))
-          buy($item`yellow rocket`, 1);
-      },
-      completed: () =>
-        CombatLoversLocket.monstersReminisced().includes($monster`factory worker (female)`) ||
-        !CombatLoversLocket.availableLocketMonsters().includes($monster`factory worker (female)`) ||
-        args.factoryworker ||
-        checkValue("Locket", Math.min(14, CommunityService.HotRes.prediction - 1)) ||
-        computeHotRes(false) <= 1,
-      do: () => CombatLoversLocket.reminisce($monster`factory worker (female)`),
-      outfit: () => ({
-        back: $item`vampyric cloake`,
-        weapon: $item`Fourth of May Cosplay Saber`,
-        offhand: have($skill`Double-Fisted Skull Smashing`)
-          ? $item`industrial fire extinguisher`
-          : undefined,
-        familiar: chooseFamiliar(false),
-        modifier: "Item Drop",
-        avoid: sugarItemsAboutToBreak(),
-      }),
-      choices: { 1387: 3 },
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Become a Cloud of Mist`)
-          .trySkill($skill`Fire Extinguisher: Foam Yourself`)
-          .trySkill($skill`Use the Force`)
-          .trySkill($skill`Shocking Lick`)
-          .tryItem($item`yellow rocket`)
-          .default()
-      ),
-      limit: { tries: 1 },
-    },
-    {
       name: "Grab Foam Suit",
       completed: () =>
         have($effect`Fireproof Foam Suit`) ||
@@ -110,12 +75,6 @@ export const HotResQuest: Quest = {
       prepare: (): void => {
         cliExecute("retrocape vampire hold");
         if (get("parkaMode") !== "pterodactyl") cliExecute("parka pterodactyl");
-        if (
-          get("_kgbClicksUsed") < 22 &&
-          have($item`Kremlin's Greatest Briefcase`) &&
-          !args.savekgb
-        )
-          cliExecute("briefcase e hot");
 
         const usefulEffects: Effect[] = [
           $effect`Amazing`,
@@ -133,18 +92,6 @@ export const HotResQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
         cliExecute("maximize hot res");
-
-        // If it saves us >= 6 turns, try using a wish
-
-        $effects`Fireproof Lips, Hot-Headed`.forEach((ef) => {
-          if (checkValue($item`pocket wish`, checkTurnSave("HotRes", ef))) wishFor(ef); // The effects each save 2 turns on spelltest as well
-        });
-
-        if (
-          have($item`Eight Days a Week Pill Keeper`) &&
-          checkValue("Pillkeeper", checkTurnSave("HotRes", $effect`Rainbowolin`))
-        )
-          tryAcquiringEffect($effect`Rainbowolin`);
       },
       completed: () => CommunityService.HotRes.isDone(),
       do: (): void => {

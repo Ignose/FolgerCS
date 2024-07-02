@@ -199,13 +199,6 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "KGB",
-      completed: () =>
-        get("_kgbClicksUsed") > 0 || !have($item`Kremlin's Greatest Briefcase`) || args.savekgb,
-      do: () => cliExecute("briefcase e ml"),
-      limit: { tries: 1 },
-    },
-    {
       name: "Restore mp",
       completed: () => get("timesRested") >= args.saverests || myMp() >= Math.min(50, myMaxmp()),
       prepare: (): void => {
@@ -236,18 +229,6 @@ export const RunStartQuest: Quest = {
       limit: { tries: 3 },
     },
     {
-      name: "Get Camel Hat",
-      ready: () => args.camelhat,
-      completed: () => have($item`dromedary drinking helmet`) || !have($familiar`Melodramedary`),
-      do: (): void => {
-        if (!have($item`box of Familiar Jacks`)) create($item`box of Familiar Jacks`, 1);
-
-        useFamiliar($familiar`Melodramedary`);
-        use($item`box of Familiar Jacks`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Ensure Comma Chameleon Jacks",
       ready: () => have($skill`Summon Clip Art`),
       completed: () =>
@@ -258,28 +239,6 @@ export const RunStartQuest: Quest = {
         create($item`box of Familiar Jacks`, 1);
       },
       limit: { tries: 1 },
-    },
-    {
-      name: "Summon Sugar Sheets",
-      completed: () =>
-        !have($skill`Summon Sugar Sheets`) || args.savesugar || get("tomeSummons") >= 3,
-      do: (): void => {
-        const haveBT = have($item`borrowed time`) ? 1 : 0;
-        const sheetsToMake = 3 - get("tomeSummons") - haveBT;
-        restoreMp(2 * sheetsToMake);
-        useSkill($skill`Summon Sugar Sheets`, sheetsToMake);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Fold Sugar Sheets",
-      completed: () => !have($item`sugar sheet`) || args.experimentalsynth,
-      do: (): void => {
-        const nextMissingSugarItem =
-          $items`sugar shorts, sugar chapeau, sugar shank`.find((it) => !have(it)) || $item`none`;
-        create(nextMissingSugarItem);
-      },
-      limit: { tries: 3 },
     },
     {
       name: "Chateau Desk",
@@ -320,27 +279,10 @@ export const RunStartQuest: Quest = {
       limit: { tries: 3 },
     },
     {
-      name: "Pantagramming",
-      completed: () =>
-        Pantogram.havePants() || !have($item`portable pantogram`) || args.savepantogramming,
-      do: (): void => {
-        const makeMeat = have($item`porquoise`) ? "Meat Drop: 60" : "Spell Damage Percent: 20";
-        Pantogram.makePants(
-          "Mysticality",
-          "Hot Resistance: 2",
-          "Maximum HP: 40",
-          "Combat Rate: -5",
-          makeMeat
-        );
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Mummery",
       completed: () =>
         get("_mummeryMods").includes(`Experience (${myPrimestat().toString()})`) ||
-        !have($item`mumming trunk`) ||
-        args.savemumming,
+        !have($item`mumming trunk`),
       do: (): void => {
         const statString = statToMaximizerString(myPrimestat());
         cliExecute(`mummery ${statString}`);
@@ -454,12 +396,6 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Apriling Band Runstart (-com)",
-      completed: () => !AprilingBandHelmet.have() || have($effect`Apriling Band Patrol Beat`),
-      do: () => AprilingBandHelmet.conduct($effect`Apriling Band Patrol Beat`),
-      limit: { tries: 1 },
-    },
-    {
       name: "Autumnaton",
       completed: () =>
         !have($item`autumn-aton`) || have($item`autumn leaf`) || have($effect`Crunching Leaves`),
@@ -524,96 +460,6 @@ export const RunStartQuest: Quest = {
       limit: { tries: 2 },
     },
     {
-      name: "Map Novelty Tropical Skeleton",
-      prepare: (): void => {
-        if (useParkaSpit) {
-          cliExecute("parka dilophosaur");
-        } else if (!have($item`yellow rocket`) && !have($effect`Everything Looks Yellow`)) {
-          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase yellow rocket!");
-          buy($item`yellow rocket`, 1);
-        }
-        unbreakableUmbrella();
-        if (haveEquipped($item`miniature crystal ball`)) equip($slot`familiar`, $item.none);
-      },
-      completed: () =>
-        !have($skill`Map the Monsters`) ||
-        get("_monstersMapped") >= 3 ||
-        have($item`cherry`) ||
-        args.skipbt ||
-        (() => {
-          // if we have another skeleton in the ice house, we don't need to map a novelty skeleton
-          const banishes = get("banishedMonsters").split(":");
-          const iceHouseIndex = banishes.map((string) => string.toLowerCase()).indexOf("ice house");
-          if (iceHouseIndex === -1) return false;
-          return ["remaindered skeleton", "factory-irregular skeleton", "swarm of skulls"].includes(
-            banishes[iceHouseIndex - 1]
-          );
-        })(),
-      do: () => mapMonster($location`The Skeleton Store`, $monster`novelty tropical skeleton`),
-      combat: new CombatStrategy().macro(
-        Macro.if_(
-          $monster`novelty tropical skeleton`,
-          (useParkaSpit ? Macro.trySkill($skill`Spit jurassic acid`) : new Macro()).tryItem(
-            $item`yellow rocket`
-          )
-        ).abort()
-      ),
-      outfit: () => ({
-        ...baseOutfit(false),
-        shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
-        modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
-      }),
-      limit: { tries: 1 },
-    },
-    {
-      name: "Novelty Tropical Skeleton",
-      prepare: (): void => {
-        if (useParkaSpit) {
-          cliExecute("parka dilophosaur");
-        } else if (!have($item`yellow rocket`) && !have($effect`Everything Looks Yellow`)) {
-          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase yellow rocket!");
-          buy($item`yellow rocket`, 1);
-        }
-        unbreakableUmbrella();
-        if (get("_snokebombUsed") === 0) restoreMp(50);
-        if (haveEquipped($item`miniature crystal ball`)) equip($slot`familiar`, $item.none);
-      },
-      completed: () => args.skipbt || have($item`cherry`),
-      do: $location`The Skeleton Store`,
-      combat: new CombatStrategy().macro(() =>
-        Macro.if_(
-          $monster`novelty tropical skeleton`,
-          (useParkaSpit ? Macro.trySkill($skill`Spit jurassic acid`) : new Macro()).tryItem(
-            $item`yellow rocket`
-          )
-        )
-          .externalIf(
-            !Array.from(getBanishedMonsters().keys()).includes($skill`Bowl a Curveball`),
-            Macro.trySkill($skill`Bowl a Curveball`)
-          )
-          .externalIf(
-            !Array.from(getBanishedMonsters().keys()).includes($skill`Snokebomb`),
-            Macro.trySkill($skill`Snokebomb`)
-          )
-          .externalIf(
-            !Array.from(getBanishedMonsters().keys()).includes($skill`Monkey Slap`),
-            Macro.trySkill($skill`Monkey Slap`)
-          )
-          .abort()
-      ),
-
-      outfit: (): OutfitSpec => {
-        return {
-          shirt: useParkaSpit ? $item`Jurassic Parka` : undefined,
-          offhand: $item`unbreakable umbrella`,
-          acc3: $item`cursed monkey's paw`,
-          familiar: chooseFamiliar(false),
-          modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
-        };
-      },
-      limit: { tries: 4 },
-    },
-    {
       name: "Chewing Gum",
       completed: () => myMeat() <= 600 || get("_cloversPurchased") >= 1,
       do: (): void => {
@@ -625,71 +471,7 @@ export const RunStartQuest: Quest = {
       limit: { tries: 50 },
     },
     {
-      name: "Get Distilled Fortified Wine",
-      ready: () => have($item`11-leaf clover`) || have($effect`Lucky!`),
-      completed: () =>
-        myInebriety() >= 1 ||
-        args.fortifiedwine ||
-        (get("_borrowedTimeUsed") && myAdventures() >= 60) ||
-        args.skipbt,
-      do: (): void => {
-        if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
-        if (!have($item`distilled fortified wine`)) adv1($location`The Sleazy Back Alley`, -1);
-        while (have($item`distilled fortified wine`) && myInebriety() < 1) {
-          tryAcquiringEffect($effect`Ode to Booze`);
-          drink($item`distilled fortified wine`, 1);
-        }
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Kramco",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-        if (!have($item`red rocket`) && !have($effect`Everything Looks Red`)) {
-          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase red rocket!");
-          buy($item`red rocket`, 1);
-        }
-      },
-      ready: () => getKramcoWandererChance() >= 1.0,
-      completed: () =>
-        getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`) || args.skipbt,
-      do: $location`Noob Cave`,
-      outfit: () => ({
-        ...baseOutfit(),
-        offhand: $item`Kramco Sausage-o-Matic™`,
-      }),
-      combat: new CombatStrategy().macro(Macro.tryItem($item`red rocket`).default()),
-    },
-    {
-      name: "Borrowed Time",
-      prepare: (): void => {
-        if (have($item`borrowed time`)) return;
-        if (myLevel() >= 5 && !args.calzone && !args.pizza) {
-          btorpizza = true;
-          return;
-        }
-        if (have($skill`Summon Clip Art`) && get("tomeSummons") < 3)
-          create($item`borrowed time`, 1);
-        else takeStorage($item`borrowed time`, 1);
-      },
-      completed: () => get("_borrowedTimeUsed") || args.skipbt,
-      do: (): void => {
-        if (storageAmount($item`borrowed time`) === 0 && !have($item`borrowed time`)) {
-          print("Uh oh! You do not seem to have a borrowed time in Hagnk's", "red");
-          print(
-            "Try to purchase one from the mall with your meat from Hagnk's before re-running instantsccs",
-            "red"
-          );
-        }
-        use($item`borrowed time`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Pizza over Borrowed Time",
-      ready: () => btorpizza,
       prepare: (): void => {
         if (!args.calzone && checkPull($item`Calzone of Legend`))
           takeStorage($item`Calzone of Legend`, 1);

@@ -158,48 +158,8 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 2 },
     },
     {
-      name: "Red Skeleton, Tropical Skeleton, Two For One",
-      after: ["Configure Trainset Early"],
-      ready: () =>
-        !have($effect`Everything Looks Yellow`) ||
-        (have($skill`Feel Envy`) && get("_feelEnvyUsed") < 3) ||
-        (have($skill`Feel Nostalgic`) && get("_feelNostalgicUsed") < 3),
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-        if (checkPurqoise(250)) autosell($item`porquoise`, 1);
-        if (!have($item`red rocket`) && !have($effect`Everything Looks Red`)) {
-          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase red rocket!");
-          buy($item`red rocket`, 1);
-        }
-        unbreakableUmbrella();
-      },
-      completed: () =>
-        CombatLoversLocket.monstersReminisced().includes($monster`red skeleton`) ||
-        !CombatLoversLocket.availableLocketMonsters().includes($monster`red skeleton`) ||
-        args.redskeleton,
-      do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Spring Away`)
-          .trySkill($skill`Snokebomb`)
-          .trySkill($skill`Reflex Hammer`)
-          .trySkill($skill`Chest X-Ray`)
-          .trySkill($skill`Gingerbread Mob Hit`)
-          .trySkill($skill`Shattering Punch`)
-          .default()
-      ),
-      outfit: () => ({
-        ...baseOutfit(false),
-        shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
-        familiar: have($familiar`Melodramedary`) ? $familiar`Melodramedary` : undefined,
-        acc3: have($item`Spring Shoes`) ? $item`Spring Shoes` : undefined,
-        modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
-      }),
-      limit: { tries: 1 },
-    },
-    {
       name: "Map Novelty Tropical Skeleton",
-      after: ["Red Skeleton, Tropical Skeleton, Two For One"],
+      after: ["Configure Trainset Early"],
       prepare: (): void => {
         if (useParkaSpit) {
           cliExecute("parka dilophosaur");
@@ -213,12 +173,7 @@ export const earlyLevelingQuest: Quest = {
       completed: () =>
         !have($skill`Map the Monsters`) || get("_monstersMapped") >= 3 || have($item`cherry`),
       do: () => mapMonster($location`The Skeleton Store`, $monster`novelty tropical skeleton`),
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Feel Nostalgic`)
-          .tryItem($item`red rocket`)
-          .trySkill($skill`Spit jurassic acid`)
-          .abort()
-      ),
+      combat: new CombatStrategy().macro(Macro.trySkill($skill`Spit jurassic acid`).abort()),
       outfit: () => ({
         ...baseOutfit(false),
         shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
@@ -236,8 +191,24 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Kramco",
+      after: ["ReConfigure Trainset"],
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        restoreMp(50);
+      },
+      ready: () => getKramcoWandererChance() >= 1.0,
+      completed: () => getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`),
+      do: $location`Noob Cave`,
+      outfit: () => ({
+        ...baseOutfit(),
+        offhand: $item`Kramco Sausage-o-Matic™`,
+      }),
+      combat: new CombatStrategy().macro(Macro.default()),
+    },
+    {
       name: "ReConfigure Trainset",
-      after: ["Map Novelty Tropical Skeleton"],
+      after: ["Kramco"],
       completed: () => get("_folgerSecondConfig", false),
       do: (): void => {
         const offset = get("trainsetPosition") % 8;
@@ -269,24 +240,8 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 2 },
     },
     {
-      name: "Kramco",
-      after: ["ReConfigure Trainset"],
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-      },
-      ready: () => getKramcoWandererChance() >= 1.0,
-      completed: () => getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`),
-      do: $location`Noob Cave`,
-      outfit: () => ({
-        ...baseOutfit(),
-        offhand: $item`Kramco Sausage-o-Matic™`,
-      }),
-      combat: new CombatStrategy().macro(Macro.default()),
-    },
-    {
       name: "Map Pocket Wishes",
-      after: ["Kramco"],
+      after: ["ReConfigure Trainset"],
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(30);
@@ -385,57 +340,16 @@ export const earlyLevelingQuest: Quest = {
     {
       name: "Whetstone",
       after: ["Bakery Pledge"],
-      completed: () => !have($item`whet stone`),
+      prepare: () => cliExecute("garden pick"),
+      completed: () => get("whetstonesUsed") >= 1,
       do: (): void => {
         use($item`whet stone`);
       },
       limit: { tries: 1 },
     },
     {
-      name: "Pull Pizza of Legend",
-      after: ["Bakery Pledge"],
-      completed: () =>
-        have($item`Pizza of Legend`) ||
-        have($effect`Endless Drool`) ||
-        get("_roninStoragePulls")
-          .split(",")
-          .includes(toInt($item`Pizza of Legend`).toString()) ||
-        args.pizza,
-      do: (): void => {
-        if (storageAmount($item`Pizza of Legend`) === 0) {
-          print("Uh oh! You do not seem to have a Pizza of Legend in Hagnk's", "red");
-          print("Consider pulling something to make up for the turngen and 300%mox,", "red");
-          print(
-            "then type 'set _instant_skipPizzaOfLegend=true' before re-running instantsccs",
-            "red"
-          );
-        }
-        takeStorage($item`Pizza of Legend`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Eat Pizza",
-      ready: () => have($effect`Ready to Eat`), // only eat this after we red rocket
-      completed: () =>
-        get("pizzaOfLegendEaten") ||
-        !have($item`Pizza of Legend`) ||
-        myAdventures() > 60 ||
-        args.pizza,
-      prepare: (): void => {
-        cliExecute(`maximize ${myPrimestat()} experience percent`);
-      },
-      do: (): void => {
-        if (have($item`familiar scrapbook`)) {
-          equip($item`familiar scrapbook`);
-        }
-        eat($item`Pizza of Legend`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Pull Calzone of Legend",
-      after: ["Eat Pizza"],
+      after: ["Whetstone"],
       completed: () =>
         have($item`Calzone of Legend`) ||
         have($effect`In the 'zone zone!`) ||
@@ -457,7 +371,7 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Eat Calzone",
-      after: ["Eat Pizza"],
+      after: ["Pull Calzone of Legend"],
       prepare: (): void => {
         cliExecute(`maximize ${myPrimestat()} experience percent`);
       },

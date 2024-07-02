@@ -87,7 +87,7 @@ export const FamiliarWeightQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Fiesta Exit",
+      name: "Party Soundtrack",
       completed: () => have($effect`Party Soundtrack`) || !have($skill`Cincho: Party Soundtrack`),
       do: (): void => {
         equip($slot`acc3`, $item`Cincho de Mayo`);
@@ -167,12 +167,6 @@ export const FamiliarWeightQuest: Quest = {
           useFamiliar($familiar`Mini-Trainbot`);
           use($item`box of Familiar Jacks`, 1);
         }
-
-        if (
-          have($item`Eight Days a Week Pill Keeper`) &&
-          checkValue("Pillkeeper", Math.min(2, CommunityService.FamiliarWeight.actualCost()))
-        )
-          tryAcquiringEffect($effect`Fidoxene`);
 
         cliExecute("maximize familiar weight");
 
