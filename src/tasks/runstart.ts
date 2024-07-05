@@ -403,12 +403,14 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Set Asdon Workshed",
-      ready: () => args.asdon,
-      completed: () => getWorkshed() === $item`Asdon Martin keyfob`,
+      name: "Set Workshed",
+      completed: () =>
+        getWorkshed() === $item`Asdon Martin keyfob` || getWorkshed() === $item`model train set`,
       do: (): void => {
-        use($item`Asdon Martin keyfob`);
-        fuelUp();
+        if (args.asdon) {
+          use($item`Asdon Martin keyfob`);
+          fuelUp();
+        } else use($item`model train set`);
       },
     },
     {
