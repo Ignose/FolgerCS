@@ -342,8 +342,7 @@ export const earlyLevelingQuest: Quest = {
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
         get("_citizenZone").includes("Madness Bakery") ||
-        get("_pledgeCheck", false) ||
-        have($effect`Seeing Red, White and Blue`),
+        get("_pledgeCheck", false),
       do: $location`Madness Bakery`,
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`)
