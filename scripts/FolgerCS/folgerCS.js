@@ -13452,7 +13452,7 @@ function sinceKolmafiaVersion(majorVersion, minorVersion) {
   }
 }
 ;// CONCATENATED MODULE: ./src/engine/engine.ts
-var engine_engine_templateObject, engine_engine_templateObject2, engine_templateObject3, engine_templateObject4, engine_templateObject5;
+var engine_engine_templateObject, engine_engine_templateObject2, engine_templateObject3, engine_templateObject4, engine_templateObject5, engine_templateObject6, engine_templateObject7, engine_templateObject8;
 function engine_engine_toConsumableArray(arr) { return engine_engine_arrayWithoutHoles(arr) || engine_engine_iterableToArray(arr) || engine_engine_unsupportedIterableToArray(arr) || engine_engine_nonIterableSpread(); }
 function engine_engine_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function engine_engine_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -13617,6 +13617,27 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
     value: function prepare(task) {
       engine_get(engine_getPrototypeOf(Engine.prototype), "prepare", this).call(this, task);
       if (task.combat !== undefined && (0,external_kolmafia_namespaceObject.myHp)() < (0,external_kolmafia_namespaceObject.myMaxhp)() * 0.9) (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(engine_templateObject5 || (engine_templateObject5 = engine_engine_taggedTemplateLiteral(["Cannelloni Cocoon"]))));
+    }
+  }, {
+    key: "setChoices",
+    value: function setChoices(task, manager) {
+      engine_get(engine_getPrototypeOf(Engine.prototype), "setChoices", this).call(this, task, manager);
+      if ((0,external_kolmafia_namespaceObject.equippedAmount)(template_string_$item(engine_templateObject6 || (engine_templateObject6 = engine_engine_taggedTemplateLiteral(["June cleaver"])))) > 0) {
+        this.propertyManager.setChoices({
+          // June cleaver noncombats
+          1467: 3,
+          // +adv
+          1468: property_get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
+          1469: !have(template_string_$effect(engine_templateObject7 || (engine_templateObject7 = engine_engine_taggedTemplateLiteral(["yapping pal"])))) ? 1 : property_get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
+          1470: 2,
+          // teacher's pen
+          1471: property_get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
+          1472: !have(template_string_$item(engine_templateObject8 || (engine_templateObject8 = engine_engine_taggedTemplateLiteral(["trampled ticket stub"])))) ? 1 : property_get("_juneCleaverSkips", 0) < 5 ? 4 : 2,
+          1473: property_get("_juneCleaverSkips", 0) < 5 ? 4 : 2,
+          1474: property_get("_juneCleaverSkips", 0) < 5 ? 4 : 2,
+          1475: property_get("_juneCleaverSkips", 0) < 5 ? 4 : 1
+        });
+      }
     }
   }, {
     key: "initPropertiesManager",
@@ -16403,7 +16424,7 @@ var LevelingQuest = {
       familiar: template_string_$familiar(_templateObject417 || (_templateObject417 = leveling_taggedTemplateLiteral(["Melodramedary"])))
     }),
     limit: {
-      tries: 1
+      tries: 2
     },
     post: () => {
       sendAutumnaton();
@@ -18093,7 +18114,7 @@ var NoncombatQuest = {
     }
   }, {
     name: "Cincho: Party Soundtrack",
-    completed: () => have(template_string_$effect(noncombat_templateObject12 || (noncombat_templateObject12 = noncombat_taggedTemplateLiteral(["Party Soundtrack"])))) || !have(template_string_$skill(noncombat_templateObject13 || (noncombat_templateObject13 = noncombat_taggedTemplateLiteral(["Cincho: Party Soundtrack"])))),
+    completed: () => have(template_string_$effect(noncombat_templateObject12 || (noncombat_templateObject12 = noncombat_taggedTemplateLiteral(["Party Soundtrack"])))) || !have(template_string_$item(noncombat_templateObject13 || (noncombat_templateObject13 = noncombat_taggedTemplateLiteral(["Cincho de Mayo"])))) || property_get("_cinchUsed") >= 40,
     do: () => {
       (0,external_kolmafia_namespaceObject.equip)($slot(noncombat_templateObject14 || (noncombat_templateObject14 = noncombat_taggedTemplateLiteral(["acc3"]))), template_string_$item(noncombat_templateObject15 || (noncombat_templateObject15 = noncombat_taggedTemplateLiteral(["Cincho de Mayo"]))));
       (0,external_kolmafia_namespaceObject.useSkill)(template_string_$skill(noncombat_templateObject16 || (noncombat_templateObject16 = noncombat_taggedTemplateLiteral(["Cincho: Party Soundtrack"]))));
