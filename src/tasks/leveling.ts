@@ -207,7 +207,6 @@ const usefulEffects: Effect[] = [
   // Stats
   $effect`Big`,
   $effect`Feeling Excited`,
-  $effect`Triple-Sized`,
   $effect`substats.enh`,
   $effect`Broad-Spectrum Vaccine`,
   $effect`Pyrite Pride`,
@@ -1144,10 +1143,7 @@ export const LevelingQuest: Quest = {
         restoreMp(50);
         garbageShirt();
       },
-      completed: () =>
-        get("_godLobsterFights") >= 3 ||
-        !have($familiar`God Lobster`) ||
-        get("_godLobsterFights") >= 2,
+      completed: () => get("_godLobsterFights") >= 3 || !have($familiar`God Lobster`),
       do: () => visitUrl("main.php?fightgodlobster=1"),
       combat: new CombatStrategy().macro(Macro.default(useCinch())),
       choices: { 1310: godLobsterChoice() }, // Get xp on last fight

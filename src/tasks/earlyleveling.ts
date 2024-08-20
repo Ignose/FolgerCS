@@ -296,15 +296,13 @@ export const earlyLevelingQuest: Quest = {
       completed: () =>
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
-        get("_citizenZone").includes("Madness Bakery") ||
-        get("_pledgeCheck", false) ||
-        have($effect`Seeing Red, White and Blue`),
+        get("_citizenZone").includes("Madness Bakery"),
       do: $location`Madness Bakery`,
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`)
+          .trySkill($skill`Spring Away`)
           .trySkill($skill`Snokebomb`)
           .trySkill($skill`Reflex Hammer`)
-          .trySkill($skill`Chest X-Ray`)
           .trySkill($skill`Gingerbread Mob Hit`)
           .trySkill($skill`Shattering Punch`)
           .default()
@@ -312,11 +310,10 @@ export const earlyLevelingQuest: Quest = {
       outfit: () => ({
         ...baseOutfit,
         familiar: $familiar`Patriotic Eagle`,
-        acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
+        acc2: have($item`Spring Shoes`) ? $item`Spring Shoes` : undefined,
       }),
       post: (): void => {
         sellMiscellaneousItems();
-        cliExecute("set _pledgeCheck = true");
         boomBoxProfit();
       },
       limit: { tries: 2 },

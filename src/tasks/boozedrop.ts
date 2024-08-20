@@ -191,7 +191,7 @@ export const BoozeDropQuest: Quest = {
       completed: () =>
         ["yam4", "explosion", "clock"].every((sym) => get("_mayamSymbolsUsed").includes(sym)) ||
         get("_mayamSymbolsUsed").includes("eye"),
-      do: () => MayamCalendar.submit("yam1 meat eyepatch yam4"),
+      do: () => cliExecute("Mayam rings yam meat eyepatch yam"),
       limit: { tries: 1 },
     },
     {

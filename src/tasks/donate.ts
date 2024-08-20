@@ -75,9 +75,9 @@ export function logResourceUsage(): void {
   print("");
   print("Resource Tracking", "blue");
   [
-    { header: "Banishes Used:", resourceArr: freeBanishResources },
-    { header: "Free Kills Used:", resourceArr: freeKillResources },
-    { header: "Notable Skills Used:", resourceArr: notableSkillResources },
+    { header: "Banishes Remaining:", resourceArr: freeBanishResources },
+    { header: "Free Kills Remaining:", resourceArr: freeKillResources },
+    { header: "Notable Skills Remaining:", resourceArr: notableSkillResources },
     { header: "Free Fights Used:", resourceArr: freeFightResources },
     { header: "Potentially Free Fights Used:", resourceArr: potentiallyFreeFightResources },
     { header: "Farming Resources:", resourceArr: farmingResourceResources },

@@ -2,7 +2,6 @@ import {
   cliExecute,
   myAdventures,
   myAscensions,
-  myPrimestat,
   nowToString,
   print,
   setAutoAttack,
@@ -12,12 +11,11 @@ import {
 } from "kolmafia";
 import {
   compareTestCompletion,
-  computeCombatFrequency,
   convertMilliseconds,
   logTestCompletion,
   simpleDateDiff,
 } from "./lib";
-import { $familiar, $item, $skill, $stat, get, have, set, sinceKolmafiaRevision } from "libram";
+import { get, set, sinceKolmafiaRevision } from "libram";
 import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
 import { Task } from "./engine/task";

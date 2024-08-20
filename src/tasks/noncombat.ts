@@ -68,16 +68,6 @@ export const NoncombatQuest: Quest = {
       limit: { tries: 3 },
     },
     {
-      name: "Invisible Avatar",
-      completed: () =>
-        have($effect`Invisible Avatar`) || !have($item`Powerful Glove`) || args.saveglove,
-      do: (): void => {
-        equip($slot`acc3`, $item`Powerful Glove`);
-        useSkill($skill`CHEAT CODE: Invisible Avatar`);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Cincho: Party Soundtrack",
       completed: () => have($effect`Party Soundtrack`) || !have($skill`Cincho: Party Soundtrack`),
       do: (): void => {
