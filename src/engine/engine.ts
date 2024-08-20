@@ -13,6 +13,7 @@ import {
   uneffect,
 } from "libram";
 import {
+  equippedAmount,
   Item,
   itemAmount,
   myFullness,
@@ -228,6 +229,24 @@ export class Engine extends BaseEngine {
   prepare(task: Task): void {
     super.prepare(task);
     if (task.combat !== undefined && myHp() < myMaxhp() * 0.9) useSkill($skill`Cannelloni Cocoon`);
+  }
+
+  setChoices(task: Task, manager: PropertiesManager): void {
+    super.setChoices(task, manager);
+    if (equippedAmount($item`June cleaver`) > 0) {
+      this.propertyManager.setChoices({
+        // June cleaver noncombats
+        1467: 3, // +adv
+        1468: get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
+        1469: !have($effect`yapping pal`) ? 1 : get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
+        1470: 2, // teacher's pen
+        1471: get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
+        1472: !have($item`trampled ticket stub`) ? 1 : get("_juneCleaverSkips", 0) < 5 ? 4 : 2,
+        1473: get("_juneCleaverSkips", 0) < 5 ? 4 : 2,
+        1474: get("_juneCleaverSkips", 0) < 5 ? 4 : 2,
+        1475: get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
+      });
+    }
   }
 
   initPropertiesManager(manager: PropertiesManager): void {

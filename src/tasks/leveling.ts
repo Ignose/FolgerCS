@@ -1637,7 +1637,7 @@ export const LevelingQuest: Quest = {
         ...baseOutfit(),
         familiar: $familiar`Melodramedary`,
       }),
-      limit: { tries: 1 },
+      limit: { tries: 2 },
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
