@@ -725,6 +725,20 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Eat Pizza",
+      completed: () => get("pizzaOfLegendEaten") || !have($item`Pizza of Legend`),
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
+      do: (): void => {
+        if (have($item`familiar scrapbook`)) {
+          equip($item`familiar scrapbook`);
+        }
+        eat($item`Pizza of Legend`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Cast Prevent Scurvy",
       completed: () => !have($skill`Prevent Scurvy and Sobriety`) || get("_preventScurvy"),
       prepare: () => restoreMp(mpCost($skill`Prevent Scurvy and Sobriety`)),
