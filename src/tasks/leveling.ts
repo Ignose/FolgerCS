@@ -95,6 +95,7 @@ import {
   computeWeaponDamage,
   findMaxPull,
   forbiddenEffects,
+  fuelUp,
   generalStoreXpEffect,
   getSynthExpBuff,
   getValidComplexCandyPairs,
@@ -393,15 +394,6 @@ export const LevelingQuest: Quest = {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Charter: Nellyville`);
         }
         use($item`Charter: Nellyville`, 1);
-      },
-      limit: { tries: 3 },
-    },
-    {
-      name: "Driving Recklessly",
-      ready: () => args.asdon,
-      completed: () => have($effect`Driving Recklessly`),
-      do: (): void => {
-        drive($effect`Driving Recklessly`);
       },
       limit: { tries: 3 },
     },
@@ -868,6 +860,17 @@ export const LevelingQuest: Quest = {
       completed: () => !have($item`MayDay™ supply package`),
       do: () => use($item`MayDay™ supply package`),
       limit: { tries: 1 },
+    },
+    {
+      name: "Driving Recklessly",
+      after: ["Open Mayday"],
+      ready: () => args.asdon,
+      completed: () => have($effect`Driving Recklessly`),
+      do: (): void => {
+        fuelUp();
+        drive($effect`Driving Recklessly`);
+      },
+      limit: { tries: 3 },
     },
     {
       name: "Map Amateur Ninja",

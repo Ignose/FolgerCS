@@ -473,7 +473,6 @@ export const RunStartQuest: Quest = {
       do: (): void => {
         if (args.asdon) {
           use($item`Asdon Martin keyfob`);
-          fuelUp();
         } else use($item`model train set`);
       },
     },
