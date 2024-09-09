@@ -858,7 +858,10 @@ export const LevelingQuest: Quest = {
       name: "Open Mayday",
       ready: () => have($item`MayDay™ supply package`) && !args.savemayday,
       completed: () => !have($item`MayDay™ supply package`),
-      do: () => use($item`MayDay™ supply package`),
+      do: (): void => {
+        use($item`MayDay™ supply package`);
+        if (have($item`space blanket`)) autosell($item`space blanket`, 1);
+      },
       limit: { tries: 1 },
     },
     {
