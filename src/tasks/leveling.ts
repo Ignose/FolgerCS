@@ -919,6 +919,36 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Sept-ember Mouthwash",
+      completed: () =>
+        // eslint-disable-next-line libram/verify-constants
+        !have($item`Sept-Ember Censer`) ||
+        // eslint-disable-next-line libram/verify-constants
+        have($item`bembershoot`) ||
+        args.saveembers,
+      do: (): void => {
+        // Grab Embers
+        visitUrl("shop.php?whichshop=september");
+
+        // Grab Bembershoots
+        visitUrl(`shop.php?whichshop=september&action=buyitem&quantity=1&whichrow=1516&pwd`);
+
+        // Grab Mouthwashes
+        visitUrl("shop.php?whichshop=september&action=buyitem&quantity=3&whichrow=1512&pwd");
+
+        // Re-maximize cold res after getting bembershoots
+        cliExecute("maximize cold res");
+
+        // eslint-disable-next-line libram/verify-constants
+        use($item`Mmm-brr! brand mouthwash`, 3);
+      },
+      limit: { tries: 1 },
+      outfit: {
+        modifier: "cold res",
+        familiar: $familiar`Exotic Parrot`,
+      },
+    },
+    {
       name: "Free Fight Leafy Boys",
       ready: () => !have($effect`Shadow Affinity`),
       completed: () => get("_leafMonstersFought", 0) >= 5 || !have($item`inflammable leaf`, 11),
@@ -958,7 +988,7 @@ export const LevelingQuest: Quest = {
           Station.VIEWING_PLATFORM, // all stats
           Station.GAIN_MEAT, // meat
           Station.TOWER_FIZZY, // mp regen
-          Station.BRAIN_SILO, // myst stats
+          Station.TOWER_SEWAGE, // cold res
           Station.WATER_BRIDGE, // +ML
           Station.CANDY_FACTORY, // candies
         ] as Cycle;

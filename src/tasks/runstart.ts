@@ -509,7 +509,7 @@ export const RunStartQuest: Quest = {
           Station.VIEWING_PLATFORM, // all stats
           Station.GAIN_MEAT, // meat
           Station.TOWER_FIZZY, // mp regen
-          Station.BRAIN_SILO, // myst stats
+          Station.TOWER_SEWAGE, // cold res
           Station.WATER_BRIDGE, // +ML
           Station.CANDY_FACTORY, // candies
         ] as Cycle;
