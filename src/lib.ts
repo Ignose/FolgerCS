@@ -17,6 +17,7 @@ import {
   Item,
   itemAmount,
   mallPrice,
+  Modifier,
   monkeyPaw,
   mpCost,
   myBasestat,
@@ -27,6 +28,7 @@ import {
   myMeat,
   myMp,
   myPrimestat,
+  numericModifier,
   print,
   restoreMp,
   retrieveItem,
@@ -39,6 +41,7 @@ import {
   toInt,
   toItem,
   toSkill,
+  toSlot,
   toStat,
   use,
   useSkill,
@@ -55,6 +58,7 @@ import {
   $skill,
   $skills,
   $slot,
+  $slots,
   $stat,
   AprilingBandHelmet,
   canRememberSong,
@@ -65,6 +69,7 @@ import {
   have,
   haveInCampground,
   maxBy,
+  NumericModifier,
   RetroCape,
   set,
   SongBoom,
@@ -164,9 +169,44 @@ export function sellMiscellaneousItems(): void {
   });
 }
 
+function simOutfit(mod: NumericModifier): number {
+  const slots = $slots.all();
+
+  const usedItems = new Set<Item>(); // Keep track of items already used
+
+  // Iterate through each slot, calculate the maximum (or most negative) modifier and sum them up
+  const totalModifier = slots.reduce((sum, slot) => {
+    // Filter the items for this slot that haven't been used yet
+    const itemsForSlot = Item.all()
+      .filter((i) => have(i)) // Check if we have the item
+      .filter((i) => toSlot(i) === slot) // Ensure the item fits the current slot
+      .filter((i) => !usedItems.has(i)); // Ensure the item hasn't been used in another slot
+
+    // Check if there are any items available for the slot
+    if (itemsForSlot.length === 0) {
+      return sum; // Skip this slot and continue
+    }
+
+    // Find the best item for this slot
+    const bestItemForSlot = maxBy(itemsForSlot, (i) => {
+      const modifierValue = numericModifier(i, mod);
+      return mod === "Combat Rate" ? -modifierValue : modifierValue;
+    });
+
+    // If we found an item for this slot, add its modifier to the sum
+    if (bestItemForSlot) {
+      usedItems.add(bestItemForSlot); // Mark this item as used
+      const itemModifier = numericModifier(bestItemForSlot, mod);
+      return sum + itemModifier;
+    }
+
+    return sum; // If no item was found for this slot, just return the current sum
+  }, 0);
+
+  return totalModifier;
+}
+
 export function computeHotRes(sim: boolean): number {
-  const cloake = have($item`vampyric cloake`) ? 2 : 0;
-  const retro = RetroCape.have() ? 3 : 0;
   const foam =
     have($item`Fourth of May Cosplay Saber`) &&
     have($item`industrial fire extinguisher`) &&
@@ -189,20 +229,14 @@ export function computeHotRes(sim: boolean): number {
   const famWt = sumNumbers([bond, empathy, leash]);
   const parrot =
     have($familiar`Exotic Parrot`) && famWt >= 15 ? 2 : have($familiar`Exotic Parrot`) ? 1 : 0;
-
-  const extingo = have($item`industrial fire extinguisher`) ? 3 : 0;
-  const shield = have($skill`Meteor Shower`) ? 3 : 0;
-  const parka = have($item`Jurassic Parka`) ? 3 : 0;
-  const sweatpants = have($item`designer sweatpants`) ? 1 : 0;
   const paw = have($item`cursed monkey's paw`) ? 2 : 0;
   const crimbo = have($skill`Crimbo Training: Coal Taster`) ? 1 : 0;
   const asbestos = have($skill`Asbestos Heart`) ? 3 : 0;
   const tolerance = have($skill`Tolerance of the Kitchen`) ? 2 : 0;
+  const outfit = simOutfit("Hot Resistance");
 
   const all = sumNumbers([
-    cloake,
-    retro,
-    shield,
+    outfit,
     foam,
     factory,
     horse,
@@ -214,9 +248,6 @@ export function computeHotRes(sim: boolean): number {
     sphere,
     peaceful,
     parrot,
-    extingo,
-    parka,
-    sweatpants,
     paw,
     crimbo,
     asbestos,
@@ -279,41 +310,10 @@ export function computeWeaponDamage(sim: boolean): number {
     elf,
   ]);
 
-  const hat = have($item`Crown of Thrones`) ? 10 : have($item`seal-skull helmet`) ? 1 : 0;
-  const shirt = 0;
-  // eslint-disable-next-line libram/verify-constants
-  const mainhand = have($item`candy cane sword cane`)
-    ? 165
-    : have($item`SpinMaster™ lathe`)
-    ? 115
-    : 65;
-  // eslint-disable-next-line libram/verify-constants
-  const offhand =
-    // eslint-disable-next-line libram/verify-constants
-    have($item`SpinMaster™ lathe`) && have($item`candy cane sword cane`) ? 115 : 50;
-
-  const brogues = have($item`Bastille Battalion control rig`) ? 50 : 0;
-  const glove = have($item`Powerful Glove`) ? 25 : 0;
-  const kgb = have($item`Kremlin's Greatest Briefcase`) ? 25 : 0;
-  const meteorite =
-    sim && have($item`meteorite necklace`) ? 200 : have($item`meteorite necklace`) ? 200 : 0;
-  const accessory = sumNumbers([brogues, glove, kgb, meteorite]);
-
-  const familiar =
-    have($familiar`Disembodied Hand`) &&
-    // eslint-disable-next-line libram/verify-constants
-    have($item`candy cane sword cane`) &&
-    have($item`Stick-Knife of Loathing`) &&
-    have($item`SpinMaster™ lathe`)
-      ? 115
-      : have($familiar`Disembodied Hand`)
-      ? 65
-      : have($familiar`Left-Hand Man`)
-      ? 50
-      : 0;
+  const outfit = simOutfit("Weapon Damage Percent");
 
   const goodWeapons = sim ? 65 : 0;
-  const equips = sumNumbers([hat, shirt, mainhand, offhand, accessory, familiar, goodWeapons]);
+  const equips = sumNumbers([outfit, goodWeapons]);
 
   const wDmgNumber = sumNumbers([equips, effects]);
 
@@ -338,24 +338,20 @@ export function computeSpellDamage(sim: boolean): number {
   const peppermint = have($skill`Spirit of Peppermint`) ? 10 : 0;
   const lov = get("loveTunnelAvailable") ? 50 : 0;
   const beach = have($item`Beach Comb`) ? 25 : 0;
-  const glove = have($item`Powerful Glove`) ? 50 : 0;
   const moonSpoon = have($item`hewn moon-rune spoon`) ? 10 : 0;
   const saucier = have($skill`Master Saucier`) ? 10 : 0;
   const subtle = have($skill`Subtle and Quick to Anger`) ? 10 : 0;
   const calzone = !args.calzone ? 50 : 0;
-  const stick = !sim && have($item`Stick-Knife of Loathing`) ? 200 : 0;
-  const staff = !sim && have($item`Staff of Simmering Hatred`) ? 200 : 0;
-  const candle = !sim && have($item`Abracandalabra`) ? 100 : 0;
+  const outfit = simOutfit("Spell Damage Percent");
 
   const all = sumNumbers([
     simmer,
-    stick,
+    outfit,
     cargo,
     carol,
     meteor,
     elf,
     camel,
-    staff,
     visions,
     eyebrow,
     hells,
@@ -367,12 +363,10 @@ export function computeSpellDamage(sim: boolean): number {
     peppermint,
     lov,
     beach,
-    glove,
     moonSpoon,
     saucier,
     subtle,
     calzone,
-    candle,
   ]);
 
   return Math.max(1, Math.floor(60 - all / 50));
@@ -398,21 +392,12 @@ export function computeFamiliarWeight(sim: boolean): number {
       ? 20
       : 0;
   const shorty = camelFightsLeft() >= 44 || camelFightsLeft() < 34 ? 10 : 0;
-  const dsh = have($item`Daylight Shavings Helmet`) ? 5 : 0;
-  const scrapbook = have($item`familiar scrapbook`) && newsPaper === 0 ? 5 : 0;
-  const saber = have($item`Fourth of May Cosplay Saber`) ? 10 : 0;
-  const brogues = have($item`Bastille Battalion control rig`) ? 8 : 0;
   const comma = have($familiar`Comma Chameleon`) && have($skill`Summon Clip Art`) ? 100 : 0;
   const familiar = comma === 0 ? 10 : 0;
   const stillsuit = comma === 0 && have($item`tiny stillsuit`) ? 5 : 0;
   const concierge = have($skill`Crimbo Training: Concierge`) ? 1 : 0;
   const SIT = bestSIT === 1 ? 5 : 0;
-  const pants =
-    !sim && have($item`repaid diaper`)
-      ? 15
-      : !sim && have($item`Great Wolf's beastly trousers`)
-      ? 10
-      : 0;
+  const outfit = simOutfit("Familiar Weight");
 
   return Math.max(
     1,
@@ -433,13 +418,9 @@ export function computeFamiliarWeight(sim: boolean): number {
           puzzle,
           robot,
           shorty,
-          dsh,
-          scrapbook,
-          saber,
-          brogues,
+          outfit,
           concierge,
           comma,
-          pants,
           familiar,
           stillsuit,
           SIT,
@@ -479,6 +460,7 @@ export function computeBoozeDrop(): number {
   const guzzlin = have($skill`Always Never Not Guzzling`) ? 25 : 0;
   const crimbo = have($skill`Crimbo Training: Bartender`) ? 15 : 0;
   const lighthouse = have($item`august scepter`) ? 50 : 0;
+  const outfit = simOutfit("Item Drop");
 
   const all = sumNumbers([
     loded,
@@ -507,11 +489,63 @@ export function computeBoozeDrop(): number {
     guzzlin,
     crimbo,
     lighthouse,
+    outfit,
   ]);
 
   const addWish = all - synthesis <= 780 ? 200 : 0;
 
   return Math.max(1, Math.floor(60 - (all + addWish) / 15));
+}
+
+export function computeCombatFrequency(sim: boolean): number {
+  const outfit = simOutfit("Combat Rate");
+
+  const rose = -20;
+  const smoothMovements = have($skill`Smooth Movement`) ? -5 : 0;
+  const sonata = have($skill`The Sonata of Sneakiness`) ? -5 : 0;
+  const favoriteBird =
+    have($item`Bird-a-Day calendar`) &&
+    get("yourFavoriteBirdMods").includes("Combat Frequency") &&
+    !get("instant_saveFavoriteBird", false)
+      ? toInt(
+          get("yourFavoriteBirdMods")
+            .split(", ")
+            .filter((s) => s.includes("Combat Frequency"))
+            .join("")
+            .split(": ")[1]
+        )
+      : 0;
+  const shadowWaters = have($item`closed-circuit pay phone`) ? -10 : 0;
+  const powerfulGlove = have($item`Powerful Glove`) && !args.saveglove ? -10 : 0;
+  const shoeGum = get("hasDetectiveSchool") && !get("instant_saveCopDollars", false) ? -5 : 0;
+  const silentRunning = -5;
+  const feelingLonely = have($skill`Feel Lonely`) ? -5 : 0;
+  const stub = !sim && have($item`trampled ticket stub`) ? -5 : 0;
+  const apriling = AprilingBandHelmet.have() ? -10 : 0;
+  const effects = sumNumbers([
+    rose,
+    smoothMovements,
+    sonata,
+    favoriteBird,
+    shadowWaters,
+    powerfulGlove,
+    shoeGum,
+    silentRunning,
+    feelingLonely,
+    stub,
+    apriling,
+  ]);
+
+  const disgeist = have($familiar`Disgeist`) ? -5 : 0;
+  const familiar = disgeist;
+
+  const darkHorse = get("horseryAvailable") ? -5 : 0;
+  const others = darkHorse;
+  const shades = sim ? -20 : 0;
+
+  const total = sumNumbers([outfit, effects, familiar, others, shades]);
+
+  return total;
 }
 
 const famJacksValue = () =>
@@ -824,89 +858,6 @@ export function wishFor(ef: Effect, useGenie = true): void {
   if (have($item`pocket wish`) && useGenie) {
     cliExecute(`genie effect ${ef.name}`);
   }
-}
-
-export function computeCombatFrequency(sim: boolean): number {
-  const vipHat = have($item`Clan VIP Lounge key`) ? -5 : 0;
-  const hat = vipHat;
-
-  const protopack = have($item`protonic accelerator pack`) ? -5 : 0;
-  const chlamys = have($item`chalk chlamys`) && !sim ? -5 : 0;
-  const back = Math.max(protopack, chlamys);
-
-  const parka = have($item`Jurassic Parka`) ? -5 : 0;
-  const shirt = parka;
-
-  const umbrella = have($item`unbreakable umbrella`) ? -10 : 0;
-  const offhand = umbrella;
-
-  const pantogram =
-    have($item`portable pantogram`) && !get("instant_savePantogram", false) ? -5 : 0;
-  const pants = pantogram;
-
-  const kgb =
-    have($item`Kremlin's Greatest Briefcase`) && !get("instant_saveKGBClicks", false) ? -5 : 0;
-  const atlas = have($item`atlas of local maps`) ? -5 : 0;
-  const slippers = have($item`Fuzzy Slippers of Hatred`) && !sim ? -5 : 0;
-  const accessories = sumNumbers([kgb, atlas, slippers]);
-
-  const rose = -20;
-  const smoothMovements = have($skill`Smooth Movement`) ? -5 : 0;
-  const sonata = have($skill`The Sonata of Sneakiness`) ? -5 : 0;
-  const favoriteBird =
-    have($item`Bird-a-Day calendar`) &&
-    get("yourFavoriteBirdMods").includes("Combat Frequency") &&
-    !get("instant_saveFavoriteBird", false)
-      ? toInt(
-          get("yourFavoriteBirdMods")
-            .split(", ")
-            .filter((s) => s.includes("Combat Frequency"))
-            .join("")
-            .split(": ")[1]
-        )
-      : 0;
-  const shadowWaters = have($item`closed-circuit pay phone`) ? -10 : 0;
-  const powerfulGlove = have($item`Powerful Glove`) && !args.saveglove ? -10 : 0;
-  const shoeGum = get("hasDetectiveSchool") && !get("instant_saveCopDollars", false) ? -5 : 0;
-  const silentRunning = -5;
-  const feelingLonely = have($skill`Feel Lonely`) ? -5 : 0;
-  const stub = !sim && have($item`trampled ticket stub`) ? -5 : 0;
-  const apriling = AprilingBandHelmet.have() ? -10 : 0;
-  const effects = sumNumbers([
-    rose,
-    smoothMovements,
-    sonata,
-    favoriteBird,
-    shadowWaters,
-    powerfulGlove,
-    shoeGum,
-    silentRunning,
-    feelingLonely,
-    stub,
-    apriling,
-  ]);
-
-  const disgeist = have($familiar`Disgeist`) ? -5 : 0;
-  const familiar = disgeist;
-
-  const darkHorse = get("horseryAvailable") ? -5 : 0;
-  const others = darkHorse;
-  const shades = sim ? -20 : 0;
-
-  const total = sumNumbers([
-    hat,
-    shirt,
-    back,
-    offhand,
-    pants,
-    accessories,
-    effects,
-    familiar,
-    others,
-    shades,
-  ]);
-
-  return total;
 }
 
 export function overlevelled(): boolean {
