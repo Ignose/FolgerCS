@@ -147,6 +147,7 @@ const godLobsterChoice = () => (have($item`God Lobster's Ring`) ? 2 : 3);
 const godLobsterSave = () => computeCombatFrequency(false) === -95;
 
 export function restoreMPEfficiently(): string {
+  if (have($item`bat wings`) && get("_batWingsRestUsed", 0) < 11) return "Bat Wings";
   if (have($item`magical sausage`)) return "Sausage";
   if (!get("_latteDrinkUsed", false) && have($item`latte lovers member's mug`)) return "Gulp";
   if (have($item`magical sausage casing`) && myMeat() >= 3000) return "Make Sausage";
@@ -1018,6 +1019,15 @@ export const LevelingQuest: Quest = {
       },
       post: () => autosell($item`meat stack`, itemAmount($item`meat stack`)),
       limit: { tries: 23 },
+    },
+    {
+      name: "Rest Upside Down",
+      ready: () => restoreMPEfficiently() === "Bat Wings",
+      completed: () => myMp() >= 75 || restoreMPEfficiently() !== "Bat Wings",
+      do: (): void => {
+        cliExecute("cast rest upside down");
+      },
+      limit: { tries: 11 },
     },
     {
       name: "Restore MP with Glowing Blue",
