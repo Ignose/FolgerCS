@@ -148,8 +148,12 @@ export const NoncombatQuest: Quest = {
           $effect`Puzzle Champ`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
+        const familiar = have($familiar`peace turkey`)
+          ? $familiar`peace turkey`
+          : $familiar`disgeist`;
+        const cap = familiar === $familiar`peace turkey` ? 50 : 75;
         cliExecute(
-          "maximize -combat, 0.04 familiar weight 75 max, switch disgeist, switch left-hand man, switch disembodied hand, -tie"
+          `maximize -combat, 0.04 familiar weight ${cap} max, switch ${familiar}, switch left-hand man, switch disembodied hand, switch peace turkey -tie`
         ); // To avoid maximizer bug, we invoke this once more
 
         if (
