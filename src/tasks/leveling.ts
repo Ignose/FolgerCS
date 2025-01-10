@@ -44,6 +44,7 @@ import {
   takeStorage,
   toInt,
   toItem,
+  toSkill,
   use,
   useSkill,
   visitUrl,
@@ -1139,6 +1140,32 @@ export const LevelingQuest: Quest = {
         boomBoxProfit();
       },
       limit: { tries: 12 },
+    },
+    {
+      name: "Run CyberRealm",
+      ready: () => have($item`server room key`) && have($skill`OVERCLOCK(10)`) && !args.savecyber,
+      prepare: () => {
+        $effects`Astral Shell, Elemental Saucesphere, Scarysauce`.forEach((ef) => {
+          if (!have(ef)) useSkill(toSkill(ef));
+        });
+      },
+      completed: () => $location`Cyberzone 1`.turnsSpent >= 10,
+      choices: { 1545: 1, 1546: 1 },
+      do: $location`Cyberzone 1`,
+      combat: new CombatStrategy().macro(() =>
+        Macro.if_(
+          "!monsterphylum construct",
+          Macro.trySkill($skill`Sing Along`)
+            .trySkill($skill`Saucestorm`)
+            .trySkill($skill`Saucestorm`)
+            .trySkill($skill`Saucestorm`)
+            .trySkill($skill`Saucestorm`)
+            .repeat(),
+        )
+          .skill($skill`Throw Cyber Rock`)
+          .repeat(),
+      ),
+      limit: { tries: 10 },
     },
     {
       name: "Get Range",

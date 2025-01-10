@@ -80,6 +80,7 @@ import { args } from "../args";
 import { Cycle, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
 
 let capeTuned = false;
+let duffo = false;
 const optimalCape =
   myPrimestat() === $stat`Muscle`
     ? "vampire thrill"
@@ -625,6 +626,14 @@ export const RunStartQuest: Quest = {
       acquire: [{ item: $item`toy accordion` }],
       limit: { tries: 50 },
     },
+     {
+          name: "Unpack Duffel Bag",
+          completed: () => duffo,
+          do: () => {
+            visitUrl("inventory.php?action=skiduffel&pwd");
+            duffo = true;
+          },
+        },
     {
       name: "Get Distilled Fortified Wine",
       ready: () => have($item`11-leaf clover`) || have($effect`Lucky!`),

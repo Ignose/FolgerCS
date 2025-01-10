@@ -872,6 +872,7 @@ export function computeCombatFrequency(sim: boolean): number {
   const feelingLonely = have($skill`Feel Lonely`) ? -5 : 0;
   const stub = !sim && have($item`trampled ticket stub`) ? -5 : 0;
   const apriling = AprilingBandHelmet.have() ? -10 : 0;
+  const seekers = have($skill`Hide From Seekers`) ? -5 : 0;
   const effects = sumNumbers([
     rose,
     smoothMovements,
@@ -884,6 +885,7 @@ export function computeCombatFrequency(sim: boolean): number {
     feelingLonely,
     stub,
     apriling,
+    seekers
   ]);
 
   const disgeist = have($familiar`Disgeist`) ? -5 : 0;
@@ -1061,6 +1063,8 @@ export function camelFightsLeft(): number {
     ? 5 - toInt(get("_leafMonstersFought", 0))
     : 0;
 
+  const cyberRealm = have($item`server room key`) && have($skill`OVERCLOCK(10)`) ? 9 : 0;
+
   return sumNumbers([
     shadowRift,
     snojo,
@@ -1078,6 +1082,7 @@ export function camelFightsLeft(): number {
     backups,
     noveltySkeleton,
     leafyBoys,
+    cyberRealm
   ]);
 }
 

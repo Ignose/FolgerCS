@@ -219,6 +219,10 @@ export const args = Args.create(
       help: `Do not get and use mouthwash/sept-ember`,
       default: false,
     }),
+    savecyber: Args.flag({
+      help: `Do not use our ten free cyber-fights`,
+      default: false,
+    }),
     dopulls: Args.flag({
       help: `Automatically use excess pulls for good stuff?`,
       default: true,
