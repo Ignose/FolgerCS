@@ -885,7 +885,7 @@ export function computeCombatFrequency(sim: boolean): number {
     feelingLonely,
     stub,
     apriling,
-    seekers
+    seekers,
   ]);
 
   const disgeist = have($familiar`Disgeist`) ? -5 : 0;
@@ -1082,7 +1082,7 @@ export function camelFightsLeft(): number {
     backups,
     noveltySkeleton,
     leafyBoys,
-    cyberRealm
+    cyberRealm,
   ]);
 }
 

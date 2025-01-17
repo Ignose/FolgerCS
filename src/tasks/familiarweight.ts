@@ -88,7 +88,10 @@ export const FamiliarWeightQuest: Quest = {
     },
     {
       name: "Fiesta Exit",
-      completed: () => have($effect`Party Soundtrack`) || !have($skill`Cincho: Party Soundtrack`) || 100 - get("_cinchUsed") < 75,
+      completed: () =>
+        have($effect`Party Soundtrack`) ||
+        !have($skill`Cincho: Party Soundtrack`) ||
+        100 - get("_cinchUsed") < 75,
       do: (): void => {
         equip($slot`acc3`, $item`Cincho de Mayo`);
         useSkill($skill`Cincho: Party Soundtrack`);

@@ -141,6 +141,8 @@ import {
   Station,
 } from "libram/dist/resources/2022/TrainSet";
 
+const primeStat = statToMaximizerString(myPrimestat());
+
 const useCinch = () => args.savecinch < 100 - get("_cinchUsed");
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
 const freeFightMonsters: Monster[] = $monsters`Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle`;
@@ -923,11 +925,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Sept-ember Mouthwash",
       completed: () =>
-        // eslint-disable-next-line libram/verify-constants
-        !have($item`Sept-Ember Censer`) ||
-        // eslint-disable-next-line libram/verify-constants
-        have($item`bembershoot`) ||
-        args.saveembers,
+        !have($item`Sept-Ember Censer`) || have($item`bembershoot`) || args.saveembers,
       do: (): void => {
         // Grab Embers
         visitUrl("shop.php?whichshop=september");
@@ -946,7 +944,7 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 1 },
       outfit: {
-        modifier: "cold res",
+        modifier: `cold res, ${primeStat} experience percent`,
         familiar: $familiar`Exotic Parrot`,
       },
     },
@@ -1160,10 +1158,10 @@ export const LevelingQuest: Quest = {
             .trySkill($skill`Saucestorm`)
             .trySkill($skill`Saucestorm`)
             .trySkill($skill`Saucestorm`)
-            .repeat(),
+            .repeat()
         )
           .skill($skill`Throw Cyber Rock`)
-          .repeat(),
+          .repeat()
       ),
       limit: { tries: 10 },
     },

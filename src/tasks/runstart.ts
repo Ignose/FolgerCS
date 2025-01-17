@@ -626,14 +626,14 @@ export const RunStartQuest: Quest = {
       acquire: [{ item: $item`toy accordion` }],
       limit: { tries: 50 },
     },
-     {
-          name: "Unpack Duffel Bag",
-          completed: () => duffo,
-          do: () => {
-            visitUrl("inventory.php?action=skiduffel&pwd");
-            duffo = true;
-          },
-        },
+    {
+      name: "Unpack Duffel Bag",
+      completed: () => duffo,
+      do: () => {
+        visitUrl("inventory.php?action=skiduffel&pwd");
+        duffo = true;
+      },
+    },
     {
       name: "Get Distilled Fortified Wine",
       ready: () => have($item`11-leaf clover`) || have($effect`Lucky!`),
