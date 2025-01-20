@@ -202,7 +202,7 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
         ? $item`Cincho de Mayo`
         : undefined,
     familiar:
-      have($familiar`Melodramedary`) && get("camelSpit") < 100
+      have($familiar`Melodramedary`) && get("camelSpit") < 100 && !have($effect`spit upon`)
         ? $familiar`Melodramedary`
         : chooseFamiliar(allowAttackingFamiliars),
     famequip:

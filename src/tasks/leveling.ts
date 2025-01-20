@@ -944,7 +944,7 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 1 },
       outfit: {
-        modifier: `cold res, ${primeStat} experience percent`,
+        modifier: `10 cold res, 1 ${primeStat} experience percent`,
         familiar: $familiar`Exotic Parrot`,
       },
     },
@@ -1143,6 +1143,12 @@ export const LevelingQuest: Quest = {
       name: "Run CyberRealm",
       ready: () => have($item`server room key`) && have($skill`OVERCLOCK(10)`) && !args.savecyber,
       prepare: () => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        unbreakableUmbrella();
+        restoreMp(50);
+        sellMiscellaneousItems();
+        garbageShirt();
+        if (checkPurqoise(250)) autosell($item`porquoise`, 1);
         $effects`Astral Shell, Elemental Saucesphere, Scarysauce`.forEach((ef) => {
           if (!have(ef)) useSkill(toSkill(ef));
         });
@@ -1153,12 +1159,7 @@ export const LevelingQuest: Quest = {
       combat: new CombatStrategy().macro(() =>
         Macro.if_(
           "!monsterphylum construct",
-          Macro.trySkill($skill`Sing Along`)
-            .trySkill($skill`Saucestorm`)
-            .trySkill($skill`Saucestorm`)
-            .trySkill($skill`Saucestorm`)
-            .trySkill($skill`Saucestorm`)
-            .repeat()
+          Macro.default()
         )
           .skill($skill`Throw Cyber Rock`)
           .repeat()
@@ -1717,6 +1718,12 @@ export const LevelingQuest: Quest = {
       },
       completed: () => have($effect`Spit Upon`),
       do: $location`The Neverending Party`,
+      choices: {
+        1094: 5,
+        1115: 6,
+        1322: 2,
+        1324: 5,
+      },
       combat: new CombatStrategy().macro(Macro.trySkill($skill`%fn, spit on me!`).kill()),
       outfit: () => ({
         ...baseOutfit(),
