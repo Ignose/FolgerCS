@@ -11,6 +11,7 @@ import {
   numericModifier,
   print,
   toInt,
+  totalTurnsPlayed,
 } from "kolmafia";
 import {
   $effect,
@@ -179,8 +180,6 @@ function useCandyCaneSword(): boolean {
 }
 
 export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
-  // Only try equipping/nag LOV Epaulettes if we are done with the LOV tunnel
-  const lovTunnelCompleted = get("_loveTunnelUsed") || !get("loveTunnelAvailable");
   parka();
 
   return {
@@ -189,6 +188,8 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
       : have($item`June cleaver`)
       ? $item`June cleaver`
       : undefined,
+    back: get("questPAGhost") === "unstarted" && get("nextParanormalActivity") <= totalTurnsPlayed()
+      ? $item`protonic accelerator pack` : undefined,
     hat: avoidDaylightShavingsHelm() ? undefined : $item`Daylight Shavings Helmet`,
     offhand:
       myMaxmp() > 200 && myMp() < 75 && restoreMPEfficiently() === "Gulp"

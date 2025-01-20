@@ -1,5 +1,6 @@
 import { Quest } from "../engine/task";
 import {
+  abort,
   autosell,
   buy,
   chew,
@@ -323,6 +324,24 @@ export const LevelingQuest: Quest = {
       completed: () => !have($item`LED candle`) || get("ledCandleMode", "") === "reading",
       do: () => cliExecute("jillcandle reading"),
       limit: { tries: 1 },
+    },
+    {
+      name: "Cross Streams",
+      ready: () => have($item`protonic accelerator pack`),
+      completed: () => get("_streamsCrossed"),
+      do: () => cliExecute("crossstreams"),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Smile of Lyle",
+      ready: () => have($item`candy cane sword cane`),
+      completed: () => get("_lyleFavored"),
+      do: () => cliExecute("monorail buff"),
+    },
+    {
+      name: "Telescope",
+      completed: () => get("telescopeLookedHigh"),
+      do: () => cliExecute("telescope look high"),
     },
     {
       name: "Offhand Remarkable Maybe",
@@ -877,6 +896,27 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 3 },
     },
+    {
+    name: "Ghost",
+    completed: () => get("questPAGhost") === "unstarted",
+    ready: () =>
+      have($item`protonic accelerator pack`) &&
+      get("questPAGhost") !== "unstarted" &&
+      !!get("ghostLocation") &&
+      !have($effect`Meteor Showered`),
+    do: () => get("ghostLocation") ?? abort("Failed to identify ghost location"),
+    combat: new CombatStrategy().macro(
+      Macro.trySkill($skill`micrometeorite`)
+        .trySkill($skill`Shoot Ghost`)
+        .trySkill($skill`Shoot Ghost`)
+        .trySkill($skill`Shoot Ghost`)
+        .trySkill($skill`Trap Ghost`)
+    ),
+    outfit: () => ({
+      ...baseOutfit,
+      back: $item`protonic accelerator pack`
+    }),
+  },
     {
       name: "Map Amateur Ninja",
       prepare: (): void => {
@@ -1736,11 +1776,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Powerlevel",
-      completed: () =>
-        myBasestat(myPrimestat()) >= targetBaseMyst - targetBaseMystGap && // I don't know if this will cause issues.
-        (powerlevelingLocation() !== $location`The Neverending Party` ||
-          overlevelled() ||
-          get("_neverendingPartyFreeTurns") >= 10),
+      completed: () => get("_neverendingPartyFreeTurns") >= 10,
       do: powerlevelingLocation(),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -1788,7 +1824,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Extra Camelspit Leveling",
       ready: () => get("camelSpit") >= 94 && myBasestat(myPrimestat()) >= targetBaseMyst,
-      completed: () => !args.camelhat || get("camelSpit") >= 100,
+      completed: () => !args.camelhat || get("camelSpit") >= 100 || have($effect`spit upon`),
       do: powerlevelingLocation(),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -2013,37 +2049,29 @@ export const LevelingQuest: Quest = {
         restoreMp(50);
       },
       outfit: (): OutfitSpec => {
-        if (
-          chooseLibram() === $skill.none ||
-          !have($item`latte lovers member's mug`) ||
-          get("_latteRefillsUsed") >= 3
-        )
           return {
             ...baseOutfit(),
-            shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
-          };
-        else
-          return {
-            ...baseOutfit(),
-            offhand: $item`latte lovers member's mug`,
-            shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
+            offhand: $item`Lil' Doctor™ bag`,
+            shirt: garbageShirt() ? $item`makeshift garbage shirt` : have($item`Jurassic Parka`) ? $item`jurassic parka` : undefined,
           };
       },
       completed: () =>
-        (myBasestat(myPrimestat()) >= targetBaseMyst && get("_feelPrideUsed", 3) >= 3) ||
-        ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
-          (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))) ||
-        overlevelled(),
+        (get("_shatteringPunchUsed") >= 3 || !have($skill`shattering punch`)) &&
+        (get("_gingerbreadMobHitUsed") || !have($skill`gingerbread mob hit`)) &&
+        (have($effect`Everything Looks Yellow`) || !have($item`jurassic parka`)) &&
+        (get("_chestXRayUsed") >= 3 || !have($item`Lil' Doctor™ bag`)),
       do: powerlevelingLocation(),
       combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Feel Pride`)
-          .trySkill($skill`Cincho: Confetti Extravaganza`)
+          Macro.if_($monster`sausage goblin`, Macro.default(useCinch()))
+          .trySkill($skill`Feel Pride`)
           .trySkill($skill`Gulp Latte`)
-          .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
+          .trySkill($skill`Cincho: Confetti Extravaganza`)
+          .trySkill($skill`Bowl Sideways`)
+          .trySkill($skill`Spit jurassic acid`)
           .trySkill($skill`Chest X-Ray`)
           .trySkill($skill`Shattering Punch`)
           .trySkill($skill`Gingerbread Mob Hit`)
-          .default(useCinch())
+          .abort()
       ),
       choices: {
         1094: 5,
