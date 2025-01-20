@@ -522,8 +522,8 @@ const stickKnife = () =>
 const staff = () => (have($skill`Spirit of Rigatoni`) ? 4 : 0);
 const tobikoSoda = () => (have($skill`Summon Alice's Army Cards`) ? 0 : 3);
 const meteorite = () => Math.min(8, computeWeaponDamage(false) - 1) + 4;
-const slippers = () => Math.min(4, 1 + ((-1 * computeCombatFrequency(false)) / 5) * 3);
-const chlamys = () => Math.min(3, ((-1 * computeCombatFrequency(false)) / 5) * 3);
+const slippers = () => computeCombatFrequency(false) <= -100 ? 1 : 4;
+const chlamys = () => computeCombatFrequency(false) <= -100 ? 0 : 3;
 
 type valuePull = {
   item: Item;

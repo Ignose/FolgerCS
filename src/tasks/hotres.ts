@@ -84,8 +84,8 @@ export const HotResQuest: Quest = {
       choices: { 1387: 3 },
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Become a Cloud of Mist`)
-          .skill($skill`Fire Extinguisher: Foam Yourself`)
-          .skill($skill`Use the Force`)
+          .trySkill($skill`Fire Extinguisher: Foam Yourself`)
+          .trySkill($skill`Use the Force`)
           .abort()
       ),
       limit: { tries: 1 },

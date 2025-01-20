@@ -314,10 +314,8 @@ export const LevelingQuest: Quest = {
   name: "Leveling",
   completed: () =>
     get("csServicesPerformed").split(",").length > 1 ||
-    (myBasestat(myPrimestat()) >= targetBaseMyst &&
-      get("_feelPrideUsed", 3) >= 3 &&
+    (get("_feelPrideUsed", 3) >= 3 &&
       camelFightsLeft() === 0 &&
-      (get("camelSpit") < 94 || get("camelSpit") >= 100) &&
       !haveFreeKill()),
   tasks: [
     {
@@ -1153,7 +1151,7 @@ export const LevelingQuest: Quest = {
           if (!have(ef)) useSkill(toSkill(ef));
         });
       },
-      completed: () => $location`Cyberzone 1`.turnsSpent >= 10,
+      completed: () => $location`Cyberzone 1`.turnsSpent >= 10 || toInt(get("_cyberZone1Turns")) >= 10 || have($item`0`),
       choices: { 1545: 1, 1546: 1 },
       do: $location`Cyberzone 1`,
       combat: new CombatStrategy().macro(() =>
