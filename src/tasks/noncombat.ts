@@ -31,6 +31,11 @@ import { drive } from "libram/dist/resources/2017/AsdonMartin";
 import { args } from "../args";
 import { baseOutfit, unbreakableUmbrella } from "../engine/outfit";
 
+const familiar = have($familiar`peace turkey`)
+  ? $familiar`peace turkey`
+  : $familiar`disgeist`;
+const cap = familiar === $familiar`peace turkey` ? 50 : 75;
+
 export const NoncombatQuest: Quest = {
   name: "Noncombat",
   completed: () => CommunityService.Noncombat.isDone(),
@@ -149,10 +154,6 @@ export const NoncombatQuest: Quest = {
           $effect`Puzzle Champ`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
-        const familiar = have($familiar`peace turkey`)
-          ? $familiar`peace turkey`
-          : $familiar`disgeist`;
-        const cap = familiar === $familiar`peace turkey` ? 50 : 75;
         cliExecute(
           `maximize -combat, 0.04 familiar weight ${cap} max, switch ${familiar}, switch left-hand man, switch disembodied hand, switch peace turkey -tie`
         ); // To avoid maximizer bug, we invoke this once more
@@ -178,9 +179,9 @@ export const NoncombatQuest: Quest = {
         CommunityService.Noncombat.run(() => logTestSetup(CommunityService.Noncombat), maxTurns);
       },
       outfit: {
-        familiar: $familiar`Disgeist`,
+        familiar: familiar,
         modifier:
-          "-combat, 0.04 familiar weight 75 max, switch disgeist, switch left-hand man, switch disembodied hand, -tie",
+          `-combat, 0.04 familiar weight ${cap} max, switch ${familiar}, switch left-hand man, switch disembodied hand, -tie`,
       },
       post: (): void => {
         uneffect($effect`The Sonata of Sneakiness`);

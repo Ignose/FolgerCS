@@ -1,5 +1,6 @@
 import { Quest } from "../engine/task";
 import {
+  abort,
   autosell,
   buy,
   cliExecute,
@@ -156,6 +157,27 @@ export const earlyLevelingQuest: Quest = {
         cliExecute("set _folgerInitialConfig = true");
       },
       limit: { tries: 2 },
+    },
+    {
+        name: "Ghost",
+        completed: () => get("questPAGhost") === "unstarted",
+        ready: () =>
+          have($item`protonic accelerator pack`) &&
+          get("questPAGhost") !== "unstarted" &&
+          !!get("ghostLocation") &&
+          !have($effect`Meteor Showered`),
+        do: () => get("ghostLocation") ?? abort("Failed to identify ghost location"),
+        combat: new CombatStrategy().macro(
+          Macro.trySkill($skill`micrometeorite`)
+            .trySkill($skill`Shoot Ghost`)
+            .trySkill($skill`Shoot Ghost`)
+            .trySkill($skill`Shoot Ghost`)
+            .trySkill($skill`Trap Ghost`)
+        ),
+        outfit: () => ({
+          ...baseOutfit,
+          back: $item`protonic accelerator pack`
+        }),
     },
     {
       name: "Red Skeleton, Tropical Skeleton, Two For One",

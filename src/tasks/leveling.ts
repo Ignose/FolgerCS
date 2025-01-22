@@ -2048,13 +2048,7 @@ export const LevelingQuest: Quest = {
         [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
       },
-      outfit: (): OutfitSpec => {
-          return {
-            ...baseOutfit(),
-            offhand: $item`Lil' Doctor™ bag`,
-            shirt: garbageShirt() ? $item`makeshift garbage shirt` : have($item`Jurassic Parka`) ? $item`jurassic parka` : undefined,
-          };
-      },
+      outfit: baseOutfit,
       completed: () =>
         (get("_shatteringPunchUsed") >= 3 || !have($skill`shattering punch`)) &&
         (get("_gingerbreadMobHitUsed") || !have($skill`gingerbread mob hit`)) &&
@@ -2066,7 +2060,6 @@ export const LevelingQuest: Quest = {
           .trySkill($skill`Feel Pride`)
           .trySkill($skill`Gulp Latte`)
           .trySkill($skill`Cincho: Confetti Extravaganza`)
-          .trySkill($skill`Bowl Sideways`)
           .trySkill($skill`Spit jurassic acid`)
           .trySkill($skill`Chest X-Ray`)
           .trySkill($skill`Shattering Punch`)
