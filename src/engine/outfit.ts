@@ -191,6 +191,7 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
     back: get("questPAGhost") === "unstarted" && get("nextParanormalActivity") <= totalTurnsPlayed()
       ? $item`protonic accelerator pack` : undefined,
     hat: avoidDaylightShavingsHelm() ? undefined : $item`Daylight Shavings Helmet`,
+    shirt: garbageShirt() ? $item`makeshift garbage shirt` : have($item`LOV Eardigan`) ? $item`LOV Eardigan` : undefined,
     offhand:
       myMaxmp() > 200 && myMp() < 75 && restoreMPEfficiently() === "Gulp"
         ? $item`latte lovers member's mug`
