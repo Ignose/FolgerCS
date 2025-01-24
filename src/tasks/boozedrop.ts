@@ -302,6 +302,9 @@ export const BoozeDropQuest: Quest = {
 
         if (checkValue($item`pocket wish`, checkTurnSave("BoozeDrop", $effect`Infernal Thirst`)))
           wishFor($effect`Infernal Thirst`);
+
+        if (CommunityService.BoozeDrop.actualCost() > 1)
+          tryAcquiringEffect($effect`Incredibly Well Lit`);
       },
       completed: () => CommunityService.BoozeDrop.isDone(),
       do: (): void => {

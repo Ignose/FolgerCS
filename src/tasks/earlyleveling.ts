@@ -5,6 +5,7 @@ import {
   buy,
   cliExecute,
   eat,
+  Effect,
   equip,
   getMonsters,
   getWorkshed,
@@ -53,10 +54,12 @@ import { Cycle, setConfiguration, Station } from "libram/dist/resources/2022/Tra
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { chooseRift } from "libram/dist/resources/2023/ClosedCircuitPayphone";
-import { boomBoxProfit, checkPurqoise, sellMiscellaneousItems } from "../lib";
+import { boomBoxProfit, checkPurqoise, sellMiscellaneousItems, statToMaximizerString, tryAcquiringEffect } from "../lib";
 import { args } from "../args";
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
+
+const primeStat = statToMaximizerString(myPrimestat());
 
 let _bestShadowRift: Location | null = null;
 export function bestShadowRift(): Location {
@@ -101,7 +104,6 @@ export const earlyLevelingQuest: Quest = {
   completed: () =>
     get("pizzaOfLegendEaten") ||
     !args.skipbt ||
-    args.asdon ||
     CommunityService.CoilWire.isDone() ||
     myAdventures() > 60,
   tasks: [
@@ -118,6 +120,7 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Install Trainset",
+      ready: () => !args.asdon,
       completed: () => !have($item`model train set`) || getWorkshed() === $item`model train set`,
       do: (): void => {
         use($item`model train set`);
@@ -128,6 +131,7 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Configure Trainset Early",
+      ready: () => !args.asdon,
       completed: () => get("_folgerInitialConfig", false),
       do: (): void => {
         const offset = get("trainsetPosition") % 8;
@@ -260,6 +264,7 @@ export const earlyLevelingQuest: Quest = {
     {
       name: "ReConfigure Trainset",
       after: ["Map Novelty Tropical Skeleton"],
+      ready: () => !args.asdon,
       completed: () => get("_folgerSecondConfig", false),
       do: (): void => {
         const offset = get("trainsetPosition") % 8;
@@ -387,6 +392,42 @@ export const earlyLevelingQuest: Quest = {
       },
       limit: { tries: 2 },
     },
+        {
+          name: "Sept-ember Mouthwash",
+          ready: () => args.asdon,
+          prepare: () => {
+            const effects: Effect[] = [
+              $effect`Elemental Saucesphere`,
+              $effect`Scarysauce`,
+              $effect`Feel Peaceful`,
+              $effect`Astral Shell`,
+            ]
+            effects.forEach((ef) => tryAcquiringEffect(ef));
+          },
+          completed: () =>
+            !have($item`Sept-Ember Censer`) || have($item`bembershoot`) || args.saveembers,
+          do: (): void => {
+            // Grab Embers
+            visitUrl("shop.php?whichshop=september");
+    
+            // Grab Bembershoots
+            visitUrl(`shop.php?whichshop=september&action=buyitem&quantity=1&whichrow=1516&pwd`);
+    
+            // Grab Mouthwashes
+            visitUrl("shop.php?whichshop=september&action=buyitem&quantity=3&whichrow=1512&pwd");
+    
+            // Re-maximize cold res after getting bembershoots
+            cliExecute("maximize cold res");
+    
+            // eslint-disable-next-line libram/verify-constants
+            use($item`Mmm-brr! brand mouthwash`, 3);
+          },
+          limit: { tries: 1 },
+          outfit: {
+            modifier: `10 cold res, 1 ${primeStat} experience percent`,
+            familiar: $familiar`Exotic Parrot`,
+          },
+        },
     {
       name: "Bastille",
       after: ["Bakery Pledge"],

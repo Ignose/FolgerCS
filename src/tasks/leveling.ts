@@ -898,6 +898,9 @@ export const LevelingQuest: Quest = {
     },
     {
     name: "Ghost",
+    prepare: () => {
+      [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
+    },
     completed: () => get("questPAGhost") === "unstarted",
     ready: () =>
       have($item`protonic accelerator pack`) &&
@@ -962,13 +965,22 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Sept-ember Mouthwash",
+      prepare: () => {
+        const effects: Effect[] = [
+          $effect`Elemental Saucesphere`,
+          $effect`Scarysauce`,
+          $effect`Feel Peaceful`,
+          $effect`Astral Shell`,
+        ]
+        effects.forEach((ef) => tryAcquiringEffect(ef));
+      },
       completed: () =>
         !have($item`Sept-Ember Censer`) || have($item`bembershoot`) || args.saveembers,
       do: (): void => {
         // Grab Embers
         visitUrl("shop.php?whichshop=september");
 
-        // Grab Bembershoots
+        // Grab Bembershoot
         visitUrl(`shop.php?whichshop=september&action=buyitem&quantity=1&whichrow=1516&pwd`);
 
         // Grab Mouthwashes
@@ -977,7 +989,6 @@ export const LevelingQuest: Quest = {
         // Re-maximize cold res after getting bembershoots
         cliExecute("maximize cold res");
 
-        // eslint-disable-next-line libram/verify-constants
         use($item`Mmm-brr! brand mouthwash`, 3);
       },
       limit: { tries: 1 },
@@ -988,6 +999,9 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Free Fight Leafy Boys",
+      prepare: () => {
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
+      },
       ready: () => !have($effect`Shadow Affinity`),
       completed: () => get("_leafMonstersFought", 0) >= 5 || !have($item`inflammable leaf`, 11),
       do: (): void => {
@@ -1143,6 +1157,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Shadow Rift",
       prepare: (): void => {
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         unbreakableUmbrella();
         restoreMp(50);
