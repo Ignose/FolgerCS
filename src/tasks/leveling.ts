@@ -1078,6 +1078,7 @@ export const LevelingQuest: Quest = {
       do: (): void => {
         cliExecute("cast rest upside down");
       },
+      outfit: {back: $item`bat wings`},
       limit: { tries: 11 },
     },
     {
