@@ -180,6 +180,7 @@ export const earlyLevelingQuest: Quest = {
         ),
         outfit: () => ({
           ...baseOutfit,
+          shirt: $item`Jurassic Parka`,
           back: $item`protonic accelerator pack`
         }),
     },
@@ -307,6 +308,7 @@ export const earlyLevelingQuest: Quest = {
       do: $location`Noob Cave`,
       outfit: () => ({
         ...baseOutfit(),
+        shirt: $item`Jurassic Parka`,
         offhand: $item`Kramco Sausage-o-Matic™`,
       }),
       combat: new CombatStrategy().macro(Macro.default()),
@@ -346,6 +348,7 @@ export const earlyLevelingQuest: Quest = {
       ),
       outfit: () => ({
         ...baseOutfit,
+        shirt: $item`Jurassic Parka`,
         offhand: $item`unbreakable umbrella`,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
       }),
@@ -368,8 +371,7 @@ export const earlyLevelingQuest: Quest = {
       completed: () =>
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
-        get("_citizenZone").includes("Madness Bakery") ||
-        get("_pledgeCheck", false),
+        get("_citizenZone").includes("Madness"),
       do: $location`Madness Bakery`,
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`)
@@ -382,12 +384,12 @@ export const earlyLevelingQuest: Quest = {
       ),
       outfit: () => ({
         ...baseOutfit,
+        shirt: $item`Jurassic Parka`,
         familiar: $familiar`Patriotic Eagle`,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
       }),
       post: (): void => {
         sellMiscellaneousItems();
-        cliExecute("set _pledgeCheck = true");
         boomBoxProfit();
       },
       limit: { tries: 2 },
