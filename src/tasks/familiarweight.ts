@@ -7,11 +7,13 @@ import {
   Effect,
   equip,
   haveEffect,
+  Item,
   itemAmount,
   myClass,
   mySign,
   print,
   toInt,
+  toSlot,
   use,
   useFamiliar,
   useSkill,
@@ -179,8 +181,10 @@ export const FamiliarWeightQuest: Quest = {
 
         cliExecute("maximize familiar weight");
 
+        const teaPartyHats = Item.all().filter((i) => have(i) && toSlot(i) === $slot`hat` && i.name.length === 25);
+
         if (!get("_madTeaParty")) {
-          if (!have($item`sombrero-mounted sparkler`)) buy($item`sombrero-mounted sparkler`);
+          if (!have($item`sombrero-mounted sparkler`) && teaPartyHats.length === 0) buy($item`sombrero-mounted sparkler`);
           tryAcquiringEffect($effect`You Can Really Taste the Dormouse`);
         }
       },

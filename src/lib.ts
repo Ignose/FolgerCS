@@ -17,6 +17,7 @@ import {
   Item,
   itemAmount,
   mallPrice,
+  maximize,
   monkeyPaw,
   mpCost,
   myBasestat,
@@ -32,6 +33,7 @@ import {
   retrieveItem,
   retrievePrice,
   Skill,
+  Slot,
   Stat,
   storageAmount,
   sweetSynthesis,
@@ -39,6 +41,7 @@ import {
   toInt,
   toItem,
   toSkill,
+  toSlot,
   toStat,
   use,
   useSkill,
@@ -74,6 +77,7 @@ import {
 import { printModtrace } from "libram/dist/modifier";
 import { mainStat } from "./combat";
 import { args } from "./args";
+import { Outfit, OutfitSpec } from "grimoire-kolmafia";
 
 export const startingClan = getClanName();
 
@@ -248,11 +252,13 @@ export function computeWeaponDamage(sim: boolean): number {
   const cowrupt = 200; //Ungulith/seeing red. Can't be skipped.
   const imported = have($skill`Map the Monsters`) && get("ownsSpeakeasy") ? 50 : 0;
   const beach = have($item`Beach Comb`) ? 25 : 0;
-  const camel = (get("camelSpit") / 3.33) * camelFightsLeft() >= 100 ? 100 : 0;
+  const camel = ((get("camelSpit") / 3.33) * camelFightsLeft() >= 100) || have($effect`spit upon`) ? 100 : 0;
   const lov = get("loveTunnelAvailable") ? 50 : 0;
   const vote = myClass() === $class`Pastamancer` && get("voteAlways") ? 200 : 0;
   const carol = have($familiar`Ghost of Crimbo Carols`) ? 100 : 0;
   const elf = have($familiar`Machine Elf`) ? 100 : 0;
+  const billiards = have($item`Clan VIP Lounge key`) ? 50 : 0
+  const north = have($skill`song of the north`) ? 100 : 0
   const effects = sumNumbers([
     meteor,
     claws,
@@ -277,19 +283,18 @@ export function computeWeaponDamage(sim: boolean): number {
     vote,
     carol,
     elf,
+    billiards,
+    north
   ]);
 
   const hat = have($item`Crown of Thrones`) ? 10 : have($item`seal-skull helmet`) ? 1 : 0;
   const shirt = 0;
-  // eslint-disable-next-line libram/verify-constants
   const mainhand = have($item`candy cane sword cane`)
-    ? 165
+    ? 180
     : have($item`SpinMaster™ lathe`)
     ? 115
     : 65;
-  // eslint-disable-next-line libram/verify-constants
   const offhand =
-    // eslint-disable-next-line libram/verify-constants
     have($item`SpinMaster™ lathe`) && have($item`candy cane sword cane`) ? 115 : 50;
 
   const brogues = have($item`Bastille Battalion control rig`) ? 50 : 0;
@@ -301,7 +306,6 @@ export function computeWeaponDamage(sim: boolean): number {
 
   const familiar =
     have($familiar`Disembodied Hand`) &&
-    // eslint-disable-next-line libram/verify-constants
     have($item`candy cane sword cane`) &&
     have($item`Stick-Knife of Loathing`) &&
     have($item`SpinMaster™ lathe`)
@@ -516,7 +520,8 @@ export function computeBoozeDrop(): number {
 
 const famJacksValue = () =>
   have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;
-const greatWolfs = () => Math.min(2, computeWeaponDamage(false) - 1) + 2;
+const greatWolfsPartOne = () => have($item`repaid diaper`) ? 0 : 2
+const greatWolfs = () => Math.min(2, computeWeaponDamage(false) - 1) + greatWolfsPartOne();
 const stickKnife = () =>
   myPrimestat() === $stat`muscle` ? Math.min(5, computeWeaponDamage(false) - 1) + 4 : 0;
 const staff = () => (have($skill`Spirit of Rigatoni`) ? 4 : 0);

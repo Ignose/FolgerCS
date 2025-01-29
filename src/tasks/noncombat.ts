@@ -114,15 +114,6 @@ export const NoncombatQuest: Quest = {
       limit: { tries: 3 },
     },
     {
-      name: "Buy Porkpie-mounted Popper",
-      completed: () =>
-        have($item`porkpie-mounted popper`) ||
-        CommunityService.BoozeDrop.prediction <= 1 ||
-        get("_fireworksShopHatBought", false),
-      do: () => buy($item`porkpie-mounted popper`, 1),
-      limit: { tries: 1 },
-    },
-    {
       name: "Test",
       completed: () => CommunityService.Noncombat.isDone(),
       prepare: (): void => {
@@ -154,6 +145,10 @@ export const NoncombatQuest: Quest = {
           $effect`Puzzle Champ`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
+
+        if(CommunityService.Noncombat.actualCost() > 1 && !have($item`Porkpie-mounted popper`) && !get("_fireworksShopHatBought"))
+          buy($item`porkpie-mounted popper`, 1)
+
         cliExecute(
           `maximize -combat, 0.04 familiar weight ${cap} max, switch ${familiar}, switch left-hand man, switch disembodied hand, switch peace turkey -tie`
         ); // To avoid maximizer bug, we invoke this once more

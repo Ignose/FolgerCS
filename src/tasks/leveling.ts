@@ -21,6 +21,7 @@ import {
   itemDrops,
   Location,
   mallPrice,
+  maximize,
   Monster,
   mpCost,
   myBasestat,
@@ -46,6 +47,7 @@ import {
   toInt,
   toItem,
   toSkill,
+  toSlot,
   use,
   useSkill,
   visitUrl,
@@ -964,40 +966,6 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Sept-ember Mouthwash",
-      prepare: () => {
-        const effects: Effect[] = [
-          $effect`Elemental Saucesphere`,
-          $effect`Scarysauce`,
-          $effect`Feel Peaceful`,
-          $effect`Astral Shell`,
-        ]
-        effects.forEach((ef) => tryAcquiringEffect(ef));
-      },
-      completed: () =>
-        !have($item`Sept-Ember Censer`) || have($item`bembershoot`) || args.saveembers,
-      do: (): void => {
-        // Grab Embers
-        visitUrl("shop.php?whichshop=september");
-
-        // Grab Bembershoot
-        visitUrl(`shop.php?whichshop=september&action=buyitem&quantity=1&whichrow=1516&pwd`);
-
-        // Grab Mouthwashes
-        visitUrl("shop.php?whichshop=september&action=buyitem&quantity=3&whichrow=1512&pwd");
-
-        // Re-maximize cold res after getting bembershoots
-        cliExecute("maximize cold res");
-
-        use($item`Mmm-brr! brand mouthwash`, 3);
-      },
-      limit: { tries: 1 },
-      outfit: {
-        modifier: `10 cold res, 1 ${primeStat} experience percent`,
-        familiar: $familiar`Exotic Parrot`,
-      },
-    },
-    {
       name: "Free Fight Leafy Boys",
       prepare: () => {
         [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
@@ -1418,7 +1386,7 @@ export const LevelingQuest: Quest = {
       ),
       outfit: () => ({
         ...baseOutfit(false),
-        weapon: $item`Fourth of May Cosplay Saber`,
+        weapon: $item`June Cleaver`,
       }),
       limit: { tries: 1 },
       post: (): void => {
@@ -1429,6 +1397,60 @@ export const LevelingQuest: Quest = {
         sellMiscellaneousItems();
         boomBoxProfit();
         uneffect($effect`Fat Leon's Phat Loot Lyric`);
+      },
+    },
+    {
+      name: "Sept-ember Mouthwash",
+      prepare: () => {
+        const effects: Effect[] = [
+          $effect`Elemental Saucesphere`,
+          $effect`Scarysauce`,
+          $effect`Feel Peaceful`,
+          $effect`Astral Shell`,
+        ]
+        effects.forEach((ef) => tryAcquiringEffect(ef));
+      },
+      completed: () =>
+        !have($item`Sept-Ember Censer`) || have($item`bembershoot`) || args.saveembers,
+      do: (): void => {
+        // Grab Embers
+        visitUrl("shop.php?whichshop=september");
+
+        // Grab Bembershoot
+        visitUrl(`shop.php?whichshop=september&action=buyitem&quantity=1&whichrow=1516&pwd`);
+
+        // Grab Mouthwashes
+        visitUrl("shop.php?whichshop=september&action=buyitem&quantity=3&whichrow=1512&pwd");
+
+        cliExecute(`maximize ${primeStat} experience percent, switch left-hand man`);
+
+        // Re-maximize cold res after getting bembershoots
+        cliExecute("maximize cold res, switch left-hand man, switch exotic parrot");
+
+        const result = maximize("cold res", 0, 0, true, true);
+
+        // Find shirt-specific equipment
+        const shirt = result.find((action) => action.command.includes("equip") && toSlot(action.item) === $slot`shirt`);
+
+        // Calculate totalScore and shirtScore
+        const totalScore = result.reduce((sum, item) => sum + item.score, 0);
+        const shirtScore = shirt ? shirt.score : 0;
+
+        // Calculate xpGain and shirtSwap
+        const xpGain = 7 * totalScore ** 1.7;
+        const shirtSwap = 7 * (totalScore - shirtScore) ** 1.7 * 1.25;
+
+        // Equip LOV Eardigan if conditions are met
+        if (shirtSwap > xpGain && myPrimestat() === $stat`muscle` && have($item`LOV Eardigan`)) {
+          equip($item`LOV Eardigan`);
+        }
+
+        use($item`Mmm-brr! brand mouthwash`, 3);
+      },
+      limit: { tries: 1 },
+      outfit: {
+        modifier: `10 cold res, 1 ${primeStat} experience percent`,
+        familiar: $familiar`Exotic Parrot`,
       },
     },
     {

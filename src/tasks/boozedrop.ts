@@ -55,16 +55,10 @@ import { args } from "../args";
 import { chooseFamiliar } from "../engine/outfit";
 
 function wishOrSpleen(): boolean {
-  if (
-    (checkTurnSave("BoozeDrop", $effect`Infernal Thirst`) -
-      checkTurnSave("BoozeDrop", $effect`Synthesis: Collection`)) *
-      get("valueOfAdventure", 4000) -
-      50000 +
-      get("valueOfAdventure", 4000) * 2 * get("garbo_embezzlerMultiplier", 2.5) >
-    0
-  )
-    return true;
-  return false;
+  const boombox = have($item`SongBoom™ BoomBox`) ? 25 : 0;
+  const spleen = Math.max(3 * (250 + boombox) * 30, get("valueOfAdventure") * 2.5);
+  const wish = get("prAlways") ? (500 + boombox) * 2 * 30 : 275 * 2 * 30;
+  return wish > spleen;
 }
 
 export const BoozeDropQuest: Quest = {
@@ -272,7 +266,7 @@ export const BoozeDropQuest: Quest = {
         }
 
         if (
-          !wishOrSpleen() &&
+          wishOrSpleen() &&
           checkValue("Spleen", checkTurnSave("BoozeDrop", $effect`Synthesis: Collection`)) &&
           ((have($item`sugar shank`) && get("tomeSummons") <= 2) || get("tomeSummons") <= 1) &&
           have($skill`Summon Sugar Sheets`)

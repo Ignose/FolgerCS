@@ -7,6 +7,7 @@ import {
   equip,
   haveEquipped,
   inebrietyLimit,
+  Item,
   myAdventures,
   myClass,
   myHp,
@@ -18,6 +19,7 @@ import {
   restoreHp,
   restoreMp,
   retrieveItem,
+  toSlot,
   use,
   useSkill,
   visitUrl,
@@ -32,6 +34,7 @@ import {
   $items,
   $location,
   $skill,
+  $slot,
   $thrall,
   clamp,
   Clan,
@@ -249,7 +252,9 @@ export const SpellDamageQuest: Quest = {
         if (checkValue($item`battery (AAA)`, checkTurnSave("SpellDamage", $effect`AAA-Charged`)))
           tryAcquiringEffect($effect`AAA-Charged`, true);
 
-        if (!get("_madTeaParty") && !Witchess.have()) {
+        const teaPartyHats = Item.all().filter((i) => have(i) && toSlot(i) === $slot`hat` && i.name.length === 12);
+
+        if (!get("_madTeaParty") && teaPartyHats.length === 0) {
           if (!have($item`mariachi hat`)) retrieveItem(1, $item`chewing gum on a string`);
           tryAcquiringEffect($effect`Full Bottle in front of Me`);
         }
