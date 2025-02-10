@@ -154,9 +154,11 @@ export const FamiliarWeightQuest: Quest = {
           have($skill`Summon Clip Art`) &&
           $familiars`Comma Chameleon, Homemade Robot`.every((fam) => have(fam))
         ) {
-          if (!have($item`box of Familiar Jacks`)) create($item`box of Familiar Jacks`, 1);
-          useFamiliar($familiar`Homemade Robot`);
-          use($item`box of Familiar Jacks`, 1);
+          if(!have($item`homemade robot gear`)) {
+            if (!have($item`box of Familiar Jacks`)) create($item`box of Familiar Jacks`, 1);
+            useFamiliar($familiar`Homemade Robot`);
+            use($item`box of Familiar Jacks`, 1);
+          }
           useFamiliar($familiar`Comma Chameleon`);
           visitUrl(
             `inv_equip.php?which=2&action=equip&whichitem=${toInt($item`homemade robot gear`)}&pwd`

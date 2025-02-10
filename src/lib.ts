@@ -529,6 +529,11 @@ const tobikoSoda = () => (have($skill`Summon Alice's Army Cards`) ? 0 : 3);
 const meteorite = () => Math.min(8, computeWeaponDamage(false) - 1) + 4;
 const slippers = () => computeCombatFrequency(false) <= -100 ? 1 : 4;
 const chlamys = () => computeCombatFrequency(false) <= -100 ? 0 : 3;
+const fudge = () => {
+  const weapon = Math.min(2, computeWeaponDamage(false) - 1)
+  const spell = 2;
+  return weapon + spell;
+}
 
 type valuePull = {
   item: Item;
@@ -581,6 +586,10 @@ export const pullValue: valuePull[] = [
     item: $item`Fuzzy Slippers of Hatred`,
     value: slippers(),
   },
+  {
+    item: $item`fudge-shaped hole in space-time`,
+    value: fudge(),
+  }
 ];
 
 export function acquirePulls(item: Item): boolean {

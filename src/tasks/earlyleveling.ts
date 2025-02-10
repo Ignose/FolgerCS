@@ -163,6 +163,18 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 2 },
     },
     {
+      name: "NEP The Prequel",
+      completed: () => get("_questPartyFair") !== "unstarted",
+      do: $location`The Neverending Party`,
+      choices: {1322: 2},
+      outfit: () => ({
+        ...baseOutfit(),
+        shirt: $item`Jurassic Parka`,
+        offhand: $item`Kramco Sausage-o-Matic™`,
+      }),
+      combat: new CombatStrategy().macro(Macro.default()),
+    },
+    {
         name: "Ghost",
         completed: () => get("questPAGhost") === "unstarted",
         ready: () =>
@@ -220,7 +232,7 @@ export const earlyLevelingQuest: Quest = {
         shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
         familiar: have($familiar`Melodramedary`) ? $familiar`Melodramedary` : undefined,
         acc3: have($item`Spring Shoes`) ? $item`Spring Shoes` : undefined,
-        modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
+        modifier: `${baseOutfit().modifier}`,
       }),
       limit: { tries: 1 },
     },
@@ -235,7 +247,6 @@ export const earlyLevelingQuest: Quest = {
           buy($item`red rocket`, 1);
         }
         unbreakableUmbrella();
-        if (haveEquipped($item`miniature crystal ball`)) equip($slot`familiar`, $item.none);
       },
       completed: () =>
         !have($skill`Map the Monsters`) || get("_monstersMapped") >= 3 || have($item`cherry`),
@@ -251,7 +262,7 @@ export const earlyLevelingQuest: Quest = {
         shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
         familiar: have($familiar`Melodramedary`) ? $familiar`Melodramedary` : undefined,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
-        modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
+        modifier: `${baseOutfit().modifier}`,
       }),
       post: (): void => {
         if (have($item`space blanket`)) autosell($item`space blanket`, 1);
@@ -393,6 +404,34 @@ export const earlyLevelingQuest: Quest = {
         boomBoxProfit();
       },
       limit: { tries: 2 },
+    },
+    {
+      name: "ELG",
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        restoreMp(50);
+        docBag();
+        restoreMp(50);
+      },
+      ready: () => have($item`spring shoes`),
+      completed: () =>
+        have($effect`Everything Looks Green`),
+      do: $location`Noob Cave`,
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`Launch Spikolodon Spikes`)
+        .trySkill($skill`Spring Away`)
+      ),
+      outfit: () => ({
+        ...baseOutfit,
+        short: $item`jurassic parka`,
+        acc3: $item`spring shoes`,
+        modes: {parka: "spikolodon"}
+      }),
+      post: (): void => {
+        sellMiscellaneousItems();
+        boomBoxProfit();
+      },
+      limit: { tries: 1 },
     },
         {
           name: "Sept-ember Mouthwash",

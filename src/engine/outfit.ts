@@ -130,6 +130,27 @@ function melodramedary(): Familiar {
     : $familiar.none;
 }
 
+function homemade(): Familiar {
+  if (have($familiar`Homemade Robot`) && have($familiar`Comma Chameleon`) && have($item`toy Cupid bow`) && !have($item`homemade robot gear`) && camelFightsLeft() >= 5)
+    return $familiar`Homemade Robot`
+  return $familiar.none
+}
+
+function weightCamel(): Familiar {
+  if (have($item`Sept-Ember Censer`) && have($familiar`Melodramedary`) && get("availableSeptEmbers") >= 2 && !get("_entauntaunedToday"))
+    return $familiar`Melodramedary`
+  return $familiar.none
+}
+
+function cornbeefadon(): Familiar {
+  if (have($item`toy Cupid bow`) && !have($item`amulet coin`) && camelFightsLeft() >= 5 && have($familiar`Cornbeefadon`))
+    return $familiar`Cornbeefadon`
+  return $familiar.none
+}
+
+
+
+
 export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
   const ignoredFamiliars = args.explicitlyexcludedfams.split(",").map((i) => toInt(i));
   const defaultFam = have($familiar`Cookbookbat`) ? $familiar`Cookbookbat` : $familiar.none;
@@ -140,6 +161,9 @@ export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
     nanorhino,
     optimisticCandle,
     rockinRobin,
+    homemade,
+    cornbeefadon,
+    weightCamel,
     sombrero,
   ]
     .map((fn) => fn(allowAttackingFamiliars))
@@ -179,7 +203,7 @@ function useCandyCaneSword(): boolean {
   return false;
 }
 
-export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
+function baseOutfitFirstPass(allowAttackingFamiliars = true): OutfitSpec {
   parka();
 
   return {
@@ -208,7 +232,7 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
         ? $familiar`Melodramedary`
         : chooseFamiliar(allowAttackingFamiliars),
     famequip:
-      have($item`dromedary drinking helmet`) && chooseFamiliar() === $familiar`Melodramedary`
+      have($item`dromedary drinking helmet`) && chooseFamiliar() === $familiar`Melodramedary` && !have($effect`spit upon`)
         ? $item`dromedary drinking helmet`
         : have($item`tiny rake`) &&
           chooseFamiliar() === $familiar`Melodramedary` &&
@@ -221,4 +245,25 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
       ...(avoidDaylightShavingsHelm() ? [$item`Daylight Shavings Helmet`] : []),
     ],
   };
+}
+
+export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
+  const outfit = baseOutfitFirstPass(allowAttackingFamiliars);
+
+  if (outfit.familiar === $familiar`Melodramedary`) {
+    if (have($item`dromedary drinking helmet`)) {
+      outfit.famequip = $item`dromedary drinking helmet`;
+    } else {
+      if (have($item`toy Cupid bow`)) {
+        outfit.famequip = $item`toy Cupid bow`;
+      }
+    }
+  }
+
+  if (outfit.familiar === $familiar`Homemade Robot` || outfit.familiar === $familiar`mu` || outfit.familiar === $familiar`Cornbeefadon`) {
+    outfit.famequip = $item`toy Cupid bow`;
+  }
+
+
+    return outfit
 }

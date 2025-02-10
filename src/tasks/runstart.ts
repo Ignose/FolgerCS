@@ -249,18 +249,6 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Ensure Comma Chameleon Jacks",
-      ready: () => have($skill`Summon Clip Art`),
-      completed: () =>
-        have($item`box of Familiar Jacks`) ||
-        !have($familiar`Comma Chameleon`) ||
-        have($item`homemade robot gear`),
-      do: (): void => {
-        create($item`box of Familiar Jacks`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Summon Sugar Sheets",
       completed: () =>
         !have($skill`Summon Sugar Sheets`) || args.savesugar || get("tomeSummons") >= 3,
@@ -535,7 +523,6 @@ export const RunStartQuest: Quest = {
           buy($item`yellow rocket`, 1);
         }
         unbreakableUmbrella();
-        if (haveEquipped($item`miniature crystal ball`)) equip($slot`familiar`, $item.none);
       },
       completed: () =>
         !have($skill`Map the Monsters`) ||
@@ -563,7 +550,7 @@ export const RunStartQuest: Quest = {
       outfit: () => ({
         ...baseOutfit(false),
         shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
-        modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
+        modifier: `${baseOutfit().modifier}`,
       }),
       limit: { tries: 1 },
     },
@@ -578,7 +565,6 @@ export const RunStartQuest: Quest = {
         }
         unbreakableUmbrella();
         if (get("_snokebombUsed") === 0) restoreMp(50);
-        if (haveEquipped($item`miniature crystal ball`)) equip($slot`familiar`, $item.none);
       },
       completed: () => args.skipbt || have($item`cherry`),
       do: $location`The Skeleton Store`,
@@ -610,7 +596,7 @@ export const RunStartQuest: Quest = {
           offhand: $item`unbreakable umbrella`,
           acc3: $item`cursed monkey's paw`,
           familiar: chooseFamiliar(false),
-          modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
+          modifier: `${baseOutfit().modifier}`,
         };
       },
       limit: { tries: 4 },

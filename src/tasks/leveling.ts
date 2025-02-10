@@ -49,6 +49,7 @@ import {
   toSkill,
   toSlot,
   use,
+  useFamiliar,
   useSkill,
   visitUrl,
 } from "kolmafia";
@@ -223,6 +224,7 @@ const usefulEffects: Effect[] = [
   // $effect`Think Win-Lose`,
   $effect`Confidence of the Votive`,
   $effect`Song of Bravado`,
+  $effect`Cold as Nice`,
 
   // ML
   $effect`Pride of the Puffin`,
@@ -513,7 +515,7 @@ export const LevelingQuest: Quest = {
       name: "Pull Some Everything",
       ready: () => args.dopullstest,
       prepare: () =>
-        $items`tobiko marble soda, ${jacks.name}`.forEach((item) => acquirePulls(item)),
+        $items`tobiko marble soda, fudge-shaped hole in space-time, ${jacks.name}`.forEach((item) => acquirePulls(item)),
       completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
       do: (): void => {
         let i = 5 - args.savepulls - get("_roninStoragePulls").split(",").length;
@@ -898,6 +900,34 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 3 },
     },
+        { // Set up a pretty lit buff
+      name: "NEP Episode 2: The Prequel",
+      ready: () => get("noncombatForcerActive"),
+      completed: () => have($effect`Spiced Up`),
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        unbreakableUmbrella();
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
+        restoreMp(50);
+        garbageShirt();
+      },
+      do: $location`The Neverending Party`,
+      choices: {
+        1324: 2,
+        1326: 2,
+      },
+      combat: new CombatStrategy().macro(Macro.trySkill($skill`%fn, spit on me!`).kill()),
+      outfit: () => ({
+        ...baseOutfit(),
+        familiar: $familiar`Melodramedary`,
+      }),
+      limit: { tries: 2 },
+      post: (): void => {
+        sendAutumnaton();
+        sellMiscellaneousItems();
+        boomBoxProfit();
+      },
+    },
     {
     name: "Ghost",
     prepare: () => {
@@ -1083,7 +1113,8 @@ export const LevelingQuest: Quest = {
         1094: 5,
         1115: 6,
         1322: 2,
-        1324: 5,
+        1324: 2,
+        1326: 2,
       },
       limit: { tries: 2 },
     },
@@ -1231,6 +1262,135 @@ export const LevelingQuest: Quest = {
           use(reagentBalancerItem, itemAmount(reagentBalancerItem) - 1);
         if (have(reagentBalancerIngredient) && have(reagentBalancerEffect))
           putCloset(itemAmount(reagentBalancerIngredient), reagentBalancerIngredient);
+      },
+      limit: { tries: 1 },
+    },
+    { // This won't actually run until it's ready, but we put it here, early, so that when it's ready it can run
+      name: "Early Camel Spit",
+      ready: () =>
+        get("camelSpit") >= 100 &&
+        have($familiar`Comma Chameleon`) &&
+        get("_neverendingPartyFreeTurns") < 10 &&
+        computeHotRes(false) + computeWeaponDamage(false) + 4 < 10,
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        unbreakableUmbrella();
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
+        restoreMp(50);
+        garbageShirt();
+      },
+      completed: () => have($effect`Spit Upon`),
+      do: $location`The Neverending Party`,
+      choices: {
+        1094: 5,
+        1115: 6,
+        1322: 2,
+        1324: 5,
+        1326: 2,
+      },
+      combat: new CombatStrategy().macro(Macro.trySkill($skill`%fn, spit on me!`).kill()),
+      outfit: () => ({
+        ...baseOutfit(),
+        familiar: $familiar`Melodramedary`,
+      }),
+      limit: { tries: 2 },
+      post: (): void => {
+        sendAutumnaton();
+        sellMiscellaneousItems();
+        boomBoxProfit();
+      },
+    },
+    { // This won't actually run until it's ready, but we put it here, early, so that when it's ready it can run
+      name: "Sept-ember Mouthwash",
+      ready: () => have($familiar`Melodramedary`) ? have($effect`Spit Upon`) : true,
+      prepare: () => {
+        const effects: Effect[] = [
+          $effect`Elemental Saucesphere`,
+          $effect`Scarysauce`,
+          $effect`Feel Peaceful`,
+          $effect`Astral Shell`,
+        ]
+        effects.forEach((ef) => tryAcquiringEffect(ef));
+      },
+      completed: () =>
+        !have($item`Sept-Ember Censer`) || have($item`bembershoot`) || args.saveembers,
+      do: (): void => {
+        // Saber a camel
+        if(have($familiar`Melodramedary`) && have($item`Fourth of May Cosplay Saber`) && !get("_entauntaunedToday")) {
+          const weapon = equippedItem($slot`weapon`);
+          useFamiliar($familiar`Melodramedary`);
+          equip($item`Fourth of May Cosplay Saber`);
+          visitUrl("/main.php?action=camel")
+          runChoice(1);
+          useFamiliar($familiar`Exotic Parrot`);
+          equip(weapon);
+        }
+
+        if(!have($effect`Cold as Nice`) && have($item`Beach Comb`)) tryAcquiringEffect($effect`Cold as Nice`);
+
+        // Grab Embers
+        visitUrl("shop.php?whichshop=september");
+
+        // Grab Bembershoot
+        visitUrl(`shop.php?whichshop=september&action=buyitem&quantity=1&whichrow=1516&pwd`);
+
+        // Grab Mouthwashes
+        visitUrl("shop.php?whichshop=september&action=buyitem&quantity=3&whichrow=1512&pwd");
+
+        cliExecute(`maximize ${primeStat} experience percent, switch left-hand man`);
+
+        // Re-maximize cold res after getting bembershoots
+        cliExecute("maximize cold res, switch left-hand man, switch exotic parrot");
+
+        const result = maximize("cold res", 0, 0, true, true);
+
+        // Find shirt-specific equipment
+        const shirt = result.find((action) => action.command.includes("equip") && toSlot(action.item) === $slot`shirt`);
+
+        // Calculate totalScore and shirtScore
+        const totalScore = result.reduce((sum, item) => sum + item.score, 0);
+        const shirtScore = shirt ? shirt.score : 0;
+
+        // Calculate xpGain and shirtSwap
+        const xpGain = 7 * totalScore ** 1.7;
+        const shirtSwap = 7 * (totalScore - shirtScore) ** 1.7 * 1.25;
+
+        // Equip LOV Eardigan if conditions are met
+        if (shirtSwap > xpGain && myPrimestat() === $stat`muscle` && have($item`LOV Eardigan`)) {
+          equip($item`LOV Eardigan`);
+        }
+
+        use($item`Mmm-brr! brand mouthwash`, 3);
+      },
+      limit: { tries: 1 },
+      outfit: {
+        modifier: `10 cold res, 1 ${primeStat} experience percent, 0.2 familiar weight`,
+        familiar: $familiar`Exotic Parrot`,
+      },
+    },
+    {
+      name: "ELG",
+      after: ["Map Pocket Wishes"],
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        restoreMp(50);
+        docBag();
+        restoreMp(50);
+      },
+      ready: () => have($item`spring shoes`),
+      completed: () =>
+        have($effect`Everything Looks Green`),
+      do: $location`Noob Cave`,
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`Spring Away`)
+      ),
+      outfit: () => ({
+        ...baseOutfit,
+        acc3: $item`spring shoes`,
+      }),
+      post: (): void => {
+        sellMiscellaneousItems();
+        boomBoxProfit();
       },
       limit: { tries: 1 },
     },
@@ -1397,60 +1557,6 @@ export const LevelingQuest: Quest = {
         sellMiscellaneousItems();
         boomBoxProfit();
         uneffect($effect`Fat Leon's Phat Loot Lyric`);
-      },
-    },
-    {
-      name: "Sept-ember Mouthwash",
-      prepare: () => {
-        const effects: Effect[] = [
-          $effect`Elemental Saucesphere`,
-          $effect`Scarysauce`,
-          $effect`Feel Peaceful`,
-          $effect`Astral Shell`,
-        ]
-        effects.forEach((ef) => tryAcquiringEffect(ef));
-      },
-      completed: () =>
-        !have($item`Sept-Ember Censer`) || have($item`bembershoot`) || args.saveembers,
-      do: (): void => {
-        // Grab Embers
-        visitUrl("shop.php?whichshop=september");
-
-        // Grab Bembershoot
-        visitUrl(`shop.php?whichshop=september&action=buyitem&quantity=1&whichrow=1516&pwd`);
-
-        // Grab Mouthwashes
-        visitUrl("shop.php?whichshop=september&action=buyitem&quantity=3&whichrow=1512&pwd");
-
-        cliExecute(`maximize ${primeStat} experience percent, switch left-hand man`);
-
-        // Re-maximize cold res after getting bembershoots
-        cliExecute("maximize cold res, switch left-hand man, switch exotic parrot");
-
-        const result = maximize("cold res", 0, 0, true, true);
-
-        // Find shirt-specific equipment
-        const shirt = result.find((action) => action.command.includes("equip") && toSlot(action.item) === $slot`shirt`);
-
-        // Calculate totalScore and shirtScore
-        const totalScore = result.reduce((sum, item) => sum + item.score, 0);
-        const shirtScore = shirt ? shirt.score : 0;
-
-        // Calculate xpGain and shirtSwap
-        const xpGain = 7 * totalScore ** 1.7;
-        const shirtSwap = 7 * (totalScore - shirtScore) ** 1.7 * 1.25;
-
-        // Equip LOV Eardigan if conditions are met
-        if (shirtSwap > xpGain && myPrimestat() === $stat`muscle` && have($item`LOV Eardigan`)) {
-          equip($item`LOV Eardigan`);
-        }
-
-        use($item`Mmm-brr! brand mouthwash`, 3);
-      },
-      limit: { tries: 1 },
-      outfit: {
-        modifier: `10 cold res, 1 ${primeStat} experience percent`,
-        familiar: $familiar`Exotic Parrot`,
       },
     },
     {
@@ -1779,40 +1885,6 @@ export const LevelingQuest: Quest = {
       },
     },
     {
-      name: "Early Camel Spit",
-      ready: () =>
-        get("camelSpit") >= 100 &&
-        have($familiar`Comma Chameleon`) &&
-        get("_neverendingPartyFreeTurns") < 10 &&
-        computeHotRes(false) + computeWeaponDamage(false) + 4 < 10,
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-        garbageShirt();
-      },
-      completed: () => have($effect`Spit Upon`),
-      do: $location`The Neverending Party`,
-      choices: {
-        1094: 5,
-        1115: 6,
-        1322: 2,
-        1324: 5,
-      },
-      combat: new CombatStrategy().macro(Macro.trySkill($skill`%fn, spit on me!`).kill()),
-      outfit: () => ({
-        ...baseOutfit(),
-        familiar: $familiar`Melodramedary`,
-      }),
-      limit: { tries: 2 },
-      post: (): void => {
-        sendAutumnaton();
-        sellMiscellaneousItems();
-        boomBoxProfit();
-      },
-    },
-    {
       name: "Powerlevel",
       completed: () => get("_neverendingPartyFreeTurns") >= 10,
       do: powerlevelingLocation(),
@@ -1842,6 +1914,7 @@ export const LevelingQuest: Quest = {
         1115: 6,
         1322: 2,
         1324: 5,
+        1326: 2,
       },
       combat: new CombatStrategy().macro(
         Macro.tryItem($item`red rocket`)
@@ -1893,7 +1966,8 @@ export const LevelingQuest: Quest = {
         1094: 5,
         1115: 6,
         1322: 2,
-        1324: 5,
+        1324: 2,
+        1326: 2,
       },
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Feel Pride`)
@@ -2108,7 +2182,8 @@ export const LevelingQuest: Quest = {
         1094: 5,
         1115: 6,
         1322: 2,
-        1324: 5,
+        1324: 2,
+        1326: 2,
       },
       post: (): void => {
         if (have($item`SMOOCH coffee cup`)) chew($item`SMOOCH coffee cup`, 1);

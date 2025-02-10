@@ -1,5 +1,5 @@
 import { mpCost, myPrimestat, toInt } from "kolmafia";
-import { $item, $monster, $skill, $stat, get, have, StrictMacro } from "libram";
+import { $item, $monster, $skill, $stat, CommunityService, get, have, StrictMacro } from "libram";
 
 //export const mainStat = myClass().primestat;
 export const mainStat = myPrimestat(); //Update to select mainstat based on class derived from Libram
@@ -11,10 +11,9 @@ export default class Macro extends StrictMacro {
     const macroHead = this.trySkill($skill`Curse of Weaksauce`)
       .trySkill($skill`Micrometeorite`)
       .trySkill($skill`Sing Along`)
+      .externalIf(get("_cosmicBowlingSkillsUsed") < 1 && CommunityService.CoilWire.isDone(), Macro.trySkill($skill`Bowl Sideways`))
       .trySkill($skill`Gulp Latte`)
-      // eslint-disable-next-line libram/verify-constants
       .trySkill($skill`Surprisingly Sweet Stab`)
-      // eslint-disable-next-line libram/verify-constants
       .trySkill($skill`Surprisingly Sweet Slash`)
       .if_(
         `!mpbelow ${mpCost($skill`Stuffed Mortar Shell`)}`,
