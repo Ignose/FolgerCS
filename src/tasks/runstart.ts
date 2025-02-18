@@ -11,6 +11,7 @@ import {
   eat,
   equip,
   getCampground,
+  getClanName,
   getWorkshed,
   haveEquipped,
   hermit,
@@ -52,6 +53,7 @@ import {
   $stat,
   AprilingBandHelmet,
   clamp,
+  Clan,
   CommunityService,
   get,
   getBanishedMonsters,
@@ -682,6 +684,30 @@ export const RunStartQuest: Quest = {
         use($item`borrowed time`, 1);
       },
       limit: { tries: 1 },
+    },
+    {
+      name: "Clan Photo Booth Free Kill",
+      completed: () =>
+        (have($item`Sheriff moustache`) &&
+          have($item`Sheriff badge`) &&
+          have($item`Sheriff pistol`)) ||
+        get("_photoBoothEquipment", 0) >= 3,
+      do: (): void => {
+        if (getClanName() !== "Bonus Adventures from Hell") {
+          const clanWL = Clan.getWhitelisted();
+          const bafhWL =
+            clanWL.find((c) => c.name === getClanName()) !== undefined &&
+            clanWL.find((c) => c.name === "Bonus Adventures from Hell") !== undefined;
+          if (!bafhWL) return;
+        }
+
+        Clan.with("Bonus Adventures from Hell", () => {
+          cliExecute("photobooth item moustache");
+          cliExecute("photobooth item badge");
+          cliExecute("photobooth item pistol");
+        });
+      },
+      limit: { tries: 3 },
     },
     {
       name: "Pizza over Borrowed Time",

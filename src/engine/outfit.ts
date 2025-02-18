@@ -260,6 +260,14 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
     }
   }
 
+  if (outfit.familiar === $familiar`Shorter-Order Cook`) {
+    if(have($item`blue plate`)) {
+      outfit.famequip = $item`blue plate`
+    } else {
+      outfit.famequip = $item`toy Cupid bow`;
+    }
+  }
+
   if (outfit.familiar === $familiar`Homemade Robot` || outfit.familiar === $familiar`mu` || outfit.familiar === $familiar`Cornbeefadon`) {
     outfit.famequip = $item`toy Cupid bow`;
   }

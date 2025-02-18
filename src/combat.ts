@@ -11,7 +11,10 @@ export default class Macro extends StrictMacro {
     const macroHead = this.trySkill($skill`Curse of Weaksauce`)
       .trySkill($skill`Micrometeorite`)
       .trySkill($skill`Sing Along`)
-      .externalIf(get("_cosmicBowlingSkillsUsed") < 1 && CommunityService.CoilWire.isDone(), Macro.trySkill($skill`Bowl Sideways`))
+      .externalIf(
+        get("_cosmicBowlingSkillsUsed") < 1 && CommunityService.CoilWire.isDone(),
+        Macro.trySkill($skill`Bowl Sideways`)
+      )
       .trySkill($skill`Gulp Latte`)
       .trySkill($skill`Surprisingly Sweet Stab`)
       .trySkill($skill`Surprisingly Sweet Slash`)

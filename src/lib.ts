@@ -252,13 +252,14 @@ export function computeWeaponDamage(sim: boolean): number {
   const cowrupt = 200; //Ungulith/seeing red. Can't be skipped.
   const imported = have($skill`Map the Monsters`) && get("ownsSpeakeasy") ? 50 : 0;
   const beach = have($item`Beach Comb`) ? 25 : 0;
-  const camel = ((get("camelSpit") / 3.33) * camelFightsLeft() >= 100) || have($effect`spit upon`) ? 100 : 0;
+  const camel =
+    (get("camelSpit") / 3.33) * camelFightsLeft() >= 100 || have($effect`spit upon`) ? 100 : 0;
   const lov = get("loveTunnelAvailable") ? 50 : 0;
   const vote = myClass() === $class`Pastamancer` && get("voteAlways") ? 200 : 0;
   const carol = have($familiar`Ghost of Crimbo Carols`) ? 100 : 0;
   const elf = have($familiar`Machine Elf`) ? 100 : 0;
-  const billiards = have($item`Clan VIP Lounge key`) ? 50 : 0
-  const north = have($skill`song of the north`) ? 100 : 0
+  const billiards = have($item`Clan VIP Lounge key`) ? 50 : 0;
+  const north = have($skill`song of the north`) ? 100 : 0;
   const effects = sumNumbers([
     meteor,
     claws,
@@ -284,7 +285,7 @@ export function computeWeaponDamage(sim: boolean): number {
     carol,
     elf,
     billiards,
-    north
+    north,
   ]);
 
   const hat = have($item`Crown of Thrones`) ? 10 : have($item`seal-skull helmet`) ? 1 : 0;
@@ -294,8 +295,7 @@ export function computeWeaponDamage(sim: boolean): number {
     : have($item`SpinMaster™ lathe`)
     ? 115
     : 65;
-  const offhand =
-    have($item`SpinMaster™ lathe`) && have($item`candy cane sword cane`) ? 115 : 50;
+  const offhand = have($item`SpinMaster™ lathe`) && have($item`candy cane sword cane`) ? 115 : 50;
 
   const brogues = have($item`Bastille Battalion control rig`) ? 50 : 0;
   const glove = have($item`Powerful Glove`) ? 25 : 0;
@@ -520,20 +520,20 @@ export function computeBoozeDrop(): number {
 
 const famJacksValue = () =>
   have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;
-const greatWolfsPartOne = () => have($item`repaid diaper`) ? 0 : 2
+const greatWolfsPartOne = () => (have($item`repaid diaper`) ? 0 : 2);
 const greatWolfs = () => Math.min(2, computeWeaponDamage(false) - 1) + greatWolfsPartOne();
 const stickKnife = () =>
   myPrimestat() === $stat`muscle` ? Math.min(5, computeWeaponDamage(false) - 1) + 4 : 0;
 const staff = () => (have($skill`Spirit of Rigatoni`) ? 4 : 0);
 const tobikoSoda = () => (have($skill`Summon Alice's Army Cards`) ? 0 : 3);
 const meteorite = () => Math.min(8, computeWeaponDamage(false) - 1) + 4;
-const slippers = () => computeCombatFrequency(false) <= -100 ? 1 : 4;
-const chlamys = () => computeCombatFrequency(false) <= -100 ? 0 : 3;
+const slippers = () => (computeCombatFrequency(false) <= -100 ? 1 : 4);
+const chlamys = () => (computeCombatFrequency(false) <= -100 ? 0 : 3);
 const fudge = () => {
-  const weapon = Math.min(2, computeWeaponDamage(false) - 1)
+  const weapon = Math.min(2, computeWeaponDamage(false) - 1);
   const spell = 2;
   return weapon + spell;
-}
+};
 
 type valuePull = {
   item: Item;
@@ -589,7 +589,7 @@ export const pullValue: valuePull[] = [
   {
     item: $item`fudge-shaped hole in space-time`,
     value: fudge(),
-  }
+  },
 ];
 
 export function acquirePulls(item: Item): boolean {

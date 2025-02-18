@@ -1206,7 +1206,7 @@ export const LevelingQuest: Quest = {
           if (!have(ef)) useSkill(toSkill(ef));
         });
       },
-      completed: () => $location`Cyberzone 1`.turnsSpent >= 10 || toInt(get("_cyberZone1Turns")) >= 10 || have($item`0`),
+      completed: () => $location`Cyberzone 1`.turnsSpent >= 11 || toInt(get("_cyberZone1Turns")) >= 11,
       choices: { 1545: 1, 1546: 1 },
       do: $location`Cyberzone 1`,
       combat: new CombatStrategy().macro(() =>
@@ -1217,7 +1217,7 @@ export const LevelingQuest: Quest = {
           .skill($skill`Throw Cyber Rock`)
           .repeat()
       ),
-      limit: { tries: 10 },
+      limit: { tries: 11 },
     },
     {
       name: "Get Range",
@@ -1290,7 +1290,6 @@ export const LevelingQuest: Quest = {
       },
       combat: new CombatStrategy().macro(Macro.trySkill($skill`%fn, spit on me!`).kill()),
       outfit: () => ({
-        ...baseOutfit(),
         familiar: $familiar`Melodramedary`,
       }),
       limit: { tries: 2 },
@@ -1966,7 +1965,7 @@ export const LevelingQuest: Quest = {
         1094: 5,
         1115: 6,
         1322: 2,
-        1324: 2,
+        1324: 5,
         1326: 2,
       },
       combat: new CombatStrategy().macro(
@@ -2147,6 +2146,40 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 1 },
     },
+        {
+      name: "Authority",
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        restoreMp(50);
+        docBag();
+        restoreMp(50);
+      },
+      ready: () => have($item`Sheriff moustache`) &&
+          have($item`Sheriff badge`) &&
+          have($item`Sheriff pistol`),
+      completed: () => get("_assertYourAuthorityCast") >= 3,
+      do: powerlevelingLocation(),
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`Assert your Authority`)
+        .abort()
+      ),
+      choices: {
+        1094: 5,
+        1115: 6,
+        1322: 2,
+        1324: 5,
+        1326: 2,
+      },
+      outfit: () => ({
+        ...baseOutfit,
+        equip: $items`Sheriff moustache, Sheriff badge, Sheriff pistol`
+      }),
+      post: (): void => {
+        sellMiscellaneousItems();
+        boomBoxProfit();
+      },
+      limit: { tries: 1 },
+    },
     {
       name: "Free Kills and More Fights",
       after: ["Drink Bee's Knees"],
@@ -2182,7 +2215,7 @@ export const LevelingQuest: Quest = {
         1094: 5,
         1115: 6,
         1322: 2,
-        1324: 2,
+        1324: 5,
         1326: 2,
       },
       post: (): void => {

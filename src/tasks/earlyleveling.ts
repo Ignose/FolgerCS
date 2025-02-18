@@ -15,6 +15,7 @@ import {
   mallPrice,
   myAdventures,
   myClass,
+  myFamiliar,
   myLevel,
   myMaxhp,
   myMeat,
@@ -34,6 +35,7 @@ import {
   $effect,
   $familiar,
   $item,
+  $items,
   $location,
   $monster,
   $skill,
@@ -193,7 +195,7 @@ export const earlyLevelingQuest: Quest = {
         outfit: () => ({
           ...baseOutfit,
           shirt: $item`Jurassic Parka`,
-          back: $item`protonic accelerator pack`
+          back: $item`protonic accelerator pack`,
         }),
     },
     {
@@ -219,7 +221,7 @@ export const earlyLevelingQuest: Quest = {
         args.redskeleton,
       do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
       combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Spring Away`)
+          Macro.trySkill($skill`Spring Away`)
           .trySkill($skill`Snokebomb`)
           .trySkill($skill`Reflex Hammer`)
           .trySkill($skill`Chest X-Ray`)
@@ -230,7 +232,6 @@ export const earlyLevelingQuest: Quest = {
       outfit: () => ({
         ...baseOutfit(false),
         shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
-        familiar: have($familiar`Melodramedary`) ? $familiar`Melodramedary` : undefined,
         acc3: have($item`Spring Shoes`) ? $item`Spring Shoes` : undefined,
         modifier: `${baseOutfit().modifier}`,
       }),
@@ -260,7 +261,6 @@ export const earlyLevelingQuest: Quest = {
       outfit: () => ({
         ...baseOutfit(false),
         shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
-        familiar: have($familiar`Melodramedary`) ? $familiar`Melodramedary` : undefined,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
         modifier: `${baseOutfit().modifier}`,
       }),
@@ -398,6 +398,7 @@ export const earlyLevelingQuest: Quest = {
         shirt: $item`Jurassic Parka`,
         familiar: $familiar`Patriotic Eagle`,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
+        avoid: $items`toy Cupid bow`
       }),
       post: (): void => {
         sellMiscellaneousItems();
@@ -406,26 +407,27 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 2 },
     },
     {
-      name: "ELG",
+      name: "Free Run ",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
         docBag();
         restoreMp(50);
       },
-      ready: () => have($item`spring shoes`),
-      completed: () =>
-        have($effect`Everything Looks Green`),
+      ready: () => have($familiar`Pair of Stomping Boots`),
+      completed: () => get("_banderRunaways") >= 1,
       do: $location`Noob Cave`,
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Launch Spikolodon Spikes`)
-        .trySkill($skill`Spring Away`)
+        .runaway()
       ),
       outfit: () => ({
         ...baseOutfit,
+        familiar: $familiar`Pair of Stomping Boots`,
         short: $item`jurassic parka`,
         acc3: $item`spring shoes`,
-        modes: {parka: "spikolodon"}
+        modes: {parka: "spikolodon"},
+        avoid: $items`toy Cupid bow`
       }),
       post: (): void => {
         sellMiscellaneousItems();
@@ -433,6 +435,7 @@ export const earlyLevelingQuest: Quest = {
       },
       limit: { tries: 1 },
     },
+
         {
           name: "Sept-ember Mouthwash",
           ready: () => args.asdon,
