@@ -179,14 +179,6 @@ export function chooseHeaviestFamiliar(): Familiar {
   );
 }
 
-export function avoidDaylightShavingsHelm(): boolean {
-  return (
-    DaylightShavings.nextBuff() === $effect`Musician's Musician's Moustache` ||
-    DaylightShavings.hasBuff() ||
-    !have($item`Daylight Shavings Helmet`)
-  );
-}
-
 const candySword = $item`candy cane sword cane`;
 
 function useCandyCaneSword(): boolean {
@@ -214,7 +206,6 @@ function baseOutfitFirstPass(allowAttackingFamiliars = true): OutfitSpec {
       : undefined,
     back: get("questPAGhost") === "unstarted" && get("nextParanormalActivity") <= totalTurnsPlayed()
       ? $item`protonic accelerator pack` : undefined,
-    hat: avoidDaylightShavingsHelm() ? undefined : $item`Daylight Shavings Helmet`,
     shirt: garbageShirt() ? $item`makeshift garbage shirt` : have($item`LOV Eardigan`) ? $item`LOV Eardigan` : undefined,
     offhand:
       myMaxmp() > 200 && myMp() < 75 && restoreMPEfficiently() === "Gulp"
@@ -242,7 +233,6 @@ function baseOutfitFirstPass(allowAttackingFamiliars = true): OutfitSpec {
     modifier: `1 ${primeStat}, 1 ML, 6 ${primeStat} exp, 30 ${primeStat} experience percent, -equip tinsel tights, -equip wad of used tape`, //Update to check prime stat
     avoid: [
       ...sugarItemsAboutToBreak(),
-      ...(avoidDaylightShavingsHelm() ? [$item`Daylight Shavings Helmet`] : []),
     ],
   };
 }

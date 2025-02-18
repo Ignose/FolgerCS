@@ -168,6 +168,9 @@ export function sellMiscellaneousItems(): void {
   });
 }
 
+export const mainStatMaximizerStr =
+  mainStat === $stat`Muscle` ? "mus" : mainStat === $stat`Mysticality` ? "myst" : "mox";
+
 export function computeHotRes(sim: boolean): number {
   const cloake = have($item`vampyric cloake`) ? 2 : 0;
   const retro = RetroCape.have() ? 3 : 0;

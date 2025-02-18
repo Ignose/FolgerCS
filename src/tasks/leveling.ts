@@ -94,7 +94,7 @@ import {
   checkPull,
   checkPurqoise,
   checkValue,
-  chooseLibram,
+  //chooseLibram,
   computeCombatFrequency,
   computeHotRes,
   computeWeaponDamage,
@@ -105,7 +105,7 @@ import {
   getSynthExpBuff,
   getValidComplexCandyPairs,
   jacks,
-  overlevelled,
+  mainStatMaximizerStr,
   reagentBalancerEffect,
   reagentBalancerIngredient,
   reagentBalancerItem,
@@ -117,7 +117,6 @@ import {
   statToMaximizerString,
   synthExpBuff,
   targetBaseMyst,
-  targetBaseMystGap,
   tryAcquiringEffect,
   useOffhandRemarkable,
 } from "../lib";
@@ -424,11 +423,9 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Wardrobe-o-matic",
-      // eslint-disable-next-line libram/verify-constants
-      ready: () => myLevel() >= 15 && have($item`wardrobe-o-matic`),
+      ready: () => myLevel() >= 20 && have($item`wardrobe-o-matic`),
       completed: () => get("_wardrobeUsed", false),
       do: (): void => {
-        // eslint-disable-next-line libram/verify-constants
         use($item`wardrobe-o-matic`);
         cliExecute("set _wardrobeUsed = true");
       },
@@ -1546,6 +1543,7 @@ export const LevelingQuest: Quest = {
       outfit: () => ({
         ...baseOutfit(false),
         weapon: $item`June Cleaver`,
+        modifier: `0.25 ${mainStatMaximizerStr}, 0.33 ML, 0.001 item%, -equip tinsel tights, -equip wad of used tape, -equip Kramco Sausage-o-Matic™`,
       }),
       limit: { tries: 1 },
       post: (): void => {
@@ -2178,7 +2176,7 @@ export const LevelingQuest: Quest = {
         sellMiscellaneousItems();
         boomBoxProfit();
       },
-      limit: { tries: 1 },
+      limit: { tries: 3 },
     },
     {
       name: "Free Kills and More Fights",

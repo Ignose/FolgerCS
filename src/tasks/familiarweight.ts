@@ -36,7 +36,6 @@ import { Quest } from "../engine/task";
 import { checkValue, logTestSetup, shrugAT, tryAcquiringEffect } from "../lib";
 import Macro from "../combat";
 import {
-  avoidDaylightShavingsHelm,
   chooseFamiliar,
   chooseHeaviestFamiliar,
   sugarItemsAboutToBreak,
@@ -118,7 +117,6 @@ export const FamiliarWeightQuest: Quest = {
         familiar: chooseFamiliar(false),
         avoid: [
           ...sugarItemsAboutToBreak(),
-          ...(avoidDaylightShavingsHelm() ? [$item`Daylight Shavings Helmet`] : []),
         ],
       }),
       choices: { 1387: 3 },
