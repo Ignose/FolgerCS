@@ -196,6 +196,7 @@ export const earlyLevelingQuest: Quest = {
           ...baseOutfit,
           shirt: $item`Jurassic Parka`,
           back: $item`protonic accelerator pack`,
+          avoid: $items`Daylight Shavings Helmet`
         }),
     },
     {
@@ -234,6 +235,7 @@ export const earlyLevelingQuest: Quest = {
         shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
         acc3: have($item`Spring Shoes`) ? $item`Spring Shoes` : undefined,
         modifier: `${baseOutfit().modifier}`,
+        avoid: $items`Daylight Shavings Helmet`
       }),
       limit: { tries: 1 },
     },
@@ -263,6 +265,7 @@ export const earlyLevelingQuest: Quest = {
         shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
         modifier: `${baseOutfit().modifier}`,
+        avoid: $items`Daylight Shavings Helmet`
       }),
       post: (): void => {
         if (have($item`space blanket`)) autosell($item`space blanket`, 1);
@@ -321,6 +324,7 @@ export const earlyLevelingQuest: Quest = {
         ...baseOutfit(),
         shirt: $item`Jurassic Parka`,
         offhand: $item`Kramco Sausage-o-Matic™`,
+        avoid: $items`Daylight Shavings Helmet`
       }),
       combat: new CombatStrategy().macro(Macro.default()),
     },
@@ -362,6 +366,7 @@ export const earlyLevelingQuest: Quest = {
         shirt: $item`Jurassic Parka`,
         offhand: $item`unbreakable umbrella`,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
+        avoid: $items`Daylight Shavings Helmet`
       }),
       post: (): void => {
         sellMiscellaneousItems();
@@ -398,7 +403,7 @@ export const earlyLevelingQuest: Quest = {
         shirt: $item`Jurassic Parka`,
         familiar: $familiar`Patriotic Eagle`,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
-        avoid: $items`toy Cupid bow`
+        avoid: $items`toy Cupid bow, Daylight Shavings Helmet`
       }),
       post: (): void => {
         sellMiscellaneousItems();
@@ -419,6 +424,8 @@ export const earlyLevelingQuest: Quest = {
       do: $location`Noob Cave`,
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Launch Spikolodon Spikes`)
+        .if_(
+          $monster`paper towelgeist`, Macro.default())
         .runaway()
       ),
       outfit: () => ({
@@ -427,7 +434,7 @@ export const earlyLevelingQuest: Quest = {
         short: $item`jurassic parka`,
         acc3: $item`spring shoes`,
         modes: {parka: "spikolodon"},
-        avoid: $items`toy Cupid bow`
+        avoid: $items`toy Cupid bow, Daylight Shavings Helmet`
       }),
       post: (): void => {
         sellMiscellaneousItems();

@@ -897,7 +897,7 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 3 },
     },
-        { // Set up a pretty lit buff
+    { // Set up a pretty lit buff
       name: "NEP Episode 2: The Prequel",
       ready: () => get("noncombatForcerActive"),
       completed: () => have($effect`Spiced Up`),
@@ -924,6 +924,32 @@ export const LevelingQuest: Quest = {
         sellMiscellaneousItems();
         boomBoxProfit();
       },
+    },
+    {
+      name: "ELG",
+      after: ["Map Pocket Wishes"],
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        restoreMp(50);
+        docBag();
+        restoreMp(50);
+      },
+      ready: () => have($item`spring shoes`),
+      completed: () =>
+        have($effect`Everything Looks Green`),
+      do: $location`Noob Cave`,
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`Spring Away`)
+      ),
+      outfit: () => ({
+        ...baseOutfit,
+        acc3: $item`spring shoes`,
+      }),
+      post: (): void => {
+        sellMiscellaneousItems();
+        boomBoxProfit();
+      },
+      limit: { tries: 1 },
     },
     {
     name: "Ghost",
@@ -1362,33 +1388,8 @@ export const LevelingQuest: Quest = {
       outfit: {
         modifier: `10 cold res, 1 ${primeStat} experience percent, 0.2 familiar weight`,
         familiar: $familiar`Exotic Parrot`,
+        modes: {parka: "kachungasaur", retrocape: ["vampire", "hold"]}
       },
-    },
-    {
-      name: "ELG",
-      after: ["Map Pocket Wishes"],
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-        docBag();
-        restoreMp(50);
-      },
-      ready: () => have($item`spring shoes`),
-      completed: () =>
-        have($effect`Everything Looks Green`),
-      do: $location`Noob Cave`,
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Spring Away`)
-      ),
-      outfit: () => ({
-        ...baseOutfit,
-        acc3: $item`spring shoes`,
-      }),
-      post: (): void => {
-        sellMiscellaneousItems();
-        boomBoxProfit();
-      },
-      limit: { tries: 1 },
     },
     {
       name: "Snojo",

@@ -54,6 +54,7 @@ import {
   $familiar,
   $item,
   $items,
+  $modifier,
   $monster,
   $skill,
   $skills,
@@ -523,7 +524,7 @@ export function computeBoozeDrop(): number {
 
 const famJacksValue = () =>
   have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;
-const greatWolfsPartOne = () => (have($item`repaid diaper`) ? 0 : 2);
+const greatWolfsPartOne = () => (have($item`repaid diaper`) || storageAmount($item`repaid diaper`) > 0 ? 0 : 2);
 const greatWolfs = () => Math.min(2, computeWeaponDamage(false) - 1) + greatWolfsPartOne();
 const stickKnife = () =>
   myPrimestat() === $stat`muscle` ? Math.min(5, computeWeaponDamage(false) - 1) + 4 : 0;
