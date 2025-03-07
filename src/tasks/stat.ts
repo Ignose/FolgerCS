@@ -325,7 +325,7 @@ export const MoxieQuest: Quest = {
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
         if (
-          CommunityService.Moxie.actualCost() >= 1 &&
+          CommunityService.Moxie.actualCost() > 1 &&
           have($item`pocket maze`) &&
           !have($effect`Amazing`) &&
           computeHotRes(false) <= 1

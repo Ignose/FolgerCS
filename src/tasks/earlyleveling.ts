@@ -311,72 +311,8 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 2 },
     },
     {
-      name: "Kramco",
-      after: ["ReConfigure Trainset"],
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-      },
-      ready: () => getKramcoWandererChance() >= 1.0,
-      completed: () => getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`),
-      do: $location`Noob Cave`,
-      outfit: () => ({
-        ...baseOutfit(),
-        shirt: $item`Jurassic Parka`,
-        offhand: $item`Kramco Sausage-o-Matic™`,
-        avoid: $items`Daylight Shavings Helmet`
-      }),
-      combat: new CombatStrategy().macro(Macro.default()),
-    },
-    {
-      name: "Map Pocket Wishes",
-      after: ["Kramco"],
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(30);
-        unbreakableUmbrella();
-        docBag();
-        restoreMp(50);
-        if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
-          if (myMeat() >= 250) buy($item`red rocket`, 1);
-        }
-      },
-      ready: () => myLevel() < 5,
-      completed: () =>
-        !have($skill`Map the Monsters`) ||
-        !have($skill`Just the Facts`) ||
-        get("_monstersMapped") >= 3 ||
-        have($item`pocket wish`, 1) ||
-        myClass() !== $class`Seal Clubber` ||
-        ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
-          (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
-      do: () => mapMonster($location`The Haunted Kitchen`, $monster`paper towelgeist`),
-      combat: new CombatStrategy().macro(
-        Macro.if_(
-          $monster`paper towelgeist`,
-          Macro.tryItem($item`red rocket`)
-            .trySkill($skill`Chest X-Ray`)
-            .trySkill($skill`Gingerbread Mob Hit`)
-            .trySkill($skill`Shattering Punch`)
-            .default()
-        ).abort()
-      ),
-      outfit: () => ({
-        ...baseOutfit,
-        shirt: $item`Jurassic Parka`,
-        offhand: $item`unbreakable umbrella`,
-        acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
-        avoid: $items`Daylight Shavings Helmet`
-      }),
-      post: (): void => {
-        sellMiscellaneousItems();
-        boomBoxProfit();
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Bakery Pledge",
-      after: ["Map Pocket Wishes"],
+      after: ["ReConfigure Trainset"],
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
@@ -411,38 +347,25 @@ export const earlyLevelingQuest: Quest = {
       },
       limit: { tries: 2 },
     },
-    {
-      name: "Free Run ",
+        {
+      name: "Kramco",
+      after: ["Bakery Pledge"],
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
-        docBag();
-        restoreMp(50);
       },
-      ready: () => have($familiar`Pair of Stomping Boots`),
-      completed: () => get("_banderRunaways") >= 1,
+      ready: () => getKramcoWandererChance() >= 1.0,
+      completed: () => getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`),
       do: $location`Noob Cave`,
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Launch Spikolodon Spikes`)
-        .if_(
-          $monster`paper towelgeist`, Macro.default())
-        .runaway()
-      ),
       outfit: () => ({
-        ...baseOutfit,
-        familiar: $familiar`Pair of Stomping Boots`,
-        short: $item`jurassic parka`,
-        acc3: $item`spring shoes`,
+        ...baseOutfit(),
+        shirt: $item`Jurassic Parka`,
+        offhand: $item`Kramco Sausage-o-Matic™`,
         modes: {parka: "spikolodon"},
-        avoid: $items`toy Cupid bow, Daylight Shavings Helmet`
+        avoid: $items`Daylight Shavings Helmet`
       }),
-      post: (): void => {
-        sellMiscellaneousItems();
-        boomBoxProfit();
-      },
-      limit: { tries: 1 },
+      combat: new CombatStrategy().macro(Macro.trySkill($skill`Launch Spikolodon Spikes`).default()),
     },
-
         {
           name: "Sept-ember Mouthwash",
           ready: () => args.asdon,
