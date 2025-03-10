@@ -299,5 +299,9 @@ export const args = Args.create(
       help: `Set default weapon damage test limit`,
       default: 10,
     }),
+    test: Args.flag({
+      help: `Test new features`,
+      default: false,
+    })
   }
 );

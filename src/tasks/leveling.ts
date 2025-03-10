@@ -220,6 +220,7 @@ const usefulEffects: Effect[] = [
   $effect`substats.enh`,
   $effect`Broad-Spectrum Vaccine`,
   $effect`Pyrite Pride`,
+  $effect`Having a Ball`,
   // $effect`Think Win-Lose`,
   $effect`Confidence of the Votive`,
   $effect`Song of Bravado`,

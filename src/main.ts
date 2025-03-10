@@ -35,6 +35,7 @@ import { DonateQuest, logResourceUsage } from "./tasks/donate";
 import { SpellDamageQuest } from "./tasks/spelldamage";
 import { checkRequirements, checkTests, simPulls } from "./sim";
 import { args } from "./args";
+import { baseOutfit } from "./engine/outfit";
 
 const timeProperty = "fullday_elapsedTime";
 
@@ -50,6 +51,11 @@ export function main(command?: string): void {
     checkRequirements();
     checkTests();
     simPulls();
+    return;
+  }
+
+  if(args.test) {
+    baseOutfit();
     return;
   }
 

@@ -78,7 +78,6 @@ import {
 import { printModtrace } from "libram/dist/modifier";
 import { mainStat } from "./combat";
 import { args } from "./args";
-import { Outfit, OutfitSpec } from "grimoire-kolmafia";
 
 export const startingClan = getClanName();
 

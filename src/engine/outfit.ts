@@ -5,12 +5,16 @@ import {
   equippedItem,
   Familiar,
   Item,
+  monsterLevelAdjustment,
+  myBuffedstat,
   myMaxmp,
   myMp,
   myPrimestat,
   numericModifier,
   print,
+  Stat,
   toInt,
+  toString,
   totalTurnsPlayed,
 } from "kolmafia";
 import {
@@ -18,19 +22,19 @@ import {
   $familiar,
   $familiars,
   $item,
+  $monster,
   $skill,
   $slot,
   DaylightShavings,
   examine,
   get,
+  getModifier,
   have,
   maxBy,
 } from "libram";
 import { camelFightsLeft, statToMaximizerString } from "../lib";
 import { args } from "../args";
 import { restoreMPEfficiently } from "../tasks/leveling";
-
-const primeStat = statToMaximizerString(myPrimestat());
 
 export function garbageShirt(): boolean {
   if (
@@ -195,6 +199,64 @@ function useCandyCaneSword(): boolean {
   return false;
 }
 
+// Function to calculate the base ML using scaler and buffed mainstat, capped by a value
+function calculateBaseML(mainstat: Stat, cap: number): number {
+    const scaler = monsterLevelAdjustment()/3 + ($monster`burnout`.baseAttack / 4);
+    const buffedStat = myBuffedstat(mainstat);
+    const baseML = scaler * buffedStat;
+    return Math.min(baseML, cap)/2; // Cap the base ML
+}
+
+function round(value: number, significantFigures: number): number {
+  const exponent = Math.floor(Math.log10(value))
+  const nIntegers = exponent + 1
+  const precision = 10 ** (nIntegers - significantFigures)
+  return Math.round(value / precision) * precision
+}
+
+// Function to calculate the relative weight of each modifier
+function calculateRelativeWeights(): { mainstatWeight: number, mlWeight: number, expWeight: number, experiencePercentWeight: number } {
+  const mainstat = myPrimestat();
+  const cap = 20_000;
+  const muscleExperience = getModifier("Muscle Experience");
+    const baseML = calculateBaseML(mainstat, cap);
+    
+    // Calculate the contribution of each modifier
+    // Calculate how much each component affects the stat gains
+    
+    const statGain = (1 / 4) * baseML;
+    const perML = statGain / 3;
+    const experienceGain = getModifier(`${mainstat.toString()} Experience Percent`) / 100;
+    
+    const totalGain = statGain + perML + experienceGain + muscleExperience;
+    
+    // Weighting factors based on how much each component contributes
+    const mainstatWeight = round(statGain / totalGain,2);
+    const mlWeight = round(perML / totalGain,2);
+    const expWeight = round(muscleExperience / totalGain,2);
+    const experiencePercentWeight = round(totalGain/100,2);
+    
+    return { mainstatWeight, mlWeight, expWeight, experiencePercentWeight };
+}
+
+export function buildMaximizerString(): string {
+    const mainstat = myPrimestat();
+    // Get the relative weights dynamically
+    const { mainstatWeight, mlWeight, expWeight, experiencePercentWeight } = calculateRelativeWeights();
+    
+    // Build the maximizer string
+    const mainstatString = statToMaximizerString(mainstat);
+    
+    const maximizerString = `${mainstatWeight} ${mainstatString}, 
+        ${mlWeight} ML, 
+        ${expWeight} ${mainstatString} exp, 
+        ${experiencePercentWeight} ${mainstatString} experience percent,
+    `;
+    
+    return maximizerString;
+}
+
+
 function baseOutfitFirstPass(allowAttackingFamiliars = true): OutfitSpec {
   parka();
 
@@ -206,13 +268,12 @@ function baseOutfitFirstPass(allowAttackingFamiliars = true): OutfitSpec {
       : undefined,
     back: get("questPAGhost") === "unstarted" && get("nextParanormalActivity") <= totalTurnsPlayed()
       ? $item`protonic accelerator pack` : undefined,
-    shirt: garbageShirt() ? $item`makeshift garbage shirt` : have($item`LOV Eardigan`) ? $item`LOV Eardigan` : undefined,
+    shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
     offhand:
       myMaxmp() > 200 && myMp() < 75 && restoreMPEfficiently() === "Gulp"
         ? $item`latte lovers member's mug`
-        : $item`unbreakable umbrella`,
-    acc1: have($item`codpiece`) ? $item`codpiece` : undefined,
-    acc2:
+        : undefined,
+    acc1:
       have($item`Cincho de Mayo`) &&
       get("_cinchUsed", 0) < 95 &&
       100 - get("_cinchUsed", 0) > args.savecinch
@@ -230,7 +291,7 @@ function baseOutfitFirstPass(allowAttackingFamiliars = true): OutfitSpec {
           get("_leafMonstersFought", 0) < 5
         ? $item`tiny rake`
         : undefined,
-    modifier: `1 ${primeStat}, 1 ML, 6 ${primeStat} exp, 30 ${primeStat} experience percent, -equip tinsel tights, -equip wad of used tape`, //Update to check prime stat
+    modifier: `${buildMaximizerString()} 0.001 familiar experience, -equip tinsel tights, -equip wad of used tape`,
     avoid: [
       ...sugarItemsAboutToBreak(),
     ],
@@ -262,6 +323,6 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
     outfit.famequip = $item`toy Cupid bow`;
   }
 
-
+  print(`Modifier: ${outfit.modifier}`)
     return outfit
 }
