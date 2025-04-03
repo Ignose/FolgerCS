@@ -16,8 +16,9 @@ import {
   convertMilliseconds,
   logTestCompletion,
   simpleDateDiff,
+  wardrobeGood,
 } from "./lib";
-import { $familiar, $item, $skill, $stat, get, have, set, sinceKolmafiaRevision } from "libram";
+import { $familiar, $item, $monster, $skill, $stat, get, have, set, sinceKolmafiaRevision } from "libram";
 import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
 import { Task } from "./engine/task";
@@ -35,7 +36,6 @@ import { DonateQuest, logResourceUsage } from "./tasks/donate";
 import { SpellDamageQuest } from "./tasks/spelldamage";
 import { checkRequirements, checkTests, simPulls } from "./sim";
 import { args } from "./args";
-import { baseOutfit } from "./engine/outfit";
 
 const timeProperty = "fullday_elapsedTime";
 
@@ -47,15 +47,14 @@ export function main(command?: string): void {
     Args.showHelp(args);
     return;
   }
+  if (args.test) {
+    print(`Wardrobe good? ${wardrobeGood()}`);
+    return;
+  }
   if (args.sim) {
     checkRequirements();
     checkTests();
     simPulls();
-    return;
-  }
-
-  if(args.test) {
-    baseOutfit();
     return;
   }
 

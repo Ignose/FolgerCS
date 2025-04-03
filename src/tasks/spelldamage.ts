@@ -65,6 +65,7 @@ export const SpellDamageQuest: Quest = {
   tasks: [
     {
       name: "Simmer",
+      prepare: () => equip($item`April Shower Thoughts shield`),
       completed: () => have($effect`Simmering`) || !have($skill`Simmer`),
       do: () => useSkill($skill`Simmer`),
       limit: { tries: 1 },
@@ -252,7 +253,9 @@ export const SpellDamageQuest: Quest = {
         if (checkValue($item`battery (AAA)`, checkTurnSave("SpellDamage", $effect`AAA-Charged`)))
           tryAcquiringEffect($effect`AAA-Charged`, true);
 
-        const teaPartyHats = Item.all().filter((i) => have(i) && toSlot(i) === $slot`hat` && i.name.length === 12);
+        const teaPartyHats = Item.all().filter(
+          (i) => have(i) && toSlot(i) === $slot`hat` && i.name.length === 12
+        );
 
         if (!get("_madTeaParty") && teaPartyHats.length === 0) {
           if (!have($item`mariachi hat`)) retrieveItem(1, $item`chewing gum on a string`);

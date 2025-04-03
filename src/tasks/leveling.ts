@@ -38,6 +38,7 @@ import {
   mySoulsauce,
   print,
   putCloset,
+  refreshStatus,
   restoreHp,
   restoreMp,
   retrieveItem,
@@ -81,10 +82,11 @@ import {
   TrainSet,
   TunnelOfLove,
   uneffect,
+  unequip,
   Witchess,
   withChoice,
 } from "libram";
-import { CombatStrategy, OutfitSpec } from "grimoire-kolmafia";
+import { CombatStrategy } from "grimoire-kolmafia";
 import {
   acquirePulls,
   boomBoxProfit,
@@ -96,8 +98,6 @@ import {
   checkValue,
   //chooseLibram,
   computeCombatFrequency,
-  computeHotRes,
-  computeWeaponDamage,
   findMaxPull,
   forbiddenEffects,
   fuelUp,
@@ -116,9 +116,9 @@ import {
   sellMiscellaneousItems,
   statToMaximizerString,
   synthExpBuff,
-  targetBaseMyst,
   tryAcquiringEffect,
   useOffhandRemarkable,
+  wardrobeG,
 } from "../lib";
 import {
   baseOutfit,
@@ -151,6 +151,8 @@ const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vo
 const freeFightMonsters: Monster[] = $monsters`Witchess Bishop, Witchess King, Witchess Witch, sausage goblin, Eldritch Tentacle`;
 const godLobsterChoice = () => (have($item`God Lobster's Ring`) ? 2 : 3);
 const godLobsterSave = () => computeCombatFrequency(false) === -95;
+
+const doBonusLeveling = () => wardrobeG || (have($item`meteorite fragment`) || have($item`meteorite earring`) || have($item`meteorite necklace`) || have($item`meteorite ring`))
 
 export function restoreMPEfficiently(): string {
   if (have($item`bat wings`) && get("_batWingsRestUsed", 0) < 11) return "Bat Wings";
@@ -319,9 +321,8 @@ export const LevelingQuest: Quest = {
   name: "Leveling",
   completed: () =>
     get("csServicesPerformed").split(",").length > 1 ||
-    (get("_feelPrideUsed", 3) >= 3 &&
-      camelFightsLeft() === 0 &&
-      !haveFreeKill()),
+    (have($effect`spit upon`) && have($item`short stack of pancakes`) && myBasestat(myPrimestat()) >= 200) ||
+    (get("_feelPrideUsed", 3) >= 3 && camelFightsLeft() === 0 && !haveFreeKill()),
   tasks: [
     {
       name: "LED Candle",
@@ -439,6 +440,24 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Extra Buffs",
+      prepare: () => equip($item`April Shower Thoughts shield`),
+      completed: () => have($effect`Thoughtful Empathy`),
+      do: () => {
+        visitUrl("inventory.php?action=shower&pwd");
+        if(doBonusLeveling()) {
+          visitUrl("shop.php?whichshop=showerthoughts");
+          visitUrl("shop.php?whichshop=showerthoughts&action=buyitem&quantity=1&whichrow=1581&pwd");
+          use($item`wet paper weights`);
+        }
+        useSkill($skill`Disco Aerobics`);
+        useSkill($skill`Patience of the Tortoise`);
+        useSkill($skill`Empathy of the Newt`);
+        unequip($item`April Shower Thoughts shield`)
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Synth Exp Buff",
       completed: () =>
         !have($skill`Sweet Synthesis`) ||
@@ -513,7 +532,9 @@ export const LevelingQuest: Quest = {
       name: "Pull Some Everything",
       ready: () => args.dopullstest,
       prepare: () =>
-        $items`tobiko marble soda, fudge-shaped hole in space-time, ${jacks.name}`.forEach((item) => acquirePulls(item)),
+        $items`tobiko marble soda, fudge-shaped hole in space-time, ${jacks.name}`.forEach((item) =>
+          acquirePulls(item)
+        ),
       completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
       do: (): void => {
         let i = 5 - args.savepulls - get("_roninStoragePulls").split(",").length;
@@ -898,9 +919,10 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 3 },
     },
-    { // Set up a pretty lit buff
+    {
+      // Set up a pretty lit buff
       name: "NEP Episode 2: The Prequel",
-      ready: () => get("noncombatForcerActive"),
+      ready: () => get("noncombatForcerActive") && doBonusLeveling(),
       completed: () => have($effect`Spiced Up`),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -917,7 +939,6 @@ export const LevelingQuest: Quest = {
       combat: new CombatStrategy().macro(Macro.trySkill($skill`%fn, spit on me!`).kill()),
       outfit: () => ({
         ...baseOutfit(),
-        familiar: $familiar`Melodramedary`,
       }),
       limit: { tries: 2 },
       post: (): void => {
@@ -926,56 +947,64 @@ export const LevelingQuest: Quest = {
         boomBoxProfit();
       },
     },
-    {
-      name: "ELG",
-      after: ["Map Pocket Wishes"],
+        {
+      // This won't actually run until it's ready, but we put it here, early, so that when it's ready it can run
+      name: "Early Camel Spit",
+      ready: () =>
+        get("camelSpit") >= 100,
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-        docBag();
+        unbreakableUmbrella();
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
       },
-      ready: () => have($item`spring shoes`),
-      completed: () =>
-        have($effect`Everything Looks Green`),
+      completed: () => have($effect`Spit Upon`),
       do: $location`Noob Cave`,
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Spring Away`)
-      ),
+      choices: {
+        1094: 5,
+        1115: 6,
+        1322: 2,
+        1324: 5,
+        1326: 2,
+      },
+      combat: new CombatStrategy().macro(Macro.trySkill($skill`%fn, spit on me!`).trySkill($skill`Spring Away`).abort()),
       outfit: () => ({
-        ...baseOutfit,
         acc3: $item`spring shoes`,
+        shirt: $item`jurassic parka`,
+        familiar: $familiar`Melodramedary`,
       }),
+      limit: { tries: 2 },
       post: (): void => {
+        sendAutumnaton();
         sellMiscellaneousItems();
         boomBoxProfit();
+        refreshStatus();
       },
-      limit: { tries: 1 },
     },
     {
-    name: "Ghost",
-    prepare: () => {
-      [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
+      name: "Ghost",
+      prepare: () => {
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
+      },
+      completed: () => get("questPAGhost") === "unstarted",
+      ready: () =>
+        have($item`protonic accelerator pack`) &&
+        get("questPAGhost") !== "unstarted" &&
+        !!get("ghostLocation") &&
+        !have($effect`Meteor Showered`),
+      do: () => get("ghostLocation") ?? abort("Failed to identify ghost location"),
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`micrometeorite`)
+          .trySkill($skill`Shoot Ghost`)
+          .trySkill($skill`Shoot Ghost`)
+          .trySkill($skill`Shoot Ghost`)
+          .trySkill($skill`Trap Ghost`)
+      ),
+      outfit: () => ({
+        ...baseOutfit(true, false, $monster`ice woman`),
+        back: $item`protonic accelerator pack`,
+      }),
     },
-    completed: () => get("questPAGhost") === "unstarted",
-    ready: () =>
-      have($item`protonic accelerator pack`) &&
-      get("questPAGhost") !== "unstarted" &&
-      !!get("ghostLocation") &&
-      !have($effect`Meteor Showered`),
-    do: () => get("ghostLocation") ?? abort("Failed to identify ghost location"),
-    combat: new CombatStrategy().macro(
-      Macro.trySkill($skill`micrometeorite`)
-        .trySkill($skill`Shoot Ghost`)
-        .trySkill($skill`Shoot Ghost`)
-        .trySkill($skill`Shoot Ghost`)
-        .trySkill($skill`Trap Ghost`)
-    ),
-    outfit: () => ({
-      ...baseOutfit,
-      back: $item`protonic accelerator pack`
-    }),
-  },
     {
       name: "Map Amateur Ninja",
       prepare: (): void => {
@@ -1030,9 +1059,10 @@ export const LevelingQuest: Quest = {
         visitUrl("campground.php?preaction=leaves");
         visitUrl("choice.php?pwd&whichchoice=1510&option=1&leaves=11");
       },
-      combat: new CombatStrategy().macro(Macro.trySkill($skill`spring growth spurt`).default()),
+      combat: new CombatStrategy().macro(Macro.trySkill($skill`spring growth spurt`).trySkill($skill`Tear Away your Pants!`).default()),
       outfit: () => ({
-        ...baseOutfit,
+        ...baseOutfit(true, true, $monster`flaming leaflet`),
+        pants: have($item`tearaway pants`) ? $item`tearaway pants` : undefined,
         acc3: have($item`spring shoes`) ? $item`spring shoes` : undefined,
       }),
       post: (): void => {
@@ -1100,7 +1130,7 @@ export const LevelingQuest: Quest = {
       do: (): void => {
         cliExecute("cast rest upside down");
       },
-      outfit: {back: $item`bat wings`},
+      outfit: { back: $item`bat wings` },
       limit: { tries: 11 },
     },
     {
@@ -1204,7 +1234,7 @@ export const LevelingQuest: Quest = {
           .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
           .default()
       ),
-      outfit: baseOutfit,
+      outfit: () =>  ({...baseOutfit(true, false, $monster`shadow slab`)}),
       post: (): void => {
         if (have(rufusTarget() as Item)) {
           withChoice(1498, 1, () => use($item`closed-circuit pay phone`));
@@ -1230,14 +1260,12 @@ export const LevelingQuest: Quest = {
           if (!have(ef)) useSkill(toSkill(ef));
         });
       },
-      completed: () => $location`Cyberzone 1`.turnsSpent >= 11 || toInt(get("_cyberZone1Turns")) >= 11,
+      completed: () =>
+        $location`Cyberzone 1`.turnsSpent >= 11 || toInt(get("_cyberZone1Turns")) >= 11,
       choices: { 1545: 1, 1546: 1 },
       do: $location`Cyberzone 1`,
       combat: new CombatStrategy().macro(() =>
-        Macro.if_(
-          "!monsterphylum construct",
-          Macro.default()
-        )
+        Macro.if_("!monsterphylum construct", Macro.default())
           .skill($skill`Throw Cyber Rock`)
           .repeat()
       ),
@@ -1289,67 +1317,39 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 1 },
     },
-    { // This won't actually run until it's ready, but we put it here, early, so that when it's ready it can run
-      name: "Early Camel Spit",
-      ready: () =>
-        get("camelSpit") >= 100 &&
-        have($familiar`Comma Chameleon`) &&
-        get("_neverendingPartyFreeTurns") < 10 &&
-        computeHotRes(false) + computeWeaponDamage(false) + 4 < 10,
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-        garbageShirt();
-      },
-      completed: () => have($effect`Spit Upon`),
-      do: $location`The Neverending Party`,
-      choices: {
-        1094: 5,
-        1115: 6,
-        1322: 2,
-        1324: 5,
-        1326: 2,
-      },
-      combat: new CombatStrategy().macro(Macro.trySkill($skill`%fn, spit on me!`).kill()),
-      outfit: () => ({
-        familiar: $familiar`Melodramedary`,
-      }),
-      limit: { tries: 2 },
-      post: (): void => {
-        sendAutumnaton();
-        sellMiscellaneousItems();
-        boomBoxProfit();
-      },
-    },
-    { // This won't actually run until it's ready, but we put it here, early, so that when it's ready it can run
+    {
+      // This won't actually run until it's ready, but we put it here, early, so that when it's ready it can run
       name: "Sept-ember Mouthwash",
-      ready: () => have($familiar`Melodramedary`) ? have($effect`Spit Upon`) : true,
+      ready: () => (have($familiar`Melodramedary`) ? have($effect`Spit Upon`) : true) && doBonusLeveling(),
       prepare: () => {
         const effects: Effect[] = [
           $effect`Elemental Saucesphere`,
           $effect`Scarysauce`,
           $effect`Feel Peaceful`,
           $effect`Astral Shell`,
-        ]
+        ];
         effects.forEach((ef) => tryAcquiringEffect(ef));
       },
       completed: () =>
         !have($item`Sept-Ember Censer`) || have($item`bembershoot`) || args.saveembers,
       do: (): void => {
         // Saber a camel
-        if(have($familiar`Melodramedary`) && have($item`Fourth of May Cosplay Saber`) && !get("_entauntaunedToday")) {
+        if (
+          have($familiar`Melodramedary`) &&
+          have($item`Fourth of May Cosplay Saber`) &&
+          !get("_entauntaunedToday")
+        ) {
           const weapon = equippedItem($slot`weapon`);
           useFamiliar($familiar`Melodramedary`);
           equip($item`Fourth of May Cosplay Saber`);
-          visitUrl("/main.php?action=camel")
+          visitUrl("/main.php?action=camel");
           runChoice(1);
           useFamiliar($familiar`Exotic Parrot`);
           equip(weapon);
         }
 
-        if(!have($effect`Cold as Nice`) && have($item`Beach Comb`)) tryAcquiringEffect($effect`Cold as Nice`);
+        if (!have($effect`Cold as Nice`) && have($item`Beach Comb`))
+          tryAcquiringEffect($effect`Cold as Nice`);
 
         // Grab Embers
         visitUrl("shop.php?whichshop=september");
@@ -1368,7 +1368,9 @@ export const LevelingQuest: Quest = {
         const result = maximize("cold res", 0, 0, true, true);
 
         // Find shirt-specific equipment
-        const shirt = result.find((action) => action.command.includes("equip") && toSlot(action.item) === $slot`shirt`);
+        const shirt = result.find(
+          (action) => action.command.includes("equip") && toSlot(action.item) === $slot`shirt`
+        );
 
         // Calculate totalScore and shirtScore
         const totalScore = result.reduce((sum, item) => sum + item.score, 0);
@@ -1386,11 +1388,10 @@ export const LevelingQuest: Quest = {
         use($item`Mmm-brr! brand mouthwash`, 3);
       },
       limit: { tries: 1 },
-      outfit: {
-        modifier: `10 cold res, 1 ${primeStat} experience percent, 0.2 familiar weight`,
-        familiar: $familiar`Exotic Parrot`,
-        modes: {parka: "kachungasaur", retrocape: ["vampire", "hold"]}
-      },
+      outfit: () => ({
+        modifier: `10 cold res, 1 ${primeStat} experience percent, 0.2 familiar weight, switch exotic parrot, switch left-hand man`,
+        modes: { parka: "kachungasaur", retrocape: ["vampire", "hold"] },
+      }),
     },
     {
       name: "Snojo",
@@ -1416,7 +1417,7 @@ export const LevelingQuest: Quest = {
           .default()
       ),
       outfit: () => ({
-        ...baseOutfit,
+        ...baseOutfit(true, false, $monster`X-32-F Combat Training Snowman`),
         familiar: !have($effect`Citizen of a Zone`) ? $familiar`Patriotic Eagle` : chooseFamiliar(),
         shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
       }),
@@ -1467,7 +1468,7 @@ export const LevelingQuest: Quest = {
           .trySkill($skill`Gingerbread Mob Hit`)
           .default()
       ),
-      outfit: baseOutfit,
+      outfit: () => ({...baseOutfit(false, true, $monster`Red Skeleton`)}),
       post: (): void => {
         if (restoreMPEfficiently() === "Refill Latte" && myMp() < 75) refillLatte();
         use($item`red box`, 1);
@@ -1485,7 +1486,7 @@ export const LevelingQuest: Quest = {
         docBag();
         restoreMp(50);
       },
-      ready: () => !get("snojoAvailable", false),
+      ready: () => !get("snojoAvailable"),
       completed: () =>
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
@@ -1501,8 +1502,9 @@ export const LevelingQuest: Quest = {
           .default()
       ),
       outfit: () => ({
-        ...baseOutfit,
+        shirt: $item`jurassic parka`,
         familiar: $familiar`Patriotic Eagle`,
+        modes: {parka: "spikolodon"}
       }),
       post: (): void => {
         sellMiscellaneousItems();
@@ -1543,7 +1545,7 @@ export const LevelingQuest: Quest = {
           .if_($monster`LOV Equivocator`, Macro.default())
       ),
       outfit: () => ({
-        ...baseOutfit(false),
+        ...baseOutfit(false, false, $monster`LOV Engineer`),
         weapon: $item`June Cleaver`,
         modifier: `0.25 ${mainStatMaximizerStr}, 0.33 ML, 0.001 item%, -equip tinsel tights, -equip wad of used tape, -equip Kramco Sausage-o-Matic™`,
       }),
@@ -1631,7 +1633,7 @@ export const LevelingQuest: Quest = {
         Macro.trySkill($skill`Back-Up to your Last Enemy`).default(useCinch())
       ),
       outfit: () => ({
-        ...baseOutfit(),
+        ...baseOutfit(true, false),
         acc3: $item`backup camera`,
       }),
       post: (): void => {
@@ -1655,7 +1657,7 @@ export const LevelingQuest: Quest = {
       completed: () => getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`),
       do: $location`Noob Cave`,
       outfit: () => ({
-        ...baseOutfit(),
+        ...baseOutfit(true, false, $monster`sausage goblin`),
         offhand: $item`Kramco Sausage-o-Matic™`,
         shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
       }),
@@ -1694,7 +1696,7 @@ export const LevelingQuest: Quest = {
           .trySkill($skill`Portscan`)
           .default()
       ),
-      outfit: baseOutfit,
+      outfit: () => ({...baseOutfit(true, false, $monster`goblin flapper`)}),
       limit: { tries: 1 },
       post: (): void => {
         sendAutumnaton();
@@ -1717,7 +1719,7 @@ export const LevelingQuest: Quest = {
         get("_sourceTerminalPortscanUses") > 0,
       do: $location`An Unusually Quiet Barroom Brawl`,
       combat: new CombatStrategy().macro(Macro.trySkill($skill`Portscan`).default()),
-      outfit: baseOutfit,
+      outfit: () => ({...baseOutfit(true, false, $monster`goblin flapper`)}),
       limit: { tries: 1 },
       post: (): void => {
         sendAutumnaton();
@@ -1735,51 +1737,13 @@ export const LevelingQuest: Quest = {
       completed: () => get("_speakeasyFreeFights", 0) >= 3 || !get("ownsSpeakeasy"),
       do: $location`An Unusually Quiet Barroom Brawl`,
       combat: new CombatStrategy().macro(Macro.default()),
-      outfit: baseOutfit,
+      outfit: () => ({...baseOutfit(true, false, $monster`goblin flapper`)}),
       limit: { tries: 3 },
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
         boomBoxProfit();
       },
-    },
-    {
-      name: "Map Pocket Wishes",
-      after: ["Oliver's Place (Map)"],
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        docBag();
-        restoreMp(50);
-        if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
-          if (myMeat() >= 250) buy($item`red rocket`, 1);
-        }
-      },
-      completed: () =>
-        !have($skill`Map the Monsters`) ||
-        !have($skill`Just the Facts`) ||
-        get("_monstersMapped") >= 3 ||
-        have($item`pocket wish`, 1) ||
-        myClass() !== $class`Seal Clubber` ||
-        ((get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
-          (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`))),
-      do: () => mapMonster($location`The Haunted Kitchen`, $monster`paper towelgeist`),
-      combat: new CombatStrategy().macro(
-        Macro.if_(
-          $monster`paper towelgeist`,
-          Macro.tryItem($item`blue rocket`)
-            .tryItem($item`red rocket`)
-            .trySkill($skill`Chest X-Ray`)
-            .trySkill($skill`Gingerbread Mob Hit`)
-            .trySkill($skill`Shattering Punch`)
-            .default()
-        ).abort()
-      ),
-      post: (): void => {
-        sellMiscellaneousItems();
-        boomBoxProfit();
-      },
-      limit: { tries: 1 },
     },
     {
       name: "God Lobster",
@@ -1798,7 +1762,7 @@ export const LevelingQuest: Quest = {
       combat: new CombatStrategy().macro(Macro.default(useCinch())),
       choices: { 1310: godLobsterChoice() }, // Get xp on last fight
       outfit: () => ({
-        ...baseOutfit(),
+        ...baseOutfit(true, false, $monster`God Lobster`),
         famequip: $items`God Lobster's Ring, God Lobster's Scepter`,
         familiar: $familiar`God Lobster`,
         shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
@@ -1826,7 +1790,7 @@ export const LevelingQuest: Quest = {
         sellMiscellaneousItems();
       },
       combat: new CombatStrategy().macro(Macro.default(useCinch())),
-      outfit: baseOutfit,
+      outfit: () => ({...baseOutfit(true, false, $monster`eldritch tentacle`)}),
       limit: { tries: 1 },
     },
     {
@@ -1852,7 +1816,7 @@ export const LevelingQuest: Quest = {
           Macro.trySkill($skill`Recall Facts: Monster Habitats`)
         ).default(useCinch())
       ),
-      outfit: baseOutfit,
+      outfit: () => ({...baseOutfit(true, false, $monster`Witchess Knight`)}),
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
@@ -1873,7 +1837,7 @@ export const LevelingQuest: Quest = {
       do: $location`The Deep Machine Tunnels`,
       combat: new CombatStrategy().macro(Macro.default(useCinch())),
       outfit: () => ({
-        ...baseOutfit(),
+        ...baseOutfit(true, false, $monster`Perceiver of Sensations`),
         familiar: $familiar`Machine Elf`,
       }),
       limit: { tries: 5 },
@@ -1906,7 +1870,9 @@ export const LevelingQuest: Quest = {
           if (myMeat() >= 250) buy($item`red rocket`, 1);
         }
       },
-      outfit: baseOutfit,
+      outfit: () => ({
+        ...baseOutfit(true, false, $monster`burnout`)
+      }),
       limit: { tries: 60 },
       choices: {
         1094: 5,
@@ -1926,60 +1892,6 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         if (have($item`SMOOCH coffee cup`)) chew($item`SMOOCH coffee cup`, 1);
         if (restoreMPEfficiently() === "Refill Latte" && myMp() < 75) refillLatte();
-        sendAutumnaton();
-        sellMiscellaneousItems();
-        boomBoxProfit();
-      },
-    },
-    {
-      name: "Extra Camelspit Leveling",
-      ready: () => get("camelSpit") >= 94 && myBasestat(myPrimestat()) >= targetBaseMyst,
-      completed: () => !args.camelhat || get("camelSpit") >= 100 || have($effect`spit upon`),
-      do: powerlevelingLocation(),
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        garbageShirt();
-        if (mainStatStr === `Muscle`) {
-          muscleList.forEach((ef) => tryAcquiringEffect(ef));
-        }
-        if (mainStatStr === `Mysticality`) {
-          mysticalityList.forEach((ef) => tryAcquiringEffect(ef));
-        }
-        if (mainStatStr === `Moxie`) {
-          moxieList.forEach((ef) => tryAcquiringEffect(ef));
-        }
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-        if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
-          if (myMeat() >= 250) buy($item`red rocket`, 1);
-        }
-      },
-      outfit: () => ({
-        ...baseOutfit(),
-        familiar: $familiar`Melodramedary`,
-        shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
-      }),
-      limit: { tries: 60 },
-      choices: {
-        1094: 5,
-        1115: 6,
-        1322: 2,
-        1324: 5,
-        1326: 2,
-      },
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Feel Pride`)
-          .trySkill($skill`Cincho: Confetti Extravaganza`)
-          .trySkill($skill`Gulp Latte`)
-          .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
-          .trySkill($skill`Chest X-Ray`)
-          .trySkill($skill`Shattering Punch`)
-          .trySkill($skill`Gingerbread Mob Hit`)
-          .default(useCinch())
-      ),
-      post: (): void => {
-        if (have($item`SMOOCH coffee cup`)) chew($item`SMOOCH coffee cup`, 1);
         sendAutumnaton();
         sellMiscellaneousItems();
         boomBoxProfit();
@@ -2026,7 +1938,7 @@ export const LevelingQuest: Quest = {
         args.skipking,
       do: () => Witchess.fightPiece($monster`Witchess King`),
       combat: new CombatStrategy().macro(Macro.default(useCinch())),
-      outfit: baseOutfit,
+      outfit: () => ({...baseOutfit(true, false, $monster`Witchess Knight`)}),
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
@@ -2061,7 +1973,7 @@ export const LevelingQuest: Quest = {
           .repeat()
       ),
       outfit: {
-        ...baseOutfit(),
+        ...baseOutfit(true, false, $monster`witchess knight`),
         weapon:
           have($effect`Comic Violence`) && have($item`Fourth of May Cosplay Saber`)
             ? $item`Fourth of May Cosplay Saber`
@@ -2099,7 +2011,7 @@ export const LevelingQuest: Quest = {
       do: () => Witchess.fightPiece($monster`Witchess Queen`),
       combat: new CombatStrategy().macro(Macro.attack().repeat()),
       outfit: {
-        ...baseOutfit(),
+        ...baseOutfit(true, false, $monster`witchess knight`),
         weapon:
           have($effect`Comic Violence`) && have($item`Fourth of May Cosplay Saber`)
             ? $item`Fourth of May Cosplay Saber`
@@ -2138,7 +2050,7 @@ export const LevelingQuest: Quest = {
           Macro.trySkill($skill`Recall Facts: Monster Habitats`)
         ).default(useCinch())
       ),
-      outfit: baseOutfit,
+      outfit: () => ({...baseOutfit(true, false, $monster`witchess knight`)}),
       post: (): void => {
         sendAutumnaton();
         sellMiscellaneousItems();
@@ -2146,23 +2058,18 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 1 },
     },
-        {
+    {
       name: "Authority",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
-        docBag();
         restoreMp(50);
       },
-      ready: () => have($item`Sheriff moustache`) &&
-          have($item`Sheriff badge`) &&
-          have($item`Sheriff pistol`),
+      ready: () =>
+        have($item`Sheriff moustache`) && have($item`Sheriff badge`) && have($item`Sheriff pistol`),
       completed: () => get("_assertYourAuthorityCast") >= 3,
       do: powerlevelingLocation(),
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`Assert your Authority`)
-        .abort()
-      ),
+      combat: new CombatStrategy().macro(Macro.trySkill($skill`Assert your Authority`).abort()),
       choices: {
         1094: 5,
         1115: 6,
@@ -2171,8 +2078,10 @@ export const LevelingQuest: Quest = {
         1326: 2,
       },
       outfit: () => ({
-        ...baseOutfit,
-        equip: $items`Sheriff moustache, Sheriff badge, Sheriff pistol`
+        ...baseOutfit(true, false, $monster`burnout`),
+        weapon: $item`Sheriff pistol`,
+        acc2: $item`Sheriff badge`,
+        acc3: $item`Sheriff Moustache`
       }),
       post: (): void => {
         sellMiscellaneousItems();
@@ -2183,6 +2092,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Free Kills and More Fights",
       after: ["Drink Bee's Knees"],
+      ready: () => doBonusLeveling(),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         if (equippedItem($slot`offhand`) !== $item`latte lovers member's mug`) {
@@ -2193,7 +2103,7 @@ export const LevelingQuest: Quest = {
         [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
         restoreMp(50);
       },
-      outfit: baseOutfit,
+      outfit: () => ({...baseOutfit(true, false, $monster`burnout`)}),
       completed: () =>
         (get("_shatteringPunchUsed") >= 3 || !have($skill`shattering punch`)) &&
         (get("_gingerbreadMobHitUsed") || !have($skill`gingerbread mob hit`)) &&
@@ -2201,7 +2111,7 @@ export const LevelingQuest: Quest = {
         (get("_chestXRayUsed") >= 3 || !have($item`Lil' Doctor™ bag`)),
       do: powerlevelingLocation(),
       combat: new CombatStrategy().macro(
-          Macro.if_($monster`sausage goblin`, Macro.default(useCinch()))
+        Macro.if_($monster`sausage goblin`, Macro.default(useCinch()))
           .trySkill($skill`Feel Pride`)
           .trySkill($skill`Gulp Latte`)
           .trySkill($skill`Cincho: Confetti Extravaganza`)

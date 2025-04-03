@@ -31,9 +31,7 @@ import { drive } from "libram/dist/resources/2017/AsdonMartin";
 import { args } from "../args";
 import { baseOutfit, unbreakableUmbrella } from "../engine/outfit";
 
-const familiar = have($familiar`peace turkey`)
-  ? $familiar`peace turkey`
-  : $familiar`disgeist`;
+const familiar = have($familiar`peace turkey`) ? $familiar`peace turkey` : $familiar`disgeist`;
 const cap = familiar === $familiar`peace turkey` ? 50 : 75;
 
 export const NoncombatQuest: Quest = {
@@ -146,8 +144,12 @@ export const NoncombatQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
-        if(CommunityService.Noncombat.actualCost() > 1 && !have($item`Porkpie-mounted popper`) && !get("_fireworksShopHatBought"))
-          buy($item`porkpie-mounted popper`, 1)
+        if (
+          CommunityService.Noncombat.actualCost() > 1 &&
+          !have($item`Porkpie-mounted popper`) &&
+          !get("_fireworksShopHatBought")
+        )
+          buy($item`porkpie-mounted popper`, 1);
 
         cliExecute(
           `maximize -combat, 0.04 familiar weight ${cap} max, switch ${familiar}, switch left-hand man, switch disembodied hand, switch peace turkey -tie`
@@ -175,8 +177,7 @@ export const NoncombatQuest: Quest = {
       },
       outfit: {
         familiar: familiar,
-        modifier:
-          `-combat, 0.04 familiar weight ${cap} max, switch ${familiar}, switch left-hand man, switch disembodied hand, -tie`,
+        modifier: `-combat, 0.04 familiar weight ${cap} max, switch ${familiar}, switch left-hand man, switch disembodied hand, -tie`,
       },
       post: (): void => {
         uneffect($effect`The Sonata of Sneakiness`);

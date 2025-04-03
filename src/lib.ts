@@ -4,7 +4,9 @@ import {
   buy,
   buyUsingStorage,
   cliExecute,
+  cliExecuteOutput,
   create,
+  daycount,
   Effect,
   equip,
   equippedItem,
@@ -256,7 +258,7 @@ export function computeWeaponDamage(sim: boolean): number {
   const imported = have($skill`Map the Monsters`) && get("ownsSpeakeasy") ? 50 : 0;
   const beach = have($item`Beach Comb`) ? 25 : 0;
   const camel =
-    (get("camelSpit") / 3.33) * camelFightsLeft() >= 100 || have($effect`spit upon`) ? 100 : 0;
+    (get("camelSpit") / 3.33) * camelFightsLeft() >= 100 || have($effect`Spit Upon`) ? 100 : 0;
   const lov = get("loveTunnelAvailable") ? 50 : 0;
   const vote = myClass() === $class`Pastamancer` && get("voteAlways") ? 200 : 0;
   const carol = have($familiar`Ghost of Crimbo Carols`) ? 100 : 0;
@@ -523,7 +525,8 @@ export function computeBoozeDrop(): number {
 
 const famJacksValue = () =>
   have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;
-const greatWolfsPartOne = () => (have($item`repaid diaper`) || storageAmount($item`repaid diaper`) > 0 ? 0 : 2);
+const greatWolfsPartOne = () =>
+  have($item`repaid diaper`) || storageAmount($item`repaid diaper`) > 0 ? 0 : 2;
 const greatWolfs = () => Math.min(2, computeWeaponDamage(false) - 1) + greatWolfsPartOne();
 const stickKnife = () =>
   myPrimestat() === $stat`muscle` ? Math.min(5, computeWeaponDamage(false) - 1) + 4 : 0;
@@ -1454,3 +1457,44 @@ export function checkPurqoise(meat: number): boolean {
   if (myMeat() > meat) return false;
   return true;
 }
+
+function parseWardrobeOutput(output: string): [string, number][] {
+  const lines = output.split("\n");
+  const result: [string, number][] = [];
+
+  const regex = /(.+?)\s+(\d+(?:-\d+)?)/; // Match "Modifier" and "Number" (handles ranges)
+
+  for (const line of lines) {
+    const match = line.trim().match(regex);
+    if (match) {
+      const modifier = match[1].trim();
+      const number = match[2].includes("-")
+        ? parseInt(match[2].split("-")[0]) // Take the lower bound if range
+        : parseInt(match[2]);
+      result.push([modifier, number]);
+    }
+  }
+
+  return result;
+}
+
+function meetsCriteria(output: string): boolean {
+  const parsedData = parseWardrobeOutput(output);
+
+  return parsedData.some(
+    ([modifier, value]) =>
+      (modifier.includes("Familiar Experience") && value >= 4) ||
+      (modifier.includes("Meat Gain") && value > 40)
+  );
+}
+
+export function wardrobeGood(): boolean {
+  const baseSeed = daycount();
+  const todayT5 = cliExecuteOutput(`wardrobe kolday=${baseSeed} tier 5`);
+  const tomorrowT5 = cliExecuteOutput(`wardrobe kolday=${baseSeed + 1} tier 5`);
+
+  if(meetsCriteria(todayT5) || meetsCriteria(tomorrowT5)) return true;
+  return false;
+}
+
+export const wardrobeG = wardrobeGood();

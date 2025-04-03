@@ -56,7 +56,14 @@ import { Cycle, setConfiguration, Station } from "libram/dist/resources/2022/Tra
 import Macro from "../combat";
 import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { chooseRift } from "libram/dist/resources/2023/ClosedCircuitPayphone";
-import { boomBoxProfit, checkPurqoise, sellMiscellaneousItems, statToMaximizerString, tryAcquiringEffect } from "../lib";
+import {
+  boomBoxProfit,
+  checkPurqoise,
+  sellMiscellaneousItems,
+  statToMaximizerString,
+  tryAcquiringEffect,
+  wardrobeG,
+} from "../lib";
 import { args } from "../args";
 
 const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
@@ -168,36 +175,36 @@ export const earlyLevelingQuest: Quest = {
       name: "NEP The Prequel",
       completed: () => get("_questPartyFair") !== "unstarted",
       do: $location`The Neverending Party`,
-      choices: {1322: 2},
+      choices: { 1322: 2 },
       outfit: () => ({
-        ...baseOutfit(),
+        ...baseOutfit(true, true),
         shirt: $item`Jurassic Parka`,
         offhand: $item`Kramco Sausage-o-Matic™`,
       }),
       combat: new CombatStrategy().macro(Macro.default()),
     },
     {
-        name: "Ghost",
-        completed: () => get("questPAGhost") === "unstarted",
-        ready: () =>
-          have($item`protonic accelerator pack`) &&
-          get("questPAGhost") !== "unstarted" &&
-          !!get("ghostLocation") &&
-          !have($effect`Meteor Showered`),
-        do: () => get("ghostLocation") ?? abort("Failed to identify ghost location"),
-        combat: new CombatStrategy().macro(
-          Macro.trySkill($skill`micrometeorite`)
-            .trySkill($skill`Shoot Ghost`)
-            .trySkill($skill`Shoot Ghost`)
-            .trySkill($skill`Shoot Ghost`)
-            .trySkill($skill`Trap Ghost`)
-        ),
-        outfit: () => ({
-          ...baseOutfit,
-          shirt: $item`Jurassic Parka`,
-          back: $item`protonic accelerator pack`,
-          avoid: $items`Daylight Shavings Helmet`
-        }),
+      name: "Ghost",
+      completed: () => get("questPAGhost") === "unstarted",
+      ready: () =>
+        have($item`protonic accelerator pack`) &&
+        get("questPAGhost") !== "unstarted" &&
+        !!get("ghostLocation") &&
+        !have($effect`Meteor Showered`),
+      do: () => get("ghostLocation") ?? abort("Failed to identify ghost location"),
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`micrometeorite`)
+          .trySkill($skill`Shoot Ghost`)
+          .trySkill($skill`Shoot Ghost`)
+          .trySkill($skill`Shoot Ghost`)
+          .trySkill($skill`Trap Ghost`)
+      ),
+      outfit: () => ({
+        ...baseOutfit(true, true, $monster`ice woman`),
+        shirt: $item`Jurassic Parka`,
+        back: $item`protonic accelerator pack`,
+        avoid: $items`Daylight Shavings Helmet`,
+      }),
     },
     {
       name: "Red Skeleton, Tropical Skeleton, Two For One",
@@ -222,7 +229,7 @@ export const earlyLevelingQuest: Quest = {
         args.redskeleton,
       do: () => CombatLoversLocket.reminisce($monster`red skeleton`),
       combat: new CombatStrategy().macro(
-          Macro.trySkill($skill`Spring Away`)
+        Macro.trySkill($skill`Spring Away`)
           .trySkill($skill`Snokebomb`)
           .trySkill($skill`Reflex Hammer`)
           .trySkill($skill`Chest X-Ray`)
@@ -231,11 +238,11 @@ export const earlyLevelingQuest: Quest = {
           .default()
       ),
       outfit: () => ({
-        ...baseOutfit(false),
+        ...baseOutfit(false, true, $monster`red skeleton`),
         shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
         acc3: have($item`Spring Shoes`) ? $item`Spring Shoes` : undefined,
         modifier: `${baseOutfit().modifier}`,
-        avoid: $items`Daylight Shavings Helmet`
+        avoid: $items`Daylight Shavings Helmet`,
       }),
       limit: { tries: 1 },
     },
@@ -261,11 +268,11 @@ export const earlyLevelingQuest: Quest = {
           .abort()
       ),
       outfit: () => ({
-        ...baseOutfit(false),
+        ...baseOutfit(false, true, $monster`novelty tropical skeleton`),
         shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
         modifier: `${baseOutfit().modifier}`,
-        avoid: $items`Daylight Shavings Helmet`
+        avoid: $items`Daylight Shavings Helmet`,
       }),
       post: (): void => {
         if (have($item`space blanket`)) autosell($item`space blanket`, 1);
@@ -311,45 +318,7 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 2 },
     },
     {
-      name: "Bakery Pledge",
-      after: ["ReConfigure Trainset"],
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-        docBag();
-        restoreMp(50);
-      },
-      ready: () => !get("snojoAvailable", false),
-      completed: () =>
-        have($effect`Citizen of a Zone`) ||
-        !have($familiar`Patriotic Eagle`) ||
-        get("_citizenZone").includes("Madness"),
-      do: $location`Madness Bakery`,
-      combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`)
-          .trySkill($skill`Snokebomb`)
-          .trySkill($skill`Reflex Hammer`)
-          .trySkill($skill`Chest X-Ray`)
-          .trySkill($skill`Gingerbread Mob Hit`)
-          .trySkill($skill`Shattering Punch`)
-          .default()
-      ),
-      outfit: () => ({
-        ...baseOutfit,
-        shirt: $item`Jurassic Parka`,
-        familiar: $familiar`Patriotic Eagle`,
-        acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
-        avoid: $items`toy Cupid bow, Daylight Shavings Helmet`
-      }),
-      post: (): void => {
-        sellMiscellaneousItems();
-        boomBoxProfit();
-      },
-      limit: { tries: 2 },
-    },
-        {
       name: "Kramco",
-      after: ["Bakery Pledge"],
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
@@ -358,53 +327,54 @@ export const earlyLevelingQuest: Quest = {
       completed: () => getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`),
       do: $location`Noob Cave`,
       outfit: () => ({
-        ...baseOutfit(),
+        ...baseOutfit(true, true, $monster`sausage goblin`),
         shirt: $item`Jurassic Parka`,
         offhand: $item`Kramco Sausage-o-Matic™`,
-        modes: {parka: "spikolodon"},
-        avoid: $items`Daylight Shavings Helmet`
+        modes: { parka: "spikolodon" },
+        avoid: $items`Daylight Shavings Helmet`,
       }),
-      combat: new CombatStrategy().macro(Macro.trySkill($skill`Launch Spikolodon Spikes`).default()),
+      combat: new CombatStrategy().macro(
+        Macro.externalIf(wardrobeG, Macro.trySkill($skill`Launch Spikolodon Spikes`).default(), Macro.default())
+      ),
     },
-        {
-          name: "Sept-ember Mouthwash",
-          ready: () => args.asdon,
-          prepare: () => {
-            const effects: Effect[] = [
-              $effect`Elemental Saucesphere`,
-              $effect`Scarysauce`,
-              $effect`Feel Peaceful`,
-              $effect`Astral Shell`,
-            ]
-            effects.forEach((ef) => tryAcquiringEffect(ef));
-          },
-          completed: () =>
-            !have($item`Sept-Ember Censer`) || have($item`bembershoot`) || args.saveembers,
-          do: (): void => {
-            // Grab Embers
-            visitUrl("shop.php?whichshop=september");
-    
-            // Grab Bembershoots
-            visitUrl(`shop.php?whichshop=september&action=buyitem&quantity=1&whichrow=1516&pwd`);
-    
-            // Grab Mouthwashes
-            visitUrl("shop.php?whichshop=september&action=buyitem&quantity=3&whichrow=1512&pwd");
-    
-            // Re-maximize cold res after getting bembershoots
-            cliExecute("maximize cold res");
-    
-            // eslint-disable-next-line libram/verify-constants
-            use($item`Mmm-brr! brand mouthwash`, 3);
-          },
-          limit: { tries: 1 },
-          outfit: {
-            modifier: `10 cold res, 1 ${primeStat} experience percent`,
-            familiar: $familiar`Exotic Parrot`,
-          },
-        },
+    {
+      name: "Sept-ember Mouthwash",
+      ready: () => args.asdon,
+      prepare: () => {
+        const effects: Effect[] = [
+          $effect`Elemental Saucesphere`,
+          $effect`Scarysauce`,
+          $effect`Feel Peaceful`,
+          $effect`Astral Shell`,
+        ];
+        effects.forEach((ef) => tryAcquiringEffect(ef));
+      },
+      completed: () =>
+        !have($item`Sept-Ember Censer`) || have($item`bembershoot`) || args.saveembers,
+      do: (): void => {
+        // Grab Embers
+        visitUrl("shop.php?whichshop=september");
+
+        // Grab Bembershoots
+        visitUrl(`shop.php?whichshop=september&action=buyitem&quantity=1&whichrow=1516&pwd`);
+
+        // Grab Mouthwashes
+        visitUrl("shop.php?whichshop=september&action=buyitem&quantity=3&whichrow=1512&pwd");
+
+        // Re-maximize cold res after getting bembershoots
+        cliExecute("maximize cold res");
+
+        // eslint-disable-next-line libram/verify-constants
+        use($item`Mmm-brr! brand mouthwash`, 3);
+      },
+      limit: { tries: 1 },
+      outfit: {
+        modifier: `10 cold res, 1 ${primeStat} experience percent`,
+        familiar: $familiar`Exotic Parrot`,
+      },
+    },
     {
       name: "Bastille",
-      after: ["Bakery Pledge"],
       ready: () => myLevel() < 5,
       prepare: (): void => {
         cliExecute(`maximize ${myPrimestat()} experience percent`);
@@ -420,7 +390,6 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Whetstone",
-      after: ["Bakery Pledge"],
       completed: () => !have($item`whet stone`),
       do: (): void => {
         use($item`whet stone`);
@@ -429,7 +398,6 @@ export const earlyLevelingQuest: Quest = {
     },
     {
       name: "Pull Pizza of Legend",
-      after: ["Bakery Pledge"],
       completed: () =>
         have($item`Pizza of Legend`) ||
         have($effect`Endless Drool`) ||

@@ -7,6 +7,7 @@ import {
   Effect,
   equip,
   haveEffect,
+  haveEquipped,
   Item,
   itemAmount,
   myClass,
@@ -31,15 +32,12 @@ import {
   CommunityService,
   get,
   have,
+  unequip,
 } from "libram";
 import { Quest } from "../engine/task";
 import { checkValue, logTestSetup, shrugAT, tryAcquiringEffect } from "../lib";
 import Macro from "../combat";
-import {
-  chooseFamiliar,
-  chooseHeaviestFamiliar,
-  sugarItemsAboutToBreak,
-} from "../engine/outfit";
+import { chooseFamiliar, chooseHeaviestFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { args } from "../args";
 
 export const FamiliarWeightQuest: Quest = {
@@ -115,11 +113,22 @@ export const FamiliarWeightQuest: Quest = {
       outfit: () => ({
         weapon: $item`Fourth of May Cosplay Saber`,
         familiar: chooseFamiliar(false),
-        avoid: [
-          ...sugarItemsAboutToBreak(),
-        ],
+        avoid: [...sugarItemsAboutToBreak()],
       }),
       choices: { 1387: 3 },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Better Empathy",
+      completed: () =>
+        have($effect`Thoughtful Empathy`),
+      do: () => {
+        unequip($item`April Shower Thoughts shield`);
+        useSkill($skill`Empathy`);
+        equip($item`April Shower Thoughts shield`);
+        useSkill($skill`Empathy`);
+        unequip($item`April Shower Thoughts shield`);
+      },
       limit: { tries: 1 },
     },
     {
@@ -152,7 +161,7 @@ export const FamiliarWeightQuest: Quest = {
           have($skill`Summon Clip Art`) &&
           $familiars`Comma Chameleon, Homemade Robot`.every((fam) => have(fam))
         ) {
-          if(!have($item`homemade robot gear`)) {
+          if (!have($item`homemade robot gear`)) {
             if (!have($item`box of Familiar Jacks`)) create($item`box of Familiar Jacks`, 1);
             useFamiliar($familiar`Homemade Robot`);
             use($item`box of Familiar Jacks`, 1);
@@ -181,10 +190,13 @@ export const FamiliarWeightQuest: Quest = {
 
         cliExecute("maximize familiar weight");
 
-        const teaPartyHats = Item.all().filter((i) => have(i) && toSlot(i) === $slot`hat` && i.name.length === 25);
+        const teaPartyHats = Item.all().filter(
+          (i) => have(i) && toSlot(i) === $slot`hat` && i.name.length === 25
+        );
 
         if (!get("_madTeaParty")) {
-          if (!have($item`sombrero-mounted sparkler`) && teaPartyHats.length === 0) buy($item`sombrero-mounted sparkler`);
+          if (!have($item`sombrero-mounted sparkler`) && teaPartyHats.length === 0)
+            buy($item`sombrero-mounted sparkler`);
           tryAcquiringEffect($effect`You Can Really Taste the Dormouse`);
         }
       },

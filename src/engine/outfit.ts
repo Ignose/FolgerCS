@@ -5,16 +5,13 @@ import {
   equippedItem,
   Familiar,
   Item,
-  monsterLevelAdjustment,
-  myBuffedstat,
+  Monster,
   myMaxmp,
   myMp,
   myPrimestat,
   numericModifier,
   print,
-  Stat,
   toInt,
-  toString,
   totalTurnsPlayed,
 } from "kolmafia";
 import {
@@ -25,12 +22,12 @@ import {
   $monster,
   $skill,
   $slot,
-  DaylightShavings,
   examine,
   get,
-  getModifier,
+  getScalingRate,
   have,
   maxBy,
+  ToyCupidBow,
 } from "libram";
 import { camelFightsLeft, statToMaximizerString } from "../lib";
 import { args } from "../args";
@@ -122,42 +119,53 @@ function optimisticCandle(): Familiar {
 }
 
 function melodramedary(): Familiar {
-  if (have($effect`Spit Upon`)) return $familiar.none;
-  return (have($familiar`Melodramedary`) &&
-    camelFightsLeft() >= Math.ceil((100 - get("camelSpit")) / 3.0) &&
-    get("camelSpit") < 100) ||
-    (have($familiar`Melodramedary`) &&
-      camelFightsLeft() >= Math.ceil((100 - get("camelSpit")) / 4.0) &&
-      get("camelSpit") < 100 &&
-      have($item`dromedary drinking helmet`))
-    ? $familiar`Melodramedary`
-    : $familiar.none;
+  return !have($effect`Spit Upon`) && have($familiar`Melodramedary`) ? $familiar`Melodramedary` : $familiar.none;
 }
 
 function homemade(): Familiar {
-  if (have($familiar`Homemade Robot`) && have($familiar`Comma Chameleon`) && have($item`toy Cupid bow`) && !have($item`homemade robot gear`) && camelFightsLeft() >= 5)
-    return $familiar`Homemade Robot`
-  return $familiar.none
+  if (
+    have($familiar`Homemade Robot`) &&
+    have($familiar`Comma Chameleon`) &&
+    have($item`toy Cupid bow`) &&
+    !have($item`homemade robot gear`) &&
+    camelFightsLeft() >= 5
+  )
+    return $familiar`Homemade Robot`;
+  return $familiar.none;
 }
 
 function weightCamel(): Familiar {
-  if (have($item`Sept-Ember Censer`) && have($familiar`Melodramedary`) && get("availableSeptEmbers") >= 2 && !get("_entauntaunedToday"))
-    return $familiar`Melodramedary`
-  return $familiar.none
+  if (
+    have($item`Sept-Ember Censer`) &&
+    have($familiar`Melodramedary`) &&
+    get("availableSeptEmbers") >= 2 &&
+    !get("_entauntaunedToday")
+  ) {
+    return $familiar`Melodramedary`;
+  }
+  return $familiar.none;
 }
 
 function cornbeefadon(): Familiar {
-  if (have($item`toy Cupid bow`) && !have($item`amulet coin`) && camelFightsLeft() >= 5 && have($familiar`Cornbeefadon`))
-    return $familiar`Cornbeefadon`
-  return $familiar.none
+  if (
+    have($item`toy Cupid bow`) &&
+    !have($item`amulet coin`) &&
+    camelFightsLeft() >= 5 &&
+    have($familiar`Cornbeefadon`)
+  )
+    return $familiar`Cornbeefadon`;
+  return $familiar.none;
 }
-
-
-
 
 export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
   const ignoredFamiliars = args.explicitlyexcludedfams.split(",").map((i) => toInt(i));
   const defaultFam = have($familiar`Cookbookbat`) ? $familiar`Cookbookbat` : $familiar.none;
+  const tcbFamiliar = ToyCupidBow.currentFamiliar();
+  if(tcbFamiliar !== null) {
+    if(ToyCupidBow.turnsLeft() <5) {
+      return tcbFamiliar;
+    }
+  }
   const familiars = [
     melodramedary,
     shorterOrderCook,
@@ -166,12 +174,13 @@ export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
     optimisticCandle,
     rockinRobin,
     homemade,
-    cornbeefadon,
     weightCamel,
     sombrero,
   ]
     .map((fn) => fn(allowAttackingFamiliars))
     .filter((fam) => have(fam) && !ignoredFamiliars.includes(toInt(fam)));
+
+  print (`Familiar order: ${familiars}`);  
   return familiars.length > 0 ? familiars[0] : defaultFam;
 }
 
@@ -193,72 +202,26 @@ function useCandyCaneSword(): boolean {
     get("_surprisinglySweetSlashUsed", 0) < 11 &&
     get("_surprisinglySweetStabUsed", 0) < 11
   ) {
-    print(`Candy Cane at ${numericModifier(candySword, "Weapon Damage")} weapon damage`);
     return true;
   }
   return false;
 }
 
-// Function to calculate the base ML using scaler and buffed mainstat, capped by a value
-function calculateBaseML(mainstat: Stat, cap: number): number {
-    const scaler = monsterLevelAdjustment()/3 + ($monster`burnout`.baseAttack / 4);
-    const buffedStat = myBuffedstat(mainstat);
-    const baseML = scaler * buffedStat;
-    return Math.min(baseML, cap)/2; // Cap the base ML
-}
-
-function round(value: number, significantFigures: number): number {
-  const exponent = Math.floor(Math.log10(value))
-  const nIntegers = exponent + 1
-  const precision = 10 ** (nIntegers - significantFigures)
-  return Math.round(value / precision) * precision
-}
-
-// Function to calculate the relative weight of each modifier
-function calculateRelativeWeights(): { mainstatWeight: number, mlWeight: number, expWeight: number, experiencePercentWeight: number } {
-  const mainstat = myPrimestat();
-  const cap = 20_000;
-  const muscleExperience = getModifier("Muscle Experience");
-    const baseML = calculateBaseML(mainstat, cap);
-    
-    // Calculate the contribution of each modifier
-    // Calculate how much each component affects the stat gains
-    
-    const statGain = (1 / 4) * baseML;
-    const perML = statGain / 3;
-    const experienceGain = getModifier(`${mainstat.toString()} Experience Percent`) / 100;
-    
-    const totalGain = statGain + perML + experienceGain + muscleExperience;
-    
-    // Weighting factors based on how much each component contributes
-    const mainstatWeight = round(statGain / totalGain,2);
-    const mlWeight = round(perML / totalGain,2);
-    const expWeight = round(muscleExperience / totalGain,2);
-    const experiencePercentWeight = round(totalGain/100,2);
-    
-    return { mainstatWeight, mlWeight, expWeight, experiencePercentWeight };
-}
-
-export function buildMaximizerString(): string {
-    const mainstat = myPrimestat();
-    // Get the relative weights dynamically
-    const { mainstatWeight, mlWeight, expWeight, experiencePercentWeight } = calculateRelativeWeights();
-    
-    // Build the maximizer string
-    const mainstatString = statToMaximizerString(mainstat);
-    
-    const maximizerString = `${mainstatWeight} ${mainstatString}, 
-        ${mlWeight} ML, 
-        ${expWeight} ${mainstatString} exp, 
-        ${experiencePercentWeight} ${mainstatString} experience percent,
-    `;
-    
-    return maximizerString;
-}
-
-
-function baseOutfitFirstPass(allowAttackingFamiliars = true): OutfitSpec {
+function baseOutfitFirstPass(
+  allowAttackingFamiliars = true,
+  avoidGarbageShirt = false,
+  medianMonster?: Monster
+): OutfitSpec {
   parka();
+  const mainstat = myPrimestat();
+  const mainstatString = statToMaximizerString(mainstat);
+
+  const monster = medianMonster ? medianMonster : $monster`flaming leaflet`
+  const monsterScaling = getScalingRate(monster);
+
+  const stringPrequel = monsterScaling > 0 ?
+    `10 ${mainstatString}, 2 ML, 1 ${mainstatString} exp, 25 ${mainstatString} experience percent,`
+    : `2 ML, 3 ${mainstatString} exp, 25 ${mainstatString} experience percent,`;
 
   return {
     weapon: useCandyCaneSword()
@@ -266,9 +229,11 @@ function baseOutfitFirstPass(allowAttackingFamiliars = true): OutfitSpec {
       : have($item`June cleaver`)
       ? $item`June cleaver`
       : undefined,
-    back: get("questPAGhost") === "unstarted" && get("nextParanormalActivity") <= totalTurnsPlayed()
-      ? $item`protonic accelerator pack` : undefined,
-    shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
+    back:
+      get("questPAGhost") === "unstarted" && get("nextParanormalActivity") <= totalTurnsPlayed()
+        ? $item`protonic accelerator pack`
+        : undefined,
+    shirt: garbageShirt() && !avoidGarbageShirt ? $item`makeshift garbage shirt` : undefined,
     offhand:
       myMaxmp() > 200 && myMp() < 75 && restoreMPEfficiently() === "Gulp"
         ? $item`latte lovers member's mug`
@@ -279,27 +244,22 @@ function baseOutfitFirstPass(allowAttackingFamiliars = true): OutfitSpec {
       100 - get("_cinchUsed", 0) > args.savecinch
         ? $item`Cincho de Mayo`
         : undefined,
-    familiar:
-      have($familiar`Melodramedary`) && get("camelSpit") < 100 && !have($effect`spit upon`)
-        ? $familiar`Melodramedary`
-        : chooseFamiliar(allowAttackingFamiliars),
-    famequip:
-      have($item`dromedary drinking helmet`) && chooseFamiliar() === $familiar`Melodramedary` && !have($effect`spit upon`)
-        ? $item`dromedary drinking helmet`
-        : have($item`tiny rake`) &&
-          chooseFamiliar() === $familiar`Melodramedary` &&
+    familiar: chooseFamiliar(allowAttackingFamiliars),
+    famequip: have($item`tiny rake`) &&
           get("_leafMonstersFought", 0) < 5
         ? $item`tiny rake`
         : undefined,
-    modifier: `${buildMaximizerString()} 0.001 familiar experience, -equip tinsel tights, -equip wad of used tape`,
-    avoid: [
-      ...sugarItemsAboutToBreak(),
-    ],
+    modifier: `${stringPrequel} 0.001 familiar experience, -equip tinsel tights, -equip wad of used tape`,
+    avoid: [...sugarItemsAboutToBreak()],
   };
 }
 
-export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
-  const outfit = baseOutfitFirstPass(allowAttackingFamiliars);
+export function baseOutfit(
+  allowAttackingFamiliars = true,
+  avoidGarbageShirt = false,
+  medianMonster?: Monster
+): OutfitSpec {
+  const outfit = baseOutfitFirstPass(allowAttackingFamiliars, avoidGarbageShirt, medianMonster);
 
   if (outfit.familiar === $familiar`Melodramedary`) {
     if (have($item`dromedary drinking helmet`)) {
@@ -312,17 +272,21 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
   }
 
   if (outfit.familiar === $familiar`Shorter-Order Cook`) {
-    if(have($item`blue plate`)) {
-      outfit.famequip = $item`blue plate`
+    if (have($item`blue plate`)) {
+      outfit.famequip = $item`blue plate`;
     } else {
       outfit.famequip = $item`toy Cupid bow`;
     }
   }
 
-  if (outfit.familiar === $familiar`Homemade Robot` || outfit.familiar === $familiar`mu` || outfit.familiar === $familiar`Cornbeefadon`) {
+  if (
+    outfit.familiar === $familiar`Homemade Robot` ||
+    outfit.familiar === $familiar`mu` ||
+    outfit.familiar === $familiar`Cornbeefadon`
+  ) {
     outfit.famequip = $item`toy Cupid bow`;
   }
 
-  print(`Modifier: ${outfit.modifier}`)
-    return outfit
+  if (have($effect`Spit Upon`) && outfit.familiar === $familiar`Melodramedary`) throw("Using camel when we should not, please check what happened.")
+  return outfit;
 }

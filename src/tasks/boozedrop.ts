@@ -36,6 +36,7 @@ import {
   getKramcoWandererChance,
   have,
   uneffect,
+  unequip,
   withChoice,
 } from "libram";
 import {
@@ -55,9 +56,11 @@ import { args } from "../args";
 import { chooseFamiliar } from "../engine/outfit";
 
 function wishOrSpleen(): boolean {
+  const actual = CommunityService.BoozeDrop.actualCost();
+  const benefit = actual > 10 ? Math.min(actual - 10, 4) : 0;
   const boombox = have($item`SongBoom™ BoomBox`) ? 25 : 0;
   const spleen = Math.max(3 * (250 + boombox) * 30, get("valueOfAdventure") * 2.5);
-  const wish = get("prAlways") ? (500 + boombox) * 2 * 30 : 275 * 2 * 30;
+  const wish = get("prAlways") ? (500 + boombox) * 2 * 30 : 275 * 2 * 30 - (benefit * get("valueOfAdventure"));
   return wish > spleen;
 }
 
@@ -226,6 +229,14 @@ export const BoozeDropQuest: Quest = {
       name: "Feeling Lost",
       completed: () => have($effect`Feeling Lost`) || !have($skill`Feel Lost`),
       do: () => useSkill($skill`Feel Lost`),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Contemplate Sauce",
+      prepare: () => equip($item`April Shower Thoughts shield`),
+      completed: () => have($effect`Lubricating Sauce`),
+      do: () => useSkill($skill`Sauce Contemplation`),
+      post: () => unequip($item`April Shower Thoughts shield`),
       limit: { tries: 1 },
     },
     {

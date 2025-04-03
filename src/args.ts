@@ -302,6 +302,6 @@ export const args = Args.create(
     test: Args.flag({
       help: `Test new features`,
       default: false,
-    })
+    }),
   }
 );
