@@ -64,6 +64,10 @@ function wishOrSpleen(): boolean {
   return wish > spleen;
 }
 
+function haveFreeRun(): boolean {
+  return (!have($effect`Everything Looks Green`) && !have($familiar`Pair of Stomping Boots`))
+}
+
 export const BoozeDropQuest: Quest = {
   name: "Booze Drop",
   completed: () => CommunityService.BoozeDrop.isDone(),
@@ -128,11 +132,12 @@ export const BoozeDropQuest: Quest = {
       name: "Item Buff",
       completed: () =>
         !have($item`cosmic bowling ball`) ||
-        !haveFreeBanish() ||
+        (!haveFreeBanish() && !haveFreeRun()) ||
         have($effect`Cosmic Ball in the Air`) ||
         have($effect`Bat-Adjacent Form`),
-      do: $location`The Dire Warren`,
-      combat: new CombatStrategy().macro(Macro.itemDrop().abort()),
+      do: $location`The Neverending Party`,
+      combat: new CombatStrategy().macro(Macro.trySkill($skill`Bowl Straight Up`)
+          .trySkill($skill`Become a Bat`).trySkill($skill`Spring Away`).runaway()),
       outfit: {
         back: $item`vampyric cloake`,
         offhand:
@@ -141,8 +146,10 @@ export const BoozeDropQuest: Quest = {
             : $item`latte lovers member's mug`,
         acc1: $item`Kremlin's Greatest Briefcase`,
         acc2: $item`Lil' Doctor™ bag`,
-        familiar: chooseFamiliar(false),
+        acc3: $item`spring shoes`,
+        familiar: $familiar`Pair of Stomping Boots`,
       },
+      post: () => useFamiliar($familiar`Left-Hand Man`),
       limit: { tries: 1 },
     },
     {
@@ -325,7 +332,7 @@ export const BoozeDropQuest: Quest = {
       },
       outfit: {
         modifier:
-          "1 Item Drop, 2 Booze Drop, -equip broken champagne bottle, switch disembodied hand, -switch left-hand man",
+          "1 Item Drop, 2 Booze Drop, -equip broken champagne bottle, switch disembodied hand, switch left-hand man",
       },
       limit: { tries: 1 },
     },

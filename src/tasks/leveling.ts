@@ -322,7 +322,8 @@ export const LevelingQuest: Quest = {
   completed: () =>
     get("csServicesPerformed").split(",").length > 1 ||
     (have($effect`spit upon`) && have($item`short stack of pancakes`) && myBasestat(myPrimestat()) >= 200) ||
-    (get("_feelPrideUsed", 3) >= 3 && camelFightsLeft() === 0 && !haveFreeKill()),
+    (get("_feelPrideUsed", 3) >= 3 && camelFightsLeft() === 0 && !haveFreeKill()) ||
+    (myLevel() >= 20 && get("_wardrobeUsed", false)),
   tasks: [
     {
       name: "LED Candle",

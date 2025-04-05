@@ -41,6 +41,7 @@ import {
   CommunityService,
   get,
   have,
+  unequip,
   Witchess,
 } from "libram";
 import { Quest } from "../engine/task";
@@ -68,6 +69,7 @@ export const SpellDamageQuest: Quest = {
       prepare: () => equip($item`April Shower Thoughts shield`),
       completed: () => have($effect`Simmering`) || !have($skill`Simmer`),
       do: () => useSkill($skill`Simmer`),
+      post: () => unequip($item`April Shower Thoughts shield`),
       limit: { tries: 1 },
     },
     {

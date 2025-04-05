@@ -724,7 +724,7 @@ export function logTestSetup(whichTest: CommunityService): void {
     }).`,
     "blue"
   );
-  set(`_CSTest${whichTest.id}`, testTurns + (have($effect`Simmering`) ? 1 : 0));
+  set(`_CSTest${whichTest.id}`, testTurns + (have($effect`Simmering`) && !have($item`April Shower Thoughts shield`) ? 1 : 0));
 }
 
 export function tryAcquiringEffect(ef: Effect, tryRegardless = false): void {
