@@ -1698,7 +1698,8 @@ export const LevelingQuest: Quest = {
       },
       completed: () =>
         get("_speakeasyFreeFights", 0) >= 1 ||
-        !get("ownsSpeakeasy"),
+        !get("ownsSpeakeasy") ||
+        have($item`imported taffy`),
       do: () => $location`An Unusually Quiet Barroom Brawl`,
       choices: peridotChoice($monster`goblin flapper`),
       combat: new CombatStrategy().macro(
