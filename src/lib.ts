@@ -21,6 +21,7 @@ import {
   mallPrice,
   maximize,
   monkeyPaw,
+  Monster,
   mpCost,
   myBasestat,
   myBuffedstat,
@@ -1458,34 +1459,69 @@ export function checkPurqoise(meat: number): boolean {
   return true;
 }
 
-function parseWardrobeOutput(output: string): [string, number][] {
-  const lines = output.split("\n");
-  const result: [string, number][] = [];
+type WardrobeLog = {
+  date: string;
+  entries: {
+    item: string;
+    modifier: string;
+    roll: string;
+  }[];
+};
 
-  const regex = /(.+?)\s+(\d+(?:-\d+)?)/; // Match "Modifier" and "Number" (handles ranges)
+export function parseWardrobeLog(raw: string): WardrobeLog[] {
+  const logs: WardrobeLog[] = [];
+  const chunks = raw.split(/(?=\d{4}-\d{2}-\d{2} \d{2}:\d{2})/);
 
-  for (const line of lines) {
-    const match = line.trim().match(regex);
-    if (match) {
-      const modifier = match[1].trim();
-      const number = match[2].includes("-")
-        ? parseInt(match[2].split("-")[0]) // Take the lower bound if range
-        : parseInt(match[2]);
-      result.push([modifier, number]);
+  for (const chunk of chunks) {
+    const dateMatch = chunk.match(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}/);
+    if (!dateMatch) continue;
+
+    const date = dateMatch[0];
+    const entries: WardrobeLog["entries"] = [];
+
+    // Match each table row: <tr>...</tr>
+    const rows = [...chunk.matchAll(/<tr>(.*?)<\/tr>/gs)];
+
+    let currentItem = "";
+    for (const [, rowHtml] of rows) {
+      const cols = [...rowHtml.matchAll(/<td.*?>(.*?)<\/td>/gs)].map(([, val]) =>
+        val.replace(/&nbsp;/g, " ").trim()
+      );
+
+      if (cols.length === 3) {
+        currentItem = cols[0];
+        entries.push({ item: currentItem, modifier: cols[1], roll: cols[2] });
+      } else if (cols.length === 2) {
+        entries.push({ item: currentItem, modifier: cols[0], roll: cols[1] });
+      }
     }
+
+    logs.push({ date, entries });
   }
 
-  return result;
+  return logs;
 }
 
 function meetsCriteria(output: string): boolean {
-  const parsedData = parseWardrobeOutput(output);
+  const parsedData = parseWardrobeLog(output);
+  print("Parsed Data:", JSON.stringify(parsedData, null, 2));
 
-  return parsedData.some(
-    ([modifier, value]) =>
-      (modifier.includes("Familiar Experience") && value >= 4) ||
-      (modifier.includes("Meat Gain") && value > 40)
-  );
+  for (const log of parsedData) {
+    for (const entry of log.entries) {
+      const { modifier, roll } = entry;
+
+      // Parse roll — handle ranges like "11-26" and plain numbers like "45"
+      const rangeMatch = roll.match(/^(\d+)-(\d+)$/);
+      const numericValue = rangeMatch
+        ? parseInt(rangeMatch[2]) // upper end of range
+        : parseInt(roll);
+
+      if (modifier.includes("Familiar Experience") && numericValue >= 4) return true;
+      if (modifier.includes("Meat Drop") && numericValue > 50) return true;
+    }
+  }
+
+  return false;
 }
 
 export function wardrobeGood(): boolean {
@@ -1498,3 +1534,5 @@ export function wardrobeGood(): boolean {
 }
 
 export const wardrobeG = wardrobeGood();
+
+export const peridotChoice = (monster: Monster) => ({ 1557: `1&bandersnatch=${monster.id}` });

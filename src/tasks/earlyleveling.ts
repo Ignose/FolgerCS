@@ -9,13 +9,11 @@ import {
   equip,
   getMonsters,
   getWorkshed,
-  haveEquipped,
   itemDrops,
   Location,
   mallPrice,
   myAdventures,
   myClass,
-  myFamiliar,
   myLevel,
   myMaxhp,
   myMeat,
@@ -23,10 +21,12 @@ import {
   print,
   restoreHp,
   restoreMp,
+  runChoice,
   storageAmount,
   takeStorage,
   toInt,
   toItem,
+  toUrl,
   use,
   visitUrl,
 } from "kolmafia";
@@ -39,7 +39,6 @@ import {
   $location,
   $monster,
   $skill,
-  $slot,
   AutumnAton,
   clamp,
   CombatLoversLocket,
@@ -51,14 +50,14 @@ import {
   TrainSet,
 } from "libram";
 import { CombatStrategy } from "grimoire-kolmafia";
-import { baseOutfit, docBag, unbreakableUmbrella } from "../engine/outfit";
+import { baseOutfit, unbreakableUmbrella } from "../engine/outfit";
 import { Cycle, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
 import Macro from "../combat";
-import { mapMonster } from "libram/dist/resources/2020/Cartography";
 import { chooseRift } from "libram/dist/resources/2023/ClosedCircuitPayphone";
 import {
   boomBoxProfit,
   checkPurqoise,
+  peridotChoice,
   sellMiscellaneousItems,
   statToMaximizerString,
   tryAcquiringEffect,
@@ -247,7 +246,7 @@ export const earlyLevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Map Novelty Tropical Skeleton",
+      name: "Peridot Novelty Tropical Skeleton",
       after: ["Red Skeleton, Tropical Skeleton, Two For One"],
       prepare: (): void => {
         if (useParkaSpit) {
@@ -258,9 +257,9 @@ export const earlyLevelingQuest: Quest = {
         }
         unbreakableUmbrella();
       },
-      completed: () =>
-        !have($skill`Map the Monsters`) || get("_monstersMapped") >= 3 || have($item`cherry`),
-      do: () => mapMonster($location`The Skeleton Store`, $monster`novelty tropical skeleton`),
+      completed: () => have($item`cherry`),
+      do: () => $location`The Skeleton Store`,
+      choices: peridotChoice($monster`novelty tropical skeleton`),
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Feel Nostalgic`)
           .tryItem($item`red rocket`)
@@ -271,6 +270,7 @@ export const earlyLevelingQuest: Quest = {
         ...baseOutfit(false, true, $monster`novelty tropical skeleton`),
         shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
         acc2: have($item`Lil' Doctor™ bag`) ? $item`Lil' Doctor™ bag` : undefined,
+        acc3: $item`peridot of peril`,
         modifier: `${baseOutfit().modifier}`,
         avoid: $items`Daylight Shavings Helmet`,
       }),

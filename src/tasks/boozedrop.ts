@@ -35,6 +35,7 @@ import {
   get,
   getKramcoWandererChance,
   have,
+  MayamCalendar,
   uneffect,
   unequip,
   withChoice,
@@ -132,12 +133,10 @@ export const BoozeDropQuest: Quest = {
       name: "Item Buff",
       completed: () =>
         !have($item`cosmic bowling ball`) ||
-        (!haveFreeBanish() && !haveFreeRun()) ||
         have($effect`Cosmic Ball in the Air`) ||
         have($effect`Bat-Adjacent Form`),
       do: $location`The Neverending Party`,
-      combat: new CombatStrategy().macro(Macro.trySkill($skill`Bowl Straight Up`)
-          .trySkill($skill`Become a Bat`).trySkill($skill`Spring Away`).runaway()),
+      combat: new CombatStrategy().macro(Macro.itemDrop()),
       outfit: {
         back: $item`vampyric cloake`,
         offhand:
@@ -256,6 +255,15 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 3 },
     },
     {
+      name: "Mayam",
+      ready: () => MayamCalendar.have(),
+      completed: () => have($effect`Big Eyes`),
+      do: (): void => {
+        MayamCalendar.submit("eye meat eyepatch yam4");
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Test",
       prepare: (): void => {
         const usefulEffects: Effect[] = [
@@ -283,19 +291,7 @@ export const BoozeDropQuest: Quest = {
           equip($slot`familiar`, $item`li'l ninja costume`);
         }
 
-        if (
-          wishOrSpleen() &&
-          checkValue("Spleen", checkTurnSave("BoozeDrop", $effect`Synthesis: Collection`)) &&
-          ((have($item`sugar shank`) && get("tomeSummons") <= 2) || get("tomeSummons") <= 1) &&
-          have($skill`Summon Sugar Sheets`)
-        ) {
-          if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
-          if (!have($item`sugar shank`)) create($item`sugar shank`);
-          if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
-          sweetSynthesis($item`sugar shank`, $item`sugar sheet`);
-        }
-
-        if (checkTurnSave("BoozeDrop", $effect`Incredibly Well Lit`) > 1)
+        if (CommunityService.BoozeDrop.actualCost() > 1)
           tryAcquiringEffect($effect`Incredibly Well Lit`);
 
         if (
@@ -312,11 +308,22 @@ export const BoozeDropQuest: Quest = {
         )
           cliExecute("cheat fortune");
 
+          if (CommunityService.BoozeDrop.actualCost() > 1) {
+            if (
+              wishOrSpleen() &&
+              checkValue("Spleen", checkTurnSave("BoozeDrop", $effect`Synthesis: Collection`)) &&
+              ((have($item`sugar shank`) && get("tomeSummons") <= 2) || get("tomeSummons") <= 1) &&
+              have($skill`Summon Sugar Sheets`)
+            ) {
+              if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
+              if (!have($item`sugar shank`)) create($item`sugar shank`);
+              if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
+              sweetSynthesis($item`sugar shank`, $item`sugar sheet`);
+            }
+          }
+
         if (checkValue($item`pocket wish`, checkTurnSave("BoozeDrop", $effect`Infernal Thirst`)))
           wishFor($effect`Infernal Thirst`);
-
-        if (CommunityService.BoozeDrop.actualCost() > 1)
-          tryAcquiringEffect($effect`Incredibly Well Lit`);
       },
       completed: () => CommunityService.BoozeDrop.isDone(),
       do: (): void => {

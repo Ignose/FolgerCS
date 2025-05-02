@@ -49,6 +49,7 @@ import {
   toItem,
   toSkill,
   toSlot,
+  toUrl,
   use,
   useFamiliar,
   useSkill,
@@ -76,6 +77,7 @@ import {
   getBanishedMonsters,
   getKramcoWandererChance,
   have,
+  Leprecondo,
   SongBoom,
   SourceTerminal,
   sum,
@@ -106,6 +108,7 @@ import {
   getValidComplexCandyPairs,
   jacks,
   mainStatMaximizerStr,
+  peridotChoice,
   reagentBalancerEffect,
   reagentBalancerIngredient,
   reagentBalancerItem,
@@ -336,6 +339,13 @@ export const LevelingQuest: Quest = {
       ready: () => have($item`protonic accelerator pack`),
       completed: () => get("_streamsCrossed"),
       do: () => cliExecute("crossstreams"),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Leprecondo",
+      ready: () => Leprecondo.have(),
+      completed: () => Leprecondo.installedFurniture().includes("sous vide laboratory"),
+      do: () => Leprecondo.setFurniture("sous vide laboratory", "couch and flatscreen", "whiskeybed", "beer pong table"),
       limit: { tries: 1 },
     },
     {
@@ -1679,7 +1689,7 @@ export const LevelingQuest: Quest = {
       },
     },
     {
-      name: "Oliver's Place (Map)",
+      name: "Oliver's Place (Peridot)",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         unbreakableUmbrella();
@@ -1688,16 +1698,15 @@ export const LevelingQuest: Quest = {
       },
       completed: () =>
         get("_speakeasyFreeFights", 0) >= 1 ||
-        !get("ownsSpeakeasy") ||
-        !have($skill`Map the Monsters`) ||
-        get("_monstersMapped") >= 3,
-      do: () => mapMonster($location`An Unusually Quiet Barroom Brawl`, $monster`goblin flapper`),
+        !get("ownsSpeakeasy"),
+      do: () => $location`An Unusually Quiet Barroom Brawl`,
+      choices: peridotChoice($monster`goblin flapper`),
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Feel Envy`)
           .trySkill($skill`Portscan`)
           .default()
       ),
-      outfit: () => ({...baseOutfit(true, false, $monster`goblin flapper`)}),
+      outfit: () => ({...baseOutfit(true, false, $monster`goblin flapper`), acc3: $item`Peridot of Peril`}),
       limit: { tries: 1 },
       post: (): void => {
         sendAutumnaton();

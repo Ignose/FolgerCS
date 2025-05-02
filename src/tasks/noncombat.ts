@@ -152,7 +152,7 @@ export const NoncombatQuest: Quest = {
           buy($item`porkpie-mounted popper`, 1);
 
         cliExecute(
-          `maximize -combat, 0.04 familiar weight ${cap} max, switch ${familiar}, switch left-hand man, switch disembodied hand, switch peace turkey -tie`
+          `maximize -raw combat rate, 0.04 familiar weight ${cap} max, switch ${familiar}, switch left-hand man, switch disembodied hand, switch peace turkey -tie`
         ); // To avoid maximizer bug, we invoke this once more
 
         if (
@@ -177,7 +177,7 @@ export const NoncombatQuest: Quest = {
       },
       outfit: {
         familiar: familiar,
-        modifier: `-combat, 0.04 familiar weight ${cap} max, switch ${familiar}, switch left-hand man, switch disembodied hand, -tie`,
+        modifier: `-raw combat rate, 0.04 familiar weight ${cap} max, switch ${familiar}, switch left-hand man, switch disembodied hand, -tie`,
       },
       post: (): void => {
         uneffect($effect`The Sonata of Sneakiness`);
