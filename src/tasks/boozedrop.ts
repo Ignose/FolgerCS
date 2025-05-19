@@ -27,6 +27,7 @@ import {
   $effect,
   $familiar,
   $item,
+  $items,
   $location,
   $skill,
   $slot,
@@ -311,7 +312,6 @@ export const BoozeDropQuest: Quest = {
           if (CommunityService.BoozeDrop.actualCost() > 1) {
             if (
               wishOrSpleen() &&
-              checkValue("Spleen", checkTurnSave("BoozeDrop", $effect`Synthesis: Collection`)) &&
               ((have($item`sugar shank`) && get("tomeSummons") <= 2) || get("tomeSummons") <= 1) &&
               have($skill`Summon Sugar Sheets`)
             ) {
@@ -338,6 +338,7 @@ export const BoozeDropQuest: Quest = {
         CommunityService.BoozeDrop.run(() => logTestSetup(CommunityService.BoozeDrop), maxTurns);
       },
       outfit: {
+        avoid: $items`surprisingly capacious handbag`,
         modifier:
           "1 Item Drop, 2 Booze Drop, -equip broken champagne bottle, switch disembodied hand, switch left-hand man",
       },

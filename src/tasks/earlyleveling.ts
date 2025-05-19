@@ -281,11 +281,11 @@ export const earlyLevelingQuest: Quest = {
         sellMiscellaneousItems();
         boomBoxProfit();
       },
-      limit: { tries: 1 },
+      limit: { tries: 2 },
     },
     {
       name: "ReConfigure Trainset",
-      after: ["Map Novelty Tropical Skeleton"],
+      after: ["Peridot Novelty Tropical Skeleton"],
       ready: () => !args.asdon,
       completed: () => get("_folgerSecondConfig", false),
       do: (): void => {

@@ -75,6 +75,7 @@ import {
   RetroCape,
   set,
   SongBoom,
+  sum,
   sumNumbers,
   Witchess,
 } from "libram";
@@ -547,6 +548,15 @@ type valuePull = {
   value: number;
 };
 
+function bjornValue(): number {
+    const weaponValue = Math.min(2, computeWeaponDamage(false) - 1);
+    const spellValue = 0.4;
+    const itemValue = Math.min(1.6, computeBoozeDrop() - 1);
+    const nonCombatValue = computeCombatFrequency(false) <= -100 ? 0 : 3;
+    const famWeight = 1;
+    return weaponValue + spellValue + itemValue + nonCombatValue +  famWeight;
+}
+
 export const jacks =
   mallPrice($item`box of Familiar Jacks`) < mallPrice($item`yule battery`)
     ? $item`box of Familiar Jacks`
@@ -567,7 +577,7 @@ export const pullValue: valuePull[] = [
   },
   {
     item: $item`Buddy Bjorn`,
-    value: 6.8,
+    value: bjornValue(),
   },
   {
     item: $item`meteorite necklace`,
