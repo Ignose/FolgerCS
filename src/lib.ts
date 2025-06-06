@@ -13,6 +13,7 @@ import {
   getProperty,
   haveEffect,
   haveEquipped,
+  haveSkill,
   holiday,
   Item,
   itemAmount,
@@ -518,7 +519,7 @@ const famJacksValue = () =>
   have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;
 const greatWolfs = () => Math.min(2, computeWeaponDamage(false) - 1) + 2;
 const stickKnife = () =>
-  myPrimestat() === $stat`muscle` ? Math.min(5, computeWeaponDamage(false) - 1) + 4 : 0;
+  myPrimestat() === $stat`muscle` || myClass() === $class`Pastamancer` && haveSkill($skill`Bind Undead Elbow Macaroni`) ? Math.min(5, computeWeaponDamage(false) - 1) + 4 : 0;
 const staff = () => (have($skill`Spirit of Rigatoni`) ? 4 : 0);
 const tobikoSoda = () => (have($skill`Summon Alice's Army Cards`) ? 0 : 3);
 const meteorite = () => Math.min(8, computeWeaponDamage(false) - 1) + 4;
