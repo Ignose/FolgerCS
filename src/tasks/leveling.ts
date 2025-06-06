@@ -512,7 +512,7 @@ export const LevelingQuest: Quest = {
       ready: () => args.dopullstest,
       prepare: () =>
         $items`tobiko marble soda, ${jacks.name}`.forEach((item) => acquirePulls(item)),
-      completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
+      completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls || get("_roninStoragePulls").split(",").length >= 5,
       do: (): void => {
         let i = 5 - args.savepulls - get("_roninStoragePulls").split(",").length;
         while (i < 5) {
