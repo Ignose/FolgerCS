@@ -15839,7 +15839,7 @@ var LevelingQuest = {
     name: "Pull Some Everything",
     ready: () => args.dopullstest,
     prepare: () => template_string_$items(leveling_templateObject139 || (leveling_templateObject139 = leveling_taggedTemplateLiteral(["tobiko marble soda, ", ""])), jacks.name).forEach(item => acquirePulls(item)),
-    completed: () => 5 - property_get("_roninStoragePulls").split(",").length <= args.savepulls,
+    completed: () => 5 - property_get("_roninStoragePulls").split(",").length <= args.savepulls || property_get("_roninStoragePulls").split(",").length >= 5,
     do: () => {
       var i = 5 - args.savepulls - property_get("_roninStoragePulls").split(",").length;
       while (i < 5) {
