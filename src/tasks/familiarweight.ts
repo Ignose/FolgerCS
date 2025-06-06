@@ -7,7 +7,6 @@ import {
   Effect,
   equip,
   haveEffect,
-  haveEquipped,
   Item,
   itemAmount,
   myClass,
@@ -124,9 +123,9 @@ export const FamiliarWeightQuest: Quest = {
         have($effect`Thoughtful Empathy`),
       do: () => {
         unequip($item`April Shower Thoughts shield`);
-        useSkill($skill`Empathy`);
+        useSkill($skill`Empathy of the Newt`);
         equip($item`April Shower Thoughts shield`);
-        useSkill($skill`Empathy`);
+        useSkill($skill`Empathy of the Newt`);
         unequip($item`April Shower Thoughts shield`);
       },
       limit: { tries: 1 },

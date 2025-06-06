@@ -16,14 +16,12 @@ import {
   convertMilliseconds,
   logTestCompletion,
   simpleDateDiff,
-  wardrobeGood,
 } from "./lib";
-import { $familiar, $item, $monster, $skill, $stat, get, have, set, sinceKolmafiaRevision } from "libram";
+import { $familiar, $item, $modifier, $skill, $stat, get, have, set, sinceKolmafiaRevision } from "libram";
 import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
 import { Task } from "./engine/task";
 import { HPQuest, MoxieQuest, MuscleQuest, MysticalityQuest } from "./tasks/stat";
-import { earlyLevelingQuest } from "./tasks/earlyleveling";
 import { LevelingQuest } from "./tasks/leveling";
 import { CoilWireQuest } from "./tasks/coilwire";
 import { RunStartQuest } from "./tasks/runstart";
@@ -36,6 +34,7 @@ import { DonateQuest, logResourceUsage } from "./tasks/donate";
 import { SpellDamageQuest } from "./tasks/spelldamage";
 import { checkRequirements, checkTests, simPulls } from "./sim";
 import { args } from "./args";
+import { chooseBuskEquipment } from "./beret";
 
 const timeProperty = "fullday_elapsedTime";
 
@@ -47,14 +46,14 @@ export function main(command?: string): void {
     Args.showHelp(args);
     return;
   }
-  if (args.test) {
-    print(`Wardrobe good? ${wardrobeGood()}`);
-    return;
-  }
   if (args.sim) {
     checkRequirements();
     checkTests();
     simPulls();
+    return;
+  }
+  if (args.test) {
+    chooseBuskEquipment([[ $modifier`Spell Damage Percent`, 1 ]]);
     return;
   }
 
@@ -91,7 +90,6 @@ export function main(command?: string): void {
 
   const tasks: Task[] = getTasks([
     RunStartQuest,
-    earlyLevelingQuest,
     CoilWireQuest,
     LevelingQuest,
     swapMainStatTest ? MoxieQuest : MuscleQuest,

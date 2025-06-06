@@ -4,10 +4,7 @@ import {
   cliExecute,
   Effect,
   equip,
-  myMaxhp,
   print,
-  restoreHp,
-  restoreMp,
   runChoice,
   useSkill,
   visitUrl,
@@ -18,7 +15,6 @@ import {
   $item,
   $skill,
   $slot,
-  clamp,
   CommunityService,
   get,
   have,
@@ -29,10 +25,9 @@ import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
 import { args } from "../args";
-import { baseOutfit, unbreakableUmbrella } from "../engine/outfit";
 
-const familiar = have($familiar`peace turkey`) ? $familiar`peace turkey` : $familiar`disgeist`;
-const cap = familiar === $familiar`peace turkey` ? 50 : 75;
+const familiar = have($familiar`Peace Turkey`) ? $familiar`Peace Turkey` : $familiar`Disgeist`;
+const cap = familiar === $familiar`Peace Turkey` ? 50 : 75;
 
 export const NoncombatQuest: Quest = {
   name: "Noncombat",
@@ -81,37 +76,6 @@ export const NoncombatQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Cincho: Party Soundtrack",
-      completed: () =>
-        have($effect`Party Soundtrack`) || !have($item`Cincho de Mayo`) || get("_cinchUsed") >= 40,
-      do: (): void => {
-        equip($slot`acc3`, $item`Cincho de Mayo`);
-        useSkill($skill`Cincho: Party Soundtrack`);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "God Lobster",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        restoreMp(50);
-      },
-      completed: () =>
-        get("_godLobsterFights") >= 3 ||
-        !have($familiar`God Lobster`) ||
-        !have($item`God Lobster's Ring`),
-      do: () => visitUrl("main.php?fightgodlobster=1"),
-      combat: new CombatStrategy().macro(Macro.default(false)),
-      choices: { 1310: 1 }, // Get xp on last fight
-      outfit: () => ({
-        ...baseOutfit(),
-        famequip: $item`God Lobster's Ring`,
-        familiar: $familiar`God Lobster`,
-      }),
-      limit: { tries: 3 },
-    },
-    {
       name: "Test",
       completed: () => CommunityService.Noncombat.isDone(),
       prepare: (): void => {
@@ -134,7 +98,7 @@ export const NoncombatQuest: Quest = {
           $effect`The Sonata of Sneakiness`,
           $effect`Feeling Sneaky`,
           $effect`Ultra-Soft Steps`,
-          $effect`Hiding from Seekers`,
+          $effect`Hiding From Seekers`,
 
           // Famwt for Disgeist
           $effect`Blood Bond`,
@@ -146,7 +110,7 @@ export const NoncombatQuest: Quest = {
 
         if (
           CommunityService.Noncombat.actualCost() > 1 &&
-          !have($item`Porkpie-mounted popper`) &&
+          !have($item`porkpie-mounted popper`) &&
           !get("_fireworksShopHatBought")
         )
           buy($item`porkpie-mounted popper`, 1);

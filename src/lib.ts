@@ -19,7 +19,6 @@ import {
   Item,
   itemAmount,
   mallPrice,
-  maximize,
   monkeyPaw,
   Monster,
   mpCost,
@@ -36,7 +35,6 @@ import {
   retrieveItem,
   retrievePrice,
   Skill,
-  Slot,
   Stat,
   storageAmount,
   sweetSynthesis,
@@ -44,7 +42,6 @@ import {
   toInt,
   toItem,
   toSkill,
-  toSlot,
   toStat,
   use,
   useSkill,
@@ -57,7 +54,6 @@ import {
   $familiar,
   $item,
   $items,
-  $modifier,
   $monster,
   $skill,
   $skills,
@@ -75,7 +71,6 @@ import {
   RetroCape,
   set,
   SongBoom,
-  sum,
   sumNumbers,
   Witchess,
 } from "libram";
@@ -266,7 +261,7 @@ export function computeWeaponDamage(sim: boolean): number {
   const carol = have($familiar`Ghost of Crimbo Carols`) ? 100 : 0;
   const elf = have($familiar`Machine Elf`) ? 100 : 0;
   const billiards = have($item`Clan VIP Lounge key`) ? 50 : 0;
-  const north = have($skill`song of the north`) ? 100 : 0;
+  const north = have($skill`Song of the North`) ? 100 : 0;
   const effects = sumNumbers([
     meteor,
     claws,
@@ -548,19 +543,19 @@ type valuePull = {
   value: number;
 };
 
-function bjornValue(): number {
+/*function bjornValue(): number {
     const weaponValue = Math.min(2, computeWeaponDamage(false) - 1);
     const spellValue = 0.4;
     const itemValue = Math.min(1.6, computeBoozeDrop() - 1);
     const nonCombatValue = computeCombatFrequency(false) <= -100 ? 0 : 3;
     const famWeight = 1;
     return weaponValue + spellValue + itemValue + nonCombatValue +  famWeight;
-}
+}*/
 
 export const jacks =
-  mallPrice($item`box of Familiar Jacks`) < mallPrice($item`yule battery`)
+  mallPrice($item`box of Familiar Jacks`) < mallPrice($item`overloaded Yule battery`)
     ? $item`box of Familiar Jacks`
-    : $item`yule battery`;
+    : $item`overloaded Yule battery`;
 
 export const pullValue: valuePull[] = [
   {
@@ -577,7 +572,7 @@ export const pullValue: valuePull[] = [
   },
   {
     item: $item`Buddy Bjorn`,
-    value: bjornValue(),
+    value: 1.4,
   },
   {
     item: $item`meteorite necklace`,

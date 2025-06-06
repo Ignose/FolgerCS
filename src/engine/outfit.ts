@@ -15,7 +15,6 @@ import {
   totalTurnsPlayed,
 } from "kolmafia";
 import {
-  $effect,
   $familiar,
   $familiars,
   $item,
@@ -101,7 +100,7 @@ function garbageFire(): Familiar {
 function sombrero(allowAttackingFamiliars = true): Familiar {
   const sombreros = [
     ...(allowAttackingFamiliars
-      ? // eslint-disable-next-line libram/verify-constants
+      ?
         $familiars`Jill-of-All-Trades, Patriotic Eagle, Galloping Grill`
       : []),
     $familiar`Baby Sandworm`,
@@ -118,8 +117,8 @@ function optimisticCandle(): Familiar {
   return !have($item`glob of melted wax`) ? $familiar`Optimistic Candle` : $familiar.none;
 }
 
-function melodramedary(): Familiar {
-  return !have($effect`Spit Upon`) && have($familiar`Melodramedary`) ? $familiar`Melodramedary` : $familiar.none;
+function mu(): Familiar {
+  return !have($item`luck incense`) ? $familiar`Mu` : $familiar.none;
 }
 
 function homemade(): Familiar {
@@ -134,29 +133,6 @@ function homemade(): Familiar {
   return $familiar.none;
 }
 
-function weightCamel(): Familiar {
-  if (
-    have($item`Sept-Ember Censer`) &&
-    have($familiar`Melodramedary`) &&
-    get("availableSeptEmbers") >= 2 &&
-    !get("_entauntaunedToday")
-  ) {
-    return $familiar`Melodramedary`;
-  }
-  return $familiar.none;
-}
-
-function cornbeefadon(): Familiar {
-  if (
-    have($item`toy Cupid bow`) &&
-    !have($item`amulet coin`) &&
-    camelFightsLeft() >= 5 &&
-    have($familiar`Cornbeefadon`)
-  )
-    return $familiar`Cornbeefadon`;
-  return $familiar.none;
-}
-
 export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
   const ignoredFamiliars = args.explicitlyexcludedfams.split(",").map((i) => toInt(i));
   const defaultFam = have($familiar`Cookbookbat`) ? $familiar`Cookbookbat` : $familiar.none;
@@ -167,20 +143,19 @@ export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
     }
   }
   const familiars = [
-    melodramedary,
     shorterOrderCook,
     garbageFire,
     nanorhino,
     optimisticCandle,
     rockinRobin,
     homemade,
-    weightCamel,
+    mu,
     sombrero,
   ]
     .map((fn) => fn(allowAttackingFamiliars))
     .filter((fam) => have(fam) && !ignoredFamiliars.includes(toInt(fam)));
 
-  print (`Familiar order: ${familiars}`);  
+  print (`Familiar order: ${familiars}`);
   return familiars.length > 0 ? familiars[0] : defaultFam;
 }
 
@@ -281,12 +256,11 @@ export function baseOutfit(
 
   if (
     outfit.familiar === $familiar`Homemade Robot` ||
-    outfit.familiar === $familiar`mu` ||
+    outfit.familiar === $familiar`Mu` ||
     outfit.familiar === $familiar`Cornbeefadon`
   ) {
     outfit.famequip = $item`toy Cupid bow`;
   }
 
-  if (have($effect`Spit Upon`) && outfit.familiar === $familiar`Melodramedary`) throw("Using camel when we should not, please check what happened.")
   return outfit;
 }

@@ -45,17 +45,15 @@ import {
   checkTurnSave,
   checkValue,
   forbiddenEffects,
-  haveLoathingIdol,
   logTestSetup,
   tryAcquiringEffect,
   useLoathingIdol,
   wishFor,
 } from "../lib";
 import { CombatStrategy } from "grimoire-kolmafia";
-import Macro, { haveFreeBanish } from "../combat";
+import Macro from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
 import { args } from "../args";
-import { chooseFamiliar } from "../engine/outfit";
 
 function wishOrSpleen(): boolean {
   const actual = CommunityService.BoozeDrop.actualCost();
@@ -64,10 +62,6 @@ function wishOrSpleen(): boolean {
   const spleen = Math.max(3 * (250 + boombox) * 30, get("valueOfAdventure") * 2.5);
   const wish = get("prAlways") ? (500 + boombox) * 2 * 30 : 275 * 2 * 30 - (benefit * get("valueOfAdventure"));
   return wish > spleen;
-}
-
-function haveFreeRun(): boolean {
-  return (!have($effect`Everything Looks Green`) && !have($familiar`Pair of Stomping Boots`))
 }
 
 export const BoozeDropQuest: Quest = {
@@ -190,9 +184,7 @@ export const BoozeDropQuest: Quest = {
         !have($item`2002 Mr. Store Catalog`) ||
         forbiddenEffects.includes($effect`Spitting Rhymes`),
       do: (): void => {
-        if (!haveLoathingIdol) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
-        }
         withChoice(1505, 3, () => useLoathingIdol());
       },
       limit: { tries: 1 },
@@ -225,13 +217,6 @@ export const BoozeDropQuest: Quest = {
       do: () => buy($item`oversized sparkler`, 1),
       limit: { tries: 1 },
     },
-    /* {
-      name: "Yams Item Drop",
-      ready: () => have($item`Mayam Calendar`),
-      completed: () => ["yam4", "explosion", "clock"].every((sym) => get("_mayamSymbolsUsed").includes(sym)) || get("_mayamSymbolsUsed").includes("eye"),
-      do: () => Mayam(stuff),
-      limit: { tries: 1 },
-    }, */
     {
       name: "Feeling Lost",
       completed: () => have($effect`Feeling Lost`) || !have($skill`Feel Lost`),

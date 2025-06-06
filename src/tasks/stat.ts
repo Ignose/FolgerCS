@@ -262,35 +262,6 @@ export const MoxieQuest: Quest = {
   name: "Moxie",
   tasks: [
     {
-      // This is also useful for the BoozeDrop test, but we can grab the +10%mox here first
-      name: "High Heels",
-      completed: () =>
-        have($item`red-soled high heels`) ||
-        !have($item`2002 Mr. Store Catalog`) ||
-        CommunityService.Moxie.isDone(),
-      do: (): void => {
-        if (!have($item`Letter from Carrie Bradshaw`)) {
-          buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
-        }
-        withChoice(1506, 3, () => use($item`Letter from Carrie Bradshaw`));
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Loathing Idol Microphone",
-      completed: () =>
-        have($effect`Poppy Performance`) ||
-        !have($item`2002 Mr. Store Catalog`) ||
-        CommunityService.Moxie.isDone(),
-      do: (): void => {
-        if (!haveLoathingIdol()) {
-          buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
-        }
-        withChoice(1505, 1, () => useLoathingIdol());
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Test",
       completed: () => CommunityService.Moxie.isDone(),
       prepare: (): void => {
@@ -323,6 +294,22 @@ export const MoxieQuest: Quest = {
           $effect`Unrunnable Face`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
+
+        if (
+          CommunityService.Moxie.actualCost() > 1 ) {
+            if (!haveLoathingIdol()) {
+              buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
+            }
+            withChoice(1505, 1, () => useLoathingIdol());
+          }
+
+        if (
+          CommunityService.Moxie.actualCost() > 1 ) {
+            if (!have($item`Letter from Carrie Bradshaw`)) {
+              buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
+            }
+            withChoice(1506, 3, () => use($item`Letter from Carrie Bradshaw`));
+          }
 
         if (
           CommunityService.Moxie.actualCost() > 1 &&

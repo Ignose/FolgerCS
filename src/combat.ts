@@ -11,6 +11,7 @@ export default class Macro extends StrictMacro {
     const macroHead = this.trySkill($skill`Curse of Weaksauce`)
       .trySkill($skill`Micrometeorite`)
       .trySkill($skill`Sing Along`)
+      .ifHolidayWanderer(Macro.banish())
       .externalIf(
         get("_cosmicBowlingSkillsUsed") < 1 && CommunityService.CoilWire.isDone(),
         Macro.trySkill($skill`Bowl Sideways`)
