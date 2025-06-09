@@ -3,6 +3,7 @@ import {
   abort,
   autosell,
   buy,
+  buyUsingStorage,
   changeMcd,
   cliExecute,
   create,
@@ -170,8 +171,8 @@ export const RunStartQuest: Quest = {
       name: "Do Pullls",
       completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
       do: () => {
-        retrieveItem($item`tobiko marble soda`,1)
-        takeStorage($item`repaid diaper`, 1);
+        buyUsingStorage($item`tobiko marble soda`,1)
+        takeStorage($item`Great Wolf's beastly trousers`, 1);
         takeStorage($item`meteorite necklace`, 1);
         takeStorage($item`Stick-Knife of Loathing`, 1);
         takeStorage($item`Staff of Simmering Hatred`, 1);

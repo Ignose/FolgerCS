@@ -1,6 +1,5 @@
 import { CombatStrategy } from "grimoire-kolmafia";
 import {
-  buy,
   cliExecute,
   drink,
   Effect,
@@ -20,8 +19,6 @@ import {
   restoreHp,
   restoreMp,
   retrieveItem,
-  toItem,
-  toSkill,
   toSlot,
   use,
   useSkill,
@@ -44,7 +41,6 @@ import {
   CommunityService,
   get,
   have,
-  set,
   unequip,
 } from "libram";
 import { Quest } from "../engine/task";
@@ -197,34 +193,6 @@ export const SpellDamageQuest: Quest = {
         tryAcquiringEffect($effect`Visions of the Deep Dark Deeps`);
       },
       outfit: { modifier: "HP 500max, Spooky Resistance", familiar: $familiar`Exotic Parrot` },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Beret? Beret.",
-      ready: () => have(toItem(11919)),
-      completed: () => get("_folgerBeret",false),
-      do: () => {
-        equip(toItem(11919));
-
-        const beretBusking = toSkill(7565);
-        equip($item`tearaway pants`);
-        unequip($slot`shirt`);
-        useSkill(beretBusking); // 220
-
-        buy($item`studded leather boxer shorts`,1);
-        equip($item`studded leather boxer shorts`);
-        equip($item`punk rock jacket`);
-        useSkill(beretBusking); // 205
-
-        equip($item`Great Wolf's beastly trousers`);
-        useSkill(beretBusking); // 765
-
-        useSkill(beretBusking); // 765
-
-        equip($item`punk rock jacket`);
-        useSkill(beretBusking); // 765
-        set("_folgerBeret",true);
-      },
       limit: { tries: 1 },
     },
     {

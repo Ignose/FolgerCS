@@ -117,10 +117,6 @@ function optimisticCandle(): Familiar {
   return !have($item`glob of melted wax`) ? $familiar`Optimistic Candle` : $familiar.none;
 }
 
-function mu(): Familiar {
-  return !have($item`luck incense`) ? $familiar`Mu` : $familiar.none;
-}
-
 function homemade(): Familiar {
   if (
     have($familiar`Homemade Robot`) &&
@@ -149,7 +145,6 @@ export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
     optimisticCandle,
     rockinRobin,
     homemade,
-    mu,
     sombrero,
   ]
     .map((fn) => fn(allowAttackingFamiliars))

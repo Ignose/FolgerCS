@@ -97,10 +97,10 @@ export function main(command?: string): void {
     swapMainStatTest ? MuscleQuest : MysticalityQuest,
     swapMainStatTest ? HPQuest : MoxieQuest,
     HotResQuest,
-    WeaponDamageQuest,
-    SpellDamageQuest,
     swapNCandFamTest() || args.doncfirst ? NoncombatQuest : FamiliarWeightQuest,
     swapNCandFamTest() || args.doncfirst ? FamiliarWeightQuest : NoncombatQuest,
+    WeaponDamageQuest,
+    SpellDamageQuest,
     BoozeDropQuest,
     DonateQuest,
   ]);

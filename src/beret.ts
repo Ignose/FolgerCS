@@ -22,7 +22,7 @@ function scoreBusk(
   weightedModifiers: [Modifier, number][],
   uselessEffects: Effect[]
 ): number {
-  const usefulEffects = effects.filter((ef) => !uselessEffects.includes(ef));
+  const usefulEffects = effects.filter((ef) => !uselessEffects.includes(ef) && !have(ef));
 
   return sum(
     weightedModifiers,

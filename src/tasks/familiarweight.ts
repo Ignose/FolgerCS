@@ -13,6 +13,8 @@ import {
   mySign,
   print,
   toInt,
+  toItem,
+  toSkill,
   toSlot,
   use,
   useFamiliar,
@@ -26,6 +28,7 @@ import {
   $familiars,
   $item,
   $location,
+  $modifier,
   $skill,
   $slot,
   CommunityService,
@@ -38,6 +41,7 @@ import { checkValue, logTestSetup, shrugAT, tryAcquiringEffect } from "../lib";
 import Macro from "../combat";
 import { chooseFamiliar, chooseHeaviestFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { args } from "../args";
+import { chooseBuskEquipment } from "../beret";
 
 export const FamiliarWeightQuest: Quest = {
   name: "Familiar Weight",
@@ -127,6 +131,22 @@ export const FamiliarWeightQuest: Quest = {
         equip($item`April Shower Thoughts shield`);
         useSkill($skill`Empathy of the Newt`);
         unequip($item`April Shower Thoughts shield`);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Beret? Beret.",
+      ready: () => have(toItem(11919)),
+      completed: () => get("_beretBuskingUses",0) >= 5,
+      do: () => {
+        const beretBusking = toSkill(7565);
+        equip(toItem(11919));
+        chooseBuskEquipment([[ $modifier`Spell Damage Percent`, 1 ],[ $modifier`Familiar Weight`, 10]]);
+        useSkill(beretBusking);
+        chooseBuskEquipment([[ $modifier`Spell Damage Percent`, 1 ],[ $modifier`Familiar Weight`, 10]]);
+        useSkill(beretBusking);
+        chooseBuskEquipment([[ $modifier`Spell Damage Percent`, 1 ],[ $modifier`Familiar Weight`, 10]]);
+        useSkill(beretBusking);
       },
       limit: { tries: 1 },
     },

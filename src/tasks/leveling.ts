@@ -333,7 +333,7 @@ export const LevelingQuest: Quest = {
         restoreMPEfficiently() === "Sausage" || restoreMPEfficiently() === "Make Sausage" || myAdventures() < 1,
       completed: () =>
         get("_sausagesMade") >= 23 ||
-        (myMp() >= 75 && restoreMPEfficiently() !== "Sausage" && restoreMPEfficiently() !== "Make Sausage"),
+        (myMp() >= 75 && restoreMPEfficiently() !== "Sausage" && restoreMPEfficiently() !== "Make Sausage" && myAdventures() > 1),
       do: (): void => {
         if (restoreMPEfficiently() === "Sausage") eat($item`magical sausage`, 1);
         else {
@@ -747,12 +747,12 @@ export const LevelingQuest: Quest = {
     {
       name: "Beret? Beret.",
       ready: () => have(toItem(11919)),
-      completed: () => get("_beretBuskingUses",0) >= 5,
+      completed: () => get("_beretBuskingUses",0) >= 2,
       do: () => {
         const beretBusking = toSkill(7565);
         equip(toItem(11919));
         if(get("_beretBuskingUses",0) === 0) {
-          chooseBuskEquipment([[ $modifier`Spell Damage Percent`, 500 ],[ $modifier`Familiar Weight`, 1]]);
+          chooseBuskEquipment([[ $modifier`Spell Damage Percent`, 1],[ $modifier`Familiar Weight`, 10]]);
           useSkill(beretBusking); // Busk 1
         }
         if(get("_beretBuskingUses",0) === 1) {
@@ -763,13 +763,6 @@ export const LevelingQuest: Quest = {
           equip($item`Jurassic Parka`);
           useSkill(beretBusking);
         }
-
-        chooseBuskEquipment([[ $modifier`Spell Damage Percent`, 500 ],[ $modifier`Familiar Weight`, 1]]);
-        useSkill(beretBusking);
-        chooseBuskEquipment([[ $modifier`Spell Damage Percent`, 500 ],[ $modifier`Familiar Weight`, 1]]);
-        useSkill(beretBusking);
-        chooseBuskEquipment([[ $modifier`Spell Damage Percent`, 500 ],[ $modifier`Familiar Weight`, 1]]);
-        useSkill(beretBusking);
       },
       limit: { tries: 1 },
     },
@@ -1374,83 +1367,6 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      // This won't actually run until it's ready, but we put it here, early, so that when it's ready it can run
-      name: "Sept-ember Mouthwash",
-      ready: () => (have($familiar`Melodramedary`) ? have($effect`Spit Upon`) : true) && doBonusLeveling(),
-      prepare: () => {
-        const effects: Effect[] = [
-          $effect`Elemental Saucesphere`,
-          $effect`Scarysauce`,
-          // eslint-disable-next-line libram/verify-constants
-          $effect`Feel Peaceful`,
-          $effect`Astral Shell`,
-        ];
-        effects.forEach((ef) => tryAcquiringEffect(ef));
-      },
-      completed: () =>
-        !have($item`Sept-Ember Censer`) || have($item`bembershoot`) || args.saveembers,
-      do: (): void => {
-        // Saber a camel
-        if (
-          have($familiar`Melodramedary`) &&
-          have($item`Fourth of May Cosplay Saber`) &&
-          !get("_entauntaunedToday")
-        ) {
-          const weapon = equippedItem($slot`weapon`);
-          useFamiliar($familiar`Melodramedary`);
-          equip($item`Fourth of May Cosplay Saber`);
-          visitUrl("/main.php?action=camel");
-          runChoice(1);
-          useFamiliar($familiar`Exotic Parrot`);
-          equip(weapon);
-        }
-
-        if (!have($effect`Cold as Nice`) && have($item`Beach Comb`))
-          tryAcquiringEffect($effect`Cold as Nice`);
-
-        // Grab Embers
-        visitUrl("shop.php?whichshop=september");
-
-        // Grab Bembershoot
-        visitUrl(`shop.php?whichshop=september&action=buyitem&quantity=1&whichrow=1516&pwd`);
-
-        // Grab Mouthwashes
-        visitUrl("shop.php?whichshop=september&action=buyitem&quantity=3&whichrow=1512&pwd");
-
-        cliExecute(`maximize ${primeStat} experience percent, switch left-hand man`);
-
-        // Re-maximize cold res after getting bembershoots
-        cliExecute("maximize cold res, switch left-hand man, switch exotic parrot");
-
-        const result = maximize("cold res", 0, 0, true, true);
-
-        // Find shirt-specific equipment
-        const shirt = result.find(
-          (action) => action.command.includes("equip") && toSlot(action.item) === $slot`shirt`
-        );
-
-        // Calculate totalScore and shirtScore
-        const totalScore = result.reduce((sum, item) => sum + item.score, 0);
-        const shirtScore = shirt ? shirt.score : 0;
-
-        // Calculate xpGain and shirtSwap
-        const xpGain = 7 * totalScore ** 1.7;
-        const shirtSwap = 7 * (totalScore - shirtScore) ** 1.7 * 1.25;
-
-        // Equip LOV Eardigan if conditions are met
-        if (shirtSwap > xpGain && myPrimestat() === $stat`muscle` && have($item`LOV Eardigan`)) {
-          equip($item`LOV Eardigan`);
-        }
-
-        use($item`Mmm-brr! brand mouthwash`, 3);
-      },
-      limit: { tries: 1 },
-      outfit: () => ({
-        modifier: `10 cold res, 1 ${primeStat} experience percent, 0.2 familiar weight, switch exotic parrot, switch left-hand man`,
-        modes: { parka: "kachungasaur", retrocape: ["vampire", "hold"] },
-      }),
-    },
-    {
       name: "Snojo",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -1577,6 +1493,82 @@ export const LevelingQuest: Quest = {
         boomBoxProfit();
         uneffect($effect`Fat Leon's Phat Loot Lyric`);
       },
+    },
+    {
+      // This won't actually run until it's ready, but we put it here, early, so that when it's ready it can run
+      name: "Sept-ember Mouthwash",
+      prepare: () => {
+        const effects: Effect[] = [
+          $effect`Elemental Saucesphere`,
+          $effect`Scarysauce`,
+          // eslint-disable-next-line libram/verify-constants
+          $effect`Feel Peaceful`,
+          $effect`Astral Shell`,
+        ];
+        effects.forEach((ef) => tryAcquiringEffect(ef));
+      },
+      completed: () =>
+        !have($item`Sept-Ember Censer`) || have($item`bembershoot`) || args.saveembers,
+      do: (): void => {
+        // Saber a camel
+        if (
+          have($familiar`Melodramedary`) &&
+          have($item`Fourth of May Cosplay Saber`) &&
+          !get("_entauntaunedToday")
+        ) {
+          const weapon = equippedItem($slot`weapon`);
+          useFamiliar($familiar`Melodramedary`);
+          equip($item`Fourth of May Cosplay Saber`);
+          visitUrl("/main.php?action=camel");
+          runChoice(1);
+          useFamiliar($familiar`Exotic Parrot`);
+          equip(weapon);
+        }
+
+        if (!have($effect`Cold as Nice`) && have($item`Beach Comb`))
+          tryAcquiringEffect($effect`Cold as Nice`);
+
+        // Grab Embers
+        visitUrl("shop.php?whichshop=september");
+
+        // Grab Bembershoot
+        visitUrl(`shop.php?whichshop=september&action=buyitem&quantity=1&whichrow=1516&pwd`);
+
+        // Grab Mouthwashes
+        visitUrl("shop.php?whichshop=september&action=buyitem&quantity=3&whichrow=1512&pwd");
+
+        cliExecute(`maximize ${primeStat} experience percent, switch left-hand man`);
+
+        // Re-maximize cold res after getting bembershoots
+        cliExecute("maximize cold res, switch left-hand man, switch exotic parrot");
+
+        const result = maximize("cold res", 0, 0, true, true);
+
+        // Find shirt-specific equipment
+        const shirt = result.find(
+          (action) => action.command.includes("equip") && toSlot(action.item) === $slot`shirt`
+        );
+
+        // Calculate totalScore and shirtScore
+        const totalScore = result.reduce((sum, item) => sum + item.score, 0);
+        const shirtScore = shirt ? shirt.score : 0;
+
+        // Calculate xpGain and shirtSwap
+        const xpGain = 7 * totalScore ** 1.7;
+        const shirtSwap = 7 * (totalScore - shirtScore) ** 1.7 * 1.25;
+
+        // Equip LOV Eardigan if conditions are met
+        if (shirtSwap > xpGain && myPrimestat() === $stat`muscle` && have($item`LOV Eardigan`)) {
+          equip($item`LOV Eardigan`);
+        }
+
+        use($item`Mmm-brr! brand mouthwash`, 3);
+      },
+      limit: { tries: 1 },
+      outfit: () => ({
+        modifier: `10 cold res, 1 ${primeStat} experience percent, 0.2 familiar weight, switch exotic parrot, switch left-hand man`,
+        modes: { parka: "kachungasaur", retrocape: ["vampire", "hold"] },
+      }),
     },
     {
       name: "Restore cinch",

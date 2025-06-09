@@ -182,7 +182,8 @@ export const BoozeDropQuest: Quest = {
       completed: () =>
         have($effect`Spitting Rhymes`) ||
         !have($item`2002 Mr. Store Catalog`) ||
-        forbiddenEffects.includes($effect`Spitting Rhymes`),
+        forbiddenEffects.includes($effect`Spitting Rhymes`) ||
+        get("availableMrStore2002Credits") === 0,
       do: (): void => {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
         withChoice(1505, 3, () => useLoathingIdol());
@@ -192,7 +193,8 @@ export const BoozeDropQuest: Quest = {
     {
       name: "Red-soled high heels",
       ready: () => checkValue("2002", 3),
-      completed: () => have($item`red-soled high heels`) || !have($item`2002 Mr. Store Catalog`),
+      completed: () => have($item`red-soled high heels`) || !have($item`2002 Mr. Store Catalog`) ||
+      get("availableMrStore2002Credits") === 0,
       do: (): void => {
         if (!have($item`Letter from Carrie Bradshaw`)) {
           buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
