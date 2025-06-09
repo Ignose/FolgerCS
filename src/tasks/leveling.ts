@@ -23,6 +23,7 @@ import {
   mallPrice,
   Monster,
   mpCost,
+  myAdventures,
   myBasestat,
   myClass,
   myHash,
@@ -37,6 +38,7 @@ import {
   mySoulsauce,
   print,
   putCloset,
+  refreshStatus,
   restoreHp,
   restoreMp,
   retrieveItem,
@@ -72,12 +74,14 @@ import {
   getBanishedMonsters,
   getKramcoWandererChance,
   have,
+  Leprecondo,
   SongBoom,
   SourceTerminal,
   sum,
   TrainSet,
   TunnelOfLove,
   uneffect,
+  unequip,
   Witchess,
   withChoice,
 } from "libram";
@@ -103,6 +107,7 @@ import {
   getValidComplexCandyPairs,
   jacks,
   overlevelled,
+  peridotChoice,
   reagentBalancerEffect,
   reagentBalancerIngredient,
   reagentBalancerItem,
@@ -320,9 +325,33 @@ export const LevelingQuest: Quest = {
       !haveFreeKill()),
   tasks: [
     {
+      name: "Eat Magical Sausages",
+      ready: () =>
+        restoreMPEfficiently() === "Sausage" || restoreMPEfficiently() === "Make Sausage" || myAdventures() < 1,
+      completed: () =>
+        get("_sausagesMade") >= 23 ||
+        (myMp() >= 75 && restoreMPEfficiently() !== "Sausage" && restoreMPEfficiently() !== "Make Sausage" && myAdventures() > 1),
+      do: (): void => {
+        if (restoreMPEfficiently() === "Sausage") eat($item`magical sausage`, 1);
+        else {
+          create($item`magical sausage`, 1);
+          eat($item`magical sausage`, 1);
+        }
+      },
+      post: () => autosell($item`meat stack`, itemAmount($item`meat stack`)),
+      limit: { tries: 23 },
+    },
+    {
       name: "LED Candle",
       completed: () => !have($item`LED candle`) || get("ledCandleMode", "") === "reading",
       do: () => cliExecute("jillcandle reading"),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Leprecondo",
+      ready: () => Leprecondo.have(),
+      completed: () => Leprecondo.installedFurniture().includes("sous vide laboratory"),
+      do: () => Leprecondo.setFurniture("sous vide laboratory", "couch and flatscreen", "whiskeybed", "beer pong table"),
       limit: { tries: 1 },
     },
     {
@@ -434,6 +463,20 @@ export const LevelingQuest: Quest = {
       name: "Crimbo Candy",
       completed: () => get("_candySummons", 0) > 0 || !have($skill`Summon Crimbo Candy`),
       do: () => useSkill($skill`Summon Crimbo Candy`),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Extra Buffs",
+      ready: () => have($item`April Shower Thoughts shield`),
+      prepare: () => equip($item`April Shower Thoughts shield`),
+      completed: () => have($effect`Thoughtful Empathy`),
+      do: () => {
+        visitUrl("inventory.php?action=shower&pwd");
+        useSkill($skill`Disco Aerobics`);
+        useSkill($skill`Patience of the Tortoise`);
+        useSkill($skill`Empathy of the Newt`);
+        unequip($item`April Shower Thoughts shield`)
+      },
       limit: { tries: 1 },
     },
     {
@@ -895,6 +938,40 @@ export const LevelingQuest: Quest = {
         drive($effect`Driving Recklessly`);
       },
       limit: { tries: 3 },
+    },
+    {
+      // This won't actually run until it's ready, but we put it here, early, so that when it's ready it can run
+      name: "Early Camel Spit",
+      ready: () =>
+        get("camelSpit") >= 100,
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        unbreakableUmbrella();
+        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
+        restoreMp(50);
+      },
+      completed: () => have($effect`Spit Upon`),
+      do: $location`Noob Cave`,
+      choices: {
+        1094: 5,
+        1115: 6,
+        1322: 2,
+        1324: 5,
+        1326: 2,
+      },
+      combat: new CombatStrategy().macro(Macro.trySkill($skill`%fn, spit on me!`).trySkill($skill`Spring Away`).abort()),
+      outfit: () => ({
+        acc3: $item`spring shoes`,
+        shirt: $item`Jurassic Parka`,
+        familiar: $familiar`Melodramedary`,
+      }),
+      limit: { tries: 2 },
+      post: (): void => {
+        sendAutumnaton();
+        sellMiscellaneousItems();
+        boomBoxProfit();
+        refreshStatus();
+      },
     },
     {
     name: "Ghost",
@@ -1533,6 +1610,34 @@ export const LevelingQuest: Quest = {
       },
     },
     {
+      name: "Oliver's Place (Peridot)",
+      ready: () => have($item`peridot of peril`),
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        unbreakableUmbrella();
+        restoreMp(50);
+        if (SourceTerminal.have()) cliExecute("terminal educate portscan");
+      },
+      completed: () =>
+        get("_speakeasyFreeFights", 0) >= 1 ||
+        !get("ownsSpeakeasy") ||
+        have($item`imported taffy`),
+      do: () => $location`An Unusually Quiet Barroom Brawl`,
+      choices: peridotChoice($monster`goblin flapper`),
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`Feel Envy`)
+          .trySkill($skill`Portscan`)
+          .default()
+      ),
+      outfit: () => ({...baseOutfit(true), acc3: $item`Peridot of Peril`}),
+      limit: { tries: 2 },
+      post: (): void => {
+        sendAutumnaton();
+        sellMiscellaneousItems();
+        boomBoxProfit();
+      },
+    },
+    {
       name: "Oliver's Place (Map)",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -1544,7 +1649,8 @@ export const LevelingQuest: Quest = {
         get("_speakeasyFreeFights", 0) >= 1 ||
         !get("ownsSpeakeasy") ||
         !have($skill`Map the Monsters`) ||
-        get("_monstersMapped") >= 3,
+        get("_monstersMapped") >= 3 ||
+        have($item`imported taffy`),
       do: () => mapMonster($location`An Unusually Quiet Barroom Brawl`, $monster`goblin flapper`),
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Feel Envy`)

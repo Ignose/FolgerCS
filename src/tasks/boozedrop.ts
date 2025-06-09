@@ -36,6 +36,7 @@ import {
   getKramcoWandererChance,
   have,
   uneffect,
+  unequip,
   withChoice,
 } from "libram";
 import {
@@ -232,6 +233,15 @@ export const BoozeDropQuest: Quest = {
       name: "Feeling Lost",
       completed: () => have($effect`Feeling Lost`) || !have($skill`Feel Lost`),
       do: () => useSkill($skill`Feel Lost`),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Contemplate Sauce",
+      ready: () => have($item`April Shower Thoughts shield`),
+      prepare: () => equip($item`April Shower Thoughts shield`),
+      completed: () => have($effect`Lubricating Sauce`),
+      do: () => useSkill($skill`Sauce Contemplation`),
+      post: () => unequip($item`April Shower Thoughts shield`),
       limit: { tries: 1 },
     },
     {

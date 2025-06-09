@@ -62,6 +62,7 @@ export const SpellDamageQuest: Quest = {
   tasks: [
     {
       name: "Simmer",
+      prepare: () => have($item`April Shower Thoughts shield`) ? equip($item`April Shower Thoughts shield`) : true,
       completed: () => have($effect`Simmering`) || !have($skill`Simmer`),
       do: () => useSkill($skill`Simmer`),
       limit: { tries: 1 },

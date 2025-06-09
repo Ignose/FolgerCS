@@ -19,6 +19,7 @@ import {
   itemAmount,
   mallPrice,
   monkeyPaw,
+  Monster,
   mpCost,
   myBasestat,
   myBuffedstat,
@@ -1438,3 +1439,5 @@ export function checkPurqoise(meat: number): boolean {
   if (myMeat() > meat) return false;
   return true;
 }
+
+export const peridotChoice = (monster: Monster) => ({ 1557: `1&bandersnatch=${monster.id}` });

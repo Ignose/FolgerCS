@@ -29,6 +29,7 @@ import {
   CommunityService,
   get,
   have,
+  unequip,
 } from "libram";
 import { Quest } from "../engine/task";
 import { checkValue, logTestSetup, shrugAT, tryAcquiringEffect } from "../lib";
@@ -120,6 +121,20 @@ export const FamiliarWeightQuest: Quest = {
         ],
       }),
       choices: { 1387: 3 },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Better Empathy",
+      ready: () => have($item`April Shower Thoughts shield`),
+      completed: () =>
+        have($effect`Thoughtful Empathy`),
+      do: () => {
+        unequip($item`April Shower Thoughts shield`);
+        useSkill($skill`Empathy of the Newt`);
+        equip($item`April Shower Thoughts shield`);
+        useSkill($skill`Empathy of the Newt`);
+        unequip($item`April Shower Thoughts shield`);
+      },
       limit: { tries: 1 },
     },
     {
