@@ -1,19 +1,14 @@
 import { Quest } from "../engine/task";
 import {
-  adv1,
   autosell,
   buy,
   cliExecute,
   create,
-  drink,
   Effect,
   equip,
   handlingChoice,
-  hermit,
-  inebrietyLimit,
   itemAmount,
   lastChoice,
-  myInebriety,
   myMeat,
   print,
   retrieveItem,
@@ -39,7 +34,6 @@ import {
   getKramcoWandererChance,
   have,
   MayamCalendar,
-  uneffect,
   unequip,
   withChoice,
 } from "libram";
@@ -91,27 +85,6 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Acquire Clover",
-      completed: () =>
-        have($item`11-leaf clover`) || get("_cloversPurchased") >= 2 || args.savecyclops,
-      do: (): void => {
-        buy(1, $item`chewing gum on a string`);
-        use(1, $item`chewing gum on a string`);
-        hermit($item`11-leaf clover`, 1);
-      },
-      limit: { tries: 50 },
-    },
-    {
-      name: "Get Cyclops Eyedrops",
-      completed: () =>
-        have($item`cyclops eyedrops`) || have($effect`One Very Clear Eye`) || args.savecyclops,
-      do: (): void => {
-        if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
-        if (!have($item`cyclops eyedrops`)) adv1($location`The Limerick Dungeon`, -1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Acquire Government",
       completed: () =>
         !have($item`government cheese`) || get("lastAnticheeseDay") > 0 || args.savegovernment,
@@ -146,22 +119,6 @@ export const BoozeDropQuest: Quest = {
         familiar: $familiar`Pair of Stomping Boots`,
       },
       post: () => useFamiliar($familiar`Left-Hand Man`),
-      limit: { tries: 1 },
-    },
-    {
-      name: "Drink Sacramento Wine",
-      completed: () =>
-        have($effect`Sacré Mental`) ||
-        !have($item`Sacramento wine`) ||
-        myInebriety() >= inebrietyLimit() ||
-        args.sacramentowine,
-      do: (): void => {
-        if (myInebriety() < inebrietyLimit()) {
-          tryAcquiringEffect($effect`Ode to Booze`);
-          drink($item`Sacramento wine`, 1);
-          uneffect($effect`Ode to Booze`);
-        }
-      },
       limit: { tries: 1 },
     },
     {

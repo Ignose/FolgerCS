@@ -134,8 +134,7 @@ export const MuscleQuest: Quest = {
         if (
           CommunityService.Muscle.turnsSavedBy($effect`Purity of Spirit`) >= 7 &&
           have($skill`Summon Clip Art`) &&
-          get("tomeSummons") === 0 &&
-          args.skipbt
+          get("tomeSummons") === 0
         ) {
           create($item`cold-filtered water`, 1);
           use($item`cold-filtered water`, 1);
@@ -219,8 +218,7 @@ export const MysticalityQuest: Quest = {
         if (
           CommunityService.Mysticality.actualCost() >= 7 &&
           have($skill`Summon Clip Art`) &&
-          get("tomeSummons") === 0 &&
-          args.skipbt
+          get("tomeSummons") === 0
         ) {
           create($item`cold-filtered water`, 1);
           use($item`cold-filtered water`, 1);
@@ -322,8 +320,7 @@ export const MoxieQuest: Quest = {
         if (
           CommunityService.Moxie.actualCost() >= 7 &&
           have($skill`Summon Clip Art`) &&
-          get("tomeSummons") === 0 &&
-          args.skipbt
+          get("tomeSummons") === 0
         ) {
           create($item`cold-filtered water`, 1);
           use($item`cold-filtered water`, 1);

@@ -61,7 +61,6 @@ import {
   $stat,
   AprilingBandHelmet,
   canRememberSong,
-  CombatLoversLocket,
   CommunityService,
   get,
   getKramcoWandererChance,
@@ -179,7 +178,6 @@ export function computeHotRes(sim: boolean): number {
     have($skill`Double-Fisted Skull Smashing`)
       ? 30
       : 0;
-  const factory = !args.factoryworker ? 9 : 0;
   const horse = get("horseryAvailable") ? 1 : 0;
   const meteor = have($skill`Meteor Shower`) ? 5 : 0;
   const bird = get("yourFavoriteBirdMods").includes("Hot Resistance") ? 4 : 0;
@@ -210,7 +208,6 @@ export function computeHotRes(sim: boolean): number {
     retro,
     shield,
     foam,
-    factory,
     horse,
     meteor,
     bird,
@@ -348,7 +345,6 @@ export function computeSpellDamage(sim: boolean): number {
   const moonSpoon = have($item`hewn moon-rune spoon`) ? 10 : 0;
   const saucier = have($skill`Master Saucier`) ? 10 : 0;
   const subtle = have($skill`Subtle and Quick to Anger`) ? 10 : 0;
-  const calzone = !args.calzone ? 50 : 0;
   const stick = !sim && have($item`Stick-Knife of Loathing`) ? 200 : 0;
   const staff = !sim && have($item`Staff of Simmering Hatred`) ? 200 : 0;
   const candle = !sim && have($item`Abracandalabra`) ? 100 : 0;
@@ -377,7 +373,6 @@ export function computeSpellDamage(sim: boolean): number {
     moonSpoon,
     saucier,
     subtle,
-    calzone,
     candle,
   ]);
 
@@ -386,7 +381,6 @@ export function computeSpellDamage(sim: boolean): number {
 
 export function computeFamiliarWeight(sim: boolean): number {
   const moonSpoon = have($item`hewn moon-rune spoon`) && !args.savemoontune ? 10 : 0;
-  const deepDish = args.latedeepdish || !args.deepdish ? 15 : 0;
   const newsPaper = have($familiar`Garbage Fire`) ? 10 : 0;
   const meteor = have($skill`Meteor Shower`) && have($item`Fourth of May Cosplay Saber`) ? 20 : 0;
   const belligerence = have($item`Clan VIP Lounge key`) ? 10 : 0;
@@ -427,7 +421,6 @@ export function computeFamiliarWeight(sim: boolean): number {
         sumNumbers([
           moonSpoon,
           sympathy,
-          deepDish,
           newsPaper,
           meteor,
           belligerence,
@@ -457,7 +450,6 @@ export function computeFamiliarWeight(sim: boolean): number {
 
 export function computeBoozeDrop(): number {
   const loded = have($item`closed-circuit pay phone`) ? 100 : 0;
-  const eyedrops = !args.savecyclops ? 100 : 0;
   const bowling = have($item`cosmic bowling ball`) ? 25 : 0;
   const bat = have($item`vampyric cloake`) ? 50 : 0;
   const microphone =
@@ -488,7 +480,6 @@ export function computeBoozeDrop(): number {
 
   const all = sumNumbers([
     loded,
-    eyedrops,
     bowling,
     bat,
     microphone,
@@ -1068,17 +1059,6 @@ export function camelFightsLeft(): number {
   const XRay = have($item`Lil' Doctor™ bag`) ? 3 - get("_chestXRayUsed") : 0;
   const shatteringPunch = have($skill`Shattering Punch`) ? 3 - get("_shatteringPunchUsed") : 0;
   const mobHit = have($skill`Gingerbread Mob Hit`) && !get("_gingerbreadMobHitUsed") ? 1 : 0;
-  const locketedWitchess =
-    !Witchess.have() &&
-    CombatLoversLocket.availableLocketMonsters().includes($monster`Witchess King`) &&
-    !CombatLoversLocket.monstersReminisced().includes($monster`Witchess King`) &&
-    !args.witchessking
-      ? 1
-      : 0;
-  const backups =
-    Witchess.have() || have($item`Kramco Sausage-o-Matic™`)
-      ? Math.max(11 - args.savebackups - get("_backUpUses"), 0)
-      : 0; // No guarantee that we hit a tentacle, so we ignore that here
   // Currently does not consider gregs (require free banish + free fight source)
 
   // Include guaranteed non-free fights
@@ -1104,8 +1084,6 @@ export function camelFightsLeft(): number {
     XRay,
     shatteringPunch,
     mobHit,
-    locketedWitchess,
-    backups,
     noveltySkeleton,
     leafyBoys,
     cyberRealm,
@@ -1207,7 +1185,7 @@ export const generalStoreXpEffect: Effect = {
 
 export function checkLocketAvailable(): number {
   const locketAvailable =
-    (args.redskeleton ? 1 : 0) + (args.witchessking ? 1 : 0) + (args.factoryworker ? 1 : 0);
+    (args.redskeleton ? 1 : 0) + 2;
 
   return locketAvailable;
 }

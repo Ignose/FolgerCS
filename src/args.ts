@@ -27,41 +27,9 @@ export const args = Args.create(
       help: `Name of the outfit that contains stick-knife, for stick-knife trick`,
       default: "",
     }),
-    fortifiedwine: Args.flag({
-      help: `Do not grab the DFW lucky adventure (if you have numberology or are using skip-BT route)`,
-      default: true,
-    }),
-    perfectfreeze: Args.flag({
-      help: `Do not craft and drink a perfect drink`,
-      default: true,
-    }),
-    beesknees: Args.flag({
-      help: `Do not buy and drink Bee's Knees`,
-      default: true,
-    }),
-    sacramentowine: Args.flag({
-      help: `Do not drink a Sacramento Wine for the item test`,
-      default: true,
-    }),
     synthxp: Args.flag({
       help: `Do not use synth for the Xp% buff`,
       default: true,
-    }),
-    deepdish: Args.flag({
-      help: `Skip Deep Dish of Legend`,
-      default: false,
-    }),
-    latedeepdish: Args.flag({
-      help: `Eat a deep dish, but only before the familiar test`,
-      default: false,
-    }),
-    calzone: Args.flag({
-      help: `Skip Calzone of Legend`,
-      default: false,
-    }),
-    pizza: Args.flag({
-      help: `Skip Pizza of Legend`,
-      default: false,
     }),
     asdon: Args.flag({
       help: `Should we use Asdon Martin? Incompatible with Skipping Borrowed Time`,
@@ -79,24 +47,8 @@ export const args = Args.create(
       help: `Do not fight witchess monsters nor acquire Puzzle Champ`,
       default: false,
     }),
-    savebackups: Args.number({
-      help: "How many backup camera backups should we save?",
-      default: 11,
-    }),
-    savehabitats: Args.number({
-      help: "How many Book of Facts habitats should we save?",
-      default: 3,
-    }),
     redskeleton: Args.flag({
       help: `Do not locket a red skeleton`,
-      default: false,
-    }),
-    witchessking: Args.flag({
-      help: `Do not locket a witchess king`,
-      default: false,
-    }),
-    factoryworker: Args.flag({
-      help: `Do not locket a factory worker (female)`,
       default: false,
     }),
     ninjamap: Args.flag({
@@ -211,10 +163,6 @@ export const args = Args.create(
       help: `Do not use Giant Growth or any other deck cheats`,
       default: false,
     }),
-    savecyclops: Args.flag({
-      help: `Do not get and use cyclops eyedrops`,
-      default: false,
-    }),
     saveembers: Args.flag({
       help: `Do not get and use mouthwash/sept-ember`,
       default: false,
@@ -231,14 +179,6 @@ export const args = Args.create(
       help: `Automatically optimize and use excess pulls for good stuff?`,
       default: false,
     }),
-    camelhat: Args.flag({
-      help: `Use a box of familiar jacks to ensure camel is charged faster?`,
-      default: false,
-    }),
-    skipbt: Args.flag({
-      help: `Route around using borrowed time? Note this requires using at least one legendary pizza.`,
-      default: false,
-    }),
     experimentalsynth: Args.flag({
       help: `Try using Synth for item%? Requires Sugar Shummoning`,
       default: false,
@@ -250,10 +190,6 @@ export const args = Args.create(
     explicitlyexcludedefs: Args.string({
       help: `Effects that we should not acquire throughout the run.`,
       default: "",
-    }),
-    wardrobe: Args.flag({
-      help: `Should we skip using the Wardrobe-O-Matic at level 15 automatically?`,
-      default: false,
     }),
     explicitlyexcludedfams: Args.string({
       help: `Familiars that we should not use throughout the run.`,

@@ -62,7 +62,6 @@ import {
 import { Quest } from "../engine/task";
 import {
   bestSIT,
-  checkPull,
   getGarden,
   goVote,
   sellMiscellaneousItems,
@@ -683,12 +682,6 @@ export const RunStartQuest: Quest = {
       name: "Pizza over Borrowed Time",
       ready: () => btorpizza,
       prepare: (): void => {
-        if (!args.calzone && checkPull($item`Calzone of Legend`))
-          takeStorage($item`Calzone of Legend`, 1);
-        if (!args.pizza && checkPull($item`Pizza of Legend`))
-          takeStorage($item`Pizza of Legend`, 1);
-        if (!args.deepdish && checkPull($item`Deep Dish of Legend`))
-          takeStorage($item`Deep Dish of Legend`, 1);
         cliExecute(`maximize ${myPrimestat()} experience percent`);
         if (have($item`whet stone`)) use($item`whet stone`);
       },
@@ -696,7 +689,7 @@ export const RunStartQuest: Quest = {
       do: (): void => {
         if (have($item`Calzone of Legend`)) eat($item`Calzone of Legend`, 1);
         if (have($item`Pizza of Legend`)) eat($item`Pizza of Legend`, 1);
-        if (have($item`Deep Dish of Legend`) && !args.latedeepdish)
+        if (have($item`Deep Dish of Legend`))
           eat($item`Deep Dish of Legend`, 1);
       },
       limit: { tries: 1 },
