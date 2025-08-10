@@ -174,7 +174,7 @@ export const RunStartQuest: Quest = {
         buyUsingStorage($item`tobiko marble soda`,1)
         takeStorage($item`Great Wolf's beastly trousers`, 1);
         takeStorage($item`meteorite necklace`, 1);
-        takeStorage($item`Staff of the Roaring Hearth`, 1);
+        takeStorage($item`Stick-Knife of Loathing`, 1);
         takeStorage($item`Staff of Simmering Hatred`, 1);
         takeStorage($item`tobiko marble soda`, 1);
       }
