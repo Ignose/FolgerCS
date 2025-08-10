@@ -81,12 +81,6 @@ export const NoncombatQuest: Quest = {
       prepare: (): void => {
         if (have($item`Jurassic Parka`) && get("parkaMode") !== "pterodactyl")
           cliExecute("parka pterodactyl");
-        if (
-          get("_kgbClicksUsed") < 22 &&
-          have($item`Kremlin's Greatest Briefcase`) &&
-          !args.savekgb
-        )
-          cliExecute("briefcase e -combat");
         const usefulEffects: Effect[] = [
           $effect`A Rose by Any Other Material`,
           $effect`Blessing of the Bird`,

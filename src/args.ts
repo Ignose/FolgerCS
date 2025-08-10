@@ -103,10 +103,6 @@ export const args = Args.create(
       help: `Do not acquire shoe gum with cop dollars`,
       default: false,
     }),
-    savekgb: Args.flag({
-      help: `Do not use any KGB clicks`,
-      default: false,
-    }),
     savepantogramming: Args.flag({
       help: `Do not use your pantogram`,
       default: false,

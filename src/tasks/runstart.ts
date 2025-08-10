@@ -204,13 +204,6 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "KGB",
-      completed: () =>
-        get("_kgbClicksUsed") > 0 || !have($item`Kremlin's Greatest Briefcase`) || args.savekgb,
-      do: () => cliExecute("briefcase e ml"),
-      limit: { tries: 1 },
-    },
-    {
       name: "Restore mp",
       completed: () => get("timesRested") >= args.saverests || myMp() >= Math.min(50, myMaxmp()),
       prepare: (): void => {
