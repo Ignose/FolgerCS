@@ -55,6 +55,7 @@ import {
   have,
   haveInCampground,
   Pantogram,
+  set,
   SongBoom,
   TrainSet,
 } from "libram";
@@ -66,7 +67,6 @@ import {
   goVote,
   sellMiscellaneousItems,
   statToMaximizerString,
-  wardrobeG,
 } from "../lib";
 import Macro from "../combat";
 import { baseOutfit} from "../engine/outfit";
@@ -174,7 +174,7 @@ export const RunStartQuest: Quest = {
         buyUsingStorage($item`tobiko marble soda`,1)
         takeStorage($item`Great Wolf's beastly trousers`, 1);
         takeStorage($item`meteorite necklace`, 1);
-        takeStorage($item`Stick-Knife of Loathing`, 1);
+        takeStorage($item`Staff of the Roaring Hearth`, 1);
         takeStorage($item`Staff of Simmering Hatred`, 1);
         takeStorage($item`tobiko marble soda`, 1);
       }
@@ -657,12 +657,15 @@ export const RunStartQuest: Quest = {
         ...baseOutfit(true, true, $monster`sausage goblin`),
         shirt: $item`Jurassic Parka`,
         offhand: $item`Kramco Sausage-o-Matic™`,
+        // eslint-disable-next-line libram/verify-constants
+        acc3: $item`Möbius ring`, // Prime the ring
         modes: { parka: "spikolodon" },
         avoid: $items`Daylight Shavings Helmet`,
       }),
       combat: new CombatStrategy().macro(
-        Macro.externalIf(wardrobeG, Macro.trySkill($skill`Launch spikolodon spikes`).default(), Macro.default())
+        Macro.trySkill($skill`Launch spikolodon spikes`).default()
       ),
+      post: () => set("_mobiusSeeded", true)
     },
     {
       name: "NEP The Prequel",

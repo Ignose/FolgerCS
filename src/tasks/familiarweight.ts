@@ -14,7 +14,6 @@ import {
   print,
   toInt,
   toItem,
-  toSkill,
   toSlot,
   use,
   useFamiliar,
@@ -28,7 +27,6 @@ import {
   $familiars,
   $item,
   $location,
-  $modifier,
   $skill,
   $slot,
   CommunityService,
@@ -41,7 +39,7 @@ import { checkValue, logTestSetup, shrugAT, tryAcquiringEffect } from "../lib";
 import Macro from "../combat";
 import { chooseFamiliar, chooseHeaviestFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { args } from "../args";
-import { chooseBuskEquipment } from "../beret";
+import { buskAt } from "../beret";
 
 export const FamiliarWeightQuest: Quest = {
   name: "Familiar Weight",
@@ -93,7 +91,7 @@ export const FamiliarWeightQuest: Quest = {
       completed: () =>
         have($effect`Party Soundtrack`) ||
         !have($skill`Cincho: Party Soundtrack`) ||
-        100 - get("_cinchUsed") < 75,
+        get("_cinchUsed") > 75,
       do: (): void => {
         equip($slot`acc3`, $item`Cincho de Mayo`);
         useSkill($skill`Cincho: Party Soundtrack`);
@@ -139,14 +137,16 @@ export const FamiliarWeightQuest: Quest = {
       ready: () => have(toItem(11919)),
       completed: () => get("_beretBuskingUses",0) >= 5,
       do: () => {
-        const beretBusking = toSkill(7565);
-        equip(toItem(11919));
-        chooseBuskEquipment([[ $modifier`Spell Damage Percent`, 1 ],[ $modifier`Familiar Weight`, 10]]);
-        useSkill(beretBusking);
-        chooseBuskEquipment([[ $modifier`Spell Damage Percent`, 1 ],[ $modifier`Familiar Weight`, 10]]);
-        useSkill(beretBusking);
-        chooseBuskEquipment([[ $modifier`Spell Damage Percent`, 1 ],[ $modifier`Familiar Weight`, 10]]);
-        useSkill(beretBusking);
+
+        buskAt(825, true); // Alt: 1300 w/ Hammertime
+
+        buskAt(800, true); // Alt: 1260 w/ Hammertime
+
+        buskAt(885, true); // Alt: 1255 w/ Hammertime
+
+        buskAt(765, true);
+
+        buskAt(800, true);
       },
       limit: { tries: 1 },
     },

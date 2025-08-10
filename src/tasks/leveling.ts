@@ -24,7 +24,6 @@ import {
   maximize,
   mpCost,
   myAdventures,
-  myBasestat,
   myClass,
   myHash,
   myHp,
@@ -63,11 +62,11 @@ import {
   $item,
   $items,
   $location,
-  $modifier,
   $monster,
   $skill,
   $slot,
   $stat,
+  AprilingBandHelmet,
   AutumnAton,
   clamp,
   CombatLoversLocket,
@@ -77,6 +76,7 @@ import {
   getKramcoWandererChance,
   have,
   Leprecondo,
+  MayamCalendar,
   // set,
   SongBoom,
   SourceTerminal,
@@ -121,7 +121,6 @@ import {
   synthExpBuff,
   tryAcquiringEffect,
   useOffhandRemarkable,
-  wardrobeG,
 } from "../lib";
 import {
   baseOutfit,
@@ -146,15 +145,12 @@ import {
   setConfiguration,
   Station,
 } from "libram/dist/resources/2022/TrainSet";
-import { chooseBuskEquipment } from "../beret";
 
 const primeStat = statToMaximizerString(myPrimestat());
 
-const useCinch = () => args.savecinch < 100 - get("_cinchUsed");
+const useCinch = () => get("_cinchUsed") <= 75;
 const baseBoozes = $items`bottle of rum, boxed wine, bottle of gin, bottle of vodka, bottle of tequila, bottle of whiskey`;
 const godLobsterChoice = () => (have($item`God Lobster's Ring`) ? 2 : 3);
-
-const doBonusLeveling = () => wardrobeG || (have($item`meteorite fragment`) || have($item`meteorite earring`) || have($item`meteorite necklace`) || have($item`meteorite ring`))
 
 export function restoreMPEfficiently(): string {
   if (have($item`bat wings`) && get("_batWingsRestUsed", 0) < 11) return "Bat Wings";
@@ -323,9 +319,8 @@ export const LevelingQuest: Quest = {
   name: "Leveling",
   completed: () =>
     get("csServicesPerformed").split(",").length > 1 ||
-    (have($effect`Spit Upon`) && have($item`short stack of pancakes`) && myBasestat(myPrimestat()) >= 200 && !doBonusLeveling()) ||
-    (get("_feelPrideUsed", 3) >= 3 && camelFightsLeft() === 0 && !haveFreeKill()) ||
-    (myLevel() >= 20 && get("_wardrobeUsed", false)),
+    (have($effect`Spit Upon`) && have($item`short stack of pancakes`) && myLevel() >= 20) ||
+    (get("_feelPrideUsed", 3) >= 3 && camelFightsLeft() === 0 && !haveFreeKill()),
   tasks: [
     {
       name: "Eat Magical Sausages",
@@ -472,11 +467,9 @@ export const LevelingQuest: Quest = {
       completed: () => have($effect`Thoughtful Empathy`),
       do: () => {
         visitUrl("inventory.php?action=shower&pwd");
-        if(doBonusLeveling()) {
           visitUrl("shop.php?whichshop=showerthoughts");
           visitUrl("shop.php?whichshop=showerthoughts&action=buyitem&quantity=1&whichrow=1581&pwd");
           use($item`wet paper weights`);
-        }
         useSkill($skill`Disco Aerobics`);
         useSkill($skill`Patience of the Tortoise`);
         useSkill($skill`Empathy of the Newt`);
@@ -745,28 +738,6 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Beret? Beret.",
-      ready: () => have(toItem(11919)),
-      completed: () => get("_beretBuskingUses",0) >= 2,
-      do: () => {
-        const beretBusking = toSkill(7565);
-        equip(toItem(11919));
-        if(get("_beretBuskingUses",0) === 0) {
-          chooseBuskEquipment([[ $modifier`Spell Damage Percent`, 1],[ $modifier`Familiar Weight`, 10]]);
-          useSkill(beretBusking); // Busk 1
-        }
-        if(get("_beretBuskingUses",0) === 1) {
-          if(!have($item`repaid diaper`)) {
-            takeStorage($item`repaid diaper`, 1);
-          }
-          equip($item`repaid diaper`);
-          equip($item`Jurassic Parka`);
-          useSkill(beretBusking);
-        }
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Restore mp",
       completed: () => get("timesRested") >= args.saverests || myMp() >= Math.min(50, myMaxmp()),
       prepare: (): void => {
@@ -941,14 +912,25 @@ export const LevelingQuest: Quest = {
       ready: () => myLevel() >= 11,
       completed: () =>
         myInebriety() >= inebrietyLimit() ||
-        (!have($item`astral six-pack`) && itemAmount($item`astral pilsner`) <= args.astralpils),
+        (!have($item`astral six-pack`) && itemAmount($item`astral pilsner`) <= 5),
       prepare: (): void => {
         cliExecute(`maximize ${myPrimestat()} experience percent`);
         tryAcquiringEffect($effect`Ode to Booze`);
       },
       do: (): void => {
         if (have($item`astral six-pack`)) use($item`astral six-pack`, 1);
-        if (itemAmount($item`astral pilsner`) > args.astralpils) drink($item`astral pilsner`, 1);
+        if (have($familiar`Cooler Yeti`) && MayamCalendar.have() && !MayamCalendar.symbolsUsed().includes("fur") && AprilingBandHelmet.have()) {
+          useFamiliar($familiar`Cooler Yeti`);
+          MayamCalendar.submit("fur yam2 wall yam4");
+          AprilingBandHelmet.joinSection("Apriling band piccolo");
+          AprilingBandHelmet.play("Apriling band piccolo");
+          AprilingBandHelmet.play("Apriling band piccolo");
+        }
+        if (have($familiar`Cooler Yeti`) && $familiar`Cooler Yeti`.experience > 225) {
+          visitUrl("main.php?talktoyeti=1", false);
+          runChoice(3);
+        }
+        if (itemAmount($item`astral pilsner`) > 5) drink($item`astral pilsner`, 1);
       },
       post: (): void => {
         if (!have($item`astral six-pack`) && itemAmount($item`astral pilsner`) <= args.astralpils)
@@ -988,7 +970,7 @@ export const LevelingQuest: Quest = {
     {
       // Set up a pretty lit buff
       name: "NEP Episode 2: The Prequel",
-      ready: () => get("noncombatForcerActive") && doBonusLeveling(),
+      ready: () => get("noncombatForcerActive"),
       completed: () => have($effect`Spiced Up`),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -1001,10 +983,13 @@ export const LevelingQuest: Quest = {
       choices: {
         1324: 2,
         1326: 2,
+        1562: 9,
       },
       combat: new CombatStrategy().macro(Macro.trySkill($skill`%fn, spit on me!`).kill()),
       outfit: () => ({
         ...baseOutfit(),
+        // eslint-disable-next-line libram/verify-constants
+        acc3: get("_mobiusStripEncounters",0) === 0 ? $item`Möbius ring` : undefined,
       }),
       limit: { tries: 2 },
       post: (): void => {
@@ -1313,6 +1298,7 @@ export const LevelingQuest: Quest = {
         $location`Cyberzone 1`.turnsSpent >= 11 || toInt(get("_cyberZone1Turns")) >= 11,
       choices: { 1545: 1, 1546: 1 },
       do: $location`Cyberzone 1`,
+      outfit: () =>  ({...baseOutfit(true, false, $monster`shadow slab`)}),
       combat: new CombatStrategy().macro(() =>
         Macro.if_("!monsterphylum construct", Macro.default())
           .skill($skill`Throw Cyber Rock`)
@@ -1480,8 +1466,7 @@ export const LevelingQuest: Quest = {
       ),
       outfit: () => ({
         ...baseOutfit(false, false, $monster`LOV Engineer`),
-        weapon: $item`June cleaver`,
-        modifier: `0.25 ${mainStatMaximizerStr}, 0.33 ML, 0.001 item%, -equip tinsel tights, -equip wad of used tape, -equip Kramco Sausage-o-Matic™`,
+        modifier: `0.25 ${mainStatMaximizerStr}, 0.001 item%, -equip tinsel tights, -equip wad of used tape, -equip Kramco Sausage-o-Matic™`,
       }),
       limit: { tries: 1 },
       post: (): void => {
@@ -1521,7 +1506,7 @@ export const LevelingQuest: Quest = {
           equip($item`Fourth of May Cosplay Saber`);
           visitUrl("/main.php?action=camel");
           runChoice(1);
-          useFamiliar($familiar`Exotic Parrot`);
+          useFamiliar($familiar`Cooler Yeti`);
           equip(weapon);
         }
 
@@ -1540,9 +1525,12 @@ export const LevelingQuest: Quest = {
         cliExecute(`maximize ${primeStat} experience percent, switch left-hand man`);
 
         // Re-maximize cold res after getting bembershoots
-        cliExecute("maximize cold res, switch left-hand man, switch exotic parrot");
+        cliExecute("maximize cold res, switch left-hand man, switch exotic parrot, switch cooler yeti");
+
+        equip($item`prismatic beret`);
 
         const result = maximize("cold res", 0, 0, true, true);
+        useFamiliar($familiar`Cooler Yeti`);
 
         // Find shirt-specific equipment
         const shirt = result.find(
@@ -1566,7 +1554,7 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 1 },
       outfit: () => ({
-        modifier: `10 cold res, 1 ${primeStat} experience percent, 0.2 familiar weight, switch exotic parrot, switch left-hand man`,
+        modifier: `10 cold res, 1 ${primeStat} experience percent, 0.2 familiar weight, switch exotic parrot, switch left-hand man, switch cooler yeti`,
         modes: { parka: "kachungasaur", retrocape: ["vampire", "hold"] },
       }),
     },
@@ -2012,7 +2000,6 @@ export const LevelingQuest: Quest = {
     {
       name: "Free Kills and More Fights",
       after: ["Drink Bee's Knees"],
-      ready: () => doBonusLeveling(),
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         if (equippedItem($slot`offhand`) !== $item`latte lovers member's mug`) {

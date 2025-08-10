@@ -8,9 +8,11 @@ import {
   drink,
   Effect,
   equip,
+  handlingChoice,
   hermit,
   inebrietyLimit,
   itemAmount,
+  lastChoice,
   myInebriety,
   myMeat,
   print,
@@ -191,19 +193,6 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Red-soled high heels",
-      ready: () => checkValue("2002", 3),
-      completed: () => have($item`red-soled high heels`) || !have($item`2002 Mr. Store Catalog`) ||
-      get("availableMrStore2002Credits") === 0,
-      do: (): void => {
-        if (!have($item`Letter from Carrie Bradshaw`)) {
-          buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
-        }
-        withChoice(1506, 3, () => use($item`Letter from Carrie Bradshaw`));
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Favorite Bird (Item)",
       completed: () =>
         !have($skill`Visit your Favorite Bird`) ||
@@ -247,7 +236,20 @@ export const BoozeDropQuest: Quest = {
       ready: () => MayamCalendar.have(),
       completed: () => have($effect`Big Eyes`),
       do: (): void => {
-        MayamCalendar.submit("eye meat eyepatch yam4");
+        MayamCalendar.submit("eye meat eyepatch explosion");
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Radio",
+      ready: () => have($item`Allied Radio Backpack`) && get("_alliedRadioDropsUsed", 0) < 3,
+      // eslint-disable-next-line libram/verify-constants
+      completed: () => have($effect`Materiel intel`),
+      do: () => {
+        const visitRadio = () => visitUrl(`inventory.php?action=requestdrop&pwd`);
+        visitRadio();
+        if (!handlingChoice() || lastChoice() !== 1563) visitRadio();
+        runChoice(1, `request=materiel intel`);
       },
       limit: { tries: 1 },
     },
@@ -283,6 +285,14 @@ export const BoozeDropQuest: Quest = {
           tryAcquiringEffect($effect`Incredibly Well Lit`);
 
         if (
+          CommunityService.BoozeDrop.actualCost() > 1 ) {
+            if (!have($item`Letter from Carrie Bradshaw`)) {
+              buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
+            }
+            withChoice(1506, 3, () => use($item`Letter from Carrie Bradshaw`));
+          }
+
+        if (
           checkValue($item`battery (lantern)`, checkTurnSave("BoozeDrop", $effect`Lantern-Charged`))
         ) {
           if (itemAmount($item`battery (AAA)`) >= 5) create($item`battery (lantern)`, 1);
@@ -309,7 +319,7 @@ export const BoozeDropQuest: Quest = {
             }
           }
 
-        if (checkValue($item`pocket wish`, checkTurnSave("BoozeDrop", $effect`Infernal Thirst`)))
+        if (CommunityService.BoozeDrop.actualCost() > 4)
           wishFor($effect`Infernal Thirst`);
       },
       completed: () => CommunityService.BoozeDrop.isDone(),

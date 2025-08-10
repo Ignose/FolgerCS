@@ -304,20 +304,20 @@ export const MoxieQuest: Quest = {
           }
 
         if (
-          CommunityService.Moxie.actualCost() > 1 ) {
-            if (!have($item`Letter from Carrie Bradshaw`)) {
-              buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
-            }
-            withChoice(1506, 3, () => use($item`Letter from Carrie Bradshaw`));
-          }
-
-        if (
           CommunityService.Moxie.actualCost() > 1 &&
           have($item`pocket maze`) &&
           !have($effect`Amazing`) &&
           computeHotRes(false) <= 1
         )
           use($item`pocket maze`);
+
+        if (
+          CommunityService.Moxie.actualCost() > 1 ) {
+            if (!have($item`Letter from Carrie Bradshaw`)) {
+              buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
+            }
+            withChoice(1506, 3, () => use($item`Letter from Carrie Bradshaw`));
+          }
 
         if (
           CommunityService.Moxie.actualCost() >= 7 &&

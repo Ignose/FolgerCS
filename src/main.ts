@@ -1,5 +1,6 @@
 import {
   cliExecute,
+  Effect,
   myAdventures,
   myAscensions,
   myPrimestat,
@@ -17,7 +18,7 @@ import {
   logTestCompletion,
   simpleDateDiff,
 } from "./lib";
-import { $familiar, $item, $modifier, $skill, $stat, get, have, set, sinceKolmafiaRevision } from "libram";
+import { $familiar, $item, $skill, $stat, get, have, set, sinceKolmafiaRevision } from "libram";
 import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
 import { Task } from "./engine/task";
@@ -34,7 +35,7 @@ import { DonateQuest, logResourceUsage } from "./tasks/donate";
 import { SpellDamageQuest } from "./tasks/spelldamage";
 import { checkRequirements, checkTests, simPulls } from "./sim";
 import { args } from "./args";
-import { chooseBuskEquipment } from "./beret";
+import { findTopBusksGreedy } from "./beret";
 
 const timeProperty = "fullday_elapsedTime";
 
@@ -53,7 +54,7 @@ export function main(command?: string): void {
     return;
   }
   if (args.test) {
-    chooseBuskEquipment([[ $modifier`Spell Damage Percent`, 1 ]]);
+    test();
     return;
   }
 
@@ -140,4 +141,27 @@ export function main(command?: string): void {
 
 function runComplete(): boolean {
   return get("kingLiberated") && get("lastEmptiedStorage") === myAscensions();
+}
+
+function test(): void {
+  const uselesseffects = Effect.all().filter((e) => have(e));
+
+  const best = findTopBusksGreedy(
+    {
+      "Familiar Weight": 10,
+      "Spell Damage Percent": 1,
+    },
+    uselesseffects
+  );
+
+  best.powers.forEach((power, index) => {
+    const outfit = best.outfit[index];
+    print(`Busk ${index + 1}: Power = ${power}`);
+    print(
+      `  - Equipment: Hat = ${outfit.hat?.name ?? "?"}, Shirt = ${outfit.shirt?.name ?? "?"}, Pants = ${outfit.pants?.name ?? "?"}`
+    );
+    print(" ");
+  });
+
+  print(`Total score: ${best.score}`);
 }

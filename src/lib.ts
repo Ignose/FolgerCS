@@ -1538,6 +1538,4 @@ export function wardrobeGood(): boolean {
   return false;
 }
 
-export const wardrobeG = wardrobeGood();
-
 export const peridotChoice = (monster: Monster) => ({ 1557: `1&bandersnatch=${monster.id}` });

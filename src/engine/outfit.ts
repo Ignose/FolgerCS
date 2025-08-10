@@ -15,6 +15,7 @@ import {
   totalTurnsPlayed,
 } from "kolmafia";
 import {
+  $effect,
   $familiar,
   $familiars,
   $item,
@@ -87,6 +88,13 @@ function nanorhino(allowAttackingFamiliars = false): Familiar {
     : $familiar.none;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function melodramedary(_allowAttackingFamiliars = false): Familiar {
+  return !(have($effect`Spit Upon`))
+    ? $familiar`Melodramedary`
+    : $familiar.none;
+}
+
 function shorterOrderCook(allowAttackingFamiliars = true): Familiar {
   return allowAttackingFamiliars && !have($item`short stack of pancakes`)
     ? $familiar`Shorter-Order Cook`
@@ -139,6 +147,7 @@ export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
     }
   }
   const familiars = [
+    melodramedary,
     shorterOrderCook,
     garbageFire,
     nanorhino,

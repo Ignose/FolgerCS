@@ -1848,10 +1848,10 @@ eslint-config-prettier@^8.3.0:
   resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.10.0.tgz#3a06a662130807e2502fc3ff8b4143d8a0658e11"
   integrity sha512-SM8AMJdeQqRYT9O9zguiruQZaN7+z+E4eAP9oiLNGKMtomwaB1E9dcgUD6ZAn/eQAb52USbvezbiljfZUhbJcg==
 
-eslint-plugin-libram@^0.4.25:
-  version "0.4.27"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-libram/-/eslint-plugin-libram-0.4.27.tgz#88b26a6d3cad3ffa2a6053d0c93295de5e240da0"
-  integrity sha512-y3Wj5go84NMfdNWAlvd2TklBb+XVK4tOyMtbXQXn8LqK/qtwuu5XLNw4XSVD8XHB2ujuABncwaViwPL79OtNbQ==
+eslint-plugin-libram@^0.4.30:
+  version "0.4.30"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-libram/-/eslint-plugin-libram-0.4.30.tgz#67ca24042f080269e66b4cb253a3a567e61e629c"
+  integrity sha512-cKHTR4UeqljRsVeIlP65rtS+L1bZA6VtPn/2Yij9PlzOo0ouY1L+V9HLcpVIL8NZX6JlPcVxznHDZDxQFe7FHA==
   dependencies:
     html-entities "^2.5.2"
     requireindex "~1.2.0"
@@ -2350,10 +2350,10 @@ kol-rng@^2.0.0:
   dependencies:
     mersenne-twister "^1.1.0"
 
-kolmafia@^5.28266.0:
-  version "5.28549.0"
-  resolved "https://registry.yarnpkg.com/kolmafia/-/kolmafia-5.28549.0.tgz#ac5611280af93605c7d9b84e3da8a8ca7db86484"
-  integrity sha512-cQy6jVquX8ccOltnleeWiiSrkjNYHz7K2eVeQD+V/zRFl0SpKWZ7qwM9+pXS/Og4a7X4LRN5drItJ2CjH1DWxQ==
+kolmafia@^5.28591.0:
+  version "5.28591.0"
+  resolved "https://registry.yarnpkg.com/kolmafia/-/kolmafia-5.28591.0.tgz#c73ab814843a1213be4163df11eb90ed2de89620"
+  integrity sha512-9TGUYaipWtbuPmOYJOSG0F+7QU6dbuBGNNiNOIRaESKgpWNIAduhrJ1jLoJcbGmPRfFjalDa8nb3G83VI5mczg==
 
 levn@^0.4.1:
   version "0.4.1"
