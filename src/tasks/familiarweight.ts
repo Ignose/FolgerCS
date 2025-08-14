@@ -58,7 +58,6 @@ export const FamiliarWeightQuest: Quest = {
     },
     {
       name: "Late Eat Deep Dish",
-      ready: () => args.latedeepdish,
       completed: () => get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`),
       do: (): void => {
         if (have($item`familiar scrapbook`)) {
