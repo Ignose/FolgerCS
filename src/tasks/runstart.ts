@@ -234,28 +234,6 @@ export const RunStartQuest: Quest = {
       limit: { tries: 3 },
     },
     {
-      name: "Summon Sugar Sheets",
-      completed: () =>
-        !have($skill`Summon Sugar Sheets`) || args.savesugar || get("tomeSummons") >= 3,
-      do: (): void => {
-        const haveBT = have($item`borrowed time`) ? 1 : 0;
-        const sheetsToMake = 3 - get("tomeSummons") - haveBT;
-        restoreMp(2 * sheetsToMake);
-        useSkill($skill`Summon Sugar Sheets`, sheetsToMake);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Fold Sugar Sheets",
-      completed: () => !have($item`sugar sheet`) || args.experimentalsynth,
-      do: (): void => {
-        const nextMissingSugarItem =
-          $items`sugar shorts, sugar chapeau, sugar shank`.find((it) => !have(it)) || $item`none`;
-        create(nextMissingSugarItem);
-      },
-      limit: { tries: 3 },
-    },
-    {
       name: "Chateau Desk",
       completed: () => get("_chateauDeskHarvested") || !get("chateauAvailable"),
       do: (): void => {

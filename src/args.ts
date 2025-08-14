@@ -123,10 +123,6 @@ export const args = Args.create(
       help: `Do not use harvested pumpkins`,
       default: false,
     }),
-    savesugar: Args.flag({
-      help: `Do not spend tome uses on sugar shorts/chapeau/shank`,
-      default: false,
-    }),
     savegarden: Args.flag({
       help: `Do not harvest your garden`,
       default: false,

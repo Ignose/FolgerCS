@@ -122,7 +122,6 @@ import {
 } from "../lib";
 import {
   baseOutfit,
-  chooseFamiliar,
   docBag,
   garbageShirt,
   unbreakableUmbrella,
@@ -1238,6 +1237,41 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Snojo Pledge",
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        if (get("snojoSetting") === null) {
+          visitUrl("place.php?whichplace=snojo&action=snojo_controller");
+          runChoice(1);
+        }
+        unbreakableUmbrella();
+        garbageShirt();
+        restoreMp(50);
+      },
+      ready: () => have($familiar`Patriotic Eagle`) && get("snojoAvailable"),
+      completed: () => get("_snojoFreeFights") >= 10 || !get("snojoAvailable"),
+      do: $location`The X-32-F Combat Training Snowman`,
+      combat: new CombatStrategy().macro(
+        Macro.if_(
+          "!haseffect Citizen of a Zone",
+          Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`)
+        )
+          .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
+          .trySkill($skill`Gulp Latte`)
+          .default()
+      ),
+      outfit: () => ({
+        familiar: $familiar`Patriotic Eagle`,
+      }),
+      limit: { tries: 10 },
+      post: (): void => {
+        if (get("_snojoFreeFights") >= 10) cliExecute("hottub");
+        if (restoreMPEfficiently() === "Refill Latte" && myMp() < 75) refillLatte();
+        sendAutumnaton();
+        sellMiscellaneousItems();
+      },
+    },
+    {
       name: "Snojo",
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
@@ -1252,17 +1286,10 @@ export const LevelingQuest: Quest = {
       completed: () => get("_snojoFreeFights") >= 10 || !get("snojoAvailable"),
       do: $location`The X-32-F Combat Training Snowman`,
       combat: new CombatStrategy().macro(
-        Macro.if_(
-          "!haseffect Citizen of a Zone",
-          Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`)
-        )
-          .trySkill($skill`Recall Facts: %phylum Circadian Rhythms`)
-          .trySkill($skill`Gulp Latte`)
-          .default()
+        Macro.default()
       ),
       outfit: () => ({
         ...baseOutfit(true, false, $monster`X-32-F Combat Training Snowman`),
-        familiar: !have($effect`Citizen of a Zone`) ? $familiar`Patriotic Eagle` : chooseFamiliar(),
         shirt: garbageShirt() ? $item`makeshift garbage shirt` : undefined,
       }),
       limit: { tries: 10 },
