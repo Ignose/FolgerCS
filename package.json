@@ -36,7 +36,7 @@
     "grimoire-kolmafia": "^0.3.29",
     "kol-rng": "^2.0.0",
     "kolmafia": "^5.28591.0",
-    "libram": "^0.10.13",
+    "libram": "^0.11.9",
     "mafia-shared-relay": "0.0.7"
   },
   "author": "Pantocyclus/Seraphiii",

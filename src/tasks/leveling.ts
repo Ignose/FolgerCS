@@ -24,6 +24,7 @@ import {
   maximize,
   mpCost,
   myAdventures,
+  myBasestat,
   myClass,
   myHp,
   myInebriety,
@@ -67,6 +68,7 @@ import {
   $stat,
   AprilingBandHelmet,
   AutumnAton,
+  CinchoDeMayo,
   clamp,
   CombatLoversLocket,
   ensureEffect,
@@ -75,6 +77,7 @@ import {
   have,
   Leprecondo,
   MayamCalendar,
+  PrismaticBeret,
   // set,
   SongBoom,
   SourceTerminal,
@@ -346,6 +349,38 @@ export const LevelingQuest: Quest = {
       ready: () => have($item`protonic accelerator pack`),
       completed: () => get("_streamsCrossed"),
       do: () => cliExecute("crossstreams"),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Party Soundtrack",
+      ready: () => have($item`Cincho de Mayo`) && CinchoDeMayo.currentCinch() >= 30,
+      completed: () => have($effect`Party Soundtrack`),
+      do: () => useSkill($skill`Cincho: Party Soundtrack`),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Beret? Beret.",
+      ready: () => have(toItem(11919)) && have($item`punk rock jacket`) && myBasestat($stat`muscle`) > 100,
+      completed: () => get("_beretBuskingUses",0) >= 5,
+      do: () => {
+        PrismaticBeret.buskAt(825, true);
+        PrismaticBeret.buskAt(800, true);
+        PrismaticBeret.buskAt(885, true);
+        PrismaticBeret.buskAt(765, true);
+        PrismaticBeret.buskAt(800, true);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Do the sweats",
+      // eslint-disable-next-line libram/verify-constants
+      ready: () => have($item`blood cubic zirconia`) && myLevel() >= 15,
+      // eslint-disable-next-line libram/verify-constants
+      completed: () => have($effect`Up To 11`),
+      do: () => {
+        // eslint-disable-next-line libram/verify-constants
+        useSkill($skill`BCZ: Dial it up to 11`);
+      },
       limit: { tries: 1 },
     },
     {
@@ -1853,7 +1888,6 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Free Kills and More Fights",
-      after: ["Drink Bee's Knees"],
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         if (equippedItem($slot`offhand`) !== $item`latte lovers member's mug`) {
