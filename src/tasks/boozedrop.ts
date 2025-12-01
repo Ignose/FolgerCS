@@ -41,6 +41,7 @@ import {
   checkTurnSave,
   checkValue,
   forbiddenEffects,
+  fuelUp,
   logTestSetup,
   tryAcquiringEffect,
   useLoathingIdol,
@@ -184,6 +185,7 @@ export const BoozeDropQuest: Quest = {
       ready: () => args.asdon,
       completed: () => have($effect`Driving Observantly`),
       do: (): void => {
+        fuelUp();
         drive($effect`Driving Observantly`);
       },
       limit: { tries: 3 },

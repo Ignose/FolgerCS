@@ -20,7 +20,7 @@ import {
   have,
   uneffect,
 } from "libram";
-import { checkTurnSave, checkValue, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
+import { checkTurnSave, checkValue, fuelUp, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
 import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
@@ -61,6 +61,7 @@ export const NoncombatQuest: Quest = {
       ready: () => args.asdon,
       completed: () => have($effect`Driving Stealthily`),
       do: (): void => {
+        fuelUp();
         drive($effect`Driving Stealthily`);
       },
       limit: { tries: 3 },

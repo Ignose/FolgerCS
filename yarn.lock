@@ -1848,10 +1848,10 @@ eslint-config-prettier@^8.3.0:
   resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.10.0.tgz#3a06a662130807e2502fc3ff8b4143d8a0658e11"
   integrity sha512-SM8AMJdeQqRYT9O9zguiruQZaN7+z+E4eAP9oiLNGKMtomwaB1E9dcgUD6ZAn/eQAb52USbvezbiljfZUhbJcg==
 
-eslint-plugin-libram@^0.4.30:
-  version "0.4.30"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-libram/-/eslint-plugin-libram-0.4.30.tgz#67ca24042f080269e66b4cb253a3a567e61e629c"
-  integrity sha512-cKHTR4UeqljRsVeIlP65rtS+L1bZA6VtPn/2Yij9PlzOo0ouY1L+V9HLcpVIL8NZX6JlPcVxznHDZDxQFe7FHA==
+eslint-plugin-libram@^0.4.33:
+  version "0.4.33"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-libram/-/eslint-plugin-libram-0.4.33.tgz#d76c0a16e5869e050e88f1c8a23f7081df49510c"
+  integrity sha512-QLajjkVuPNoiimfBH4iKHWXZCze8hnkUja+DHo/7ff0ddb1AQf6V2lk/nxXku/t+AtLVw2r0s1AliuZv4HV/8Q==
   dependencies:
     html-entities "^2.5.2"
     requireindex "~1.2.0"
@@ -2149,10 +2149,10 @@ graphemer@^1.4.0:
   resolved "https://registry.yarnpkg.com/graphemer/-/graphemer-1.4.0.tgz#fb2f1d55e0e3a1849aeffc90c4fa0dd53a0e66c6"
   integrity sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==
 
-grimoire-kolmafia@^0.3.29:
-  version "0.3.29"
-  resolved "https://registry.yarnpkg.com/grimoire-kolmafia/-/grimoire-kolmafia-0.3.29.tgz#9f9f923b891a570365136177700f6c7614506969"
-  integrity sha512-EiFV38tuG7wEHhinBVepUqEDDmEyOo4vZjSRSiKEe13GV0+wgL8Q3ycArSAuE4125KPPFZ8EKXDmTU79xtPP7g==
+grimoire-kolmafia@^0.3.33:
+  version "0.3.33"
+  resolved "https://registry.yarnpkg.com/grimoire-kolmafia/-/grimoire-kolmafia-0.3.33.tgz#b56fa60cba48aea3fde88d68090ed2174a607b78"
+  integrity sha512-yidkJES1IKMAGuqAw8OLgX7p/XBcdDNXs2yt6zjP640ZgwFQKfLgxm42pdK/dt9WGzlSKMjIwrosndsENnOBNQ==
   dependencies:
     core-js "^3.16.4"
 
@@ -2350,10 +2350,10 @@ kol-rng@^2.0.0:
   dependencies:
     mersenne-twister "^1.1.0"
 
-kolmafia@^5.28591.0:
-  version "5.28591.0"
-  resolved "https://registry.yarnpkg.com/kolmafia/-/kolmafia-5.28591.0.tgz#c73ab814843a1213be4163df11eb90ed2de89620"
-  integrity sha512-9TGUYaipWtbuPmOYJOSG0F+7QU6dbuBGNNiNOIRaESKgpWNIAduhrJ1jLoJcbGmPRfFjalDa8nb3G83VI5mczg==
+kolmafia@^5.28744.0:
+  version "5.28744.0"
+  resolved "https://registry.yarnpkg.com/kolmafia/-/kolmafia-5.28744.0.tgz#0de4455aa3837bdef235907aa4cd00782314a0ae"
+  integrity sha512-L2WhqPEXlcCiQzLIj2QSTYTBmzJ90MhAmPCcjUKJb2clktw0FewtzS+dH9hdEry+uilZpN8k/XxrXi/EoHd3qA==
 
 levn@^0.4.1:
   version "0.4.1"
@@ -2364,9 +2364,9 @@ levn@^0.4.1:
     type-check "~0.4.0"
 
 libram@^0.11.9:
-  version "0.11.9"
-  resolved "https://registry.yarnpkg.com/libram/-/libram-0.11.9.tgz#b8aba12db14e4fec27122ac8c94d1422e93cdd53"
-  integrity sha512-fj4RIOc0/K/ytvp0F1bOrScstPg5Fba2bt/8eNrRbmHPRPUPILepsq+dJ9d98H3Ae/KtNupkPicNB584lg0h1w==
+  version "0.11.10"
+  resolved "https://registry.yarnpkg.com/libram/-/libram-0.11.10.tgz#8274b4d95f683ec6dae1493011811514e4f9f260"
+  integrity sha512-ygi9+ADXyN8DrbDD/F09iOIVS0HLcak2AP+f+tF699/ZRbl0JwQPeCec/ICo/CQmQ/rGN84eWOZpzMDZBL+eSw==
   dependencies:
     html-entities "^2.5.2"
 

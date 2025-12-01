@@ -26,7 +26,6 @@ import {
   myAdventures,
   myBasestat,
   myClass,
-  myHp,
   myInebriety,
   myLevel,
   myMaxhp,
@@ -103,7 +102,6 @@ import {
   computeCombatFrequency,
   findMaxPull,
   forbiddenEffects,
-  fuelUp,
   generalStoreXpEffect,
   getSynthExpBuff,
   getValidComplexCandyPairs,
@@ -125,7 +123,6 @@ import {
 } from "../lib";
 import {
   baseOutfit,
-  docBag,
   garbageShirt,
   unbreakableUmbrella,
 } from "../engine/outfit";
@@ -136,7 +133,6 @@ import {
   chooseRift,
   rufusTarget,
 } from "libram/dist/resources/2023/ClosedCircuitPayphone";
-import { drive } from "libram/dist/resources/2017/AsdonMartin";
 import { cheatCard, getRemainingCheats } from "libram/dist/resources/2015/DeckOfEveryCard";
 import { args } from "../args";
 import {
@@ -145,10 +141,11 @@ import {
   setConfiguration,
   Station,
 } from "libram/dist/resources/2022/TrainSet";
+import { freekillMacro, freekillOutfit, freekillsRemaining } from "../engine/resources";
 
 const primeStat = statToMaximizerString(myPrimestat());
 
-const useCinch = () => get("_cinchUsed") <= 75;
+export const useCinch = () => get("_cinchUsed") <= 75;
 const godLobsterChoice = () => (have($item`God Lobster's Ring`) ? 2 : 3);
 
 export function restoreMPEfficiently(): string {
@@ -243,27 +240,6 @@ const usefulEffects: Effect[] = [
   // Spell dmg
 ];
 
-const prismaticEffects: Effect[] = [
-  $effect`Frostbeard`,
-  $effect`Intimidating Mien`,
-  $effect`Pyromania`,
-  $effect`Rotten Memories`,
-  $effect`Takin' It Greasy`,
-  $effect`Your Fifteen Minutes`,
-  $effect`Bendin' Hell`,
-];
-
-const wdmgEffects: Effect[] = [
-  $effect`Carol of the Bulls`,
-  $effect`Disdain of the War Snapper`,
-  $effect`Frenzied, Bloody`,
-  $effect`Jackasses' Symphony of Destruction`,
-  $effect`Rage of the Reindeer`,
-  $effect`Scowl of the Auk`,
-  $effect`Song of the North`,
-  $effect`Tenacity of the Snapper`,
-];
-
 export function powerlevelingLocation(): Location {
   if (get("neverendingPartyAlways")) return $location`The Neverending Party`;
   else if (get("stenchAirportAlways") || get("_stenchAirportToday"))
@@ -312,6 +288,14 @@ export function bestShadowRift(): Location {
 function sendAutumnaton(): void {
   if (AutumnAton.availableLocations().includes(bestShadowRift()) && have($item`autumn-aton`))
     AutumnAton.sendTo(bestShadowRift());
+}
+
+function prepCommon(hp: boolean = true, mp: boolean = true, effects: boolean = true) {
+  if (hp) restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+  unbreakableUmbrella();
+  garbageShirt();
+  if (effects) [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
+  if (mp) restoreMp(50);
 }
 
 export const LevelingQuest: Quest = {
@@ -373,12 +357,9 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Do the sweats",
-      // eslint-disable-next-line libram/verify-constants
       ready: () => have($item`blood cubic zirconia`) && myLevel() >= 15,
-      // eslint-disable-next-line libram/verify-constants
       completed: () => have($effect`Up To 11`),
       do: () => {
-        // eslint-disable-next-line libram/verify-constants
         useSkill($skill`BCZ: Dial it up to 11`);
       },
       limit: { tries: 1 },
@@ -876,28 +857,11 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Driving Recklessly",
-      after: ["Open Mayday"],
-      ready: () => args.asdon,
-      completed: () => have($effect`Driving Recklessly`),
-      do: (): void => {
-        fuelUp();
-        drive($effect`Driving Recklessly`);
-      },
-      limit: { tries: 3 },
-    },
-    {
       // Set up a pretty lit buff
       name: "NEP Episode 2: The Prequel",
       ready: () => get("noncombatForcerActive"),
       completed: () => have($effect`Spiced Up`),
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-        garbageShirt();
-      },
+      prepare: () => prepCommon,
       do: $location`The Neverending Party`,
       choices: {
         1324: 2,
@@ -907,7 +871,6 @@ export const LevelingQuest: Quest = {
       combat: new CombatStrategy().macro(Macro.trySkill($skill`%fn, spit on me!`).kill()),
       outfit: () => ({
         ...baseOutfit(),
-        // eslint-disable-next-line libram/verify-constants
         acc3: get("_mobiusStripEncounters",0) === 0 ? $item`Möbius ring` : undefined,
       }),
       limit: { tries: 2 },
@@ -922,12 +885,7 @@ export const LevelingQuest: Quest = {
       name: "Early Camel Spit",
       ready: () =>
         get("camelSpit") >= 100,
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-      },
+      prepare: () => prepCommon,
       completed: () => have($effect`Spit Upon`),
       do: $location`Noob Cave`,
       choices: {
@@ -978,19 +936,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Map Amateur Ninja",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
-          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase blue rocket!");
-          buy($item`blue rocket`, 1);
-        }
-        unbreakableUmbrella();
-        docBag();
-        restoreMp(50);
-        if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
-          if (myMeat() >= 250) buy($item`red rocket`, 1);
-        }
-      },
+      prepare: () => prepCommon,
       completed: () =>
         !have($skill`Map the Monsters`) ||
         get("_monstersMapped") >= 3 ||
@@ -1089,19 +1035,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Restore MP with Glowing Blue",
       ready: () => restoreMPEfficiently() === "Blue Rocket",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        if (!have($effect`Everything Looks Blue`) && !have($item`blue rocket`)) {
-          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase blue rocket!");
-          buy($item`blue rocket`, 1);
-        }
-        unbreakableUmbrella();
-        restoreMp(50);
-        if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
-          if (myMeat() >= 250) buy($item`red rocket`, 1);
-        }
-        sellMiscellaneousItems();
-      },
+      prepare: () => prepCommon,
       completed: () =>
         have($effect`Everything Looks Blue`) ||
         myMp() >= 75 ||
@@ -1128,12 +1062,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Restore MP with Glowing Blue (continued)",
       ready: () => restoreMPEfficiently() === "Blue Rocket",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        restoreMp(50);
-        sellMiscellaneousItems();
-      },
+      prepare: () => prepCommon,
       // We need to spend at least 1adv to get the mp regen from Glowing Blue
       // This is only an issue if our powerleveling zone is the NEP, since the previous fight would be free
       completed: () =>
@@ -1163,18 +1092,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Shadow Rift",
-      prepare: (): void => {
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        restoreMp(50);
-        sellMiscellaneousItems();
-        garbageShirt();
-        if (checkPurqoise(250)) autosell($item`porquoise`, 1);
-        if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
-          if (myMeat() >= 250) buy($item`red rocket`, 1);
-        }
-      },
+      prepare: () => prepCommon,
       completed: () =>
         have($item`Rufus's shadow lodestone`) ||
         (!have($effect`Shadow Affinity`) && get("encountersUntilSRChoice") !== 0) ||
@@ -1203,12 +1121,7 @@ export const LevelingQuest: Quest = {
       name: "Run CyberRealm",
       ready: () => have($item`server room key`) && have($skill`OVERCLOCK(10)`) && !args.savecyber,
       prepare: () => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        restoreMp(50);
-        sellMiscellaneousItems();
-        garbageShirt();
-        if (checkPurqoise(250)) autosell($item`porquoise`, 1);
+        prepCommon();
         $effects`Astral Shell, Elemental Saucesphere, Scarysauce`.forEach((ef) => {
           if (!have(ef)) useSkill(toSkill(ef));
         });
@@ -1273,16 +1186,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Snojo Pledge",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        if (get("snojoSetting") === null) {
-          visitUrl("place.php?whichplace=snojo&action=snojo_controller");
-          runChoice(1);
-        }
-        unbreakableUmbrella();
-        garbageShirt();
-        restoreMp(50);
-      },
+      prepare: () => prepCommon,
       ready: () => have($familiar`Patriotic Eagle`) && get("snojoAvailable"),
       completed: () => get("_snojoFreeFights") >= 10 || !get("snojoAvailable"),
       do: $location`The X-32-F Combat Training Snowman`,
@@ -1308,16 +1212,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Snojo",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        if (get("snojoSetting") === null) {
-          visitUrl("place.php?whichplace=snojo&action=snojo_controller");
-          runChoice(1);
-        }
-        unbreakableUmbrella();
-        garbageShirt();
-        restoreMp(50);
-      },
+      prepare: () => prepCommon,
       completed: () => get("_snojoFreeFights") >= 10 || !get("snojoAvailable"),
       do: $location`The X-32-F Combat Training Snowman`,
       combat: new CombatStrategy().macro(
@@ -1347,12 +1242,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Bakery Pledge",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-        docBag();
-        restoreMp(50);
-      },
+      prepare: () => prepCommon,
       ready: () => !get("snojoAvailable"),
       completed: () =>
         have($effect`Citizen of a Zone`) ||
@@ -1382,9 +1272,7 @@ export const LevelingQuest: Quest = {
     {
       name: "LOV Tunnel",
       prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
+        prepCommon();
         tryAcquiringEffect($effect`Comic Violence`);
         tryAcquiringEffect($effect`Fat Leon's Phat Loot Lyric`);
       },
@@ -1525,13 +1413,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Kramco",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        garbageShirt();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-      },
+      prepare: () => prepCommon,
       ready: () => getKramcoWandererChance() >= 1.0,
       completed: () => getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`),
       do: $location`Noob Cave`,
@@ -1552,9 +1434,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Oliver's Place (Peridot)",
       prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        restoreMp(50);
+        prepCommon();
         if (SourceTerminal.have()) cliExecute("terminal educate portscan");
       },
       completed: () =>
@@ -1578,11 +1458,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Oliver's Place",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        restoreMp(50);
-      },
+      prepare: () => prepCommon,
       completed: () => get("_speakeasyFreeFights", 0) >= 3 || !get("ownsSpeakeasy"),
       do: $location`An Unusually Quiet Barroom Brawl`,
       combat: new CombatStrategy().macro(Macro.default()),
@@ -1596,13 +1472,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "God Lobster",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-        garbageShirt();
-      },
+      prepare: () => prepCommon,
       completed: () =>
         get("_godLobsterFights") >= 3 ||
         !have($familiar`God Lobster`),
@@ -1624,12 +1494,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Eldritch Tentacle",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-      },
+      prepare: () => prepCommon,
       completed: () => get("_eldritchHorrorEvoked") || !have($skill`Evoke Eldritch Horror`),
       do: () => useSkill($skill`Evoke Eldritch Horror`),
       post: (): void => {
@@ -1643,12 +1508,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Witchess Bishop",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-      },
+      prepare: () => prepCommon,
       completed: () =>
         get("_witchessFights") >= 4 - (args.skipbishop ? 2 : 0) ||
         !Witchess.have() ||
@@ -1667,13 +1527,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "DMT",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-        garbageShirt();
-      },
+      prepare: () => prepCommon,
       completed: () => get("_machineTunnelsAdv") >= 5 || !have($familiar`Machine Elf`),
       do: $location`The Deep Machine Tunnels`,
       combat: new CombatStrategy().macro(Macro.default(useCinch())),
@@ -1692,25 +1546,7 @@ export const LevelingQuest: Quest = {
       name: "Powerlevel",
       completed: () => get("_neverendingPartyFreeTurns") >= 10,
       do: powerlevelingLocation(),
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        unbreakableUmbrella();
-        garbageShirt();
-        if (mainStatStr === `Muscle`) {
-          muscleList.forEach((ef) => tryAcquiringEffect(ef));
-        }
-        if (mainStatStr === `Mysticality`) {
-          mysticalityList.forEach((ef) => tryAcquiringEffect(ef));
-        }
-        if (mainStatStr === `Moxie`) {
-          moxieList.forEach((ef) => tryAcquiringEffect(ef));
-        }
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-        if (!have($effect`Everything Looks Red`) && !have($item`red rocket`)) {
-          if (myMeat() >= 250) buy($item`red rocket`, 1);
-        }
-      },
+      prepare: () => prepCommon,
       outfit: () => ({
         ...baseOutfit(true, false, $monster`burnout`)
       }),
@@ -1749,17 +1585,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Witchess King",
-      prepare: (): void => {
-        garbageShirt();
-        [
-          ...usefulEffects.filter((ef) => !$effects`Song of Sauce, Song of Bravado`.includes(ef)),
-          ...prismaticEffects,
-          ...wdmgEffects,
-          ...statEffects,
-        ].forEach((ef) => tryAcquiringEffect(ef));
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-      },
+      prepare: () => prepCommon,
       completed: () =>
         have($item`dented scepter`) ||
         get("_witchessFights") >= 5 ||
@@ -1778,18 +1604,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Witchess Witch",
-      prepare: (): void => {
-        garbageShirt();
-        [
-          ...usefulEffects.filter((ef) => !$effects`Song of Sauce, Song of Bravado`.includes(ef)),
-          ...prismaticEffects,
-          ...wdmgEffects,
-          ...statEffects,
-        ].forEach((ef) => tryAcquiringEffect(ef));
-        if (get("_hotTubSoaks") < 5 && myHp() < myMaxhp()) cliExecute("hottub");
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-      },
+      prepare: () => prepCommon,
       completed: () =>
         have($item`battle broom`) ||
         get("_witchessFights") >= 5 ||
@@ -1820,18 +1635,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Witchess Queen",
-      prepare: (): void => {
-        garbageShirt();
-        [
-          ...usefulEffects.filter((ef) => !$effects`Song of Sauce, Song of Bravado`.includes(ef)),
-          ...prismaticEffects,
-          ...wdmgEffects,
-          ...statEffects,
-        ].forEach((ef) => tryAcquiringEffect(ef));
-        if (get("_hotTubSoaks") < 5 && myHp() < myMaxhp()) cliExecute("hottub");
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-      },
+      prepare: () => prepCommon,
       completed: () =>
         have($item`very pointy crown`) ||
         get("_witchessFights") >= 5 ||
@@ -1857,11 +1661,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Authority",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-        restoreMp(50);
-      },
+      prepare: () => prepCommon,
       ready: () =>
         have($item`Sheriff moustache`) && have($item`Sheriff badge`) && have($item`Sheriff pistol`),
       completed: () => get("_assertYourAuthorityCast") >= 3,
@@ -1888,34 +1688,11 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Free Kills and More Fights",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        if (equippedItem($slot`offhand`) !== $item`latte lovers member's mug`) {
-          unbreakableUmbrella();
-        }
-        garbageShirt();
-        docBag();
-        [...usefulEffects, ...statEffects].forEach((ef) => tryAcquiringEffect(ef));
-        restoreMp(50);
-      },
-      outfit: () => ({...baseOutfit(true, false, $monster`burnout`)}),
-      completed: () =>
-        (get("_shatteringPunchUsed") >= 3 || !have($skill`Shattering Punch`)) &&
-        (get("_gingerbreadMobHitUsed") || !have($skill`Gingerbread Mob Hit`)) &&
-        (have($effect`Everything Looks Yellow`) || !have($item`Jurassic Parka`)) &&
-        (get("_chestXRayUsed") >= 3 || !have($item`Lil' Doctor™ bag`)),
+      prepare: () => prepCommon,
+      outfit: freekillOutfit,
+      completed: () => !freekillsRemaining(),
       do: powerlevelingLocation(),
-      combat: new CombatStrategy().macro(
-        Macro.if_($monster`sausage goblin`, Macro.default(useCinch()))
-          .trySkill($skill`Feel Pride`)
-          .trySkill($skill`Gulp Latte`)
-          .trySkill($skill`Cincho: Confetti Extravaganza`)
-          .trySkill($skill`Spit jurassic acid`)
-          .trySkill($skill`Chest X-Ray`)
-          .trySkill($skill`Shattering Punch`)
-          .trySkill($skill`Gingerbread Mob Hit`)
-          .abort()
-      ),
+      combat: new CombatStrategy().macro(freekillMacro()),
       choices: {
         1094: 5,
         1115: 6,
@@ -1932,6 +1709,6 @@ export const LevelingQuest: Quest = {
         boomBoxProfit();
       },
       limit: { tries: 20 },
-    },
+    }
   ],
 };
