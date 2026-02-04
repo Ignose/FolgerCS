@@ -327,6 +327,13 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Leprecondo",
+      ready: () => Leprecondo.have(),
+      completed: () => Leprecondo.installedFurniture().includes("sous vide laboratory"),
+      do: () => Leprecondo.setFurniture("sous vide laboratory", "couch and flatscreen", "whiskeybed", "beer pong table"),
+      limit: { tries: 1 },
+    },
+    {
       name: "Cross Streams",
       ready: () => have($item`protonic accelerator pack`),
       completed: () => get("_streamsCrossed"),
