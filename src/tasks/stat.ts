@@ -293,13 +293,12 @@ export const MoxieQuest: Quest = {
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
-        if (
-          CommunityService.Moxie.actualCost() > 1 ) {
-            if (!haveLoathingIdol()) {
-              buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
-            }
-            withChoice(1505, 1, () => useLoathingIdol());
+        if (CommunityService.Moxie.actualCost() > 1) {
+          if (!haveLoathingIdol()) {
+            buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
           }
+          withChoice(1505, 1, () => useLoathingIdol());
+        }
 
         if (
           CommunityService.Moxie.actualCost() > 1 &&
@@ -309,13 +308,12 @@ export const MoxieQuest: Quest = {
         )
           use($item`pocket maze`);
 
-        if (
-          CommunityService.Moxie.actualCost() > 1 ) {
-            if (!have($item`Letter from Carrie Bradshaw`)) {
-              buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
-            }
-            withChoice(1506, 3, () => use($item`Letter from Carrie Bradshaw`));
+        if (CommunityService.Moxie.actualCost() > 1) {
+          if (!have($item`Letter from Carrie Bradshaw`)) {
+            buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
           }
+          withChoice(1506, 3, () => use($item`Letter from Carrie Bradshaw`));
+        }
 
         if (
           CommunityService.Moxie.actualCost() >= 7 &&

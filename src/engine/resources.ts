@@ -1,6 +1,6 @@
 import { CombatResource as BaseCombatResource, OutfitSpec } from "grimoire-kolmafia";
 import { Effect, getFuel, Item, Skill } from "kolmafia";
-import { $effect, $item, $items, $monster, $skill, BloodCubicZirconia, get, have } from "libram";
+import { $effect, $item, $items, $monster, $skill, get, have } from "libram";
 import { fuelUp } from "../lib";
 import { baseOutfit } from "./outfit";
 import Macro from "../combat";
@@ -10,7 +10,7 @@ export interface Resource {
   name: string;
   available: () => boolean;
   prepare?: () => void;
-  equip?: Item | OutfitSpec ;
+  equip?: Item | OutfitSpec;
   effect?: Effect;
   chance?: () => number;
 }
@@ -52,19 +52,19 @@ export const freekillSources: FreekillSource[] = [
   {
     name: "Asdon Martin: Missile Launcher",
     available: () => !get("_missileLauncherUsed"),
-    prepare: () => { if (getFuel() < 100) fuelUp() },
+    prepare: () => {
+      if (getFuel() < 100) fuelUp();
+    },
     do: $skill`Asdon Martin: Missile Launcher`,
   },
   {
-    name: "Shadow Brick",
-    available: () => have($item`shadow brick`) && get("_shadowBricksUsed") < 13,
-    do: $item`shadow brick`,
-  },
-  {
-    name: "Sweat Bullets",
-    available: () => have($item`blood cubic zirconia`) && BloodCubicZirconia.availableCasts($skill`BCZ: Sweat Bullets`, 200) > 0,
-    do: $skill`BCZ: Sweat Bullets`,
-    equip: $item`blood cubic zirconia`,
+    name: "Seal Clubbing Club of Legend",
+    // eslint-disable-next-line libram/verify-constants
+    available: () => have($item`legendary seal-clubbing club`) && get("_clubEmTimeUsed", 0) < 5,
+    // eslint-disable-next-line libram/verify-constants
+    do: $skill`Club 'Em Back in Time`,
+    // eslint-disable-next-line libram/verify-constants
+    equip: $item`legendary seal-clubbing club`,
   },
   {
     name: "Jurassic Parka",

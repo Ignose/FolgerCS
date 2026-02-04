@@ -51,22 +51,20 @@ export default class Macro extends StrictMacro {
   }
 
   itemDrop(): Macro {
-    return (
-      Macro.if_(
-        $monster`sausage goblin`,
-        Macro.trySkill($skill`Bowl Straight Up`)
-          .trySkill($skill`Become a Bat`)
-          .default(false)
-      )
-        .trySkill($skill`Bowl Straight Up`)
+    return Macro.if_(
+      $monster`sausage goblin`,
+      Macro.trySkill($skill`Bowl Straight Up`)
         .trySkill($skill`Become a Bat`)
-        .trySkill($skill`Feel Hatred`)
-        .trySkill($skill`Reflex Hammer`)
-        .trySkill($skill`Throw Latte on Opponent`)
-        .trySkill($skill`KGB tranquilizer dart`)
-        .trySkill($skill`Snokebomb`)
-        .runaway()
-    );
+        .default(false)
+    )
+      .trySkill($skill`Bowl Straight Up`)
+      .trySkill($skill`Become a Bat`)
+      .trySkill($skill`Feel Hatred`)
+      .trySkill($skill`Reflex Hammer`)
+      .trySkill($skill`Throw Latte on Opponent`)
+      .trySkill($skill`KGB tranquilizer dart`)
+      .trySkill($skill`Snokebomb`)
+      .runaway();
   }
 
   static itemDrop(): Macro {

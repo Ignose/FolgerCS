@@ -60,15 +60,9 @@ import {
   TrainSet,
 } from "libram";
 import { Quest } from "../engine/task";
-import {
-  bestSIT,
-  getGarden,
-  goVote,
-  sellMiscellaneousItems,
-  statToMaximizerString,
-} from "../lib";
+import { bestSIT, getGarden, goVote, sellMiscellaneousItems, statToMaximizerString } from "../lib";
 import Macro from "../combat";
-import { baseOutfit} from "../engine/outfit";
+import { baseOutfit } from "../engine/outfit";
 import { args } from "../args";
 import { Cycle, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
 
@@ -162,21 +156,19 @@ export const RunStartQuest: Quest = {
       choices: {
         1494: bestSIT,
       },
-      do: () =>
-
-        use($item`S.I.T. Course Completion Certificate`),
+      do: () => use($item`S.I.T. Course Completion Certificate`),
     },
     {
       name: "Do Pullls",
       completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
       do: () => {
-        buyUsingStorage($item`tobiko marble soda`,1)
+        buyUsingStorage($item`tobiko marble soda`, 1);
         takeStorage($item`Great Wolf's beastly trousers`, 1);
         takeStorage($item`meteorite necklace`, 1);
         takeStorage($item`Stick-Knife of Loathing`, 1);
         takeStorage($item`Staff of Simmering Hatred`, 1);
         takeStorage($item`tobiko marble soda`, 1);
-      }
+      },
     },
     {
       name: "Tune Cape",
@@ -214,6 +206,8 @@ export const RunStartQuest: Quest = {
         if (myMeat() >= 2000) {
           restoreMp(50);
         }
+        // eslint-disable-next-line libram/verify-constants
+        useFamiliar($familiar`Skeleton of Crimbo Past`);
         if (get("chateauAvailable")) {
           visitUrl("place.php?whichplace=chateau&action=chateau_restbox");
         } else if (get("getawayCampsiteUnlocked")) {
@@ -294,7 +288,7 @@ export const RunStartQuest: Quest = {
         !have($item`mumming trunk`) ||
         args.savemumming,
       do: (): void => {
-        useFamiliar($familiar`Jill-of-All-Trades`)
+        useFamiliar($familiar`Jill-of-All-Trades`);
         const statString = statToMaximizerString(myPrimestat());
         cliExecute(`mummery ${statString}`);
       },
@@ -419,7 +413,8 @@ export const RunStartQuest: Quest = {
     {
       name: "Set Workshed",
       completed: () =>
-        getWorkshed() === $item`Asdon Martin keyfob (on ring)` || getWorkshed() === $item`model train set`,
+        getWorkshed() === $item`Asdon Martin keyfob (on ring)` ||
+        getWorkshed() === $item`model train set`,
       do: (): void => {
         if (args.asdon) {
           use($item`Asdon Martin keyfob (on ring)`);
@@ -635,7 +630,7 @@ export const RunStartQuest: Quest = {
       combat: new CombatStrategy().macro(
         Macro.trySkill($skill`Launch spikolodon spikes`).default()
       ),
-      post: () => set("_mobiusSeeded", true)
+      post: () => set("_mobiusSeeded", true),
     },
     {
       name: "NEP The Prequel",
@@ -660,8 +655,7 @@ export const RunStartQuest: Quest = {
       do: (): void => {
         if (have($item`Calzone of Legend`)) eat($item`Calzone of Legend`, 1);
         if (have($item`Pizza of Legend`)) eat($item`Pizza of Legend`, 1);
-        if (have($item`Deep Dish of Legend`))
-          eat($item`Deep Dish of Legend`, 1);
+        if (have($item`Deep Dish of Legend`)) eat($item`Deep Dish of Legend`, 1);
       },
       limit: { tries: 1 },
     },

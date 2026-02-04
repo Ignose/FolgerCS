@@ -57,7 +57,9 @@ function wishOrSpleen(): boolean {
   const benefit = actual > 10 ? Math.min(actual - 10, 4) : 0;
   const boombox = have($item`SongBoom™ BoomBox`) ? 25 : 0;
   const spleen = Math.max(3 * (250 + boombox) * 30, get("valueOfAdventure") * 2.5);
-  const wish = get("prAlways") ? (500 + boombox) * 2 * 30 : 275 * 2 * 30 - (benefit * get("valueOfAdventure"));
+  const wish = get("prAlways")
+    ? (500 + boombox) * 2 * 30
+    : 275 * 2 * 30 - benefit * get("valueOfAdventure");
   return wish > spleen;
 }
 
@@ -145,7 +147,7 @@ export const BoozeDropQuest: Quest = {
         forbiddenEffects.includes($effect`Spitting Rhymes`) ||
         get("availableMrStore2002Credits") === 0,
       do: (): void => {
-          buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
+        buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
         withChoice(1505, 3, () => useLoathingIdol());
       },
       limit: { tries: 1 },
@@ -243,13 +245,12 @@ export const BoozeDropQuest: Quest = {
         if (CommunityService.BoozeDrop.actualCost() > 1)
           tryAcquiringEffect($effect`Incredibly Well Lit`);
 
-        if (
-          CommunityService.BoozeDrop.actualCost() > 1 ) {
-            if (!have($item`Letter from Carrie Bradshaw`)) {
-              buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
-            }
-            withChoice(1506, 3, () => use($item`Letter from Carrie Bradshaw`));
+        if (CommunityService.BoozeDrop.actualCost() > 1) {
+          if (!have($item`Letter from Carrie Bradshaw`)) {
+            buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
           }
+          withChoice(1506, 3, () => use($item`Letter from Carrie Bradshaw`));
+        }
 
         if (
           checkValue($item`battery (lantern)`, checkTurnSave("BoozeDrop", $effect`Lantern-Charged`))
@@ -265,21 +266,20 @@ export const BoozeDropQuest: Quest = {
         )
           cliExecute("cheat fortune");
 
-          if (CommunityService.BoozeDrop.actualCost() > 1) {
-            if (
-              wishOrSpleen() &&
-              ((have($item`sugar shank`) && get("tomeSummons") <= 2) || get("tomeSummons") <= 1) &&
-              have($skill`Summon Sugar Sheets`)
-            ) {
-              if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
-              if (!have($item`sugar shank`)) create($item`sugar shank`);
-              if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
-              sweetSynthesis($item`sugar shank`, $item`sugar sheet`);
-            }
+        if (CommunityService.BoozeDrop.actualCost() > 1) {
+          if (
+            wishOrSpleen() &&
+            ((have($item`sugar shank`) && get("tomeSummons") <= 2) || get("tomeSummons") <= 1) &&
+            have($skill`Summon Sugar Sheets`)
+          ) {
+            if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
+            if (!have($item`sugar shank`)) create($item`sugar shank`);
+            if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
+            sweetSynthesis($item`sugar shank`, $item`sugar sheet`);
           }
+        }
 
-        if (CommunityService.BoozeDrop.actualCost() > 4)
-          wishFor($effect`Infernal Thirst`);
+        if (CommunityService.BoozeDrop.actualCost() > 4) wishFor($effect`Infernal Thirst`);
       },
       completed: () => CommunityService.BoozeDrop.isDone(),
       do: (): void => {

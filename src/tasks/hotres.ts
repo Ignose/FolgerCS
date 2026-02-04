@@ -12,13 +12,7 @@ import {
   have,
 } from "libram";
 import { Quest } from "../engine/task";
-import {
-  checkTurnSave,
-  checkValue,
-  logTestSetup,
-  tryAcquiringEffect,
-  wishFor,
-} from "../lib";
+import { checkTurnSave, checkValue, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
 import Macro from "../combat";
 import { args } from "../args";
 

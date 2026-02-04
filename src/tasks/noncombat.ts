@@ -1,14 +1,5 @@
 import { Quest } from "../engine/task";
-import {
-  buy,
-  cliExecute,
-  Effect,
-  equip,
-  print,
-  runChoice,
-  useSkill,
-  visitUrl,
-} from "kolmafia";
+import { buy, cliExecute, Effect, equip, print, runChoice, useSkill, visitUrl } from "kolmafia";
 import {
   $effect,
   $familiar,
@@ -20,7 +11,14 @@ import {
   have,
   uneffect,
 } from "libram";
-import { checkTurnSave, checkValue, fuelUp, logTestSetup, tryAcquiringEffect, wishFor } from "../lib";
+import {
+  checkTurnSave,
+  checkValue,
+  fuelUp,
+  logTestSetup,
+  tryAcquiringEffect,
+  wishFor,
+} from "../lib";
 import { CombatStrategy } from "grimoire-kolmafia";
 import Macro from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";

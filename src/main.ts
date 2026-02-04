@@ -158,7 +158,9 @@ function test(): void {
     const outfit = best.outfit[index];
     print(`Busk ${index + 1}: Power = ${power}`);
     print(
-      `  - Equipment: Hat = ${outfit.hat?.name ?? "?"}, Shirt = ${outfit.shirt?.name ?? "?"}, Pants = ${outfit.pants?.name ?? "?"}`
+      `  - Equipment: Hat = ${outfit.hat?.name ?? "?"}, Shirt = ${
+        outfit.shirt?.name ?? "?"
+      }, Pants = ${outfit.pants?.name ?? "?"}`
     );
     print(" ");
   });

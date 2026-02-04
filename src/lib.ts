@@ -721,7 +721,10 @@ export function logTestSetup(whichTest: CommunityService): void {
     }).`,
     "blue"
   );
-  set(`_CSTest${whichTest.id}`, testTurns + (have($effect`Simmering`) && !have($item`April Shower Thoughts shield`) ? 1 : 0));
+  set(
+    `_CSTest${whichTest.id}`,
+    testTurns + (have($effect`Simmering`) && !have($item`April Shower Thoughts shield`) ? 1 : 0)
+  );
 }
 
 export function tryAcquiringEffect(ef: Effect, tryRegardless = false): void {
@@ -1184,8 +1187,7 @@ export const generalStoreXpEffect: Effect = {
 }[mainStatStr];
 
 export function checkLocketAvailable(): number {
-  const locketAvailable =
-    (args.redskeleton ? 1 : 0) + 2;
+  const locketAvailable = (args.redskeleton ? 1 : 0) + 2;
 
   return locketAvailable;
 }
@@ -1512,7 +1514,7 @@ export function wardrobeGood(): boolean {
   const todayT5 = cliExecuteOutput(`wardrobe kolday=${baseSeed} tier 5`);
   const tomorrowT5 = cliExecuteOutput(`wardrobe kolday=${baseSeed + 1} tier 5`);
 
-  if(meetsCriteria(todayT5) || meetsCriteria(tomorrowT5)) return true;
+  if (meetsCriteria(todayT5) || meetsCriteria(tomorrowT5)) return true;
   return false;
 }
 

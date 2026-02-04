@@ -90,7 +90,12 @@ function nanorhino(allowAttackingFamiliars = false): Familiar {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function melodramedary(_allowAttackingFamiliars = false): Familiar {
-  return !(have($effect`Spit Upon`))
+  return !have($effect`Spit Upon`) &&
+    !(
+      have($item`legendary seal-clubbing club`) &&
+      have($item`heartstone`) &&
+      get("_clubEmTimeUsed") < 4
+    )
     ? $familiar`Melodramedary`
     : $familiar.none;
 }
@@ -108,8 +113,7 @@ function garbageFire(): Familiar {
 function sombrero(allowAttackingFamiliars = true): Familiar {
   const sombreros = [
     ...(allowAttackingFamiliars
-      ?
-        $familiars`Jill-of-All-Trades, Patriotic Eagle, Galloping Grill`
+      ? $familiars`Jill-of-All-Trades, Patriotic Eagle, Galloping Grill`
       : []),
     $familiar`Baby Sandworm`,
     $familiar`Hovering Sombrero`,
@@ -141,8 +145,8 @@ export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
   const ignoredFamiliars = args.explicitlyexcludedfams.split(",").map((i) => toInt(i));
   const defaultFam = have($familiar`Cookbookbat`) ? $familiar`Cookbookbat` : $familiar.none;
   const tcbFamiliar = ToyCupidBow.currentFamiliar();
-  if(tcbFamiliar !== null) {
-    if(ToyCupidBow.turnsLeft() <5) {
+  if (tcbFamiliar !== null) {
+    if (ToyCupidBow.turnsLeft() < 5) {
       return tcbFamiliar;
     }
   }
@@ -159,7 +163,7 @@ export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
     .map((fn) => fn(allowAttackingFamiliars))
     .filter((fam) => have(fam) && !ignoredFamiliars.includes(toInt(fam)));
 
-  print (`Familiar order: ${familiars}`);
+  print(`Familiar order: ${familiars}`);
   return familiars.length > 0 ? familiars[0] : defaultFam;
 }
 
@@ -195,12 +199,13 @@ function baseOutfitFirstPass(
   const mainstat = myPrimestat();
   const mainstatString = statToMaximizerString(mainstat);
 
-  const monster = medianMonster ? medianMonster : $monster`flaming leaflet`
+  const monster = medianMonster ? medianMonster : $monster`flaming leaflet`;
   const monsterScaling = getScalingRate(monster);
 
-  const stringPrequel = monsterScaling > 0 ?
-    `10 ${mainstatString}, 2 ML, 1 ${mainstatString} exp, 25 ${mainstatString} experience percent,`
-    : `2 ML, 3 ${mainstatString} exp, 25 ${mainstatString} experience percent,`;
+  const stringPrequel =
+    monsterScaling > 0
+      ? `10 ${mainstatString}, 2 ML, 1 ${mainstatString} exp, 25 ${mainstatString} experience percent,`
+      : `2 ML, 3 ${mainstatString} exp, 25 ${mainstatString} experience percent,`;
 
   return {
     weapon: useCandyCaneSword()
@@ -224,10 +229,8 @@ function baseOutfitFirstPass(
         ? $item`Cincho de Mayo`
         : undefined,
     familiar: chooseFamiliar(allowAttackingFamiliars),
-    famequip: have($item`tiny rake`) &&
-          get("_leafMonstersFought", 0) < 5
-        ? $item`tiny rake`
-        : undefined,
+    famequip:
+      have($item`tiny rake`) && get("_leafMonstersFought", 0) < 5 ? $item`tiny rake` : undefined,
     modifier: `${stringPrequel} 0.001 familiar experience, -equip tinsel tights, -equip wad of used tape`,
     avoid: [...sugarItemsAboutToBreak()],
   };

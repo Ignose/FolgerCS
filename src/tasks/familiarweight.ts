@@ -120,8 +120,7 @@ export const FamiliarWeightQuest: Quest = {
     },
     {
       name: "Better Empathy",
-      completed: () =>
-        have($effect`Thoughtful Empathy`),
+      completed: () => have($effect`Thoughtful Empathy`),
       do: () => {
         unequip($item`April Shower Thoughts shield`);
         useSkill($skill`Empathy of the Newt`);
@@ -134,9 +133,8 @@ export const FamiliarWeightQuest: Quest = {
     {
       name: "Beret? Beret.",
       ready: () => have(toItem(11919)),
-      completed: () => get("_beretBuskingUses",0) >= 5,
+      completed: () => get("_beretBuskingUses", 0) >= 5,
       do: () => {
-
         buskAt(825, true); // Alt: 1300 w/ Hammertime
 
         buskAt(800, true); // Alt: 1260 w/ Hammertime

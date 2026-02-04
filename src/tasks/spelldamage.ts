@@ -211,6 +211,16 @@ export const SpellDamageQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Dial up to 11",
+      ready: () => have($item`blood cubic zirconia`),
+      completed: () => have($effect`Up To 11`),
+      do: (): void => {
+        equip($item`blood cubic zirconia`, $slot`acc3`);
+        useSkill($skill`BCZ: Dial it up to 11`);
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Test",
       prepare: (): void => {
         if (
