@@ -782,25 +782,21 @@ export const LevelingQuest: Quest = {
     {
       name: "Get an S",
       ready: () =>
-        // eslint-disable-next-line libram/verify-constants
-        have($item`legendary seal-clubbing club`) && have($item`heartstone`),
+        have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
       prepare: () => prepCommon,
       completed: () =>
         get("_clubEmTimeUsed") >= 1 ||
         PeridotOfPeril.zonesToday().includes($location`The Outskirts of Cobb's Knob`),
       do: $location`The Outskirts of Cobb's Knob`,
       choices: peridotChoice($monster`Knob Goblin Assistant Chef`),
-      // eslint-disable-next-line libram/verify-constants
       combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`steal monster's heart`)
-          .trySkill($skill`club 'em back in time`)
+        Macro.trySkill($skill`Steal Monster's Heart`)
+          .trySkill($skill`Club 'Em Back in Time`)
           .abort()
       ),
       outfit: () => ({
-        // eslint-disable-next-line libram/verify-constants
         weapon: $item`legendary seal-clubbing club`,
-        // eslint-disable-next-line libram/verify-constants
-        acc2: $item`heartstone`,
+        acc2: $item`Heartstone`,
         acc3: $item`Peridot of Peril`,
       }),
       limit: { tries: 2 },
@@ -814,25 +810,21 @@ export const LevelingQuest: Quest = {
     {
       name: "Get a P",
       ready: () =>
-        // eslint-disable-next-line libram/verify-constants
-        have($item`legendary seal-clubbing club`) && have($item`heartstone`),
+        have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
       prepare: () => prepCommon,
       completed: () =>
         get("_clubEmTimeUsed") >= 2 ||
         PeridotOfPeril.zonesToday().includes($location`The Sleazy Back Alley`),
       do: $location`The Sleazy Back Alley`,
       choices: peridotChoice($monster`big creepy spider`),
-      // eslint-disable-next-line libram/verify-constants
       combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`steal monster's heart`)
-          .trySkill($skill`club 'em back in time`)
+        Macro.trySkill($skill`Steal Monster's Heart`)
+          .trySkill($skill`Club 'Em Back in Time`)
           .abort()
       ),
       outfit: () => ({
-        // eslint-disable-next-line libram/verify-constants
         weapon: $item`legendary seal-clubbing club`,
-        // eslint-disable-next-line libram/verify-constants
-        acc2: $item`heartstone`,
+        acc2: $item`Heartstone`,
         acc3: $item`Peridot of Peril`,
       }),
       limit: { tries: 2 },
@@ -846,25 +838,21 @@ export const LevelingQuest: Quest = {
     {
       name: "Get an I",
       ready: () =>
-        // eslint-disable-next-line libram/verify-constants
-        have($item`legendary seal-clubbing club`) && have($item`heartstone`),
+        have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
       prepare: () => prepCommon,
       completed: () =>
         get("_clubEmTimeUsed") >= 3 ||
         PeridotOfPeril.zonesToday().includes($location`The Skeleton Store`),
       do: $location`The Skeleton Store`,
       choices: peridotChoice($monster`novelty tropical skeleton`),
-      // eslint-disable-next-line libram/verify-constants
       combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`steal monster's heart`)
-          .trySkill($skill`club 'em back in time`)
+        Macro.trySkill($skill`Steal Monster's Heart`)
+          .trySkill($skill`Club 'Em Back in Time`)
           .abort()
       ),
       outfit: () => ({
-        // eslint-disable-next-line libram/verify-constants
         weapon: $item`legendary seal-clubbing club`,
-        // eslint-disable-next-line libram/verify-constants
-        acc2: $item`heartstone`,
+        acc2: $item`Heartstone`,
         acc3: $item`Peridot of Peril`,
       }),
       limit: { tries: 2 },
@@ -878,25 +866,22 @@ export const LevelingQuest: Quest = {
     {
       name: "Get a T",
       ready: () =>
-        // eslint-disable-next-line libram/verify-constants
-        have($item`legendary seal-clubbing club`) && have($item`heartstone`),
+        have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
       prepare: () => prepCommon,
       completed: () =>
         get("_clubEmTimeUsed") >= 4 ||
         PeridotOfPeril.zonesToday().includes($location`The Haunted Conservatory`),
       do: $location`The Haunted Conservatory`,
       choices: peridotChoice($monster`skeletal cat`),
-      // eslint-disable-next-line libram/verify-constants
+
       combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`steal monster's heart`)
-          .trySkill($skill`club 'em back in time`)
+        Macro.trySkill($skill`Steal Monster's Heart`)
+          .trySkill($skill`Club 'Em Back in Time`)
           .abort()
       ),
       outfit: () => ({
-        // eslint-disable-next-line libram/verify-constants
         weapon: $item`legendary seal-clubbing club`,
-        // eslint-disable-next-line libram/verify-constants
-        acc2: $item`heartstone`,
+        acc2: $item`Heartstone`,
         acc3: $item`Peridot of Peril`,
       }),
       limit: { tries: 2 },
@@ -1395,7 +1380,6 @@ export const LevelingQuest: Quest = {
         back: $item`McHugeLarge duffel bag`,
         shirt: $item`LOV Eardigan`,
         pants: $item`tearaway pants`,
-        // eslint-disable-next-line libram/verify-constants
         acc1: $item`The Eternity Codpiece`,
         acc2: $item`McHugeLarge left ski`,
         acc3: $item`McHugeLarge right ski`,

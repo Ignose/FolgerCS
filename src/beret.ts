@@ -32,7 +32,6 @@ import {
   unequip,
 } from "libram";
 
-// eslint-disable-next-line libram/verify-constants
 const beret = $item`prismatic beret`;
 
 export type EffectValuer =
@@ -269,7 +268,6 @@ export function buskAt(power: number, buyItem = true): boolean {
     ) {
       return false;
     }
-    // eslint-disable-next-line libram/verify-constants
     useSkill($skill`Beret Busking`);
     return initialUses !== get("_beretBuskingUses", 0);
   } finally {

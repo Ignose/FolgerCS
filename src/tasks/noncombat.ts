@@ -1,11 +1,10 @@
 import { Quest } from "../engine/task";
-import { buy, cliExecute, Effect, equip, print, retrieveItem, runChoice, useSkill, visitUrl } from "kolmafia";
+import { buy, cliExecute, Effect, print, retrieveItem, runChoice, useSkill, visitUrl } from "kolmafia";
 import {
   $effect,
   $familiar,
   $item,
   $skill,
-  $slot,
   CommunityService,
   get,
   have,

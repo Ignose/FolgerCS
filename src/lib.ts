@@ -750,15 +750,15 @@ export function tryAcquiringEffect(ef: Effect, tryRegardless = false): void {
       efDefault.includes("CHEAT CODE") &&
       have($item`Powerful Glove`) &&
       !haveEquipped($item`Powerful Glove`);
-    const useHeartstone = 
-      efDefault.includes("Best Pals") || 
+    const useHeartstone =
+      efDefault.includes("Best Pals") ||
       efDefault.includes("Ultraheart") &&
       have($item`Heartstone`) &&
       !haveEquipped($item`Heartstone`);
     const currentAcc3 = equippedItem($slot`acc3`);
     const currentAcc2 = equippedItem($slot`acc2`);
     if (usePowerfulGlove) equip($slot`acc3`, $item`Powerful Glove`);
-    if (useHeartstone) equip($slot`acc2`, $item`heartstone`);
+    if (useHeartstone) equip($slot`acc2`, $item`Heartstone`);
     cliExecute(efDefault.replace(/cast 1 /g, "cast "));
     if (usePowerfulGlove) equip($slot`acc3`, currentAcc3);
     if (useHeartstone) equip($slot`acc2`, currentAcc2);

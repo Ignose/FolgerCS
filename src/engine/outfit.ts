@@ -93,7 +93,7 @@ function melodramedary(_allowAttackingFamiliars = false): Familiar {
   return !have($effect`Spit Upon`) &&
     !(
       have($item`legendary seal-clubbing club`) &&
-      have($item`heartstone`) &&
+      have($item`Heartstone`) &&
       get("_clubEmTimeUsed") < 4
     )
     ? $familiar`Melodramedary`

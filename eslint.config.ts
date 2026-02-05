@@ -10,24 +10,22 @@ await verifyConstantsSinceRevision(VERIFY_CONSTANTS_SINCE);
 export default [
   {
     ignores: ["dist/**"],
+  },
+
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...libram.configs.recommended,
+  prettier,
+
+  {
     files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
         tsconfigRootDir: import.meta.dirname,
-        projectService: {
-          allowDefaultProject: ["*.mjs", "*.js"],
-        },
+        projectService: true,
       },
     },
-  },
-
-  eslint.configs.recommended,
-  ...tseslint.configs.recommended,
-  libram.configs.recommended,
-  prettier,
-
-  {
     rules: {
       "block-scoped-var": "error",
       "eol-last": "error",
