@@ -1,17 +1,14 @@
 import { Quest } from "../engine/task";
 import {
-  adv1,
   autosell,
   buy,
   cliExecute,
   create,
-  drink,
   Effect,
   equip,
-  hermit,
-  inebrietyLimit,
+  handlingChoice,
   itemAmount,
-  myInebriety,
+  lastChoice,
   myMeat,
   print,
   retrieveItem,
@@ -27,6 +24,7 @@ import {
   $effect,
   $familiar,
   $item,
+  $items,
   $location,
   $skill,
   $slot,
@@ -35,7 +33,7 @@ import {
   get,
   getKramcoWandererChance,
   have,
-  uneffect,
+  MayamCalendar,
   unequip,
   withChoice,
 } from "libram";
@@ -43,29 +41,26 @@ import {
   checkTurnSave,
   checkValue,
   forbiddenEffects,
-  haveLoathingIdol,
+  fuelUp,
   logTestSetup,
   tryAcquiringEffect,
   useLoathingIdol,
   wishFor,
 } from "../lib";
 import { CombatStrategy } from "grimoire-kolmafia";
-import Macro, { haveFreeBanish } from "../combat";
+import Macro from "../combat";
 import { drive } from "libram/dist/resources/2017/AsdonMartin";
 import { args } from "../args";
-import { chooseFamiliar } from "../engine/outfit";
 
 function wishOrSpleen(): boolean {
-  if (
-    (checkTurnSave("BoozeDrop", $effect`Infernal Thirst`) -
-      checkTurnSave("BoozeDrop", $effect`Synthesis: Collection`)) *
-      get("valueOfAdventure", 4000) -
-      50000 +
-      get("valueOfAdventure", 4000) * 2 * get("garbo_embezzlerMultiplier", 2.5) >
-    0
-  )
-    return true;
-  return false;
+  const actual = CommunityService.BoozeDrop.actualCost();
+  const benefit = actual > 10 ? Math.min(actual - 10, 4) : 0;
+  const boombox = have($item`SongBoom™ BoomBox`) ? 25 : 0;
+  const spleen = Math.max(3 * (250 + boombox) * 30, get("valueOfAdventure") * 2.5);
+  const wish = get("prAlways")
+    ? (500 + boombox) * 2 * 30
+    : 275 * 2 * 30 - benefit * get("valueOfAdventure");
+  return wish > spleen;
 }
 
 export const BoozeDropQuest: Quest = {
@@ -93,27 +88,6 @@ export const BoozeDropQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Acquire Clover",
-      completed: () =>
-        have($item`11-leaf clover`) || get("_cloversPurchased") >= 2 || args.savecyclops,
-      do: (): void => {
-        buy(1, $item`chewing gum on a string`);
-        use(1, $item`chewing gum on a string`);
-        hermit($item`11-leaf clover`, 1);
-      },
-      limit: { tries: 50 },
-    },
-    {
-      name: "Get Cyclops Eyedrops",
-      completed: () =>
-        have($item`cyclops eyedrops`) || have($effect`One Very Clear Eye`) || args.savecyclops,
-      do: (): void => {
-        if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
-        if (!have($item`cyclops eyedrops`)) adv1($location`The Limerick Dungeon`, -1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Acquire Government",
       completed: () =>
         !have($item`government cheese`) || get("lastAnticheeseDay") > 0 || args.savegovernment,
@@ -132,11 +106,10 @@ export const BoozeDropQuest: Quest = {
       name: "Item Buff",
       completed: () =>
         !have($item`cosmic bowling ball`) ||
-        !haveFreeBanish() ||
         have($effect`Cosmic Ball in the Air`) ||
         have($effect`Bat-Adjacent Form`),
-      do: $location`The Dire Warren`,
-      combat: new CombatStrategy().macro(Macro.itemDrop().abort()),
+      do: $location`The Neverending Party`,
+      combat: new CombatStrategy().macro(Macro.itemDrop()),
       outfit: {
         back: $item`vampyric cloake`,
         offhand:
@@ -145,24 +118,10 @@ export const BoozeDropQuest: Quest = {
             : $item`latte lovers member's mug`,
         acc1: $item`Kremlin's Greatest Briefcase`,
         acc2: $item`Lil' Doctor™ bag`,
-        familiar: chooseFamiliar(false),
+        acc3: $item`spring shoes`,
+        familiar: $familiar`Pair of Stomping Boots`,
       },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Drink Sacramento Wine",
-      completed: () =>
-        have($effect`Sacré Mental`) ||
-        !have($item`Sacramento wine`) ||
-        myInebriety() >= inebrietyLimit() ||
-        args.sacramentowine,
-      do: (): void => {
-        if (myInebriety() < inebrietyLimit()) {
-          tryAcquiringEffect($effect`Ode to Booze`);
-          drink($item`Sacramento wine`, 1);
-          uneffect($effect`Ode to Booze`);
-        }
-      },
+      post: () => useFamiliar($familiar`Left-Hand Man`),
       limit: { tries: 1 },
     },
     {
@@ -185,24 +144,11 @@ export const BoozeDropQuest: Quest = {
       completed: () =>
         have($effect`Spitting Rhymes`) ||
         !have($item`2002 Mr. Store Catalog`) ||
-        forbiddenEffects.includes($effect`Spitting Rhymes`),
+        forbiddenEffects.includes($effect`Spitting Rhymes`) ||
+        get("availableMrStore2002Credits") === 0,
       do: (): void => {
-        if (!haveLoathingIdol) {
-          buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
-        }
+        buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
         withChoice(1505, 3, () => useLoathingIdol());
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Red-soled high heels",
-      ready: () => checkValue("2002", 3),
-      completed: () => have($item`red-soled high heels`) || !have($item`2002 Mr. Store Catalog`),
-      do: (): void => {
-        if (!have($item`Letter from Carrie Bradshaw`)) {
-          buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
-        }
-        withChoice(1506, 3, () => use($item`Letter from Carrie Bradshaw`));
       },
       limit: { tries: 1 },
     },
@@ -222,13 +168,6 @@ export const BoozeDropQuest: Quest = {
       do: () => buy($item`oversized sparkler`, 1),
       limit: { tries: 1 },
     },
-    /* {
-      name: "Yams Item Drop",
-      ready: () => have($item`Mayam Calendar`),
-      completed: () => ["yam4", "explosion", "clock"].every((sym) => get("_mayamSymbolsUsed").includes(sym)) || get("_mayamSymbolsUsed").includes("eye"),
-      do: () => Mayam(stuff),
-      limit: { tries: 1 },
-    }, */
     {
       name: "Feeling Lost",
       completed: () => have($effect`Feeling Lost`) || !have($skill`Feel Lost`),
@@ -237,7 +176,6 @@ export const BoozeDropQuest: Quest = {
     },
     {
       name: "Contemplate Sauce",
-      ready: () => have($item`April Shower Thoughts shield`),
       prepare: () => equip($item`April Shower Thoughts shield`),
       completed: () => have($effect`Lubricating Sauce`),
       do: () => useSkill($skill`Sauce Contemplation`),
@@ -249,9 +187,32 @@ export const BoozeDropQuest: Quest = {
       ready: () => args.asdon,
       completed: () => have($effect`Driving Observantly`),
       do: (): void => {
+        fuelUp();
         drive($effect`Driving Observantly`);
       },
       limit: { tries: 3 },
+    },
+    {
+      name: "Mayam",
+      ready: () => MayamCalendar.have(),
+      completed: () => have($effect`Big Eyes`),
+      do: (): void => {
+        MayamCalendar.submit("eye meat eyepatch explosion");
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Radio",
+      ready: () => have($item`Allied Radio Backpack`) && get("_alliedRadioDropsUsed", 0) < 3,
+      // eslint-disable-next-line libram/verify-constants
+      completed: () => have($effect`Materiel intel`),
+      do: () => {
+        const visitRadio = () => visitUrl(`inventory.php?action=requestdrop&pwd`);
+        visitRadio();
+        if (!handlingChoice() || lastChoice() !== 1563) visitRadio();
+        runChoice(1, `request=materiel intel`);
+      },
+      limit: { tries: 1 },
     },
     {
       name: "Test",
@@ -281,20 +242,15 @@ export const BoozeDropQuest: Quest = {
           equip($slot`familiar`, $item`li'l ninja costume`);
         }
 
-        if (
-          !wishOrSpleen() &&
-          checkValue("Spleen", checkTurnSave("BoozeDrop", $effect`Synthesis: Collection`)) &&
-          ((have($item`sugar shank`) && get("tomeSummons") <= 2) || get("tomeSummons") <= 1) &&
-          have($skill`Summon Sugar Sheets`)
-        ) {
-          if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
-          if (!have($item`sugar shank`)) create($item`sugar shank`);
-          if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
-          sweetSynthesis($item`sugar shank`, $item`sugar sheet`);
-        }
-
-        if (checkTurnSave("BoozeDrop", $effect`Incredibly Well Lit`) > 1)
+        if (CommunityService.BoozeDrop.actualCost() > 1)
           tryAcquiringEffect($effect`Incredibly Well Lit`);
+
+        if (CommunityService.BoozeDrop.actualCost() > 1) {
+          if (!have($item`Letter from Carrie Bradshaw`)) {
+            buy($coinmaster`Mr. Store 2002`, 1, $item`Letter from Carrie Bradshaw`);
+          }
+          withChoice(1506, 3, () => use($item`Letter from Carrie Bradshaw`));
+        }
 
         if (
           checkValue($item`battery (lantern)`, checkTurnSave("BoozeDrop", $effect`Lantern-Charged`))
@@ -310,8 +266,20 @@ export const BoozeDropQuest: Quest = {
         )
           cliExecute("cheat fortune");
 
-        if (checkValue($item`pocket wish`, checkTurnSave("BoozeDrop", $effect`Infernal Thirst`)))
-          wishFor($effect`Infernal Thirst`);
+        if (CommunityService.BoozeDrop.actualCost() > 1) {
+          if (
+            wishOrSpleen() &&
+            ((have($item`sugar shank`) && get("tomeSummons") <= 2) || get("tomeSummons") <= 1) &&
+            have($skill`Summon Sugar Sheets`)
+          ) {
+            if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
+            if (!have($item`sugar shank`)) create($item`sugar shank`);
+            if (!have($item`sugar sheet`)) useSkill($skill`Summon Sugar Sheets`, 1);
+            sweetSynthesis($item`sugar shank`, $item`sugar sheet`);
+          }
+        }
+
+        if (CommunityService.BoozeDrop.actualCost() > 4) wishFor($effect`Infernal Thirst`);
       },
       completed: () => CommunityService.BoozeDrop.isDone(),
       do: (): void => {
@@ -326,8 +294,9 @@ export const BoozeDropQuest: Quest = {
         CommunityService.BoozeDrop.run(() => logTestSetup(CommunityService.BoozeDrop), maxTurns);
       },
       outfit: {
+        avoid: $items`surprisingly capacious handbag`,
         modifier:
-          "1 Item Drop, 2 Booze Drop, -equip broken champagne bottle, switch disembodied hand, -switch left-hand man",
+          "1 Item Drop, 2 Booze Drop, -equip broken champagne bottle, switch disembodied hand, switch left-hand man",
       },
       limit: { tries: 1 },
     },

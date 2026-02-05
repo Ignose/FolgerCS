@@ -4,7 +4,9 @@ import {
   buy,
   buyUsingStorage,
   cliExecute,
+  cliExecuteOutput,
   create,
+  daycount,
   Effect,
   equip,
   equippedItem,
@@ -60,7 +62,6 @@ import {
   $stat,
   AprilingBandHelmet,
   canRememberSong,
-  CombatLoversLocket,
   CommunityService,
   get,
   getKramcoWandererChance,
@@ -166,6 +167,9 @@ export function sellMiscellaneousItems(): void {
   });
 }
 
+export const mainStatMaximizerStr =
+  mainStat === $stat`Muscle` ? "mus" : mainStat === $stat`Mysticality` ? "myst" : "mox";
+
 export function computeHotRes(sim: boolean): number {
   const cloake = have($item`vampyric cloake`) ? 2 : 0;
   const retro = RetroCape.have() ? 3 : 0;
@@ -175,7 +179,6 @@ export function computeHotRes(sim: boolean): number {
     have($skill`Double-Fisted Skull Smashing`)
       ? 30
       : 0;
-  const factory = !args.factoryworker ? 9 : 0;
   const horse = get("horseryAvailable") ? 1 : 0;
   const meteor = have($skill`Meteor Shower`) ? 5 : 0;
   const bird = get("yourFavoriteBirdMods").includes("Hot Resistance") ? 4 : 0;
@@ -206,7 +209,6 @@ export function computeHotRes(sim: boolean): number {
     retro,
     shield,
     foam,
-    factory,
     horse,
     meteor,
     bird,
@@ -250,11 +252,14 @@ export function computeWeaponDamage(sim: boolean): number {
   const cowrupt = 200; //Ungulith/seeing red. Can't be skipped.
   const imported = have($skill`Map the Monsters`) && get("ownsSpeakeasy") ? 50 : 0;
   const beach = have($item`Beach Comb`) ? 25 : 0;
-  const camel = (get("camelSpit") / 3.33) * camelFightsLeft() >= 100 ? 100 : 0;
+  const camel =
+    (get("camelSpit") / 3.33) * camelFightsLeft() >= 100 || have($effect`Spit Upon`) ? 100 : 0;
   const lov = get("loveTunnelAvailable") ? 50 : 0;
   const vote = myClass() === $class`Pastamancer` && get("voteAlways") ? 200 : 0;
   const carol = have($familiar`Ghost of Crimbo Carols`) ? 100 : 0;
   const elf = have($familiar`Machine Elf`) ? 100 : 0;
+  const billiards = have($item`Clan VIP Lounge key`) ? 50 : 0;
+  const north = have($skill`Song of the North`) ? 100 : 0;
   const effects = sumNumbers([
     meteor,
     claws,
@@ -279,20 +284,18 @@ export function computeWeaponDamage(sim: boolean): number {
     vote,
     carol,
     elf,
+    billiards,
+    north,
   ]);
 
   const hat = have($item`Crown of Thrones`) ? 10 : have($item`seal-skull helmet`) ? 1 : 0;
   const shirt = 0;
-  // eslint-disable-next-line libram/verify-constants
   const mainhand = have($item`candy cane sword cane`)
-    ? 165
+    ? 180
     : have($item`SpinMaster™ lathe`)
     ? 115
     : 65;
-  // eslint-disable-next-line libram/verify-constants
-  const offhand =
-    // eslint-disable-next-line libram/verify-constants
-    have($item`SpinMaster™ lathe`) && have($item`candy cane sword cane`) ? 115 : 50;
+  const offhand = have($item`SpinMaster™ lathe`) && have($item`candy cane sword cane`) ? 115 : 50;
 
   const brogues = have($item`Bastille Battalion control rig`) ? 50 : 0;
   const glove = have($item`Powerful Glove`) ? 25 : 0;
@@ -303,7 +306,6 @@ export function computeWeaponDamage(sim: boolean): number {
 
   const familiar =
     have($familiar`Disembodied Hand`) &&
-    // eslint-disable-next-line libram/verify-constants
     have($item`candy cane sword cane`) &&
     have($item`Stick-Knife of Loathing`) &&
     have($item`SpinMaster™ lathe`)
@@ -344,7 +346,6 @@ export function computeSpellDamage(sim: boolean): number {
   const moonSpoon = have($item`hewn moon-rune spoon`) ? 10 : 0;
   const saucier = have($skill`Master Saucier`) ? 10 : 0;
   const subtle = have($skill`Subtle and Quick to Anger`) ? 10 : 0;
-  const calzone = !args.calzone ? 50 : 0;
   const stick = !sim && have($item`Stick-Knife of Loathing`) ? 200 : 0;
   const staff = !sim && have($item`Staff of Simmering Hatred`) ? 200 : 0;
   const candle = !sim && have($item`Abracandalabra`) ? 100 : 0;
@@ -373,7 +374,6 @@ export function computeSpellDamage(sim: boolean): number {
     moonSpoon,
     saucier,
     subtle,
-    calzone,
     candle,
   ]);
 
@@ -382,7 +382,6 @@ export function computeSpellDamage(sim: boolean): number {
 
 export function computeFamiliarWeight(sim: boolean): number {
   const moonSpoon = have($item`hewn moon-rune spoon`) && !args.savemoontune ? 10 : 0;
-  const deepDish = args.latedeepdish || !args.deepdish ? 15 : 0;
   const newsPaper = have($familiar`Garbage Fire`) ? 10 : 0;
   const meteor = have($skill`Meteor Shower`) && have($item`Fourth of May Cosplay Saber`) ? 20 : 0;
   const belligerence = have($item`Clan VIP Lounge key`) ? 10 : 0;
@@ -423,7 +422,6 @@ export function computeFamiliarWeight(sim: boolean): number {
         sumNumbers([
           moonSpoon,
           sympathy,
-          deepDish,
           newsPaper,
           meteor,
           belligerence,
@@ -453,7 +451,6 @@ export function computeFamiliarWeight(sim: boolean): number {
 
 export function computeBoozeDrop(): number {
   const loded = have($item`closed-circuit pay phone`) ? 100 : 0;
-  const eyedrops = !args.savecyclops ? 100 : 0;
   const bowling = have($item`cosmic bowling ball`) ? 25 : 0;
   const bat = have($item`vampyric cloake`) ? 50 : 0;
   const microphone =
@@ -484,7 +481,6 @@ export function computeBoozeDrop(): number {
 
   const all = sumNumbers([
     loded,
-    eyedrops,
     bowling,
     bat,
     microphone,
@@ -518,24 +514,40 @@ export function computeBoozeDrop(): number {
 
 const famJacksValue = () =>
   have($familiar`Comma Chameleon`) && !have($skill`Summon Clip Art`) ? 21 : 0;
-const greatWolfs = () => Math.min(2, computeWeaponDamage(false) - 1) + 2;
+const greatWolfsPartOne = () =>
+  have($item`repaid diaper`) || storageAmount($item`repaid diaper`) > 0 ? 0 : 2;
+const greatWolfs = () => Math.min(2, computeWeaponDamage(false) - 1) + greatWolfsPartOne();
 const stickKnife = () =>
   myPrimestat() === $stat`muscle` || (myClass() === $class`Pastamancer` && haveSkill($skill`Bind Undead Elbow Macaroni`)) ? Math.min(5, computeWeaponDamage(false) - 1) + 4 : 0;
 const staff = () => (have($skill`Spirit of Rigatoni`) ? 4 : 0);
 const tobikoSoda = () => (have($skill`Summon Alice's Army Cards`) ? 0 : 3);
 const meteorite = () => Math.min(8, computeWeaponDamage(false) - 1) + 4;
-const slippers = () => computeCombatFrequency(false) <= -100 ? 1 : 4;
-const chlamys = () => computeCombatFrequency(false) <= -100 ? 0 : 3;
+const slippers = () => (computeCombatFrequency(false) <= -100 ? 1 : 4);
+const chlamys = () => (computeCombatFrequency(false) <= -100 ? 0 : 3);
+const fudge = () => {
+  const weapon = Math.min(2, computeWeaponDamage(false) - 1);
+  const spell = 2;
+  return weapon + spell;
+};
 
 type valuePull = {
   item: Item;
   value: number;
 };
 
+/*function bjornValue(): number {
+    const weaponValue = Math.min(2, computeWeaponDamage(false) - 1);
+    const spellValue = 0.4;
+    const itemValue = Math.min(1.6, computeBoozeDrop() - 1);
+    const nonCombatValue = computeCombatFrequency(false) <= -100 ? 0 : 3;
+    const famWeight = 1;
+    return weaponValue + spellValue + itemValue + nonCombatValue +  famWeight;
+}*/
+
 export const jacks =
-  mallPrice($item`box of Familiar Jacks`) < mallPrice($item`yule battery`)
+  mallPrice($item`box of Familiar Jacks`) < mallPrice($item`overloaded Yule battery`)
     ? $item`box of Familiar Jacks`
-    : $item`yule battery`;
+    : $item`overloaded Yule battery`;
 
 export const pullValue: valuePull[] = [
   {
@@ -552,7 +564,7 @@ export const pullValue: valuePull[] = [
   },
   {
     item: $item`Buddy Bjorn`,
-    value: 6.8,
+    value: 1.4,
   },
   {
     item: $item`meteorite necklace`,
@@ -577,6 +589,10 @@ export const pullValue: valuePull[] = [
   {
     item: $item`Fuzzy Slippers of Hatred`,
     value: slippers(),
+  },
+  {
+    item: $item`fudge-shaped hole in space-time`,
+    value: fudge(),
   },
 ];
 
@@ -706,7 +722,10 @@ export function logTestSetup(whichTest: CommunityService): void {
     }).`,
     "blue"
   );
-  set(`_CSTest${whichTest.id}`, testTurns + (have($effect`Simmering`) ? 1 : 0));
+  set(
+    `_CSTest${whichTest.id}`,
+    testTurns + (have($effect`Simmering`) && !have($item`April Shower Thoughts shield`) ? 1 : 0)
+  );
 }
 
 export function tryAcquiringEffect(ef: Effect, tryRegardless = false): void {
@@ -1044,17 +1063,6 @@ export function camelFightsLeft(): number {
   const XRay = have($item`Lil' Doctor™ bag`) ? 3 - get("_chestXRayUsed") : 0;
   const shatteringPunch = have($skill`Shattering Punch`) ? 3 - get("_shatteringPunchUsed") : 0;
   const mobHit = have($skill`Gingerbread Mob Hit`) && !get("_gingerbreadMobHitUsed") ? 1 : 0;
-  const locketedWitchess =
-    !Witchess.have() &&
-    CombatLoversLocket.availableLocketMonsters().includes($monster`Witchess King`) &&
-    !CombatLoversLocket.monstersReminisced().includes($monster`Witchess King`) &&
-    !args.witchessking
-      ? 1
-      : 0;
-  const backups =
-    Witchess.have() || have($item`Kramco Sausage-o-Matic™`)
-      ? Math.max(11 - args.savebackups - get("_backUpUses"), 0)
-      : 0; // No guarantee that we hit a tentacle, so we ignore that here
   // Currently does not consider gregs (require free banish + free fight source)
 
   // Include guaranteed non-free fights
@@ -1080,8 +1088,6 @@ export function camelFightsLeft(): number {
     XRay,
     shatteringPunch,
     mobHit,
-    locketedWitchess,
-    backups,
     noveltySkeleton,
     leafyBoys,
     cyberRealm,
@@ -1182,8 +1188,7 @@ export const generalStoreXpEffect: Effect = {
 }[mainStatStr];
 
 export function checkLocketAvailable(): number {
-  const locketAvailable =
-    (args.redskeleton ? 1 : 0) + (args.witchessking ? 1 : 0) + (args.factoryworker ? 1 : 0);
+  const locketAvailable = (args.redskeleton ? 1 : 0) + 2;
 
   return locketAvailable;
 }
@@ -1438,6 +1443,80 @@ export function useOffhandRemarkable(): boolean {
 export function checkPurqoise(meat: number): boolean {
   if (myMeat() > meat) return false;
   return true;
+}
+
+type WardrobeLog = {
+  date: string;
+  entries: {
+    item: string;
+    modifier: string;
+    roll: string;
+  }[];
+};
+
+export function parseWardrobeLog(raw: string): WardrobeLog[] {
+  const logs: WardrobeLog[] = [];
+  const chunks = raw.split(/(?=\d{4}-\d{2}-\d{2} \d{2}:\d{2})/);
+
+  for (const chunk of chunks) {
+    const dateMatch = chunk.match(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}/);
+    if (!dateMatch) continue;
+
+    const date = dateMatch[0];
+    const entries: WardrobeLog["entries"] = [];
+
+    // Match each table row: <tr>...</tr>
+    const rows = [...chunk.matchAll(/<tr>(.*?)<\/tr>/gs)];
+
+    let currentItem = "";
+    for (const [, rowHtml] of rows) {
+      const cols = [...rowHtml.matchAll(/<td.*?>(.*?)<\/td>/gs)].map(([, val]) =>
+        val.replace(/&nbsp;/g, " ").trim()
+      );
+
+      if (cols.length === 3) {
+        currentItem = cols[0];
+        entries.push({ item: currentItem, modifier: cols[1], roll: cols[2] });
+      } else if (cols.length === 2) {
+        entries.push({ item: currentItem, modifier: cols[0], roll: cols[1] });
+      }
+    }
+
+    logs.push({ date, entries });
+  }
+
+  return logs;
+}
+
+function meetsCriteria(output: string): boolean {
+  const parsedData = parseWardrobeLog(output);
+  print("Parsed Data:", JSON.stringify(parsedData, null, 2));
+
+  for (const log of parsedData) {
+    for (const entry of log.entries) {
+      const { modifier, roll } = entry;
+
+      // Parse roll — handle ranges like "11-26" and plain numbers like "45"
+      const rangeMatch = roll.match(/^(\d+)-(\d+)$/);
+      const numericValue = rangeMatch
+        ? parseInt(rangeMatch[2]) // upper end of range
+        : parseInt(roll);
+
+      if (modifier.includes("Familiar Experience") && numericValue >= 4) return true;
+      if (modifier.includes("Meat Drop") && numericValue > 50) return true;
+    }
+  }
+
+  return false;
+}
+
+export function wardrobeGood(): boolean {
+  const baseSeed = daycount();
+  const todayT5 = cliExecuteOutput(`wardrobe kolday=${baseSeed} tier 5`);
+  const tomorrowT5 = cliExecuteOutput(`wardrobe kolday=${baseSeed + 1} tier 5`);
+
+  if (meetsCriteria(todayT5) || meetsCriteria(tomorrowT5)) return true;
+  return false;
 }
 
 export const peridotChoice = (monster: Monster) => ({ 1557: `1&bandersnatch=${monster.id}` });

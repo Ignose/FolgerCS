@@ -1,5 +1,5 @@
 import { mpCost, myPrimestat, toInt } from "kolmafia";
-import { $item, $monster, $skill, $stat, get, have, StrictMacro } from "libram";
+import { $item, $monster, $skill, $stat, CommunityService, get, have, StrictMacro } from "libram";
 
 //export const mainStat = myClass().primestat;
 export const mainStat = myPrimestat(); //Update to select mainstat based on class derived from Libram
@@ -11,10 +11,13 @@ export default class Macro extends StrictMacro {
     const macroHead = this.trySkill($skill`Curse of Weaksauce`)
       .trySkill($skill`Micrometeorite`)
       .trySkill($skill`Sing Along`)
+      .ifHolidayWanderer(Macro.banish())
+      .externalIf(
+        get("_cosmicBowlingSkillsUsed") < 1 && CommunityService.CoilWire.isDone(),
+        Macro.trySkill($skill`Bowl Sideways`)
+      )
       .trySkill($skill`Gulp Latte`)
-      // eslint-disable-next-line libram/verify-constants
       .trySkill($skill`Surprisingly Sweet Stab`)
-      // eslint-disable-next-line libram/verify-constants
       .trySkill($skill`Surprisingly Sweet Slash`)
       .if_(
         `!mpbelow ${mpCost($skill`Stuffed Mortar Shell`)}`,
@@ -48,24 +51,20 @@ export default class Macro extends StrictMacro {
   }
 
   itemDrop(): Macro {
-    return (
-      Macro.if_(
-        $monster`sausage goblin`,
-        Macro.trySkill($skill`Bowl Straight Up`)
-          .trySkill($skill`Become a Bat`)
-          .default(false)
-      ),
-      Macro.if_(
-        $monster`fluffy bunny`,
-        Macro.trySkill($skill`Bowl Straight Up`)
-          .trySkill($skill`Become a Bat`)
-          .trySkill($skill`Feel Hatred`)
-          .trySkill($skill`Reflex Hammer`)
-          .trySkill($skill`Throw Latte on Opponent`)
-          .trySkill($skill`KGB tranquilizer dart`)
-          .trySkill($skill`Snokebomb`)
-      )
-    );
+    return Macro.if_(
+      $monster`sausage goblin`,
+      Macro.trySkill($skill`Bowl Straight Up`)
+        .trySkill($skill`Become a Bat`)
+        .default(false)
+    )
+      .trySkill($skill`Bowl Straight Up`)
+      .trySkill($skill`Become a Bat`)
+      .trySkill($skill`Feel Hatred`)
+      .trySkill($skill`Reflex Hammer`)
+      .trySkill($skill`Throw Latte on Opponent`)
+      .trySkill($skill`KGB tranquilizer dart`)
+      .trySkill($skill`Snokebomb`)
+      .runaway();
   }
 
   static itemDrop(): Macro {

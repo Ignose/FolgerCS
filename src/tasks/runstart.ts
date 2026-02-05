@@ -1,24 +1,21 @@
-import { CombatStrategy, OutfitSpec } from "grimoire-kolmafia";
+import { CombatStrategy } from "grimoire-kolmafia";
 import {
-  adv1,
+  abort,
   autosell,
   buy,
+  buyUsingStorage,
   changeMcd,
   cliExecute,
   create,
   currentMcd,
-  drink,
   eat,
-  equip,
   getCampground,
+  getClanName,
   getWorkshed,
-  haveEquipped,
   hermit,
   Item,
   itemAmount,
   myAdventures,
-  myInebriety,
-  myLevel,
   myMaxhp,
   myMaxmp,
   myMeat,
@@ -48,34 +45,24 @@ import {
   $location,
   $monster,
   $skill,
-  $slot,
   $stat,
   AprilingBandHelmet,
   clamp,
+  Clan,
   CommunityService,
   get,
-  getBanishedMonsters,
   getKramcoWandererChance,
   have,
   haveInCampground,
   Pantogram,
+  set,
   SongBoom,
   TrainSet,
 } from "libram";
 import { Quest } from "../engine/task";
-import {
-  bestSIT,
-  checkPull,
-  fuelUp,
-  getGarden,
-  goVote,
-  sellMiscellaneousItems,
-  statToMaximizerString,
-  tryAcquiringEffect,
-} from "../lib";
+import { bestSIT, getGarden, goVote, sellMiscellaneousItems, statToMaximizerString } from "../lib";
 import Macro from "../combat";
-import { mapMonster } from "libram/dist/resources/2020/Cartography";
-import { baseOutfit, chooseFamiliar, unbreakableUmbrella } from "../engine/outfit";
+import { baseOutfit } from "../engine/outfit";
 import { args } from "../args";
 import { Cycle, setConfiguration, Station } from "libram/dist/resources/2022/TrainSet";
 
@@ -88,9 +75,8 @@ const optimalCape =
     ? "heck thrill"
     : "robot thrill";
 
-let btorpizza = false;
+const btorpizza = false;
 
-const useParkaSpit = have($item`Fourth of May Cosplay Saber`) && have($skill`Feel Envy`);
 export const RunStartQuest: Quest = {
   name: "Run Start",
   completed: () => CommunityService.CoilWire.isDone(),
@@ -164,15 +150,25 @@ export const RunStartQuest: Quest = {
     },
     {
       name: "SIT Course",
-      // eslint-disable-next-line libram/verify-constants
+
       ready: () => have($item`S.I.T. Course Completion Certificate`),
       completed: () => get("_sitCourseCompleted", false),
       choices: {
         1494: bestSIT,
       },
-      do: () =>
-        // eslint-disable-next-line libram/verify-constants
-        use($item`S.I.T. Course Completion Certificate`),
+      do: () => use($item`S.I.T. Course Completion Certificate`),
+    },
+    {
+      name: "Do Pullls",
+      completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
+      do: () => {
+        buyUsingStorage($item`tobiko marble soda`, 1);
+        takeStorage($item`Great Wolf's beastly trousers`, 1);
+        takeStorage($item`meteorite necklace`, 1);
+        takeStorage($item`Stick-Knife of Loathing`, 1);
+        takeStorage($item`Staff of Simmering Hatred`, 1);
+        takeStorage($item`tobiko marble soda`, 1);
+      },
     },
     {
       name: "Tune Cape",
@@ -200,13 +196,6 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "KGB",
-      completed: () =>
-        get("_kgbClicksUsed") > 0 || !have($item`Kremlin's Greatest Briefcase`) || args.savekgb,
-      do: () => cliExecute("briefcase e ml"),
-      limit: { tries: 1 },
-    },
-    {
       name: "Restore mp",
       completed: () => get("timesRested") >= args.saverests || myMp() >= Math.min(50, myMaxmp()),
       prepare: (): void => {
@@ -217,6 +206,8 @@ export const RunStartQuest: Quest = {
         if (myMeat() >= 2000) {
           restoreMp(50);
         }
+        // eslint-disable-next-line libram/verify-constants
+        useFamiliar($familiar`Skeleton of Crimbo Past`);
         if (get("chateauAvailable")) {
           visitUrl("place.php?whichplace=chateau&action=chateau_restbox");
         } else if (get("getawayCampsiteUnlocked")) {
@@ -234,52 +225,6 @@ export const RunStartQuest: Quest = {
         get("_universeCalculated") >=
         (get("skillLevel144") > 3 ? 3 : get("skillLevel144")) - args.savenumberology,
       do: () => cliExecute("numberology 69"),
-      limit: { tries: 3 },
-    },
-    {
-      name: "Get Camel Hat",
-      ready: () => args.camelhat,
-      completed: () => have($item`dromedary drinking helmet`) || !have($familiar`Melodramedary`),
-      do: (): void => {
-        if (!have($item`box of Familiar Jacks`)) create($item`box of Familiar Jacks`, 1);
-
-        useFamiliar($familiar`Melodramedary`);
-        use($item`box of Familiar Jacks`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Ensure Comma Chameleon Jacks",
-      ready: () => have($skill`Summon Clip Art`),
-      completed: () =>
-        have($item`box of Familiar Jacks`) ||
-        !have($familiar`Comma Chameleon`) ||
-        have($item`homemade robot gear`),
-      do: (): void => {
-        create($item`box of Familiar Jacks`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Summon Sugar Sheets",
-      completed: () =>
-        !have($skill`Summon Sugar Sheets`) || args.savesugar || get("tomeSummons") >= 3,
-      do: (): void => {
-        const haveBT = have($item`borrowed time`) ? 1 : 0;
-        const sheetsToMake = 3 - get("tomeSummons") - haveBT;
-        restoreMp(2 * sheetsToMake);
-        useSkill($skill`Summon Sugar Sheets`, sheetsToMake);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Fold Sugar Sheets",
-      completed: () => !have($item`sugar sheet`) || args.experimentalsynth,
-      do: (): void => {
-        const nextMissingSugarItem =
-          $items`sugar shorts, sugar chapeau, sugar shank`.find((it) => !have(it)) || $item`none`;
-        create(nextMissingSugarItem);
-      },
       limit: { tries: 3 },
     },
     {
@@ -343,11 +288,9 @@ export const RunStartQuest: Quest = {
         !have($item`mumming trunk`) ||
         args.savemumming,
       do: (): void => {
+        useFamiliar($familiar`Jill-of-All-Trades`);
         const statString = statToMaximizerString(myPrimestat());
         cliExecute(`mummery ${statString}`);
-      },
-      outfit: {
-        familiar: have($familiar`Melodramedary`) ? $familiar`Melodramedary` : chooseFamiliar(),
       },
       limit: { tries: 1 },
     },
@@ -470,10 +413,11 @@ export const RunStartQuest: Quest = {
     {
       name: "Set Workshed",
       completed: () =>
-        getWorkshed() === $item`Asdon Martin keyfob` || getWorkshed() === $item`model train set`,
+        getWorkshed() === $item`Asdon Martin keyfob (on ring)` ||
+        getWorkshed() === $item`model train set`,
       do: (): void => {
         if (args.asdon) {
-          use($item`Asdon Martin keyfob`);
+          use($item`Asdon Martin keyfob (on ring)`);
         } else use($item`model train set`);
       },
     },
@@ -526,96 +470,6 @@ export const RunStartQuest: Quest = {
       limit: { tries: 2 },
     },
     {
-      name: "Map Novelty Tropical Skeleton",
-      prepare: (): void => {
-        if (useParkaSpit) {
-          cliExecute("parka dilophosaur");
-        } else if (!have($item`yellow rocket`) && !have($effect`Everything Looks Yellow`)) {
-          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase yellow rocket!");
-          buy($item`yellow rocket`, 1);
-        }
-        unbreakableUmbrella();
-        if (haveEquipped($item`miniature crystal ball`)) equip($slot`familiar`, $item.none);
-      },
-      completed: () =>
-        !have($skill`Map the Monsters`) ||
-        get("_monstersMapped") >= 3 ||
-        have($item`cherry`) ||
-        args.skipbt ||
-        (() => {
-          // if we have another skeleton in the ice house, we don't need to map a novelty skeleton
-          const banishes = get("banishedMonsters").split(":");
-          const iceHouseIndex = banishes.map((string) => string.toLowerCase()).indexOf("ice house");
-          if (iceHouseIndex === -1) return false;
-          return ["remaindered skeleton", "factory-irregular skeleton", "swarm of skulls"].includes(
-            banishes[iceHouseIndex - 1]
-          );
-        })(),
-      do: () => mapMonster($location`The Skeleton Store`, $monster`novelty tropical skeleton`),
-      combat: new CombatStrategy().macro(
-        Macro.if_(
-          $monster`novelty tropical skeleton`,
-          (useParkaSpit ? Macro.trySkill($skill`Spit jurassic acid`) : new Macro()).tryItem(
-            $item`yellow rocket`
-          )
-        ).abort()
-      ),
-      outfit: () => ({
-        ...baseOutfit(false),
-        shirt: have($item`Jurassic Parka`) ? $item`Jurassic Parka` : undefined,
-        modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
-      }),
-      limit: { tries: 1 },
-    },
-    {
-      name: "Novelty Tropical Skeleton",
-      prepare: (): void => {
-        if (useParkaSpit) {
-          cliExecute("parka dilophosaur");
-        } else if (!have($item`yellow rocket`) && !have($effect`Everything Looks Yellow`)) {
-          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase yellow rocket!");
-          buy($item`yellow rocket`, 1);
-        }
-        unbreakableUmbrella();
-        if (get("_snokebombUsed") === 0) restoreMp(50);
-        if (haveEquipped($item`miniature crystal ball`)) equip($slot`familiar`, $item.none);
-      },
-      completed: () => args.skipbt || have($item`cherry`),
-      do: $location`The Skeleton Store`,
-      combat: new CombatStrategy().macro(() =>
-        Macro.if_(
-          $monster`novelty tropical skeleton`,
-          (useParkaSpit ? Macro.trySkill($skill`Spit jurassic acid`) : new Macro()).tryItem(
-            $item`yellow rocket`
-          )
-        )
-          .externalIf(
-            !Array.from(getBanishedMonsters().keys()).includes($skill`Bowl a Curveball`),
-            Macro.trySkill($skill`Bowl a Curveball`)
-          )
-          .externalIf(
-            !Array.from(getBanishedMonsters().keys()).includes($skill`Snokebomb`),
-            Macro.trySkill($skill`Snokebomb`)
-          )
-          .externalIf(
-            !Array.from(getBanishedMonsters().keys()).includes($skill`Monkey Slap`),
-            Macro.trySkill($skill`Monkey Slap`)
-          )
-          .abort()
-      ),
-
-      outfit: (): OutfitSpec => {
-        return {
-          shirt: useParkaSpit ? $item`Jurassic Parka` : undefined,
-          offhand: $item`unbreakable umbrella`,
-          acc3: $item`cursed monkey's paw`,
-          familiar: chooseFamiliar(false),
-          modifier: `${baseOutfit().modifier}, -equip miniature crystal ball`,
-        };
-      },
-      limit: { tries: 4 },
-    },
-    {
       name: "Chewing Gum",
       completed: () => myMeat() <= 600 || get("_cloversPurchased") >= 1,
       do: (): void => {
@@ -635,56 +489,11 @@ export const RunStartQuest: Quest = {
       },
     },
     {
-      name: "Get Distilled Fortified Wine",
-      ready: () => have($item`11-leaf clover`) || have($effect`Lucky!`),
-      completed: () =>
-        myInebriety() >= 1 ||
-        args.fortifiedwine ||
-        (get("_borrowedTimeUsed") && myAdventures() >= 60) ||
-        args.skipbt,
-      do: (): void => {
-        if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
-        if (!have($item`distilled fortified wine`)) adv1($location`The Sleazy Back Alley`, -1);
-        while (have($item`distilled fortified wine`) && myInebriety() < 1) {
-          tryAcquiringEffect($effect`Ode to Booze`);
-          drink($item`distilled fortified wine`, 1);
-        }
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Kramco",
-      prepare: (): void => {
-        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
-        restoreMp(50);
-        if (!have($item`red rocket`) && !have($effect`Everything Looks Red`)) {
-          if (myMeat() < 250) throw new Error("Insufficient Meat to purchase red rocket!");
-          buy($item`red rocket`, 1);
-        }
-      },
-      ready: () => getKramcoWandererChance() >= 1.0,
-      completed: () =>
-        getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`) || args.skipbt,
-      do: $location`Noob Cave`,
-      outfit: () => ({
-        ...baseOutfit(),
-        offhand: $item`Kramco Sausage-o-Matic™`,
-      }),
-      combat: new CombatStrategy().macro(Macro.tryItem($item`red rocket`).default()),
-    },
-    {
       name: "Borrowed Time",
       prepare: (): void => {
-        if (have($item`borrowed time`)) return;
-        if (myLevel() >= 5 && !args.calzone && !args.pizza) {
-          btorpizza = true;
-          return;
-        }
-        if (have($skill`Summon Clip Art`) && get("tomeSummons") < 3)
-          create($item`borrowed time`, 1);
-        else takeStorage($item`borrowed time`, 1);
+        create($item`borrowed time`, 1);
       },
-      completed: () => get("_borrowedTimeUsed") || args.skipbt,
+      completed: () => get("_borrowedTimeUsed"),
       do: (): void => {
         if (storageAmount($item`borrowed time`) === 0 && !have($item`borrowed time`)) {
           print("Uh oh! You do not seem to have a borrowed time in Hagnk's", "red");
@@ -698,15 +507,147 @@ export const RunStartQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Clan Photo Booth Free Kill",
+      completed: () =>
+        (have($item`Sheriff moustache`) &&
+          have($item`Sheriff badge`) &&
+          have($item`Sheriff pistol`)) ||
+        get("_photoBoothEquipment", 0) >= 3,
+      do: (): void => {
+        if (getClanName() !== "Bonus Adventures from Hell") {
+          const clanWL = Clan.getWhitelisted();
+          const bafhWL =
+            clanWL.find((c) => c.name === getClanName()) !== undefined &&
+            clanWL.find((c) => c.name === "Bonus Adventures from Hell") !== undefined;
+          if (!bafhWL) return;
+        }
+
+        Clan.with("Bonus Adventures from Hell", () => {
+          cliExecute("photobooth item moustache");
+          cliExecute("photobooth item badge");
+          cliExecute("photobooth item pistol");
+        });
+      },
+      limit: { tries: 3 },
+    },
+    {
+      name: "Scavenge",
+      completed: () => get("_daycareGymScavenges") > 0 || !get("daycareOpen"),
+      prepare: (): void => {
+        cliExecute(`maximize ${myPrimestat()} experience percent`);
+      },
+      do: (): void => {
+        cliExecute("daycare scavenge free");
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Install Trainset",
+      ready: () => !args.asdon,
+      completed: () => !have($item`model train set`) || getWorkshed() === $item`model train set`,
+      do: (): void => {
+        use($item`model train set`);
+        visitUrl("campground.php?action=workshed");
+        visitUrl("main.php");
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Configure Trainset Early",
+      ready: () => !args.asdon,
+      completed: () => get("_folgerInitialConfig", false),
+      do: (): void => {
+        const offset = get("trainsetPosition") % 8;
+        const newStations: TrainSet.Station[] = [];
+        const statStation: Station = {
+          Muscle: Station.BRAWN_SILO,
+          Mysticality: Station.BRAIN_SILO,
+          Moxie: Station.GROIN_SILO,
+        }[myPrimestat().toString()];
+        const stations = [
+          Station.COAL_HOPPER, // double mainstat gain
+          statStation, // main stats
+          Station.VIEWING_PLATFORM, // all stats
+          Station.GAIN_MEAT, // meat
+          Station.TOWER_FIZZY, // mp regen
+          Station.TOWER_SEWAGE, // cold res
+          Station.WATER_BRIDGE, // +ML
+          Station.CANDY_FACTORY, // candies
+        ] as Cycle;
+        for (let i = 0; i < 8; i++) {
+          const newPos = (i + offset) % 8;
+          newStations[newPos] = stations[i];
+        }
+        visitUrl("campground.php?action=workshed");
+        visitUrl("main.php");
+        setConfiguration(newStations as Cycle);
+        cliExecute("set _folgerInitialConfig = true");
+      },
+      limit: { tries: 2 },
+    },
+    {
+      name: "Ghost",
+      completed: () => get("questPAGhost") === "unstarted",
+      ready: () =>
+        have($item`protonic accelerator pack`) &&
+        get("questPAGhost") !== "unstarted" &&
+        !!get("ghostLocation") &&
+        !have($effect`Meteor Showered`),
+      do: () => get("ghostLocation") ?? abort("Failed to identify ghost location"),
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`Micrometeorite`)
+          .trySkill($skill`Shoot Ghost`)
+          .trySkill($skill`Shoot Ghost`)
+          .trySkill($skill`Shoot Ghost`)
+          .trySkill($skill`Trap Ghost`)
+      ),
+      outfit: () => ({
+        // eslint-disable-next-line libram/verify-constants
+        ...baseOutfit(true, true, $monster`ice woman`),
+        shirt: $item`Jurassic Parka`,
+        back: $item`protonic accelerator pack`,
+        avoid: $items`Daylight Shavings Helmet`,
+      }),
+    },
+    {
+      name: "Kramco",
+      prepare: (): void => {
+        restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
+        restoreMp(50);
+      },
+      ready: () => getKramcoWandererChance() >= 1.0,
+      completed: () => getKramcoWandererChance() < 1.0 || !have($item`Kramco Sausage-o-Matic™`),
+      do: $location`Noob Cave`,
+      outfit: () => ({
+        ...baseOutfit(true, true, $monster`sausage goblin`),
+        shirt: $item`Jurassic Parka`,
+        offhand: $item`Kramco Sausage-o-Matic™`,
+        // eslint-disable-next-line libram/verify-constants
+        acc3: $item`Möbius ring`, // Prime the ring
+        modes: { parka: "spikolodon" },
+        avoid: $items`Daylight Shavings Helmet`,
+      }),
+      combat: new CombatStrategy().macro(
+        Macro.trySkill($skill`Launch spikolodon spikes`).default()
+      ),
+      post: () => set("_mobiusSeeded", true),
+    },
+    {
+      name: "NEP The Prequel",
+      completed: () => get("_questPartyFair") !== "unstarted",
+      do: $location`The Neverending Party`,
+      choices: { 1322: 2 },
+      outfit: () => ({
+        ...baseOutfit(true, true),
+        shirt: $item`Jurassic Parka`,
+        offhand: $item`Kramco Sausage-o-Matic™`,
+      }),
+      combat: new CombatStrategy().macro(Macro.default()),
+    },
+    {
       name: "Pizza over Borrowed Time",
       ready: () => btorpizza,
       prepare: (): void => {
-        if (!args.calzone && checkPull($item`Calzone of Legend`))
-          takeStorage($item`Calzone of Legend`, 1);
-        if (!args.pizza && checkPull($item`Pizza of Legend`))
-          takeStorage($item`Pizza of Legend`, 1);
-        if (!args.deepdish && checkPull($item`Deep Dish of Legend`))
-          takeStorage($item`Deep Dish of Legend`, 1);
         cliExecute(`maximize ${myPrimestat()} experience percent`);
         if (have($item`whet stone`)) use($item`whet stone`);
       },
@@ -714,8 +655,7 @@ export const RunStartQuest: Quest = {
       do: (): void => {
         if (have($item`Calzone of Legend`)) eat($item`Calzone of Legend`, 1);
         if (have($item`Pizza of Legend`)) eat($item`Pizza of Legend`, 1);
-        if (have($item`Deep Dish of Legend`) && !args.latedeepdish)
-          eat($item`Deep Dish of Legend`, 1);
+        if (have($item`Deep Dish of Legend`)) eat($item`Deep Dish of Legend`, 1);
       },
       limit: { tries: 1 },
     },

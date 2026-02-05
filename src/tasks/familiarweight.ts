@@ -7,11 +7,14 @@ import {
   Effect,
   equip,
   haveEffect,
+  Item,
   itemAmount,
   myClass,
   mySign,
   print,
   toInt,
+  toItem,
+  toSlot,
   use,
   useFamiliar,
   useSkill,
@@ -34,13 +37,9 @@ import {
 import { Quest } from "../engine/task";
 import { checkValue, logTestSetup, shrugAT, tryAcquiringEffect } from "../lib";
 import Macro from "../combat";
-import {
-  avoidDaylightShavingsHelm,
-  chooseFamiliar,
-  chooseHeaviestFamiliar,
-  sugarItemsAboutToBreak,
-} from "../engine/outfit";
+import { chooseFamiliar, chooseHeaviestFamiliar, sugarItemsAboutToBreak } from "../engine/outfit";
 import { args } from "../args";
+import { buskAt } from "../beret";
 
 export const FamiliarWeightQuest: Quest = {
   name: "Familiar Weight",
@@ -59,7 +58,6 @@ export const FamiliarWeightQuest: Quest = {
     },
     {
       name: "Late Eat Deep Dish",
-      ready: () => args.latedeepdish,
       completed: () => get("deepDishOfLegendEaten") || !have($item`Deep Dish of Legend`),
       do: (): void => {
         if (have($item`familiar scrapbook`)) {
@@ -92,7 +90,7 @@ export const FamiliarWeightQuest: Quest = {
       completed: () =>
         have($effect`Party Soundtrack`) ||
         !have($skill`Cincho: Party Soundtrack`) ||
-        100 - get("_cinchUsed") < 75,
+        get("_cinchUsed") > 75,
       do: (): void => {
         equip($slot`acc3`, $item`Cincho de Mayo`);
         useSkill($skill`Cincho: Party Soundtrack`);
@@ -115,25 +113,37 @@ export const FamiliarWeightQuest: Quest = {
       outfit: () => ({
         weapon: $item`Fourth of May Cosplay Saber`,
         familiar: chooseFamiliar(false),
-        avoid: [
-          ...sugarItemsAboutToBreak(),
-          ...(avoidDaylightShavingsHelm() ? [$item`Daylight Shavings Helmet`] : []),
-        ],
+        avoid: [...sugarItemsAboutToBreak()],
       }),
       choices: { 1387: 3 },
       limit: { tries: 1 },
     },
     {
       name: "Better Empathy",
-      ready: () => have($item`April Shower Thoughts shield`),
-      completed: () =>
-        have($effect`Thoughtful Empathy`),
+      completed: () => have($effect`Thoughtful Empathy`),
       do: () => {
         unequip($item`April Shower Thoughts shield`);
         useSkill($skill`Empathy of the Newt`);
         equip($item`April Shower Thoughts shield`);
         useSkill($skill`Empathy of the Newt`);
         unequip($item`April Shower Thoughts shield`);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Beret? Beret.",
+      ready: () => have(toItem(11919)),
+      completed: () => get("_beretBuskingUses", 0) >= 5,
+      do: () => {
+        buskAt(825, true); // Alt: 1300 w/ Hammertime
+
+        buskAt(800, true); // Alt: 1260 w/ Hammertime
+
+        buskAt(885, true); // Alt: 1255 w/ Hammertime
+
+        buskAt(765, true);
+
+        buskAt(800, true);
       },
       limit: { tries: 1 },
     },
@@ -167,9 +177,11 @@ export const FamiliarWeightQuest: Quest = {
           have($skill`Summon Clip Art`) &&
           $familiars`Comma Chameleon, Homemade Robot`.every((fam) => have(fam))
         ) {
-          if (!have($item`box of Familiar Jacks`)) create($item`box of Familiar Jacks`, 1);
-          useFamiliar($familiar`Homemade Robot`);
-          use($item`box of Familiar Jacks`, 1);
+          if (!have($item`homemade robot gear`)) {
+            if (!have($item`box of Familiar Jacks`)) create($item`box of Familiar Jacks`, 1);
+            useFamiliar($familiar`Homemade Robot`);
+            use($item`box of Familiar Jacks`, 1);
+          }
           useFamiliar($familiar`Comma Chameleon`);
           visitUrl(
             `inv_equip.php?which=2&action=equip&whichitem=${toInt($item`homemade robot gear`)}&pwd`
@@ -194,8 +206,13 @@ export const FamiliarWeightQuest: Quest = {
 
         cliExecute("maximize familiar weight");
 
+        const teaPartyHats = Item.all().filter(
+          (i) => have(i) && toSlot(i) === $slot`hat` && i.name.length === 25
+        );
+
         if (!get("_madTeaParty")) {
-          if (!have($item`sombrero-mounted sparkler`)) buy($item`sombrero-mounted sparkler`);
+          if (!have($item`sombrero-mounted sparkler`) && teaPartyHats.length === 0)
+            buy($item`sombrero-mounted sparkler`);
           tryAcquiringEffect($effect`You Can Really Taste the Dormouse`);
         }
       },

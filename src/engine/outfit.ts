@@ -5,6 +5,7 @@ import {
   equippedItem,
   Familiar,
   Item,
+  Monster,
   myMaxmp,
   myMp,
   myPrimestat,
@@ -18,19 +19,19 @@ import {
   $familiar,
   $familiars,
   $item,
+  $monster,
   $skill,
   $slot,
-  DaylightShavings,
   examine,
   get,
+  getScalingRate,
   have,
   maxBy,
+  ToyCupidBow,
 } from "libram";
 import { camelFightsLeft, statToMaximizerString } from "../lib";
 import { args } from "../args";
 import { restoreMPEfficiently } from "../tasks/leveling";
-
-const primeStat = statToMaximizerString(myPrimestat());
 
 export function garbageShirt(): boolean {
   if (
@@ -87,6 +88,18 @@ function nanorhino(allowAttackingFamiliars = false): Familiar {
     : $familiar.none;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function melodramedary(_allowAttackingFamiliars = false): Familiar {
+  return !have($effect`Spit Upon`) &&
+    !(
+      have($item`legendary seal-clubbing club`) &&
+      have($item`heartstone`) &&
+      get("_clubEmTimeUsed") < 4
+    )
+    ? $familiar`Melodramedary`
+    : $familiar.none;
+}
+
 function shorterOrderCook(allowAttackingFamiliars = true): Familiar {
   return allowAttackingFamiliars && !have($item`short stack of pancakes`)
     ? $familiar`Shorter-Order Cook`
@@ -100,8 +113,7 @@ function garbageFire(): Familiar {
 function sombrero(allowAttackingFamiliars = true): Familiar {
   const sombreros = [
     ...(allowAttackingFamiliars
-      ? // eslint-disable-next-line libram/verify-constants
-        $familiars`Jill-of-All-Trades, Patriotic Eagle, Galloping Grill`
+      ? $familiars`Jill-of-All-Trades, Patriotic Eagle, Galloping Grill`
       : []),
     $familiar`Baby Sandworm`,
     $familiar`Hovering Sombrero`,
@@ -117,22 +129,27 @@ function optimisticCandle(): Familiar {
   return !have($item`glob of melted wax`) ? $familiar`Optimistic Candle` : $familiar.none;
 }
 
-function melodramedary(): Familiar {
-  if (have($effect`Spit Upon`)) return $familiar.none;
-  return (have($familiar`Melodramedary`) &&
-    camelFightsLeft() >= Math.ceil((100 - get("camelSpit")) / 3.0) &&
-    get("camelSpit") < 100) ||
-    (have($familiar`Melodramedary`) &&
-      camelFightsLeft() >= Math.ceil((100 - get("camelSpit")) / 4.0) &&
-      get("camelSpit") < 100 &&
-      have($item`dromedary drinking helmet`))
-    ? $familiar`Melodramedary`
-    : $familiar.none;
+function homemade(): Familiar {
+  if (
+    have($familiar`Homemade Robot`) &&
+    have($familiar`Comma Chameleon`) &&
+    have($item`toy Cupid bow`) &&
+    !have($item`homemade robot gear`) &&
+    camelFightsLeft() >= 5
+  )
+    return $familiar`Homemade Robot`;
+  return $familiar.none;
 }
 
 export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
   const ignoredFamiliars = args.explicitlyexcludedfams.split(",").map((i) => toInt(i));
   const defaultFam = have($familiar`Cookbookbat`) ? $familiar`Cookbookbat` : $familiar.none;
+  const tcbFamiliar = ToyCupidBow.currentFamiliar();
+  if (tcbFamiliar !== null) {
+    if (ToyCupidBow.turnsLeft() < 5) {
+      return tcbFamiliar;
+    }
+  }
   const familiars = [
     melodramedary,
     shorterOrderCook,
@@ -140,10 +157,13 @@ export function chooseFamiliar(allowAttackingFamiliars = true): Familiar {
     nanorhino,
     optimisticCandle,
     rockinRobin,
+    homemade,
     sombrero,
   ]
     .map((fn) => fn(allowAttackingFamiliars))
     .filter((fam) => have(fam) && !ignoredFamiliars.includes(toInt(fam)));
+
+  print(`Familiar order: ${familiars}`);
   return familiars.length > 0 ? familiars[0] : defaultFam;
 }
 
@@ -152,14 +172,6 @@ export function chooseHeaviestFamiliar(): Familiar {
   return maxBy(
     Familiar.all().filter((fam) => have(fam) && !specialEquipFamiliars.includes(fam)),
     (fam) => fam.experience
-  );
-}
-
-export function avoidDaylightShavingsHelm(): boolean {
-  return (
-    DaylightShavings.nextBuff() === $effect`Musician's Musician's Moustache` ||
-    DaylightShavings.hasBuff() ||
-    !have($item`Daylight Shavings Helmet`)
   );
 }
 
@@ -173,14 +185,27 @@ function useCandyCaneSword(): boolean {
     get("_surprisinglySweetSlashUsed", 0) < 11 &&
     get("_surprisinglySweetStabUsed", 0) < 11
   ) {
-    print(`Candy Cane at ${numericModifier(candySword, "Weapon Damage")} weapon damage`);
     return true;
   }
   return false;
 }
 
-export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
+function baseOutfitFirstPass(
+  allowAttackingFamiliars = true,
+  avoidGarbageShirt = false,
+  medianMonster?: Monster
+): OutfitSpec {
   parka();
+  const mainstat = myPrimestat();
+  const mainstatString = statToMaximizerString(mainstat);
+
+  const monster = medianMonster ? medianMonster : $monster`flaming leaflet`;
+  const monsterScaling = getScalingRate(monster);
+
+  const stringPrequel =
+    monsterScaling > 0
+      ? `10 ${mainstatString}, 2 ML, 1 ${mainstatString} exp, 25 ${mainstatString} experience percent,`
+      : `2 ML, 3 ${mainstatString} exp, 25 ${mainstatString} experience percent,`;
 
   return {
     weapon: useCandyCaneSword()
@@ -188,37 +213,61 @@ export function baseOutfit(allowAttackingFamiliars = true): OutfitSpec {
       : have($item`June cleaver`)
       ? $item`June cleaver`
       : undefined,
-    back: get("questPAGhost") === "unstarted" && get("nextParanormalActivity") <= totalTurnsPlayed()
-      ? $item`protonic accelerator pack` : undefined,
-    hat: avoidDaylightShavingsHelm() ? undefined : $item`Daylight Shavings Helmet`,
-    shirt: garbageShirt() ? $item`makeshift garbage shirt` : have($item`LOV Eardigan`) ? $item`LOV Eardigan` : undefined,
+    back:
+      get("questPAGhost") === "unstarted" && get("nextParanormalActivity") <= totalTurnsPlayed()
+        ? $item`protonic accelerator pack`
+        : undefined,
+    shirt: garbageShirt() && !avoidGarbageShirt ? $item`makeshift garbage shirt` : undefined,
     offhand:
       myMaxmp() > 200 && myMp() < 75 && restoreMPEfficiently() === "Gulp"
         ? $item`latte lovers member's mug`
-        : $item`unbreakable umbrella`,
-    acc1: have($item`codpiece`) ? $item`codpiece` : undefined,
-    acc2:
+        : undefined,
+    acc1:
       have($item`Cincho de Mayo`) &&
       get("_cinchUsed", 0) < 95 &&
       100 - get("_cinchUsed", 0) > args.savecinch
         ? $item`Cincho de Mayo`
         : undefined,
-    familiar:
-      have($familiar`Melodramedary`) && get("camelSpit") < 100 && !have($effect`spit upon`)
-        ? $familiar`Melodramedary`
-        : chooseFamiliar(allowAttackingFamiliars),
+    familiar: chooseFamiliar(allowAttackingFamiliars),
     famequip:
-      have($item`dromedary drinking helmet`) && chooseFamiliar() === $familiar`Melodramedary`
-        ? $item`dromedary drinking helmet`
-        : have($item`tiny rake`) &&
-          chooseFamiliar() === $familiar`Melodramedary` &&
-          get("_leafMonstersFought", 0) < 5
-        ? $item`tiny rake`
-        : undefined,
-    modifier: `1 ${primeStat}, 1 ML, 6 ${primeStat} exp, 30 ${primeStat} experience percent, -equip tinsel tights, -equip wad of used tape`, //Update to check prime stat
-    avoid: [
-      ...sugarItemsAboutToBreak(),
-      ...(avoidDaylightShavingsHelm() ? [$item`Daylight Shavings Helmet`] : []),
-    ],
+      have($item`tiny rake`) && get("_leafMonstersFought", 0) < 5 ? $item`tiny rake` : undefined,
+    modifier: `${stringPrequel} 0.001 familiar experience, -equip tinsel tights, -equip wad of used tape`,
+    avoid: [...sugarItemsAboutToBreak()],
   };
+}
+
+export function baseOutfit(
+  allowAttackingFamiliars = true,
+  avoidGarbageShirt = false,
+  medianMonster?: Monster
+): OutfitSpec {
+  const outfit = baseOutfitFirstPass(allowAttackingFamiliars, avoidGarbageShirt, medianMonster);
+
+  if (outfit.familiar === $familiar`Melodramedary`) {
+    if (have($item`dromedary drinking helmet`)) {
+      outfit.famequip = $item`dromedary drinking helmet`;
+    } else {
+      if (have($item`toy Cupid bow`)) {
+        outfit.famequip = $item`toy Cupid bow`;
+      }
+    }
+  }
+
+  if (outfit.familiar === $familiar`Shorter-Order Cook`) {
+    if (have($item`blue plate`)) {
+      outfit.famequip = $item`blue plate`;
+    } else {
+      outfit.famequip = $item`toy Cupid bow`;
+    }
+  }
+
+  if (
+    outfit.familiar === $familiar`Homemade Robot` ||
+    outfit.familiar === $familiar`Mu` ||
+    outfit.familiar === $familiar`Cornbeefadon`
+  ) {
+    outfit.famequip = $item`toy Cupid bow`;
+  }
+
+  return outfit;
 }

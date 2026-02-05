@@ -7,6 +7,7 @@ import {
   faxbot,
   haveEquipped,
   myClass,
+  myLevel,
   myMaxhp,
   myPrimestat,
   myThrall,
@@ -296,7 +297,13 @@ export const WeaponDamageQuest: Quest = {
         );
       },
       outfit: {
-        weapon: canesword ? $item`candy cane sword cane` : undefined,
+        // eslint-disable-next-line libram/verify-constants
+        weapon:
+          have($item`legendary seal-clubbing club`) && myLevel() >= 17
+            ? $item`legendary seal-clubbing club`
+            : canesword
+            ? $item`candy cane sword cane`
+            : undefined,
         offhand: stickknife() ? $item`Stick-Knife of Loathing` : undefined,
         modifier: "weapon dmg, weapon dmg percent, switch disembodied hand, -switch left-hand man",
       },

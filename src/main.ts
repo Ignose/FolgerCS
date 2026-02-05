@@ -1,5 +1,6 @@
 import {
   cliExecute,
+  Effect,
   myAdventures,
   myAscensions,
   myPrimestat,
@@ -22,7 +23,6 @@ import { Engine } from "./engine/engine";
 import { Args, getTasks } from "grimoire-kolmafia";
 import { Task } from "./engine/task";
 import { HPQuest, MoxieQuest, MuscleQuest, MysticalityQuest } from "./tasks/stat";
-import { earlyLevelingQuest } from "./tasks/earlyleveling";
 import { LevelingQuest } from "./tasks/leveling";
 import { CoilWireQuest } from "./tasks/coilwire";
 import { RunStartQuest } from "./tasks/runstart";
@@ -35,6 +35,7 @@ import { DonateQuest, logResourceUsage } from "./tasks/donate";
 import { SpellDamageQuest } from "./tasks/spelldamage";
 import { checkRequirements, checkTests, simPulls } from "./sim";
 import { args } from "./args";
+import { findTopBusksGreedy } from "./beret";
 
 const timeProperty = "fullday_elapsedTime";
 
@@ -50,6 +51,10 @@ export function main(command?: string): void {
     checkRequirements();
     checkTests();
     simPulls();
+    return;
+  }
+  if (args.test) {
+    test();
     return;
   }
 
@@ -86,7 +91,6 @@ export function main(command?: string): void {
 
   const tasks: Task[] = getTasks([
     RunStartQuest,
-    earlyLevelingQuest,
     CoilWireQuest,
     LevelingQuest,
     swapMainStatTest ? MoxieQuest : MuscleQuest,
@@ -94,10 +98,10 @@ export function main(command?: string): void {
     swapMainStatTest ? MuscleQuest : MysticalityQuest,
     swapMainStatTest ? HPQuest : MoxieQuest,
     HotResQuest,
-    WeaponDamageQuest,
-    SpellDamageQuest,
     swapNCandFamTest() || args.doncfirst ? NoncombatQuest : FamiliarWeightQuest,
     swapNCandFamTest() || args.doncfirst ? FamiliarWeightQuest : NoncombatQuest,
+    WeaponDamageQuest,
+    SpellDamageQuest,
     BoozeDropQuest,
     DonateQuest,
   ]);
@@ -137,4 +141,29 @@ export function main(command?: string): void {
 
 function runComplete(): boolean {
   return get("kingLiberated") && get("lastEmptiedStorage") === myAscensions();
+}
+
+function test(): void {
+  const uselesseffects = Effect.all().filter((e) => have(e));
+
+  const best = findTopBusksGreedy(
+    {
+      "Familiar Weight": 10,
+      "Spell Damage Percent": 1,
+    },
+    uselesseffects
+  );
+
+  best.powers.forEach((power, index) => {
+    const outfit = best.outfit[index];
+    print(`Busk ${index + 1}: Power = ${power}`);
+    print(
+      `  - Equipment: Hat = ${outfit.hat?.name ?? "?"}, Shirt = ${
+        outfit.shirt?.name ?? "?"
+      }, Pants = ${outfit.pants?.name ?? "?"}`
+    );
+    print(" ");
+  });
+
+  print(`Total score: ${best.score}`);
 }

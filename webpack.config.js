@@ -1,12 +1,7 @@
-/* eslint-env node */
-
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable no-undef */
 const path = require("path");
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const webpack = require("webpack"); // does this have a purpose? or can it just get deleted?
 const packageData = require("./package.json");
-/* eslint-enable @typescript-eslint/no-var-requires */
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { merge } = require("webpack-merge");
 
 const shared = {
@@ -22,15 +17,19 @@ const shared = {
     extensions: [".ts", ".tsx", ".js", ".json"],
   },
   module: {
-    rules: [
-      {
-        // Include ts, tsx, js, and jsx files.
-        test: /\.(ts|js)x?$/,
-        // exclude: /node_modules/,
-        loader: "babel-loader",
+  rules: [
+    {
+      test: /\.m?js$/,
+      resolve: {
+        fullySpecified: false,
       },
-    ],
-  },
+    },
+    {
+      test: /\.(ts|js)x?$/,
+      loader: "babel-loader",
+    },
+  ],
+},
   optimization: {
     // Disable compression because it makes debugging more difficult for KolMafia
     minimize: false,
