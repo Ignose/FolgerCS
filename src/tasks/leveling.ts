@@ -89,22 +89,14 @@ import {
 } from "libram";
 import { CombatStrategy } from "grimoire-kolmafia";
 import {
-  acquirePulls,
   boomBoxProfit,
   burnLibram,
   //burnLibram,
   camelFightsLeft,
-  checkPull,
   checkPurqoise,
   checkValue,
-  //chooseLibram,
-  computeCombatFrequency,
-  findMaxPull,
   forbiddenEffects,
   generalStoreXpEffect,
-  getSynthExpBuff,
-  getValidComplexCandyPairs,
-  jacks,
   mainStatMaximizerStr,
   peridotChoice,
   reagentBalancerEffect,
@@ -116,7 +108,6 @@ import {
   refillLatte,
   sellMiscellaneousItems,
   statToMaximizerString,
-  synthExpBuff,
   tryAcquiringEffect,
   useOffhandRemarkable,
 } from "../lib";
@@ -205,7 +196,6 @@ const usefulEffects: Effect[] = [
   // Stats
   $effect`Big`,
   $effect`Feeling Excited`,
-  $effect`Triple-Sized`,
   $effect`substats.enh`,
   $effect`Broad-Spectrum Vaccine`,
   $effect`Pyrite Pride`,
@@ -214,6 +204,7 @@ const usefulEffects: Effect[] = [
   $effect`Confidence of the Votive`,
   $effect`Song of Bravado`,
   $effect`Cold as Nice`,
+  $effect`Ultraheart`,
 
   // ML
   $effect`Pride of the Puffin`,
@@ -224,6 +215,7 @@ const usefulEffects: Effect[] = [
   // Xp
   $effect`Carol of the Thrills`,
   $effect`Wisdom of Others`,
+  $effect`Best Pals`,
 
   // Songs
   $effect`Stevedave's Shanty of Superiority`,
@@ -299,6 +291,16 @@ export const LevelingQuest: Quest = {
     (get("_feelPrideUsed", 3) >= 3 && camelFightsLeft() === 0 && !haveFreeKill()),
   tasks: [
     {
+      name: "Open Mayday",
+      ready: () => have($item`MayDay™ supply package`) && !args.savemayday,
+      completed: () => !have($item`MayDay™ supply package`),
+      do: (): void => {
+        use($item`MayDay™ supply package`);
+        if (have($item`space blanket`)) autosell($item`space blanket`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Eat Magical Sausages",
       ready: () =>
         restoreMPEfficiently() === "Sausage" ||
@@ -363,7 +365,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Do the sweats",
-      ready: () => have($item`blood cubic zirconia`) && myLevel() >= 15,
+      ready: () => have($item`blood cubic zirconia`),
       completed: () => have($effect`Up To 11`),
       do: () => {
         useSkill($skill`BCZ: Dial it up to 11`);
@@ -498,113 +500,6 @@ export const LevelingQuest: Quest = {
         useSkill($skill`Patience of the Tortoise`);
         useSkill($skill`Empathy of the Newt`);
         unequip($item`April Shower Thoughts shield`);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Synth Exp Buff",
-      completed: () =>
-        !have($skill`Sweet Synthesis`) ||
-        args.synthxp ||
-        have(synthExpBuff) ||
-        getValidComplexCandyPairs().length === 0,
-      do: (): void => getSynthExpBuff(),
-      limit: { tries: 5 },
-    },
-    {
-      name: "Pull Some Everything",
-      ready: () => args.dopullstest,
-      prepare: () =>
-        $items`tobiko marble soda, fudge-shaped hole in space-time, ${jacks.name}`.forEach((item) =>
-          acquirePulls(item)
-        ),
-      completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
-      do: (): void => {
-        let i = 5 - args.savepulls - get("_roninStoragePulls").split(",").length;
-        while (i < 5) {
-          const maxPullItem = findMaxPull();
-          if (maxPullItem) takeStorage(maxPullItem, 1);
-          else print("Hmmm, seems like we don't have anything to pull.");
-          i++;
-        }
-      },
-      limit: { tries: 4 },
-    },
-    {
-      name: "Pull Some Jacks",
-      ready: () => args.dopulls,
-      completed: () =>
-        have($skill`Summon Clip Art`) ||
-        !have($familiar`Comma Chameleon`) ||
-        have($item`box of Familiar Jacks`) ||
-        checkPull($item`box of Familiar Jacks`),
-      do: (): void => {
-        takeStorage($item`box of Familiar Jacks`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Buddy Bjorn",
-      ready: () => args.dopulls,
-      completed: () => checkPull($item`Buddy Bjorn`),
-      do: (): void => {
-        takeStorage($item`Buddy Bjorn`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Stick-Knife",
-      ready: () => args.dopulls,
-      completed: () => checkPull($item`Stick-Knife of Loathing`),
-      do: (): void => {
-        takeStorage($item`Stick-Knife of Loathing`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Repaid Diaper",
-      ready: () => args.dopulls,
-      completed: () =>
-        checkPull($item`Great Wolf's beastly trousers`) || checkPull($item`repaid diaper`),
-      do: (): void => {
-        takeStorage($item`repaid diaper`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Beastly Trousers",
-      ready: () => args.dopulls,
-      completed: () =>
-        checkPull($item`Great Wolf's beastly trousers`) || have($item`astral trousers`),
-      do: (): void => {
-        takeStorage($item`Great Wolf's beastly trousers`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Staff of Simering Hatred",
-      ready: () => args.dopulls,
-      completed: () => checkPull($item`Staff of Simmering Hatred`),
-      do: (): void => {
-        takeStorage($item`Staff of Simmering Hatred`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Tobiko Marble Soda",
-      ready: () => args.dopulls,
-      completed: () => checkPull($item`tobiko marble soda`),
-      do: (): void => {
-        takeStorage($item`tobiko marble soda`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Chlamys",
-      ready: () => args.dopulls && computeCombatFrequency(false) > -100,
-      completed: () => checkPull($item`chalk chlamys`),
-      do: (): void => {
-        takeStorage($item`chalk chlamys`, 1);
       },
       limit: { tries: 1 },
     },
@@ -858,16 +753,6 @@ export const LevelingQuest: Quest = {
       completed: () =>
         SongBoom.song() === "Total Eclipse of Your Meat" || !have($item`SongBoom™ BoomBox`),
       do: () => SongBoom.setSong("Total Eclipse of Your Meat"),
-      limit: { tries: 1 },
-    },
-    {
-      name: "Open Mayday",
-      ready: () => have($item`MayDay™ supply package`) && !args.savemayday,
-      completed: () => !have($item`MayDay™ supply package`),
-      do: (): void => {
-        use($item`MayDay™ supply package`);
-        if (have($item`space blanket`)) autosell($item`space blanket`, 1);
-      },
       limit: { tries: 1 },
     },
     {

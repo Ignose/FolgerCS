@@ -1,5 +1,5 @@
 import { Quest } from "../engine/task";
-import { buy, cliExecute, Effect, equip, print, runChoice, useSkill, visitUrl } from "kolmafia";
+import { buy, cliExecute, Effect, equip, print, retrieveItem, runChoice, useSkill, visitUrl } from "kolmafia";
 import {
   $effect,
   $familiar,
@@ -65,12 +65,11 @@ export const NoncombatQuest: Quest = {
       limit: { tries: 3 },
     },
     {
-      name: "Invisible Avatar",
+      name: "porkpie-mounted popper",
       completed: () =>
-        have($effect`Invisible Avatar`) || !have($item`Powerful Glove`) || args.saveglove,
+        have($item`porkpie-mounted popper`),
       do: (): void => {
-        equip($slot`acc3`, $item`Powerful Glove`);
-        useSkill($skill`CHEAT CODE: Invisible Avatar`);
+        retrieveItem($item`porkpie-mounted popper`);
       },
       limit: { tries: 1 },
     },

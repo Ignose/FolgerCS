@@ -3,7 +3,7 @@ import tseslint from "typescript-eslint";
 import prettier from "eslint-config-prettier";
 import libram, { verifyConstantsSinceRevision } from "eslint-plugin-libram";
 
-const VERIFY_CONSTANTS_SINCE = 28904;
+const VERIFY_CONSTANTS_SINCE = 28906;
 
 await verifyConstantsSinceRevision(VERIFY_CONSTANTS_SINCE);
 
