@@ -67,7 +67,6 @@ export const HotResQuest: Quest = {
         if (get("parkaMode") !== "pterodactyl") cliExecute("parka pterodactyl");
 
         const usefulEffects: Effect[] = [
-          $effect`Amazing`,
           $effect`Astral Shell`,
           $effect`Egged On`,
           $effect`Elemental Saucesphere`,
