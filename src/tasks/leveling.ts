@@ -1474,7 +1474,7 @@ export const LevelingQuest: Quest = {
         effects.forEach((ef) => tryAcquiringEffect(ef));
       },
       completed: () =>
-        !have($item`Sept-Ember Censer`) || have($item`bembershoot`) || args.saveembers,
+        !have($item`Sept-Ember Censer`) || get("availableSeptEmbers") === 1 || args.saveembers,
       do: (): void => {
         // Saber a camel
         if (
