@@ -76,6 +76,7 @@ import {
   MayamCalendar,
   PeridotOfPeril,
   PrismaticBeret,
+  set,
   // set,
   SongBoom,
   SourceTerminal,
@@ -353,13 +354,14 @@ export const LevelingQuest: Quest = {
       name: "Beret? Beret.",
       ready: () =>
         have(toItem(11919)) && have($item`punk rock jacket`) && myBasestat($stat`muscle`) > 100,
-      completed: () => get("_beretBuskingUses", 0) >= 5,
+      completed: () => get("_beretBuskingUses", 0) >= 5 || get("_triedBeret", false),
       do: () => {
         PrismaticBeret.buskAt(825, true);
         PrismaticBeret.buskAt(800, true);
         PrismaticBeret.buskAt(885, true);
         PrismaticBeret.buskAt(765, true);
         PrismaticBeret.buskAt(800, true);
+        set("_triedBeret", true);
       },
       limit: { tries: 1 },
     },
@@ -375,14 +377,16 @@ export const LevelingQuest: Quest = {
     {
       name: "Leprecondo",
       ready: () => Leprecondo.have(),
-      completed: () => Leprecondo.installedFurniture().includes("sous vide laboratory"),
-      do: () =>
+      completed: () => Leprecondo.installedFurniture().includes("sous vide laboratory") || get("_condoTested", false),
+      do: () => {
         Leprecondo.setFurniture(
           "sous vide laboratory",
           "couch and flatscreen",
           "whiskeybed",
           "beer pong table"
-        ),
+        )
+        set("_condoTested", true);
+      },
       limit: { tries: 1 },
     },
     {
@@ -1207,7 +1211,7 @@ export const LevelingQuest: Quest = {
       name: "Snojo Pledge",
       prepare: () => prepCommon,
       ready: () => have($familiar`Patriotic Eagle`) && get("snojoAvailable"),
-      completed: () => get("_snojoFreeFights") >= 10 || !get("snojoAvailable"),
+      completed: () => get("_citizenZone").includes("Snowman"),
       do: $location`The X-32-F Combat Training Snowman`,
       combat: new CombatStrategy().macro(
         Macro.if_(
