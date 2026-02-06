@@ -59,11 +59,8 @@ export const freekillSources: FreekillSource[] = [
   },
   {
     name: "Seal Clubbing Club of Legend",
-    // eslint-disable-next-line libram/verify-constants
     available: () => have($item`legendary seal-clubbing club`) && get("_clubEmTimeUsed", 0) < 5,
-    // eslint-disable-next-line libram/verify-constants
     do: $skill`Club 'Em Back in Time`,
-    // eslint-disable-next-line libram/verify-constants
     equip: $item`legendary seal-clubbing club`,
   },
   {

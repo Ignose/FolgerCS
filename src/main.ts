@@ -40,7 +40,7 @@ import { findTopBusksGreedy } from "./beret";
 const timeProperty = "fullday_elapsedTime";
 
 export function main(command?: string): void {
-  sinceKolmafiaRevision(27822);
+  sinceKolmafiaRevision(28906);
 
   Args.fill(args, command);
   if (args.help) {

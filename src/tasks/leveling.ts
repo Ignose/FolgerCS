@@ -76,6 +76,7 @@ import {
   MayamCalendar,
   PeridotOfPeril,
   PrismaticBeret,
+  set,
   // set,
   SongBoom,
   SourceTerminal,
@@ -89,22 +90,14 @@ import {
 } from "libram";
 import { CombatStrategy } from "grimoire-kolmafia";
 import {
-  acquirePulls,
   boomBoxProfit,
   burnLibram,
   //burnLibram,
   camelFightsLeft,
-  checkPull,
   checkPurqoise,
   checkValue,
-  //chooseLibram,
-  computeCombatFrequency,
-  findMaxPull,
   forbiddenEffects,
   generalStoreXpEffect,
-  getSynthExpBuff,
-  getValidComplexCandyPairs,
-  jacks,
   mainStatMaximizerStr,
   peridotChoice,
   reagentBalancerEffect,
@@ -116,7 +109,6 @@ import {
   refillLatte,
   sellMiscellaneousItems,
   statToMaximizerString,
-  synthExpBuff,
   tryAcquiringEffect,
   useOffhandRemarkable,
 } from "../lib";
@@ -205,7 +197,6 @@ const usefulEffects: Effect[] = [
   // Stats
   $effect`Big`,
   $effect`Feeling Excited`,
-  $effect`Triple-Sized`,
   $effect`substats.enh`,
   $effect`Broad-Spectrum Vaccine`,
   $effect`Pyrite Pride`,
@@ -214,6 +205,7 @@ const usefulEffects: Effect[] = [
   $effect`Confidence of the Votive`,
   $effect`Song of Bravado`,
   $effect`Cold as Nice`,
+  $effect`Ultraheart`,
 
   // ML
   $effect`Pride of the Puffin`,
@@ -224,6 +216,7 @@ const usefulEffects: Effect[] = [
   // Xp
   $effect`Carol of the Thrills`,
   $effect`Wisdom of Others`,
+  $effect`Best Pals`,
 
   // Songs
   $effect`Stevedave's Shanty of Superiority`,
@@ -299,6 +292,16 @@ export const LevelingQuest: Quest = {
     (get("_feelPrideUsed", 3) >= 3 && camelFightsLeft() === 0 && !haveFreeKill()),
   tasks: [
     {
+      name: "Open Mayday",
+      ready: () => have($item`MayDay™ supply package`) && !args.savemayday,
+      completed: () => !have($item`MayDay™ supply package`),
+      do: (): void => {
+        use($item`MayDay™ supply package`);
+        if (have($item`space blanket`)) autosell($item`space blanket`, 1);
+      },
+      limit: { tries: 1 },
+    },
+    {
       name: "Eat Magical Sausages",
       ready: () =>
         restoreMPEfficiently() === "Sausage" ||
@@ -351,19 +354,20 @@ export const LevelingQuest: Quest = {
       name: "Beret? Beret.",
       ready: () =>
         have(toItem(11919)) && have($item`punk rock jacket`) && myBasestat($stat`muscle`) > 100,
-      completed: () => get("_beretBuskingUses", 0) >= 5,
+      completed: () => get("_beretBuskingUses", 0) >= 5 || get("_triedBeret", false),
       do: () => {
         PrismaticBeret.buskAt(825, true);
         PrismaticBeret.buskAt(800, true);
         PrismaticBeret.buskAt(885, true);
         PrismaticBeret.buskAt(765, true);
         PrismaticBeret.buskAt(800, true);
+        set("_triedBeret", true);
       },
       limit: { tries: 1 },
     },
     {
       name: "Do the sweats",
-      ready: () => have($item`blood cubic zirconia`) && myLevel() >= 15,
+      ready: () => have($item`blood cubic zirconia`),
       completed: () => have($effect`Up To 11`),
       do: () => {
         useSkill($skill`BCZ: Dial it up to 11`);
@@ -373,14 +377,16 @@ export const LevelingQuest: Quest = {
     {
       name: "Leprecondo",
       ready: () => Leprecondo.have(),
-      completed: () => Leprecondo.installedFurniture().includes("sous vide laboratory"),
-      do: () =>
+      completed: () => Leprecondo.installedFurniture().includes("sous vide laboratory") || get("_condoTested", false),
+      do: () => {
         Leprecondo.setFurniture(
           "sous vide laboratory",
           "couch and flatscreen",
           "whiskeybed",
           "beer pong table"
-        ),
+        )
+        set("_condoTested", true);
+      },
       limit: { tries: 1 },
     },
     {
@@ -498,113 +504,6 @@ export const LevelingQuest: Quest = {
         useSkill($skill`Patience of the Tortoise`);
         useSkill($skill`Empathy of the Newt`);
         unequip($item`April Shower Thoughts shield`);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Synth Exp Buff",
-      completed: () =>
-        !have($skill`Sweet Synthesis`) ||
-        args.synthxp ||
-        have(synthExpBuff) ||
-        getValidComplexCandyPairs().length === 0,
-      do: (): void => getSynthExpBuff(),
-      limit: { tries: 5 },
-    },
-    {
-      name: "Pull Some Everything",
-      ready: () => args.dopullstest,
-      prepare: () =>
-        $items`tobiko marble soda, fudge-shaped hole in space-time, ${jacks.name}`.forEach((item) =>
-          acquirePulls(item)
-        ),
-      completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
-      do: (): void => {
-        let i = 5 - args.savepulls - get("_roninStoragePulls").split(",").length;
-        while (i < 5) {
-          const maxPullItem = findMaxPull();
-          if (maxPullItem) takeStorage(maxPullItem, 1);
-          else print("Hmmm, seems like we don't have anything to pull.");
-          i++;
-        }
-      },
-      limit: { tries: 4 },
-    },
-    {
-      name: "Pull Some Jacks",
-      ready: () => args.dopulls,
-      completed: () =>
-        have($skill`Summon Clip Art`) ||
-        !have($familiar`Comma Chameleon`) ||
-        have($item`box of Familiar Jacks`) ||
-        checkPull($item`box of Familiar Jacks`),
-      do: (): void => {
-        takeStorage($item`box of Familiar Jacks`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Buddy Bjorn",
-      ready: () => args.dopulls,
-      completed: () => checkPull($item`Buddy Bjorn`),
-      do: (): void => {
-        takeStorage($item`Buddy Bjorn`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Stick-Knife",
-      ready: () => args.dopulls,
-      completed: () => checkPull($item`Stick-Knife of Loathing`),
-      do: (): void => {
-        takeStorage($item`Stick-Knife of Loathing`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Repaid Diaper",
-      ready: () => args.dopulls,
-      completed: () =>
-        checkPull($item`Great Wolf's beastly trousers`) || checkPull($item`repaid diaper`),
-      do: (): void => {
-        takeStorage($item`repaid diaper`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Beastly Trousers",
-      ready: () => args.dopulls,
-      completed: () =>
-        checkPull($item`Great Wolf's beastly trousers`) || have($item`astral trousers`),
-      do: (): void => {
-        takeStorage($item`Great Wolf's beastly trousers`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Staff of Simering Hatred",
-      ready: () => args.dopulls,
-      completed: () => checkPull($item`Staff of Simmering Hatred`),
-      do: (): void => {
-        takeStorage($item`Staff of Simmering Hatred`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Tobiko Marble Soda",
-      ready: () => args.dopulls,
-      completed: () => checkPull($item`tobiko marble soda`),
-      do: (): void => {
-        takeStorage($item`tobiko marble soda`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Pull Chlamys",
-      ready: () => args.dopulls && computeCombatFrequency(false) > -100,
-      completed: () => checkPull($item`chalk chlamys`),
-      do: (): void => {
-        takeStorage($item`chalk chlamys`, 1);
       },
       limit: { tries: 1 },
     },
@@ -861,16 +760,6 @@ export const LevelingQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Open Mayday",
-      ready: () => have($item`MayDay™ supply package`) && !args.savemayday,
-      completed: () => !have($item`MayDay™ supply package`),
-      do: (): void => {
-        use($item`MayDay™ supply package`);
-        if (have($item`space blanket`)) autosell($item`space blanket`, 1);
-      },
-      limit: { tries: 1 },
-    },
-    {
       // Set up a pretty lit buff
       name: "NEP Episode 2: The Prequel",
       ready: () => get("noncombatForcerActive"),
@@ -897,25 +786,21 @@ export const LevelingQuest: Quest = {
     {
       name: "Get an S",
       ready: () =>
-        // eslint-disable-next-line libram/verify-constants
-        have($item`legendary seal-clubbing club`) && have($item`heartstone`),
+        have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
       prepare: () => prepCommon,
       completed: () =>
         get("_clubEmTimeUsed") >= 1 ||
         PeridotOfPeril.zonesToday().includes($location`The Outskirts of Cobb's Knob`),
       do: $location`The Outskirts of Cobb's Knob`,
       choices: peridotChoice($monster`Knob Goblin Assistant Chef`),
-      // eslint-disable-next-line libram/verify-constants
       combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`steal monster's heart`)
-          .trySkill($skill`club 'em back in time`)
+        Macro.trySkill($skill`Steal Monster's Heart`)
+          .trySkill($skill`Club 'Em Back in Time`)
           .abort()
       ),
       outfit: () => ({
-        // eslint-disable-next-line libram/verify-constants
         weapon: $item`legendary seal-clubbing club`,
-        // eslint-disable-next-line libram/verify-constants
-        acc2: $item`heartstone`,
+        acc2: $item`Heartstone`,
         acc3: $item`Peridot of Peril`,
       }),
       limit: { tries: 2 },
@@ -929,25 +814,21 @@ export const LevelingQuest: Quest = {
     {
       name: "Get a P",
       ready: () =>
-        // eslint-disable-next-line libram/verify-constants
-        have($item`legendary seal-clubbing club`) && have($item`heartstone`),
+        have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
       prepare: () => prepCommon,
       completed: () =>
         get("_clubEmTimeUsed") >= 2 ||
         PeridotOfPeril.zonesToday().includes($location`The Sleazy Back Alley`),
       do: $location`The Sleazy Back Alley`,
       choices: peridotChoice($monster`big creepy spider`),
-      // eslint-disable-next-line libram/verify-constants
       combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`steal monster's heart`)
-          .trySkill($skill`club 'em back in time`)
+        Macro.trySkill($skill`Steal Monster's Heart`)
+          .trySkill($skill`Club 'Em Back in Time`)
           .abort()
       ),
       outfit: () => ({
-        // eslint-disable-next-line libram/verify-constants
         weapon: $item`legendary seal-clubbing club`,
-        // eslint-disable-next-line libram/verify-constants
-        acc2: $item`heartstone`,
+        acc2: $item`Heartstone`,
         acc3: $item`Peridot of Peril`,
       }),
       limit: { tries: 2 },
@@ -961,25 +842,21 @@ export const LevelingQuest: Quest = {
     {
       name: "Get an I",
       ready: () =>
-        // eslint-disable-next-line libram/verify-constants
-        have($item`legendary seal-clubbing club`) && have($item`heartstone`),
+        have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
       prepare: () => prepCommon,
       completed: () =>
         get("_clubEmTimeUsed") >= 3 ||
         PeridotOfPeril.zonesToday().includes($location`The Skeleton Store`),
       do: $location`The Skeleton Store`,
       choices: peridotChoice($monster`novelty tropical skeleton`),
-      // eslint-disable-next-line libram/verify-constants
       combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`steal monster's heart`)
-          .trySkill($skill`club 'em back in time`)
+        Macro.trySkill($skill`Steal Monster's Heart`)
+          .trySkill($skill`Club 'Em Back in Time`)
           .abort()
       ),
       outfit: () => ({
-        // eslint-disable-next-line libram/verify-constants
         weapon: $item`legendary seal-clubbing club`,
-        // eslint-disable-next-line libram/verify-constants
-        acc2: $item`heartstone`,
+        acc2: $item`Heartstone`,
         acc3: $item`Peridot of Peril`,
       }),
       limit: { tries: 2 },
@@ -993,25 +870,22 @@ export const LevelingQuest: Quest = {
     {
       name: "Get a T",
       ready: () =>
-        // eslint-disable-next-line libram/verify-constants
-        have($item`legendary seal-clubbing club`) && have($item`heartstone`),
+        have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
       prepare: () => prepCommon,
       completed: () =>
         get("_clubEmTimeUsed") >= 4 ||
         PeridotOfPeril.zonesToday().includes($location`The Haunted Conservatory`),
       do: $location`The Haunted Conservatory`,
       choices: peridotChoice($monster`skeletal cat`),
-      // eslint-disable-next-line libram/verify-constants
+
       combat: new CombatStrategy().macro(
-        Macro.trySkill($skill`steal monster's heart`)
-          .trySkill($skill`club 'em back in time`)
+        Macro.trySkill($skill`Steal Monster's Heart`)
+          .trySkill($skill`Club 'Em Back in Time`)
           .abort()
       ),
       outfit: () => ({
-        // eslint-disable-next-line libram/verify-constants
         weapon: $item`legendary seal-clubbing club`,
-        // eslint-disable-next-line libram/verify-constants
-        acc2: $item`heartstone`,
+        acc2: $item`Heartstone`,
         acc3: $item`Peridot of Peril`,
       }),
       limit: { tries: 2 },
@@ -1337,7 +1211,7 @@ export const LevelingQuest: Quest = {
       name: "Snojo Pledge",
       prepare: () => prepCommon,
       ready: () => have($familiar`Patriotic Eagle`) && get("snojoAvailable"),
-      completed: () => get("_snojoFreeFights") >= 10 || !get("snojoAvailable"),
+      completed: () => get("_citizenZone").includes("Snowman"),
       do: $location`The X-32-F Combat Training Snowman`,
       combat: new CombatStrategy().macro(
         Macro.if_(
@@ -1510,7 +1384,6 @@ export const LevelingQuest: Quest = {
         back: $item`McHugeLarge duffel bag`,
         shirt: $item`LOV Eardigan`,
         pants: $item`tearaway pants`,
-        // eslint-disable-next-line libram/verify-constants
         acc1: $item`The Eternity Codpiece`,
         acc2: $item`McHugeLarge left ski`,
         acc3: $item`McHugeLarge right ski`,

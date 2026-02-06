@@ -238,7 +238,7 @@ export class Engine extends BaseEngine {
         // June cleaver noncombats
         1467: 3, // +adv
         1468: get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
-        1469: !have($effect`yapping pal`) ? 1 : get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
+        1469: !have($effect`Yapping Pal`) ? 1 : get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
         1470: 2, // teacher's pen
         1471: get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
         1472: !have($item`trampled ticket stub`) ? 1 : get("_juneCleaverSkips", 0) < 5 ? 4 : 2,

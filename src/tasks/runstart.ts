@@ -206,7 +206,6 @@ export const RunStartQuest: Quest = {
         if (myMeat() >= 2000) {
           restoreMp(50);
         }
-        // eslint-disable-next-line libram/verify-constants
         useFamiliar($familiar`Skeleton of Crimbo Past`);
         if (get("chateauAvailable")) {
           visitUrl("place.php?whichplace=chateau&action=chateau_restbox");
@@ -622,7 +621,6 @@ export const RunStartQuest: Quest = {
         ...baseOutfit(true, true, $monster`sausage goblin`),
         shirt: $item`Jurassic Parka`,
         offhand: $item`Kramco Sausage-o-Matic™`,
-        // eslint-disable-next-line libram/verify-constants
         acc3: $item`Möbius ring`, // Prime the ring
         modes: { parka: "spikolodon" },
         avoid: $items`Daylight Shavings Helmet`,
