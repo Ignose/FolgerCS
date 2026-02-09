@@ -71,7 +71,6 @@ export const HPQuest: Quest = {
           $effect`Seal Clubbing Frenzy`,
           $effect`Song of Starch`,
           $effect`Stevedave's Shanty of Superiority`,
-          $effect`Triple-Sized`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
       },
@@ -127,7 +126,6 @@ export const MuscleQuest: Quest = {
           $effect`Rage of the Reindeer`,
           $effect`Song of Bravado`,
           $effect`Stevedave's Shanty of Superiority`,
-          $effect`Triple-Sized`,
         ];
         usefulEffects.forEach((ef) => tryAcquiringEffect(ef, true));
 
@@ -198,7 +196,6 @@ export const MysticalityQuest: Quest = {
           $effect`Feeling Excited`,
           $effect`Glittering Eyelashes`,
           $effect`The Magical Mojomuscular Melody`,
-          $effect`Triple-Sized`,
           $effect`Pasta Oneness`,
           $effect`Quiet Judgement`,
           $effect`Saucemastery`,
@@ -283,7 +280,6 @@ export const MoxieQuest: Quest = {
           $effect`Disco State of Mind`,
           $effect`Feeling Excited`,
           $effect`The Moxious Madrigal`,
-          $effect`Triple-Sized`,
           $effect`Penne Fedora`,
           $effect`Pomp & Circumsands`,
           $effect`Quiet Desperation`,
