@@ -10717,6 +10717,10 @@ var args_args = Args.create("FolgerCS", "Written by Seraphiii, branched from Ins
     help: "Use one familiar over the course of the run, rather than using different familiars",
     default: template_string_$familiar.none
   }),
+  maxlevel: Args.number({
+    help: "Set a number to level to by default",
+    default: 20
+  }),
   stickknifeoutfit: Args.string({
     help: "Name of the outfit that contains stick-knife, for stick-knife trick",
     default: ""
@@ -14475,7 +14479,7 @@ function next() {
   return cycle()[get("trainsetPosition") % 8];
 }
 ;// CONCATENATED MODULE: ./src/engine/resources.ts
-var resources_templateObject, resources_templateObject2, resources_templateObject3, resources_templateObject4, resources_templateObject5, resources_templateObject6, resources_templateObject7, resources_templateObject8, resources_templateObject9, resources_templateObject10, resources_templateObject11, resources_templateObject12, resources_templateObject13, resources_templateObject14, resources_templateObject15, resources_templateObject16, resources_templateObject17, resources_templateObject18, resources_templateObject19, resources_templateObject20, resources_templateObject21, resources_templateObject22, resources_templateObject23;
+var resources_templateObject, resources_templateObject2, resources_templateObject3, resources_templateObject4, resources_templateObject5, resources_templateObject6, resources_templateObject7, resources_templateObject8, resources_templateObject9, resources_templateObject10, resources_templateObject11, resources_templateObject12, resources_templateObject13, resources_templateObject14, resources_templateObject15, resources_templateObject16, resources_templateObject17, resources_templateObject18, resources_templateObject19, resources_templateObject20, resources_templateObject21, resources_templateObject22;
 function resources_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = resources_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function resources_toConsumableArray(arr) { return resources_arrayWithoutHoles(arr) || resources_iterableToArray(arr) || resources_unsupportedIterableToArray(arr) || resources_nonIterableSpread(); }
 function resources_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -14489,7 +14493,6 @@ function resources_defineProperty(obj, key, value) { key = resources_toPropertyK
 function resources_toPropertyKey(t) { var i = resources_toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function resources_toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function resources_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
 
 
 
@@ -14518,34 +14521,27 @@ var freekillSources = [{
   do: template_string_$skill(resources_templateObject11 || (resources_templateObject11 = resources_taggedTemplateLiteral(["Fire the Jokester's Gun"]))),
   equip: template_string_$item(resources_templateObject12 || (resources_templateObject12 = resources_taggedTemplateLiteral(["The Jokester's gun"])))
 }, {
-  name: "Asdon Martin: Missile Launcher",
-  available: () => !property_get("_missileLauncherUsed"),
-  prepare: () => {
-    if ((0,external_kolmafia_namespaceObject.getFuel)() < 100) fuelUp();
-  },
-  do: template_string_$skill(resources_templateObject13 || (resources_templateObject13 = resources_taggedTemplateLiteral(["Asdon Martin: Missile Launcher"])))
-}, {
   name: "Seal Clubbing Club of Legend",
-  available: () => lib_have(template_string_$item(resources_templateObject14 || (resources_templateObject14 = resources_taggedTemplateLiteral(["legendary seal-clubbing club"])))) && property_get("_clubEmTimeUsed", 0) < 5,
-  do: template_string_$skill(resources_templateObject15 || (resources_templateObject15 = resources_taggedTemplateLiteral(["Club 'Em Back in Time"]))),
-  equip: template_string_$item(resources_templateObject16 || (resources_templateObject16 = resources_taggedTemplateLiteral(["legendary seal-clubbing club"])))
+  available: () => lib_have(template_string_$item(resources_templateObject13 || (resources_templateObject13 = resources_taggedTemplateLiteral(["legendary seal-clubbing club"])))) && property_get("_clubEmTimeUsed", 0) < 5,
+  do: template_string_$skill(resources_templateObject14 || (resources_templateObject14 = resources_taggedTemplateLiteral(["Club 'Em Back in Time"]))),
+  equip: template_string_$item(resources_templateObject15 || (resources_templateObject15 = resources_taggedTemplateLiteral(["legendary seal-clubbing club"])))
 }, {
   name: "Jurassic Parka",
-  available: () => lib_have(template_string_$skill(resources_templateObject17 || (resources_templateObject17 = resources_taggedTemplateLiteral(["Torso Awareness"])))) && lib_have(template_string_$item(resources_templateObject18 || (resources_templateObject18 = resources_taggedTemplateLiteral(["Jurassic Parka"])))) && !lib_have(template_string_$effect(resources_templateObject19 || (resources_templateObject19 = resources_taggedTemplateLiteral(["Everything Looks Yellow"])))),
+  available: () => lib_have(template_string_$skill(resources_templateObject16 || (resources_templateObject16 = resources_taggedTemplateLiteral(["Torso Awareness"])))) && lib_have(template_string_$item(resources_templateObject17 || (resources_templateObject17 = resources_taggedTemplateLiteral(["Jurassic Parka"])))) && !lib_have(template_string_$effect(resources_templateObject18 || (resources_templateObject18 = resources_taggedTemplateLiteral(["Everything Looks Yellow"])))),
   equip: {
-    equip: template_string_$items(resources_templateObject20 || (resources_templateObject20 = resources_taggedTemplateLiteral(["Jurassic Parka"]))),
+    equip: template_string_$items(resources_templateObject19 || (resources_templateObject19 = resources_taggedTemplateLiteral(["Jurassic Parka"]))),
     modes: {
       parka: "dilophosaur"
     }
   },
-  do: template_string_$skill(resources_templateObject21 || (resources_templateObject21 = resources_taggedTemplateLiteral(["Spit jurassic acid"])))
+  do: template_string_$skill(resources_templateObject20 || (resources_templateObject20 = resources_taggedTemplateLiteral(["Spit jurassic acid"])))
 }];
 function freekillsRemaining() {
   return freekillSources.some(src => src.available());
 }
 function freekillOutfit() {
   var _base$equip;
-  var base = baseOutfit(true, false, $monster(resources_templateObject22 || (resources_templateObject22 = resources_taggedTemplateLiteral(["burnout"]))));
+  var base = baseOutfit(true, false, $monster(resources_templateObject21 || (resources_templateObject21 = resources_taggedTemplateLiteral(["burnout"]))));
   var outfit = resources_objectSpread(resources_objectSpread({}, base), {}, {
     equip: resources_toConsumableArray((_base$equip = base.equip) !== null && _base$equip !== void 0 ? _base$equip : [])
   });
@@ -14580,7 +14576,7 @@ function mergeOutfitSpec(base, add) {
   }
 }
 function freekillMacro() {
-  var m = combat_Macro.if_($monster(resources_templateObject23 || (resources_templateObject23 = resources_taggedTemplateLiteral(["sausage goblin"]))), combat_Macro["default"](useCinch()));
+  var m = combat_Macro.if_($monster(resources_templateObject22 || (resources_templateObject22 = resources_taggedTemplateLiteral(["sausage goblin"]))), combat_Macro["default"](useCinch()));
   var _iterator2 = resources_createForOfIteratorHelper(freekillSources),
     _step2;
   try {
@@ -14685,7 +14681,7 @@ function prepCommon() {
 }
 var LevelingQuest = {
   name: "Leveling",
-  completed: () => property_get("csServicesPerformed").split(",").length > 1 || lib_have(template_string_$effect(leveling_templateObject71 || (leveling_templateObject71 = leveling_taggedTemplateLiteral(["Spit Upon"])))) && lib_have(template_string_$item(leveling_templateObject72 || (leveling_templateObject72 = leveling_taggedTemplateLiteral(["short stack of pancakes"])))) && (0,external_kolmafia_namespaceObject.myLevel)() >= 20 || property_get("_feelPrideUsed", 3) >= 3 && camelFightsLeft() === 0 && !haveFreeKill(),
+  completed: () => property_get("csServicesPerformed").split(",").length > 1 || lib_have(template_string_$effect(leveling_templateObject71 || (leveling_templateObject71 = leveling_taggedTemplateLiteral(["Spit Upon"])))) && (lib_have(template_string_$item(leveling_templateObject72 || (leveling_templateObject72 = leveling_taggedTemplateLiteral(["short stack of pancakes"])))) || args_args.useonefam !== template_string_$familiar.none) && (0,external_kolmafia_namespaceObject.myLevel)() >= args_args.maxlevel || property_get("_feelPrideUsed", 3) >= 3 && camelFightsLeft() === 0 && !haveFreeKill(),
   tasks: [{
     name: "Open Mayday",
     ready: () => lib_have(template_string_$item(leveling_templateObject73 || (leveling_templateObject73 = leveling_taggedTemplateLiteral(["MayDay\u2122 supply package"])))) && !args_args.savemayday,
