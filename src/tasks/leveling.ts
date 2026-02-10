@@ -288,7 +288,9 @@ export const LevelingQuest: Quest = {
   name: "Leveling",
   completed: () =>
     get("csServicesPerformed").split(",").length > 1 ||
-    (have($effect`Spit Upon`) && have($item`short stack of pancakes`) && myLevel() >= 20) ||
+    (have($effect`Spit Upon`) 
+      && (have($item`short stack of pancakes`) || args.useonefam !== $familiar.none)
+      && myLevel() >= args.maxlevel) ||
     (get("_feelPrideUsed", 3) >= 3 && camelFightsLeft() === 0 && !haveFreeKill()),
   tasks: [
     {
