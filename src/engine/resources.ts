@@ -1,7 +1,6 @@
 import { CombatResource as BaseCombatResource, OutfitSpec } from "grimoire-kolmafia";
-import { Effect, getFuel, Item, Skill } from "kolmafia";
+import { Effect, Item, Skill } from "kolmafia";
 import { $effect, $item, $items, $monster, $skill, get, have } from "libram";
-import { fuelUp } from "../lib";
 import { baseOutfit } from "./outfit";
 import Macro from "../combat";
 import { useCinch } from "../tasks/leveling";
@@ -48,14 +47,6 @@ export const freekillSources: FreekillSource[] = [
     available: () => have($item`The Jokester's gun`) && !get("_firedJokestersGun"),
     do: $skill`Fire the Jokester's Gun`,
     equip: $item`The Jokester's gun`,
-  },
-  {
-    name: "Asdon Martin: Missile Launcher",
-    available: () => !get("_missileLauncherUsed"),
-    prepare: () => {
-      if (getFuel() < 100) fuelUp();
-    },
-    do: $skill`Asdon Martin: Missile Launcher`,
   },
   {
     name: "Seal Clubbing Club of Legend",
