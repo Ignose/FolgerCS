@@ -1,4 +1,5 @@
 import { Args } from "grimoire-kolmafia";
+import { $familiar } from "libram";
 
 export const args = Args.create(
   "FolgerCS",
@@ -23,13 +24,13 @@ export const args = Args.create(
       help: `Name of the mother clan for your slime fighting needs`,
       default: "",
     }),
+    useonefam: Args.familiar({
+      help: "Use one familiar over the course of the run, rather than using different familiars",
+      default: $familiar.none,
+    }), 
     stickknifeoutfit: Args.string({
       help: `Name of the outfit that contains stick-knife, for stick-knife trick`,
       default: "",
-    }),
-    synthxp: Args.flag({
-      help: `Do not use synth for the Xp% buff`,
-      default: true,
     }),
     asdon: Args.flag({
       help: `Should we use Asdon Martin? Incompatible with Skipping Borrowed Time`,
@@ -45,10 +46,6 @@ export const args = Args.create(
     }),
     witchess: Args.flag({
       help: `Do not fight witchess monsters nor acquire Puzzle Champ`,
-      default: false,
-    }),
-    redskeleton: Args.flag({
-      help: `Do not locket a red skeleton`,
       default: false,
     }),
     ninjamap: Args.flag({
@@ -73,10 +70,6 @@ export const args = Args.create(
     }),
     skipqueen: Args.flag({
       help: `Do not fight the Witchess Queen using the Witchess Set`,
-      default: false,
-    }),
-    savepurqoise: Args.flag({
-      help: `Do not autosell your porquoise`,
       default: false,
     }),
     savefloundry: Args.flag({
@@ -109,10 +102,6 @@ export const args = Args.create(
     }),
     savemumming: Args.flag({
       help: `Do not use your mumming trunk`,
-      default: false,
-    }),
-    saveglove: Args.flag({
-      help: `Do not acquire Triple-Sized and Invisible Avatar`,
       default: false,
     }),
     savemayday: Args.flag({
@@ -161,14 +150,6 @@ export const args = Args.create(
     }),
     savecyber: Args.flag({
       help: `Do not use our ten free cyber-fights`,
-      default: false,
-    }),
-    dopulls: Args.flag({
-      help: `Automatically use excess pulls for good stuff?`,
-      default: true,
-    }),
-    dopullstest: Args.flag({
-      help: `Automatically optimize and use excess pulls for good stuff?`,
       default: false,
     }),
     experimentalsynth: Args.flag({

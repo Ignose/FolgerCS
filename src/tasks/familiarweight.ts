@@ -112,7 +112,7 @@ export const FamiliarWeightQuest: Quest = {
       ),
       outfit: () => ({
         weapon: $item`Fourth of May Cosplay Saber`,
-        familiar: chooseFamiliar(false),
+        familiar: args.useonefam !== $familiar.none ? args.useonefam : chooseFamiliar(false),
         avoid: [...sugarItemsAboutToBreak()],
       }),
       choices: { 1387: 3 },

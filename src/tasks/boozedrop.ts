@@ -119,7 +119,7 @@ export const BoozeDropQuest: Quest = {
         acc1: $item`Kremlin's Greatest Briefcase`,
         acc2: $item`Lil' Doctor™ bag`,
         acc3: $item`spring shoes`,
-        familiar: $familiar`Pair of Stomping Boots`,
+        familiar: args.useonefam === $familiar.none ? $familiar`Pair of Stomping Boots` : args.useonefam,
       },
       post: () => useFamiliar($familiar`Left-Hand Man`),
       limit: { tries: 1 },

@@ -33,7 +33,7 @@ export const HotResQuest: Quest = {
         back: $item`vampyric cloake`,
         weapon: $item`Fourth of May Cosplay Saber`,
         offhand: $item`industrial fire extinguisher`,
-        familiar: $familiar`Cookbookbat`,
+        familiar: args.useonefam !== $familiar.none ? args.useonefam : $familiar`Cookbookbat`,
         modifier: "Item Drop",
       },
       choices: { 1387: 3 },

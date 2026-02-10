@@ -955,6 +955,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Map Amateur Ninja",
+      ready: () => args.useonefam === $familiar.none,
       prepare: () => prepCommon,
       completed: () =>
         !have($skill`Map the Monsters`) ||
@@ -1210,7 +1211,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Snojo Pledge",
       prepare: () => prepCommon,
-      ready: () => have($familiar`Patriotic Eagle`) && get("snojoAvailable"),
+      ready: () => have($familiar`Patriotic Eagle`) && get("snojoAvailable") && args.useonefam === $familiar.none,
       completed: () => get("_citizenZone").includes("Snowman"),
       do: $location`The X-32-F Combat Training Snowman`,
       combat: new CombatStrategy().macro(
@@ -1264,7 +1265,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Bakery Pledge",
       prepare: () => prepCommon,
-      ready: () => !get("snojoAvailable"),
+      ready: () => !get("snojoAvailable") && args.useonefam === $familiar.none,
       completed: () =>
         have($effect`Citizen of a Zone`) ||
         !have($familiar`Patriotic Eagle`) ||
@@ -1471,6 +1472,7 @@ export const LevelingQuest: Quest = {
     {
       name: "God Lobster",
       prepare: () => prepCommon,
+      ready: () => args.useonefam === $familiar.none,
       completed: () => get("_godLobsterFights") >= 3 || !have($familiar`God Lobster`),
       do: () => visitUrl("main.php?fightgodlobster=1"),
       combat: new CombatStrategy().macro(Macro.default(useCinch())),
@@ -1521,6 +1523,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "DMT",
+      ready: () => args.useonefam === $familiar.none, 
       prepare: () => prepCommon,
       completed: () => get("_machineTunnelsAdv") >= 5 || !have($familiar`Machine Elf`),
       do: $location`The Deep Machine Tunnels`,
