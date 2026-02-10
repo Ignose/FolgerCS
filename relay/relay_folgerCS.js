@@ -7085,6 +7085,10 @@ var args = Args.create("FolgerCS", "Written by Seraphiii, branched from InstantS
     help: "Use one familiar over the course of the run, rather than using different familiars",
     default: template_string_$familiar.none
   }),
+  maxlevel: Args.number({
+    help: "Set a number to level to by default",
+    default: 20
+  }),
   stickknifeoutfit: Args.string({
     help: "Name of the outfit that contains stick-knife, for stick-knife trick",
     default: ""
