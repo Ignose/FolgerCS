@@ -1,4 +1,5 @@
 import { Args } from "grimoire-kolmafia";
+import { $familiar } from "libram";
 
 export const args = Args.create(
   "FolgerCS",
@@ -23,6 +24,10 @@ export const args = Args.create(
       help: `Name of the mother clan for your slime fighting needs`,
       default: "",
     }),
+    useonefam: Args.familiar({
+      help: "Use one familiar over the course of the run, rather than using different familiars",
+      default: $familiar.none,
+    }), 
     stickknifeoutfit: Args.string({
       help: `Name of the outfit that contains stick-knife, for stick-knife trick`,
       default: "",

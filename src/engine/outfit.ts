@@ -228,7 +228,7 @@ function baseOutfitFirstPass(
       100 - get("_cinchUsed", 0) > args.savecinch
         ? $item`Cincho de Mayo`
         : undefined,
-    familiar: chooseFamiliar(allowAttackingFamiliars),
+    familiar: args.useonefam !== $familiar.none ? args.useonefam : chooseFamiliar(allowAttackingFamiliars),
     famequip:
       have($item`tiny rake`) && get("_leafMonstersFought", 0) < 5 ? $item`tiny rake` : undefined,
     modifier: `${stringPrequel} 0.001 familiar experience, -equip tinsel tights, -equip wad of used tape`,

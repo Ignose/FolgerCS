@@ -96,6 +96,7 @@ export const SpellDamageQuest: Quest = {
     },
     {
       name: "Stand-Alone Carol Ghost Buff",
+      ready: () => args.useonefam === $familiar.none,
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
@@ -120,6 +121,7 @@ export const SpellDamageQuest: Quest = {
     },
     {
       name: "Inner Elf",
+      ready: () => args.useonefam === $familiar.none,
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
@@ -163,6 +165,7 @@ export const SpellDamageQuest: Quest = {
       outfit: () => ({
         weapon: $item`Fourth of May Cosplay Saber`,
         familiar:
+          args.useonefam !== $familiar.none ? args.useonefam : 
           get("camelSpit") >= 100
             ? $familiar`Melodramedary`
             : $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
@@ -192,7 +195,7 @@ export const SpellDamageQuest: Quest = {
         if (myHp() < neededHp) restoreHp(neededHp);
         tryAcquiringEffect($effect`Visions of the Deep Dark Deeps`);
       },
-      outfit: { modifier: "HP 500max, Spooky Resistance", familiar: $familiar`Exotic Parrot` },
+      outfit: { modifier: "HP 500max, Spooky Resistance", familiar: args.useonefam !== $familiar.none ? args.useonefam : $familiar`Exotic Parrot` },
       limit: { tries: 1 },
     },
     {

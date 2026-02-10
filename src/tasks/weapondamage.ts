@@ -83,6 +83,7 @@ export const WeaponDamageQuest: Quest = {
     },
     {
       name: "Stand-Alone Carol Ghost Buff",
+      ready: () => args.useonefam === $familiar.none,
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
@@ -106,6 +107,7 @@ export const WeaponDamageQuest: Quest = {
     },
     {
       name: "Inner Elf",
+      ready: () => args.useonefam === $familiar.none,
       prepare: (): void => {
         restoreHp(clamp(1000, myMaxhp() / 2, myMaxhp()));
         restoreMp(50);
@@ -168,6 +170,7 @@ export const WeaponDamageQuest: Quest = {
       outfit: () => ({
         weapon: $item`Fourth of May Cosplay Saber`,
         familiar:
+        args.useonefam !== $familiar.none ? args.useonefam : 
           get("camelSpit") >= 100
             ? $familiar`Melodramedary`
             : $effects`Do You Crush What I Crush?, Holiday Yoked, Let It Snow/Boil/Stink/Frighten/Grease, All I Want For Crimbo Is Stuff, Crimbo Wrapping`.some(
