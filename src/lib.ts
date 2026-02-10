@@ -248,7 +248,6 @@ export function computeWeaponDamage(sim: boolean): number {
   const frenzy = have($skill`Blood Frenzy`) ? 50 : 0;
   const scowl = have($skill`Scowl of the Auk`) ? 10 : 0;
   const bird = get("yourFavoriteBirdMods").includes("Weapon Damage Percent") ? 100 : 0;
-  const seeing = !args.redskeleton ? 125 : 0;
   const cowrupt = 200; //Ungulith/seeing red. Can't be skipped.
   const imported = have($skill`Map the Monsters`) && get("ownsSpeakeasy") ? 50 : 0;
   const beach = have($item`Beach Comb`) ? 25 : 0;
@@ -275,7 +274,6 @@ export function computeWeaponDamage(sim: boolean): number {
     frenzy,
     scowl,
     bird,
-    seeing,
     cowrupt,
     imported,
     beach,
@@ -644,7 +642,6 @@ if (args.savesnack) forbiddenEffects.push($effect`Wasabi With You`, $effect`Pisc
 if (args.savebarrel) forbiddenEffects.push($effect`Warlock, Warstock, and Warbarrel`);
 if (args.saveterminal) forbiddenEffects.push($effect`items.enh`, $effect`substats.enh`);
 if (args.savecopdollar) forbiddenEffects.push($effect`Gummed Shoes`);
-if (args.saveglove) forbiddenEffects.push($effect`Triple-Sized`, $effect`Invisible Avatar`);
 if (args.savelimitedat) forbiddenEffects.push($effect`Chorale of Companionship`);
 const manuallyExcludedBuffs = args.explicitlyexcludedefs
   .split(",")
@@ -895,7 +892,6 @@ export function computeCombatFrequency(sim: boolean): number {
         )
       : 0;
   const shadowWaters = have($item`closed-circuit pay phone`) ? -10 : 0;
-  const powerfulGlove = have($item`Powerful Glove`) && !args.saveglove ? -10 : 0;
   const shoeGum = get("hasDetectiveSchool") && !get("instant_saveCopDollars", false) ? -5 : 0;
   const silentRunning = -5;
   const feelingLonely = have($skill`Feel Lonely`) ? -5 : 0;
@@ -908,7 +904,6 @@ export function computeCombatFrequency(sim: boolean): number {
     sonata,
     favoriteBird,
     shadowWaters,
-    powerfulGlove,
     shoeGum,
     silentRunning,
     feelingLonely,
@@ -1196,7 +1191,7 @@ export const generalStoreXpEffect: Effect = {
 }[mainStatStr];
 
 export function checkLocketAvailable(): number {
-  const locketAvailable = (args.redskeleton ? 1 : 0) + 2;
+  const locketAvailable = 3;
 
   return locketAvailable;
 }
