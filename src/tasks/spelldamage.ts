@@ -81,6 +81,7 @@ export const SpellDamageQuest: Quest = {
         shrugAT();
         cliExecute("cast 1 Elron's Explosive Etude");
       },
+      limit: { tries: 1 },
     },
     {
       name: "Cargo Shorts",

@@ -396,11 +396,13 @@ export const LevelingQuest: Quest = {
       ready: () => have($item`candy cane sword cane`),
       completed: () => get("_lyleFavored"),
       do: () => cliExecute("monorail buff"),
+      limit: { tries: 1 },
     },
     {
       name: "Telescope",
       completed: () => get("telescopeLookedHigh"),
       do: () => cliExecute("telescope look high"),
+      limit: { tries: 1 },
     },
     {
       name: "Offhand Remarkable Maybe",
@@ -430,6 +432,7 @@ export const LevelingQuest: Quest = {
       do: (): void => {
         while (mySoulsauce() >= 5 && myMp() <= myMaxmp() - 15) useSkill($skill`Soul Food`);
       },
+      limit: { tries: 50 },
     },
     {
       name: "Clan Shower",
@@ -619,6 +622,7 @@ export const LevelingQuest: Quest = {
         }
       },
       outfit: { modifier: "myst, mp, -tie" },
+      limit: { tries: 50 },
     },
     {
       name: "Alice Army",
@@ -693,6 +697,7 @@ export const LevelingQuest: Quest = {
       },
       completed: () => have(generalStoreXpEffect),
       do: () => ensureEffect(generalStoreXpEffect),
+      limit: { tries: 1 },
     },
     {
       name: "Buy Oversized Sparkler",
@@ -954,6 +959,7 @@ export const LevelingQuest: Quest = {
         ...baseOutfit(true, false, $monster`ice woman`),
         back: $item`protonic accelerator pack`,
       }),
+      limit: { tries: 3 },
     },
     {
       name: "Map Amateur Ninja",
@@ -1177,6 +1183,7 @@ export const LevelingQuest: Quest = {
         }
         use(1, $item`Dramatic™ range`);
       },
+      limit: { tries: 1 },
     },
     {
       name: "Use Reagent Booster",
@@ -1190,6 +1197,7 @@ export const LevelingQuest: Quest = {
         }
         ensureEffect(reagentBoosterEffect);
       },
+      limit: { tries: 5 },
     },
     {
       name: "Use Reagent Balancer",
@@ -1412,6 +1420,7 @@ export const LevelingQuest: Quest = {
         }
       },
       outfit: { modifier: "myst, mp" },
+      limit: { tries: 10 },
     },
     {
       name: "Kramco",
@@ -1430,6 +1439,7 @@ export const LevelingQuest: Quest = {
         sellMiscellaneousItems();
         boomBoxProfit();
       },
+      limit: { tries: 10 },
     },
     {
       name: "Oliver's Place (Peridot)",
