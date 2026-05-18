@@ -54,13 +54,12 @@ import {
   getKramcoWandererChance,
   have,
   haveInCampground,
-  Pantogram,
   set,
   SongBoom,
   TrainSet,
 } from "libram";
 import { Quest } from "../engine/task";
-import { bestSIT, getGarden, goVote, sellMiscellaneousItems, statToMaximizerString } from "../lib";
+import { bestSIT, getGarden, goVote, statToMaximizerString } from "../lib";
 import Macro from "../combat";
 import { baseOutfit } from "../engine/outfit";
 import { args } from "../args";
@@ -85,15 +84,6 @@ export const RunStartQuest: Quest = {
       name: "Council",
       completed: () => get("lastCouncilVisit") > 0,
       do: () => visitUrl("council.php"),
-    },
-    {
-      name: "Apriling Part 1",
-      ready: () => AprilingBandHelmet.canChangeSong(),
-      completed: () => have($effect`Apriling Band Patrol Beat`),
-      do: (): void => {
-        AprilingBandHelmet.conduct($effect`Apriling Band Patrol Beat`);
-      },
-      limit: { tries: 1 },
     },
     {
       name: "Toot",
@@ -150,7 +140,6 @@ export const RunStartQuest: Quest = {
     },
     {
       name: "SIT Course",
-
       ready: () => have($item`S.I.T. Course Completion Certificate`),
       completed: () => get("_sitCourseCompleted", false),
       choices: {
@@ -164,7 +153,7 @@ export const RunStartQuest: Quest = {
       do: () => {
         buyUsingStorage($item`tobiko marble soda`, 1);
         takeStorage($item`Great Wolf's beastly trousers`, 1);
-        takeStorage($item`meteorite necklace`, 1);
+        takeStorage($item`Deep Dish of Legend`, 1);
         takeStorage($item`Stick-Knife of Loathing`, 1);
         takeStorage($item`Staff of Simmering Hatred`, 1);
         takeStorage($item`tobiko marble soda`, 1);
@@ -194,28 +183,6 @@ export const RunStartQuest: Quest = {
       do: () =>
         visitUrl(`inv_use.php?whichitem=${toInt($item`2002 Mr. Store Catalog`)}&which=f0&pwd`),
       limit: { tries: 1 },
-    },
-    {
-      name: "Restore mp",
-      completed: () => get("timesRested") >= args.saverests || myMp() >= Math.min(50, myMaxmp()),
-      prepare: (): void => {
-        if (have($item`Newbiesport™ tent`)) use($item`Newbiesport™ tent`);
-        sellMiscellaneousItems();
-      },
-      do: (): void => {
-        if (myMeat() >= 2000) {
-          restoreMp(50);
-        }
-        useFamiliar($familiar`Skeleton of Crimbo Past`);
-        if (get("chateauAvailable")) {
-          visitUrl("place.php?whichplace=chateau&action=chateau_restbox");
-        } else if (get("getawayCampsiteUnlocked")) {
-          visitUrl("place.php?whichplace=campaway&action=campaway_tentclick");
-        } else {
-          visitUrl("campground.php?action=rest");
-        }
-      },
-      outfit: { modifier: "myst, mp, -tie" },
     },
     {
       name: "Numberology",
@@ -264,7 +231,7 @@ export const RunStartQuest: Quest = {
       do: () => cliExecute("Detective Solver"),
       limit: { tries: 3 },
     },
-    {
+    /* {
       name: "Pantagramming",
       completed: () =>
         Pantogram.havePants() || !have($item`portable pantogram`) || args.savepantogramming,
@@ -279,7 +246,7 @@ export const RunStartQuest: Quest = {
         );
       },
       limit: { tries: 1 },
-    },
+    }, */
     {
       name: "Mummery",
       completed: () =>
@@ -302,8 +269,8 @@ export const RunStartQuest: Quest = {
     },
     {
       name: "Horsery",
-      completed: () => get("_horsery") === "dark horse" || !get("horseryAvailable"),
-      do: () => cliExecute("horsery dark"),
+      completed: () => get("_horsery") === "pale horse" || !get("horseryAvailable"),
+      do: () => cliExecute("horsery pale"),
       limit: { tries: 1 },
     },
     {
@@ -605,6 +572,8 @@ export const RunStartQuest: Quest = {
         ...baseOutfit(true, true, $monster`ice woman`),
         shirt: $item`Jurassic Parka`,
         back: $item`protonic accelerator pack`,
+        familiar: $familiar`Homemade Robot`,
+        equip: $items`toy Cupid bow`,
         avoid: $items`Daylight Shavings Helmet`,
       }),
     },
@@ -622,6 +591,8 @@ export const RunStartQuest: Quest = {
         shirt: $item`Jurassic Parka`,
         offhand: $item`Kramco Sausage-o-Matic™`,
         acc3: $item`Möbius ring`, // Prime the ring
+        familiar: $familiar`Homemade Robot`,
+        equip: $items`toy Cupid bow`,
         modes: { parka: "spikolodon" },
         avoid: $items`Daylight Shavings Helmet`,
       }),
@@ -639,6 +610,8 @@ export const RunStartQuest: Quest = {
         ...baseOutfit(true, true),
         shirt: $item`Jurassic Parka`,
         offhand: $item`Kramco Sausage-o-Matic™`,
+        familiar: $familiar`Homemade Robot`,
+        equip: $items`toy Cupid bow`,
       }),
       combat: new CombatStrategy().macro(Macro.default()),
     },

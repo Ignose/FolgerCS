@@ -73,6 +73,12 @@ export const NoncombatQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Horsery",
+      completed: () => get("_horsery") === "dark horse" || !get("horseryAvailable"),
+      do: () => cliExecute("horsery dark"),
+      limit: { tries: 1 },
+    },
+    {
       name: "Test",
       completed: () => CommunityService.Noncombat.isDone(),
       prepare: (): void => {

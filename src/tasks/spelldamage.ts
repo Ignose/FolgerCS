@@ -20,7 +20,9 @@ import {
   restoreMp,
   retrieveItem,
   toSlot,
+  totalFreeRests,
   use,
+  useFamiliar,
   useSkill,
   visitUrl,
 } from "kolmafia";
@@ -220,6 +222,16 @@ export const SpellDamageQuest: Quest = {
       do: (): void => {
         equip($item`blood cubic zirconia`, $slot`acc3`);
         useSkill($skill`BCZ: Dial it up to 11`);
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Pyramid Power",
+      ready: () => totalFreeRests() - get("timesRested") >= 1,
+      completed: () => have($effect`Pyramid Power`),
+      do: (): void => {
+        useFamiliar($familiar`Skeleton of Crimbo Past`);
+        visitUrl("campground.php?action=rest");
       },
       limit: { tries: 1 },
     },

@@ -40,6 +40,7 @@ import {
 import { args } from "../args";
 
 function useBalancerForTest(testStat: Stat): void {
+  if (get("reagentSummons") === 0) useSkill($skill`Advanced Saucecrafting`, 1);
   if (testStat === myPrimestat()) {
     return;
   }

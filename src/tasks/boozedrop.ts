@@ -6,9 +6,7 @@ import {
   create,
   Effect,
   equip,
-  handlingChoice,
   itemAmount,
-  lastChoice,
   myMeat,
   print,
   retrieveItem,
@@ -198,19 +196,6 @@ export const BoozeDropQuest: Quest = {
       completed: () => have($effect`Big Eyes`),
       do: (): void => {
         MayamCalendar.submit("eye meat eyepatch explosion");
-      },
-      limit: { tries: 1 },
-    },
-    {
-      name: "Radio",
-      ready: () => have($item`Allied Radio Backpack`) && get("_alliedRadioDropsUsed", 0) < 3,
-      // eslint-disable-next-line libram/verify-constants
-      completed: () => have($effect`Materiel intel`),
-      do: () => {
-        const visitRadio = () => visitUrl(`inventory.php?action=requestdrop&pwd`);
-        visitRadio();
-        if (!handlingChoice() || lastChoice() !== 1563) visitRadio();
-        runChoice(1, `request=materiel intel`);
       },
       limit: { tries: 1 },
     },

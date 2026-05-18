@@ -7,9 +7,7 @@ import {
   faxbot,
   haveEquipped,
   myClass,
-  myLevel,
   myMaxhp,
-  myPrimestat,
   myThrall,
   outfit,
   print,
@@ -29,7 +27,6 @@ import {
   $location,
   $monster,
   $skill,
-  $stat,
   $thrall,
   clamp,
   Clan,
@@ -54,11 +51,6 @@ import {
   wishFor,
 } from "../lib";
 import { args } from "../args";
-
-const canesword = have($item`candy cane sword cane`);
-const stickknife = () =>
-  have($item`Stick-Knife of Loathing`) &&
-  (myPrimestat() === $stat`Muscle` || myClass() === $class`Pastamancer`);
 
 export const WeaponDamageQuest: Quest = {
   name: "Weapon Damage",
@@ -300,14 +292,6 @@ export const WeaponDamageQuest: Quest = {
         );
       },
       outfit: {
-        // eslint-disable-next-line libram/verify-constants
-        weapon:
-          have($item`legendary seal-clubbing club`) && myLevel() >= 17
-            ? $item`legendary seal-clubbing club`
-            : canesword
-            ? $item`candy cane sword cane`
-            : undefined,
-        offhand: stickknife() ? $item`Stick-Knife of Loathing` : undefined,
         modifier: "weapon dmg, weapon dmg percent, switch disembodied hand, -switch left-hand man",
       },
       post: () => shrugAT(),
