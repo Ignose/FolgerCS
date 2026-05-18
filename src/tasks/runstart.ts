@@ -85,6 +85,7 @@ export const RunStartQuest: Quest = {
       name: "Council",
       completed: () => get("lastCouncilVisit") > 0,
       do: () => visitUrl("council.php"),
+      limit: { tries: 1 },
     },
     {
       name: "Apriling Part 1",
@@ -157,18 +158,20 @@ export const RunStartQuest: Quest = {
         1494: bestSIT,
       },
       do: () => use($item`S.I.T. Course Completion Certificate`),
+      limit: { tries: 1 },
     },
     {
       name: "Do Pullls",
       completed: () => 5 - get("_roninStoragePulls").split(",").length <= args.savepulls,
       do: () => {
-        buyUsingStorage($item`tobiko marble soda`, 1);
+        if (storageAmount($item`tobiko marble soda`) === 0) buyUsingStorage($item`tobiko marble soda`, 1);
         takeStorage($item`Great Wolf's beastly trousers`, 1);
         takeStorage($item`meteorite necklace`, 1);
         takeStorage($item`Stick-Knife of Loathing`, 1);
         takeStorage($item`Staff of Simmering Hatred`, 1);
         takeStorage($item`tobiko marble soda`, 1);
       },
+      limit: { tries: 1 },
     },
     {
       name: "Tune Cape",
@@ -178,6 +181,7 @@ export const RunStartQuest: Quest = {
         cliExecute(`retrocape ${optimalCape}`);
         capeTuned = true;
       },
+      limit: { tries: 1 },
     },
     {
       name: "Get Floundry item",
@@ -216,6 +220,7 @@ export const RunStartQuest: Quest = {
         }
       },
       outfit: { modifier: "myst, mp, -tie" },
+      limit: { tries: 25 },
     },
     {
       name: "Numberology",
@@ -313,6 +318,7 @@ export const RunStartQuest: Quest = {
         visitUrl("place.php?whichplace=town_right&action=townright_vote");
         goVote();
       },
+      limit: { tries: 1 },
     },
     {
       name: "Daycare Nap",
@@ -352,11 +358,13 @@ export const RunStartQuest: Quest = {
         cliExecute("backupcamera ml");
         if (!get("backupCameraReverserEnabled")) cliExecute("backupcamera reverser");
       },
+      limit: { tries: 1 },
     },
     {
       name: "Update Garbage Tote",
       completed: () => get("_garbageItemChanged") || !have($item`January's Garbage Tote`),
       do: () => cliExecute("fold broken champagne bottle"),
+      limit: { tries: 1 },
     },
     {
       name: "Grab Wishes",
@@ -419,6 +427,7 @@ export const RunStartQuest: Quest = {
           use($item`Asdon Martin keyfob (on ring)`);
         } else use($item`model train set`);
       },
+      limit: { tries: 1 },
     },
     {
       name: "Soul Food",
@@ -427,6 +436,7 @@ export const RunStartQuest: Quest = {
       do: (): void => {
         while (mySoulsauce() >= 5 && myMp() <= myMaxmp() - 15) useSkill($skill`Soul Food`);
       },
+      limit: { tries: 10 },
     },
     {
       name: "Use Mind Control Device",
@@ -486,6 +496,7 @@ export const RunStartQuest: Quest = {
         visitUrl("inventory.php?action=skiduffel&pwd");
         duffo = true;
       },
+      limit: { tries: 1 },
     },
     {
       name: "Borrowed Time",
@@ -607,6 +618,7 @@ export const RunStartQuest: Quest = {
         back: $item`protonic accelerator pack`,
         avoid: $items`Daylight Shavings Helmet`,
       }),
+      limit: { tries: 3 },
     },
     {
       name: "Kramco",
@@ -629,6 +641,7 @@ export const RunStartQuest: Quest = {
         Macro.trySkill($skill`Launch spikolodon spikes`).default()
       ),
       post: () => set("_mobiusSeeded", true),
+      limit: { tries: 10 },
     },
     {
       name: "NEP The Prequel",
@@ -641,6 +654,7 @@ export const RunStartQuest: Quest = {
         offhand: $item`Kramco Sausage-o-Matic™`,
       }),
       combat: new CombatStrategy().macro(Macro.default()),
+      limit: { tries: 1 },
     },
     {
       name: "Pizza over Borrowed Time",

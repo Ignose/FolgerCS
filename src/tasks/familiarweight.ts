@@ -55,6 +55,7 @@ export const FamiliarWeightQuest: Quest = {
       do: (): void => {
         cliExecute("spoon platypus");
       },
+      limit: { tries: 1 },
     },
     {
       name: "Late Eat Deep Dish",
@@ -78,6 +79,7 @@ export const FamiliarWeightQuest: Quest = {
         shrugAT();
         cliExecute("cast 1 Chorale of Companionship");
       },
+      limit: { tries: 1 },
     },
     {
       name: "Fold Burning Newspaper",
