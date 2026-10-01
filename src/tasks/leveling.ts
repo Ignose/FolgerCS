@@ -288,9 +288,9 @@ export const LevelingQuest: Quest = {
   name: "Leveling",
   completed: () =>
     get("csServicesPerformed").split(",").length > 1 ||
-    (have($effect`Spit Upon`) 
-      && (have($item`short stack of pancakes`) || args.useonefam !== $familiar.none)
-      && myLevel() >= args.maxlevel) ||
+    (have($effect`Spit Upon`) &&
+      (have($item`short stack of pancakes`) || args.useonefam !== $familiar.none) &&
+      myLevel() >= args.maxlevel) ||
     (get("_feelPrideUsed", 3) >= 3 && camelFightsLeft() === 0 && !haveFreeKill()),
   tasks: [
     {
@@ -335,7 +335,13 @@ export const LevelingQuest: Quest = {
       name: "Leprecondo",
       ready: () => Leprecondo.have(),
       completed: () => Leprecondo.installedFurniture().includes("sous vide laboratory"),
-      do: () => Leprecondo.setFurniture("sous vide laboratory", "couch and flatscreen", "whiskeybed", "beer pong table"),
+      do: () =>
+        Leprecondo.setFurniture(
+          "sous vide laboratory",
+          "couch and flatscreen",
+          "whiskeybed",
+          "beer pong table"
+        ),
       limit: { tries: 1 },
     },
     {
@@ -379,14 +385,16 @@ export const LevelingQuest: Quest = {
     {
       name: "Leprecondo",
       ready: () => Leprecondo.have(),
-      completed: () => Leprecondo.installedFurniture().includes("sous vide laboratory") || get("_condoTested", false),
+      completed: () =>
+        Leprecondo.installedFurniture().includes("sous vide laboratory") ||
+        get("_condoTested", false),
       do: () => {
         Leprecondo.setFurniture(
           "sous vide laboratory",
           "couch and flatscreen",
           "whiskeybed",
           "beer pong table"
-        )
+        );
         set("_condoTested", true);
       },
       limit: { tries: 1 },
@@ -792,8 +800,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Get an S",
-      ready: () =>
-        have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
+      ready: () => have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
       prepare: () => prepCommon,
       completed: () =>
         get("_clubEmTimeUsed") >= 1 ||
@@ -820,8 +827,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Get a P",
-      ready: () =>
-        have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
+      ready: () => have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
       prepare: () => prepCommon,
       completed: () =>
         get("_clubEmTimeUsed") >= 2 ||
@@ -848,8 +854,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Get an I",
-      ready: () =>
-        have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
+      ready: () => have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
       prepare: () => prepCommon,
       completed: () =>
         get("_clubEmTimeUsed") >= 3 ||
@@ -876,8 +881,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Get a T",
-      ready: () =>
-        have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
+      ready: () => have($item`legendary seal-clubbing club`) && have($item`Heartstone`),
       prepare: () => prepCommon,
       completed: () =>
         get("_clubEmTimeUsed") >= 4 ||
@@ -1221,7 +1225,10 @@ export const LevelingQuest: Quest = {
     {
       name: "Snojo Pledge",
       prepare: () => prepCommon,
-      ready: () => have($familiar`Patriotic Eagle`) && get("snojoAvailable") && args.useonefam === $familiar.none,
+      ready: () =>
+        have($familiar`Patriotic Eagle`) &&
+        get("snojoAvailable") &&
+        args.useonefam === $familiar.none,
       completed: () => get("_citizenZone").includes("Snowman"),
       do: $location`The X-32-F Combat Training Snowman`,
       combat: new CombatStrategy().macro(
@@ -1333,7 +1340,7 @@ export const LevelingQuest: Quest = {
       ),
       outfit: () => ({
         ...baseOutfit(false, false, $monster`LOV Engineer`),
-        modifier: `0.25 ${mainStatMaximizerStr}, 0.001 item%, -equip tinsel tights, -equip wad of used tape, -equip Kramco Sausage-o-Matic™`,
+        modifier: `0.25 ${mainStatMaximizerStr}, 0.001 item, -equip tinsel tights, -equip wad of used tape, -equip Kramco Sausage-o-Matic™`,
       }),
       limit: { tries: 1 },
       post: (): void => {
@@ -1535,7 +1542,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "DMT",
-      ready: () => args.useonefam === $familiar.none, 
+      ready: () => args.useonefam === $familiar.none,
       prepare: () => prepCommon,
       completed: () => get("_machineTunnelsAdv") >= 5 || !have($familiar`Machine Elf`),
       do: $location`The Deep Machine Tunnels`,
