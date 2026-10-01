@@ -37,7 +37,7 @@
     "grimoire-kolmafia": "^0.3.33",
     "kol-rng": "^2.0.0",
     "kolmafia": "^5.28904.0",
-    "libram": "^0.11.16",
+    "libram": "^0.11.29",
     "mafia-shared-relay": "0.0.7",
     "node": "^25.6.0",
     "typescript-eslint": "^8.54.0"

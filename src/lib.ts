@@ -20,6 +20,8 @@ import {
   Item,
   itemAmount,
   mallPrice,
+  maximize,
+  Modifier,
   monkeyPaw,
   Monster,
   mpCost,
@@ -31,13 +33,16 @@ import {
   myMeat,
   myMp,
   myPrimestat,
+  numericModifier,
   print,
   restoreMp,
   retrieveItem,
   retrievePrice,
   Skill,
+  Slot,
   Stat,
   storageAmount,
+  stringModifier,
   sweetSynthesis,
   toEffect,
   toInt,
@@ -71,6 +76,7 @@ import {
   RetroCape,
   set,
   SongBoom,
+  sum,
   sumNumbers,
   Witchess,
 } from "libram";
@@ -516,7 +522,10 @@ const greatWolfsPartOne = () =>
   have($item`repaid diaper`) || storageAmount($item`repaid diaper`) > 0 ? 0 : 2;
 const greatWolfs = () => Math.min(2, computeWeaponDamage(false) - 1) + greatWolfsPartOne();
 const stickKnife = () =>
-  myPrimestat() === $stat`muscle` || (myClass() === $class`Pastamancer` && haveSkill($skill`Bind Undead Elbow Macaroni`)) ? Math.min(5, computeWeaponDamage(false) - 1) + 4 : 0;
+  myPrimestat() === $stat`muscle` ||
+  (myClass() === $class`Pastamancer` && haveSkill($skill`Bind Undead Elbow Macaroni`))
+    ? Math.min(5, computeWeaponDamage(false) - 1) + 4
+    : 0;
 const staff = () => (have($skill`Spirit of Rigatoni`) ? 4 : 0);
 const tobikoSoda = () => (have($skill`Summon Alice's Army Cards`) ? 0 : 3);
 const meteorite = () => Math.min(8, computeWeaponDamage(false) - 1) + 4;
@@ -749,9 +758,9 @@ export function tryAcquiringEffect(ef: Effect, tryRegardless = false): void {
       !haveEquipped($item`Powerful Glove`);
     const useHeartstone =
       efDefault.includes("Best Pals") ||
-      efDefault.includes("Ultraheart") &&
-      have($item`Heartstone`) &&
-      !haveEquipped($item`Heartstone`);
+      (efDefault.includes("Ultraheart") &&
+        have($item`Heartstone`) &&
+        !haveEquipped($item`Heartstone`));
     const currentAcc3 = equippedItem($slot`acc3`);
     const currentAcc2 = equippedItem($slot`acc2`);
     if (usePowerfulGlove) equip($slot`acc3`, $item`Powerful Glove`);
@@ -1523,3 +1532,36 @@ export function wardrobeGood(): boolean {
 }
 
 export const peridotChoice = (monster: Monster) => ({ 1557: `1&bandersnatch=${monster.id}` });
+
+export function test() {
+  const speakeasyBanList = $items`glass of "milk", cup of "tea", thermos of "whiskey", Lucky Lindy, Bee's Knees, Sockdollager, Ish Kabibble, Hot Socks, Phonus Balonus, Flivver, Sloppy Jalopy`;
+  const lastAvailableModifier = Modifier.get("Last Available");
+
+  const POSSIBLE_SNEEGLEEB_DROPS = Item.all().filter(
+    (i) =>
+      i.tradeable &&
+      i.discardable &&
+      (i.inebriety || i.fullness || i.potion) &&
+      !speakeasyBanList.includes(i)
+  );
+
+  const sneebValue =
+    (sum(POSSIBLE_SNEEGLEEB_DROPS, (item) => Math.min(mallPrice(item), 100_000)) /
+      POSSIBLE_SNEEGLEEB_DROPS.length) *
+    0.13;
+
+  const bettersneebDrops = POSSIBLE_SNEEGLEEB_DROPS.filter(
+    (i) => !i.potion || stringModifier(i, lastAvailableModifier) === ""
+  );
+
+  const betterSneebValue =
+    (sum(bettersneebDrops, (item) => Math.min(mallPrice(item), 100_000)) /
+      bettersneebDrops.length) *
+    0.13;
+
+  const finalSneebValue = sneebValue - betterSneebValue;
+
+  print(
+    `garbo value: ${sneebValue}, over value: ${betterSneebValue}, actual value: ${finalSneebValue}`
+  );
+}

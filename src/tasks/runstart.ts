@@ -170,6 +170,7 @@ export const RunStartQuest: Quest = {
         takeStorage($item`Stick-Knife of Loathing`, 1);
         takeStorage($item`Staff of Simmering Hatred`, 1);
         takeStorage($item`tobiko marble soda`, 1);
+        takeStorage($item`Buddy Bjorn`, 1);
       },
       limit: { tries: 1 },
     },
